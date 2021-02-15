@@ -1,18 +1,18 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   USER_LOADED_SUCCESS,
   USER_LOADED_FAIL,
-} from "./types";
+} from './types';
 
 export const load_user = () => async (dispatch) => {
-  if (localStorage.getItem("access")) {
+  if (localStorage.getItem('access')) {
     const config = {
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `JWT ${localStorage.getItem("access")}`,
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
       },
     };
 
@@ -41,7 +41,7 @@ export const load_user = () => async (dispatch) => {
 export const login = (email, password) => async (dispatch) => {
   const config = {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   };
 

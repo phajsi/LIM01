@@ -1,17 +1,17 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Home from "./containers/Home";
-import Login from "./containers/Login";
-import Signup from "./containers/Signup";
-import Activate from "./containers/Activate";
-import ResetPassword from "./containers/ResetPassword";
-import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
+import Home from './containers/Home';
+import Login from './containers/Login';
+import Signup from './containers/Signup';
+import Activate from './containers/Activate';
+import ResetPassword from './containers/ResetPassword';
+import ResetPasswordConfirm from './containers/ResetPasswordConfirm';
 
-import { Provider } from "react-redux";
-import store from "./store";
+import { Provider } from 'react-redux';
+import store from './store';
 
-import Layout from "./hocs/Layout";
+import Layout from './hocs/Layout';
 
 const App = () => (
   <Provider store={store}>
