@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../actions/auth';
-import axios from 'axios';
 
 const Login = ({ login }) => {
   const [formData, setFormData] = useState({
@@ -50,10 +49,12 @@ const Login = ({ login }) => {
         <button type="submit">Login</button>
       </form>
       <p>
-        Don't have an account? <Link to="/signup">Sign Up</Link>
+        Dont have an account?
+        <Link to="/signup">Sign Up</Link>
       </p>
       <p>
-        Forgot your Password? <Link to="/reset-password">Reset Password</Link>
+        Forgot your Password?
+        <Link to="/reset-password">Reset Password</Link>
       </p>
     </div>
   );

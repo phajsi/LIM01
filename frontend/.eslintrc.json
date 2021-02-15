@@ -18,6 +18,9 @@
       {
         "extensions": [".js", ".jsx"]
       }
-    ]
+    ],
+    "func-names": "off",
+    "no-shadow": "off",
+    "react/prop-types": "off"
   }
 }
