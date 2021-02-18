@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
