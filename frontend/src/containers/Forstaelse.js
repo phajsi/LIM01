@@ -1,5 +1,6 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
+import axios from 'axios';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -46,7 +47,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const axiosInstance = axios.create({
+  baseURL: `${process.env.REACT_APP_API_URL}/api/`,
+  timeout: 5000,
+  headers: {
+    // eslint-disable-next-line prettier/prettier
+    'Authorization': `JWT ${localStorage.getItem('access')}`,
+    'Content-Type': 'application/json',
+    // eslint-disable-next-line prettier/prettier
+    'accept': 'application/json',
+  },
+});
+
 const Forstaelse = () => {
+  function test() {
+    axiosInstance
+      .post('/forstaelse/', {
+        chat: 'sdfgbfhbfhb',
+        question: 'dfhbaefhbn',
+        answer: 'true',
+        explanation: 'adhgtaeth',
+      })
+      .then((response) => {
+        return response;
+      })
+      .catch((e) => {
+        return e;
+      });
+  }
   const classes = useStyles();
   return (
     <Paper className={classes.root}>
@@ -78,7 +106,12 @@ const Forstaelse = () => {
             <p className={classes.text}> gas wasdga sadfgsadf asdfgs</p>
           </Grid>
           <Grid item xs={6}>
-            <Button variant="contained" color="primary" fullWidth>
+            <Button
+              onClick={test}
+              variant="contained"
+              color="primary"
+              fullWidth
+            >
               button 1
             </Button>
           </Grid>
