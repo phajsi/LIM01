@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-fragments */
 import React, { useState, Fragment } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
@@ -32,7 +31,6 @@ const Navbar = ({ logout, isAuthenticated }) => {
   };
 
   const guestLinks = () => (
-    // eslint-disable-next-line react/jsx-fragments
     <Fragment>
       <Link to="/login" role="button">
         Login
@@ -44,7 +42,6 @@ const Navbar = ({ logout, isAuthenticated }) => {
   );
 
   const authLinks = () => (
-    // eslint-disable-next-line react/jsx-fragments
     <Fragment>
       <a href="#!" onClick={logoutUser}>
         Logout
