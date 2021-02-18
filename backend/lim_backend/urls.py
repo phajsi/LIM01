@@ -6,7 +6,7 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
     path('admin/', admin.site.urls),
-    path('api', include('forstaelse.urls')),
+    path('api/', include('forstaelse.urls')),
 #    path('auth/', include('djoser.social.urls')),
 ]
 
