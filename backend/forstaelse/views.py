@@ -10,7 +10,7 @@ class ForstaelseView(APIView):
     def get(self, request):
         forstaelse = Forstaelse.objects.all()
         serializer = ForstaelseSerializer(forstaelse, many=True)
-        return JsonResponse(serializer.data, safe=True)
+        return JsonResponse(serializer.data, safe=False)
 
     def post(self, request):
         data = JSONParser().parse(request)
