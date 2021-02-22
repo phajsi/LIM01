@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(7),
   },
 }));
-const ChatBubble = () => {
+const ChatBubble = ({ chat }) => {
   const classes = useStyles();
   return (
     <Grid container spacing={3}>
@@ -43,7 +43,7 @@ const ChatBubble = () => {
       </Grid>
       <Grid item xs={9}>
         <Card className={classes.cardleft}>
-          <p>Jeg lager mat til oss, som jeg tar med på turen imorgen.</p>
+          <p>{chat}</p>
         </Card>
       </Grid>
     </Grid>
