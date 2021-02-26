@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'accounts',
-    'forstaelse'
+    'forstaelse',
+    'chat'
 ]
 
 MIDDLEWARE = [

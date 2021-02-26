@@ -11,6 +11,8 @@ import store from './store';
 import Layout from './hocs/Layout';
 import Forstaelse from './containers/Forstaelse';
 import CreateExercises from './containers/CreateExercises';
+import Chat from './containers/Chat';
+
 
 const App = () => (
   <Provider store={store}>
@@ -23,6 +25,7 @@ const App = () => (
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/reset-password" component={ResetPassword} />
+          <Route exact path="/chat" component={Chat} />
           <Route
             exact
             path="/password/reset/confirm/:uid/:token"
