@@ -1,16 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Fab,
-  FormControlLabel,
-  Paper,
-  Radio,
-  RadioGroup,
-  TextField,
-  Card,
-  CardHeader,
-  Grid,
-} from '@material-ui/core';
+import { Button, Fab, Paper, Grid } from '@material-ui/core';
 import axios from 'axios';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -19,9 +8,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import FindInPageOutlinedIcon from '@material-ui/icons/FindInPageOutlined';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import useStyles from './styles';
-import ChatBubble from '../ChatBubble';
+import Forstaelse from '../../containers/Forstaelse/Forstaelse';
+import FormForstaelse from '../FormForstaelse';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
@@ -120,156 +109,41 @@ const CreateForstaelse = ({ setStep }) => {
       <h1>Forståelse</h1>
       <form onSubmit={(e) => onClick(e)} className={classes.form}>
         <h2> Oppgave 1 </h2>
-        <p>Skriv tekstmeldingen her: </p>
-        <TextField
-          name="chat1"
-          multiline
-          fullWidth
-          rowsMax={3}
-          required
-          variant="outlined"
-          onChange={(e) => onChange(e)}
+        <FormForstaelse
+          chat="chat1"
+          question="question1"
+          answer="answer1"
+          explanation="explanation1"
+          onChange={onChange}
+          handleRadio={handleRadio}
         />
-        <p>Skriv spørsmålet her: </p>
-        <TextField
-          name="question1"
-          multiline
-          fullWidth
-          rowsMax={3}
-          required
-          variant="outlined"
-          onChange={(e) => onChange(e)}
-        />
-        <p>Velg svaret som er riktig </p>
-        <RadioGroup row onChange={handleRadio}>
-          <FormControlLabel
-            name="answer1"
-            value="true"
-            control={<Radio />}
-            label="JA"
-          />
-          <FormControlLabel
-            name="answer1"
-            value="false"
-            control={<Radio />}
-            label="NEI"
-          />
-        </RadioGroup>
-        <p>Skriv forklaring her: </p>
-        <TextField
-          name="explanation1"
-          multiline
-          fullWidth
-          rowsMax={3}
-          required
-          variant="outlined"
-          onChange={(e) => onChange(e)}
-        />
-        {taskAmount > 1 ? (
+        {taskAmount > 1 && (
           <>
             <hr />
             <h2> Oppgave 2 </h2>
-            <p>Skriv tekstmeldingen her: </p>
-            <TextField
-              name="chat2"
-              multiline
-              fullWidth
-              rowsMax={3}
-              required
-              variant="outlined"
-              onChange={(e) => onChange(e)}
-            />
-            <p>Skriv spørsmålet her: </p>
-            <TextField
-              name="question2"
-              multiline
-              fullWidth
-              rowsMax={3}
-              required
-              variant="outlined"
-              onChange={(e) => onChange(e)}
-            />
-            <p>Velg svaret som er riktig </p>
-            <RadioGroup row onChange={handleRadio}>
-              <FormControlLabel
-                name="answer2"
-                value="true"
-                control={<Radio />}
-                label="JA"
-              />
-              <FormControlLabel
-                name="answer2"
-                value="false"
-                control={<Radio />}
-                label="NEI"
-              />
-            </RadioGroup>
-            <p>Skriv forklaring her: </p>
-            <TextField
-              name="explanation2"
-              multiline
-              fullWidth
-              rowsMax={3}
-              required
-              variant="outlined"
-              onChange={(e) => onChange(e)}
+            <FormForstaelse
+              chat="chat2"
+              question="question2"
+              answer="answer2"
+              explanation="explanation2"
+              onChange={onChange}
+              handleRadio={handleRadio}
             />
           </>
-        ) : (
-          <div />
         )}
-        {taskAmount > 2 ? (
+        {taskAmount > 2 && (
           <>
             <hr />
             <h2> Oppgave 3 </h2>
-            <p>Skriv tekstmeldingen her: </p>
-            <TextField
-              name="chat3"
-              multiline
-              fullWidth
-              rowsMax={3}
-              required
-              variant="outlined"
-              onChange={(e) => onChange(e)}
-            />
-            <p>Skriv spørsmålet her: </p>
-            <TextField
-              name="question3"
-              multiline
-              fullWidth
-              rowsMax={3}
-              required
-              variant="outlined"
-              onChange={(e) => onChange(e)}
-            />
-            <p>Velg svaret som er riktig </p>
-            <RadioGroup row onChange={handleRadio}>
-              <FormControlLabel
-                name="answer3"
-                value="true"
-                control={<Radio />}
-                label="JA"
-              />
-              <FormControlLabel
-                name="answer3"
-                value="false"
-                control={<Radio />}
-                label="NEI"
-              />
-            </RadioGroup>
-            <p>Skriv forklaring her: </p>
-            <TextField
-              name="explanation3"
-              multiline
-              fullWidth
-              rowsMax={3}
-              required
-              variant="outlined"
-              onChange={(e) => onChange(e)}
+            <FormForstaelse
+              chat="chat3"
+              question="question3"
+              answer="answer3"
+              explanation="explanation3"
+              onChange={onChange}
+              handleRadio={handleRadio}
             />
           </>
-        ) : (
-          <div />
         )}
         <div className={classes.addIcon}>
           {taskAmount > 1 && (
@@ -333,37 +207,7 @@ const CreateForstaelse = ({ setStep }) => {
         >
           <DialogTitle id="alert-dialog-title">Preview</DialogTitle>
           <DialogContent>
-            <Paper className={classes.paper}>
-              <Paper className={classes.layout} elevation={0}>
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <Card className={classes.header}>
-                      <CardHeader
-                        avatar={<VolumeUpIcon />}
-                        title="Les hva Sarmi sier. Svar på spørsmålet"
-                      />
-                    </Card>
-                  </Grid>
-                  <ChatBubble chat={formData.chat} />
-                  <Grid className={classes.gridText} item xs={12}>
-                    <hr />
-                    <p className={classes.text}>{formData.question}</p>
-                  </Grid>
-                  <>
-                    <Grid item xs={6}>
-                      <Button variant="contained" color="primary" fullWidth>
-                        JA
-                      </Button>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Button variant="contained" color="primary" fullWidth>
-                        NEI
-                      </Button>
-                    </Grid>
-                  </>
-                </Grid>
-              </Paper>
-            </Paper>
+            <Forstaelse preview createFormData={formData} />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
