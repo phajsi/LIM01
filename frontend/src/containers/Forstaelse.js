@@ -93,22 +93,6 @@ const Forstaelse = () => {
 
   const classes = useStyles();
 
-  // eslint-disable-next-line no-unused-vars
-  function test() {
-    axiosInstance
-      .post('/forstaelse/', {
-        chat: 'sdfgbfhbfhb',
-        question: 'dfhbaefhbn',
-        answer: 'true',
-        explanation: 'adhgtaeth',
-      })
-      .then((response) => {
-        return response;
-      })
-      .catch((e) => {
-        return e;
-      });
-  }
   function getContent() {
     axiosInstance
       .get('/forstaelse/')
