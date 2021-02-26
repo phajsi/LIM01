@@ -10,6 +10,7 @@ import ResetPasswordConfirm from './containers/ResetPasswordConfirm';
 import store from './store';
 import Layout from './hocs/Layout';
 import Forstaelse from './containers/Forstaelse';
+import CreateExercises from './containers/CreateExercises';
 
 const App = () => (
   <Provider store={store}>
@@ -18,6 +19,7 @@ const App = () => (
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/forstaelse" component={Forstaelse} />
+          <Route exact path="/createexercise" component={CreateExercises} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/reset-password" component={ResetPassword} />
