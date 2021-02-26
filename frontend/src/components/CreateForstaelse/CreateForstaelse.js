@@ -7,8 +7,6 @@ import {
   Radio,
   RadioGroup,
   TextField,
-  Card,
-  CardHeader,
   Grid,
 } from '@material-ui/core';
 import axios from 'axios';
@@ -19,9 +17,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import FindInPageOutlinedIcon from '@material-ui/icons/FindInPageOutlined';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import useStyles from './styles';
-import ChatBubble from '../ChatBubble';
+import Forstaelse from '../../containers/Forstaelse/Forstaelse';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
@@ -333,37 +330,7 @@ const CreateForstaelse = ({ setStep }) => {
         >
           <DialogTitle id="alert-dialog-title">Preview</DialogTitle>
           <DialogContent>
-            <Paper className={classes.paper}>
-              <Paper className={classes.layout} elevation={0}>
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <Card className={classes.header}>
-                      <CardHeader
-                        avatar={<VolumeUpIcon />}
-                        title="Les hva Sarmi sier. Svar på spørsmålet"
-                      />
-                    </Card>
-                  </Grid>
-                  <ChatBubble chat={formData.chat} />
-                  <Grid className={classes.gridText} item xs={12}>
-                    <hr />
-                    <p className={classes.text}>{formData.question}</p>
-                  </Grid>
-                  <>
-                    <Grid item xs={6}>
-                      <Button variant="contained" color="primary" fullWidth>
-                        JA
-                      </Button>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Button variant="contained" color="primary" fullWidth>
-                        NEI
-                      </Button>
-                    </Grid>
-                  </>
-                </Grid>
-              </Paper>
-            </Paper>
+            <Forstaelse preview createFormData={formData} />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
