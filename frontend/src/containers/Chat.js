@@ -62,7 +62,7 @@ const axiosInstance = axios.create({
 });
 
 const Chat = () => {
-  const [chatquestion, setChatquestion] = useState(null);
+  const [chat, setChat] = useState(null);
   const [answer, setAnswer] = useState(null);
   const [userreply, setUserreply] = useState(null);
   const [defaultreply, setDefaultreply] = useState(null);
@@ -71,7 +71,6 @@ const Chat = () => {
 
   const classes = useStyles();
   const answers = { answ1: 'alt1', answ2: 'alt2', correctAnsw: 'alt3' };
-  const chat = 'disvdsnvfbpsdopvjdpnvpdsv f sdbv ac sah cadn dcfiadd ds v ';
 
   function test() {
     axiosInstance
@@ -90,7 +89,7 @@ const Chat = () => {
   }
   function getContent() {
     axiosInstance.get('/chat/').then((res) => {
-      setChatquestion(res.data[0].chatquestion);
+      setChat(res.data[0].chat);
       setAnswer(res.data[0].answer);
       setDefaultreply(res.data[0].defaultreply);
       setUserreply(res.data[0].userreply);
@@ -101,6 +100,7 @@ const Chat = () => {
   }, []);
 
   test();
+  getContent();
 
   return (
     <Paper className={classes.root}>
@@ -135,4 +135,5 @@ const Chat = () => {
     </Paper>
   );
 };
+
 export default Chat;
