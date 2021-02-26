@@ -9,10 +9,9 @@ import ResetPassword from './containers/ResetPassword';
 import ResetPasswordConfirm from './containers/ResetPasswordConfirm';
 import store from './store';
 import Layout from './hocs/Layout';
-import Forstaelse from './containers/Forstaelse';
+import Forstaelse from './containers/Forstaelse/Forstaelse';
 import CreateExercises from './containers/CreateExercises';
 import Chat from './containers/Chat';
-
 
 const App = () => (
   <Provider store={store}>
