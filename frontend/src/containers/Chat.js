@@ -62,7 +62,7 @@ const axiosInstance = axios.create({
 });
 
 const Chat = () => {
-  const [chat, setChat] = useState(null);
+  const [chatquestion, setChatquestion] = useState(null);
   const [answer, setAnswer] = useState(null);
   const [userreply, setUserreply] = useState(null);
   const [defaultreply, setDefaultreply] = useState(null);
@@ -89,7 +89,7 @@ const Chat = () => {
   }
   function getContent() {
     axiosInstance.get('/chat/').then((res) => {
-      setChat(res.data[0].chat);
+      setChatquestion(res.data[0].chatquestion);
       setAnswer(res.data[0].answer);
       setDefaultreply(res.data[0].defaultreply);
       setUserreply(res.data[0].userreply);
@@ -127,7 +127,7 @@ const Chat = () => {
             </Card>
           </Grid>
           <Grid>
-            <ChatBubble chat={chat} />
+            <ChatBubble chat={chatquestion} />
           </Grid>
           <Answers answers={answers} />
         </Grid>
