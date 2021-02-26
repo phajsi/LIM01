@@ -79,7 +79,14 @@ const Chat = () => {
           <Grid>
             <ChatBubble chat={chat} />
           </Grid>
-          <Answers answers={answers} />
+          <Grid
+            container
+            direction="column"
+            justify="flex-end"
+            alignItems="flex-end"
+          >
+            <Answers answers={answers} />
+          </Grid>
         </Grid>
       </Paper>
     </Paper>
