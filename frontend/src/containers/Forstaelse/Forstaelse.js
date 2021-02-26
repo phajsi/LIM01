@@ -3,7 +3,6 @@ import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
 import { Button, Card, CardHeader } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,63 +11,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
-import ChatBubble from '../components/ChatBubble';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: '#f5f5f5',
-    maxWidth: theme.spacing(40),
-    marginTop: theme.spacing(3),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    margin: 'auto',
-  },
-  layout: {
-    backgroundColor: '#f5f5f5',
-    marginBottom: theme.spacing(3),
-    padding: theme.spacing(2),
-  },
-  text: {
-    margin: theme.spacing(0),
-  },
-  gridText: {
-    paddingBottom: theme.spacing(0),
-  },
-  header: {
-    marginBottom: theme.spacing(3),
-  },
-  navbar: {
-    margin: 0,
-    padding: 0,
-    backgroundColor: 'white',
-    color: 'black',
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    float: 'right',
-  },
-  answerElement: {
-    display: 'flex',
-    flexDirection: 'row',
-    backgroundColor: 'lightgreen',
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-  },
-  answerElementWrong: {
-    display: 'flex',
-    flexDirection: 'row',
-    backgroundColor: 'lightcoral',
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-  },
-  answerBtn: {
-    backgroundColor: 'white',
-    marginRight: theme.spacing(1),
-  },
-}));
+import ChatBubble from '../../components/ChatBubble';
+import useStyles from './styles';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
@@ -84,12 +28,28 @@ const axiosInstance = axios.create({
 
 const Forstaelse = () => {
   // const [forstaelse, setForstaelse] = useState(null);
-  const [question, setQuestion] = useState(null);
-  const [chat, setChat] = useState(null);
-  const [answer, setAnswer] = useState(null);
-  const [explanation, setExplanation] = useState(null);
+
+  const [formData, setFormData] = useState({
+    chat1: '',
+    question1: '',
+    answer1: 'true',
+    explanation1: '',
+    chat2: '',
+    question2: '',
+    answer2: 'true',
+    explanation2: '',
+    chat3: '',
+    question3: '',
+    answer3: 'true',
+    explanation3: '',
+  });
   // eslint-disable-next-line no-unused-vars
   const [answerState, setAnswerState] = useState(null);
+  const [chat, setChat] = useState('');
+  const [question, setQuestion] = useState('');
+  const [answer, setAnswer] = useState('');
+  const [explanation, setExplanation] = useState('');
+  const [taskStep, setTaskStep] = useState(1);
 
   const classes = useStyles();
 
@@ -97,11 +57,11 @@ const Forstaelse = () => {
     axiosInstance
       .get('/forstaelse/')
       .then((res) => {
-        // setForstaelse(res.data[0]);
-        setQuestion(res.data[0].question);
-        setChat(res.data[0].chat);
-        setAnswer(res.data[0].answer);
-        setExplanation(res.data[0].explanation);
+        setFormData(res.data[0]);
+        setChat(res.data[0].chat1);
+        setQuestion(res.data[0].question1);
+        setAnswer(res.data[0].answer1);
+        setExplanation(res.data[0].explanation1);
       })
       .catch((e) => {
         return e;
@@ -109,6 +69,8 @@ const Forstaelse = () => {
   }
 
   function onClickTrue() {
+    setTaskStep(taskStep + 1);
+    console.log(formData);
     if (answer === 'true') {
       setAnswerState('correct');
     } else {
@@ -117,12 +79,29 @@ const Forstaelse = () => {
   }
 
   function onClickFalse() {
+    setTaskStep(taskStep + 1);
     if (answer === 'false') {
       setAnswerState('correct');
     } else {
       setAnswerState('incorrect');
     }
   }
+
+  const handleNextTask = () => {
+    setAnswerState(null);
+    if (taskStep === 2 && formData.chat2 !== '') {
+      setChat(formData.chat2);
+      setQuestion(formData.question2);
+      setAnswer(formData.answer2);
+      setExplanation(formData.explanation2);
+    }
+    if (taskStep === 3 && formData.chat3 !== '') {
+      setChat(formData.chat3);
+      setQuestion(formData.question3);
+      setAnswer(formData.answer3);
+      setExplanation(formData.explanation3);
+    }
+  };
 
   useEffect(() => {
     getContent();
@@ -139,7 +118,12 @@ const Forstaelse = () => {
                 avatar={<CancelIcon style={{ color: 'white' }} />}
                 title=" Feil! "
               />
-              <Button className={classes.answerBtn} fullWidth size="small">
+              <Button
+                onClick={handleNextTask}
+                className={classes.answerBtn}
+                fullWidth
+                size="small"
+              >
                 <TrendingFlatIcon fontSize="large" />
               </Button>
             </Card>
@@ -153,7 +137,12 @@ const Forstaelse = () => {
                 avatar={<CheckCircleIcon style={{ color: 'white' }} />}
                 title="Riktig!"
               />
-              <Button className={classes.answerBtn} fullWidth size="small">
+              <Button
+                onClick={handleNextTask}
+                className={classes.answerBtn}
+                fullWidth
+                size="small"
+              >
                 <TrendingFlatIcon fontSize="large" />
               </Button>
             </Card>
