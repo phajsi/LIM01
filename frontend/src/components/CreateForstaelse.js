@@ -101,7 +101,7 @@ const axiosInstance = axios.create({
   },
 });
 
-const CreateForstaelse = () => {
+const CreateForstaelse = ({ setStep }) => {
   const classes = useStyles();
 
   const [formData, setFormData] = useState({
@@ -182,7 +182,9 @@ const CreateForstaelse = () => {
       <Button onClick={(e) => onClick(e)} variant="contained">
         OPPRETT
       </Button>
-      <Button variant="contained">AVBRYT</Button>
+      <Button onClick={() => setStep('Menu')} variant="contained">
+        AVBRYT
+      </Button>
       <Button onClick={handleClickOpen} variant="contained">
         PREVIEW
       </Button>

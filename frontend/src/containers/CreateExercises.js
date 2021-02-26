@@ -95,7 +95,7 @@ const CreateExercises = () => {
         </Paper>
       );
     case 'Forståelse':
-      return <CreateForstaelse />;
+      return <CreateForstaelse setStep={setStep} />;
     case 'Rydde Setninger':
       return (
         <Paper>
