@@ -1,4 +1,6 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import Paper from '@material-ui/core/Paper';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import Grid from '@material-ui/core/Grid';
@@ -47,10 +49,58 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const axiosInstance = axios.create({
+  baseURL: `${process.env.REACT_APP_API_URL}/api/`,
+  timeout: 5000,
+  headers: {
+    // eslint-disable-next-line prettier/prettier
+    Authorization: `JWT ${localStorage.getItem('access')}`,
+    'Content-Type': 'application/json',
+    // eslint-disable-next-line prettier/prettier
+    accept: 'application/json',
+  },
+});
+
 const Chat = () => {
+  const [chatquestion, setChatquestion] = useState(null);
+  const [answer, setAnswer] = useState(null);
+  const [userreply, setUserreply] = useState(null);
+  const [defaultreply, setDefaultreply] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [answerState, setAnswerState] = useState(null);
+
   const classes = useStyles();
   const answers = { answ1: 'alt1', answ2: 'alt2', correctAnsw: 'alt3' };
-  const chat = 'disvdsnvfbpsdopvjdpnvpdsv f sdbv ac sah cadn dcfiadd ds v ';
+
+  function test() {
+    axiosInstance
+      .post('/chat/', {
+        chatquestion: 'hallo?',
+        answer: 'true',
+        defaultreply: 'hæ!',
+        userreply: 'ja',
+      })
+      .then((response) => {
+        return response;
+      })
+      .catch((e) => {
+        return e;
+      });
+  }
+  function getContent() {
+    axiosInstance.get('/chat/').then((res) => {
+      setChatquestion(res.data[0].chatquestion);
+      setAnswer(res.data[0].answer);
+      setDefaultreply(res.data[0].defaultreply);
+      setUserreply(res.data[0].userreply);
+    });
+  }
+  useEffect(() => {
+    getContent();
+  }, []);
+
+  test();
+  getContent();
 
   return (
     <Paper className={classes.root}>
@@ -77,7 +127,7 @@ const Chat = () => {
             </Card>
           </Grid>
           <Grid>
-            <ChatBubble chat={chat} />
+            <ChatBubble chat={chatquestion} />
           </Grid>
           <Grid
             container
@@ -92,4 +142,5 @@ const Chat = () => {
     </Paper>
   );
 };
+
 export default Chat;
