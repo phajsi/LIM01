@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   Button,
+  Fab,
   FormControlLabel,
   Paper,
   Radio,
@@ -10,84 +11,16 @@ import {
   CardHeader,
   Grid,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import AddIcon from '@material-ui/icons/Add';
+import FindInPageOutlinedIcon from '@material-ui/icons/FindInPageOutlined';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import ChatBubble from './ChatBubble';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: '#f5f5f5',
-    maxWidth: theme.spacing(80),
-    marginTop: theme.spacing(3),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    margin: 'auto',
-    padding: theme.spacing(2),
-  },
-  form: {
-    width: '70%',
-    margin: theme.spacing(3),
-  },
-  paper: {
-    backgroundColor: '#f5f5f5',
-    maxWidth: theme.spacing(40),
-    marginTop: theme.spacing(3),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    margin: 'auto',
-  },
-  layout: {
-    backgroundColor: '#f5f5f5',
-    marginBottom: theme.spacing(3),
-    padding: theme.spacing(2),
-  },
-  text: {
-    margin: theme.spacing(0),
-  },
-  gridText: {
-    paddingBottom: theme.spacing(0),
-  },
-  header: {
-    marginBottom: theme.spacing(3),
-  },
-  navbar: {
-    margin: 0,
-    padding: 0,
-    backgroundColor: 'white',
-    color: 'black',
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    float: 'right',
-  },
-  answerElement: {
-    display: 'flex',
-    flexDirection: 'row',
-    backgroundColor: 'lightgreen',
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-  },
-  answerElementWrong: {
-    display: 'flex',
-    flexDirection: 'row',
-    backgroundColor: 'lightcoral',
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-  },
-  answerBtn: {
-    backgroundColor: 'white',
-    marginRight: theme.spacing(1),
-  },
-}));
+import useStyles from './styles';
+import ChatBubble from '../ChatBubble';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
@@ -107,7 +40,7 @@ const CreateForstaelse = ({ setStep }) => {
   const [formData, setFormData] = useState({
     chat: '',
     question: '',
-    answer: null,
+    answer: 'true',
     explanation: '',
   });
 
@@ -145,13 +78,14 @@ const CreateForstaelse = ({ setStep }) => {
   return (
     <Paper className={classes.root}>
       <h1>Create Forståelse</h1>
-      <form className={classes.form}>
+      <form onSubmit={(e) => onClick(e)} className={classes.form}>
         <p>Skriv tekstmeldingen her: </p>
         <TextField
           name="chat"
           multiline
           fullWidth
           rowsMax={3}
+          required
           variant="outlined"
           onChange={(e) => onChange(e)}
         />
@@ -161,6 +95,7 @@ const CreateForstaelse = ({ setStep }) => {
           multiline
           fullWidth
           rowsMax={3}
+          required
           variant="outlined"
           onChange={(e) => onChange(e)}
         />
@@ -175,19 +110,51 @@ const CreateForstaelse = ({ setStep }) => {
           multiline
           fullWidth
           rowsMax={3}
+          required
           variant="outlined"
           onChange={(e) => onChange(e)}
         />
+        <div className={classes.addIcon}>
+          <Fab
+            className={classes.innerMargin}
+            size="small"
+            onClick={() => setStep('Menu')}
+            variant="contained"
+          >
+            <AddIcon />
+          </Fab>
+          <Fab
+            className={classes.innerMargin}
+            size="small"
+            onClick={handleClickOpen}
+            variant="contained"
+          >
+            <FindInPageOutlinedIcon />
+          </Fab>
+        </div>
+        <hr />
+        <Grid container spacing={3}>
+          <Grid item xs={3}>
+            <Button
+              onClick={() => setStep('Menu')}
+              variant="contained"
+              color="secondary"
+            >
+              AVBRYT
+            </Button>
+          </Grid>
+          <Grid item xs={9}>
+            <Button
+              type="Submit"
+              className={classes.buttonRight}
+              variant="contained"
+              color="primary"
+            >
+              OPPRETT
+            </Button>
+          </Grid>
+        </Grid>
       </form>
-      <Button onClick={(e) => onClick(e)} variant="contained">
-        OPPRETT
-      </Button>
-      <Button onClick={() => setStep('Menu')} variant="contained">
-        AVBRYT
-      </Button>
-      <Button onClick={handleClickOpen} variant="contained">
-        PREVIEW
-      </Button>
       <div>
         <Dialog
           open={open}

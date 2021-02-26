@@ -3,7 +3,7 @@ import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, MenuList, MenuItem } from '@material-ui/core';
 import CreateExerciseModal from '../components/ExerciseModal';
-import CreateForstaelse from '../components/CreateForstaelse';
+import CreateForstaelse from '../components/CreateForstaelse/CreateForstaelse';
 
 const useStyles = makeStyles((theme) => ({
   root: {
