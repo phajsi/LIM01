@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -18,26 +18,24 @@ const Navbar = ({ logout, isAuthenticated }) => {
     setRedirect(true);
   };
 
+  const classes = useStyles();
+
   const guestLinks = () => (
-    <Fragment>
-      <Link to="/login" role="button">
+    <Typography variant="h6" className={classes.right}>
+      <Link to="/login" className={classes.title}>
         Login
       </Link>
-      <Link to="/signup" role="button">
+      <Link to="/signup" className={classes.title}>
         Signup
       </Link>
-    </Fragment>
+    </Typography>
   );
 
   const authLinks = () => (
-    <Fragment>
-      <a href="#!" onClick={logoutUser}>
-        Logout
-      </a>
-    </Fragment>
+    <Typography href="#!" onClick={logoutUser}>
+      Logout
+    </Typography>
   );
-
-  const classes = useStyles();
 
   return (
     <div className={classes.root}>
@@ -51,8 +49,10 @@ const Navbar = ({ logout, isAuthenticated }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Home
+          <Typography variant="h6">
+            <Link to="/" className={classes.title}>
+              Home
+            </Link>
           </Typography>
           {isAuthenticated ? authLinks() : guestLinks()}
         </Toolbar>
