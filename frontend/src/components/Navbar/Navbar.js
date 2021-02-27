@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import {
+  AppBar,
+  Box,
+  Typography,
+  IconButton,
+  Toolbar,
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
@@ -39,7 +42,7 @@ const Navbar = ({ logout, isAuthenticated }) => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <Box component={AppBar} boxShadow={3}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -56,7 +59,7 @@ const Navbar = ({ logout, isAuthenticated }) => {
           </Typography>
           {isAuthenticated ? authLinks() : guestLinks()}
         </Toolbar>
-      </AppBar>
+      </Box>
       {redirect ? <Redirect to="/" /> : <div> </div>}
     </div>
   );
