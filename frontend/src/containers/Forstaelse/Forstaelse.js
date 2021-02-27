@@ -11,7 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
-import ChatBubble from '../../components/ChatBubble';
+import ChatBubble from '../../components/ChatBubble/ChatBubble';
 import useStyles from './styles';
 
 const axiosInstance = axios.create({
@@ -70,7 +70,6 @@ const Forstaelse = ({ preview, createFormData }) => {
 
   function onClickTrue() {
     setTaskStep(taskStep + 1);
-    console.log(formData);
     if (answer === 'true') {
       setAnswerState('correct');
     } else {
@@ -104,7 +103,6 @@ const Forstaelse = ({ preview, createFormData }) => {
   };
 
   useEffect(() => {
-    console.log(preview);
     if (preview) {
       setFormData(createFormData);
       setChat(createFormData.chat1);
