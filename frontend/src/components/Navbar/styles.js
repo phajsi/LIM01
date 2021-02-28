@@ -9,6 +9,13 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    color: 'white',
+    margin: theme.spacing(1),
+    float: 'right',
+    textDecoration: 'none',
+  },
+  right: {
+    flex: 1,
   },
 }));
 
