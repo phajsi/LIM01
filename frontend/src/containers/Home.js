@@ -8,10 +8,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     alignItems: 'center',
     backgroundColor: '#3f51b5',
-    height: '100vh',
     color: 'beige',
+    height: '100%',
     flexDirection: 'column',
     padding: theme.spacing(3),
+    fontFamily: 'roboto, helvetica, arial, sansSerif',
   },
   buttonRight: {
     margin: theme.spacing(1),
@@ -20,9 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonLeft: {
     margin: theme.spacing(1),
+    marginLeft: 0,
   },
   infoBox: {
-    marginTop: theme.spacing(1),
     margin: 'auto',
     padding: theme.spacing(2),
     width: '50%',
@@ -32,9 +33,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto',
     padding: theme.spacing(2),
     width: '50%',
-  },
-  img: {
-    maxSize: '40vh',
+    maxWidth: '20vh',
   },
 }));
 
@@ -65,7 +64,7 @@ const Home = () => {
         </Button>
       </div>
       <div className={classes.imgBox}>
-        <img src={dame} alt="woman" className={classes.img} />
+        <img src={dame} alt="woman" />
       </div>
     </div>
   );

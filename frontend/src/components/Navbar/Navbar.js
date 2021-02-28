@@ -41,8 +41,8 @@ const Navbar = ({ logout, isAuthenticated }) => {
   );
 
   return (
-    <div className={classes.root}>
-      <Box component={AppBar} boxShadow={3}>
+    <div>
+      <Box component={AppBar} boxShadow={3} className={classes.root}>
         <Toolbar>
           <IconButton
             edge="start"
