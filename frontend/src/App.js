@@ -10,7 +10,7 @@ import ResetPasswordConfirm from './containers/ResetPasswordConfirm';
 import store from './store';
 import Layout from './hocs/Layout';
 import Forstaelse from './containers/Forstaelse/Forstaelse';
-import CreateExercises from './containers/CreateExercises';
+import CreateExercises from './containers/CreateExercises/CreateExercises';
 import Chat from './containers/Chat';
 
 const App = () => (

@@ -1,21 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { makeStyles } from '@material-ui/core/styles';
 import { Paper, MenuList, MenuItem } from '@material-ui/core';
-import CreateExerciseModal from '../components/ExerciseModal';
-import CreateForstaelse from '../components/CreateForstaelse/CreateForstaelse';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: '#f5f5f5',
-    maxWidth: theme.spacing(40),
-    marginTop: theme.spacing(3),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    margin: 'auto',
-  },
-}));
+import CreateExerciseModal from '../../components/ExerciseModal';
+import CreateForstaelse from '../../components/CreateForstaelse/CreateForstaelse';
+import useStyles from './styles';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
