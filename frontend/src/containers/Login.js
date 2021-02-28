@@ -84,6 +84,7 @@ const Login = ({ login, isAuthenticated }) => {
           <Button
             variant="contained"
             color="secondary"
+            type="submit"
             className={classes.button}
           >
             Login
