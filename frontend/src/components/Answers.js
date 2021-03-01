@@ -3,14 +3,14 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 const AnswerAlts = ({ answers }) => {
-  const alt1 = answers.answ1;
-  const alt2 = answers.answ2;
-  const alt3 = answers.correctAnsw;
+  console.log(answers[2]);
 
   function activateAnswer(e) {
-    if (e.currentTarget.innerText === answers.correctAnsw) {
+    if (e.currentTarget.innerText === answers[2]) {
+      console.log('Dette er sant');
       return true;
     }
+    console.log('Dette er usant');
     return false;
   }
   return (
@@ -22,7 +22,7 @@ const AnswerAlts = ({ answers }) => {
         variant="contained"
       >
         <Button id={1} onClick={activateAnswer}>
-          {alt1}
+          {answers[0]}
         </Button>
         <Button
           id={2}
@@ -30,7 +30,7 @@ const AnswerAlts = ({ answers }) => {
           onClick={activateAnswer}
           style={{ marginTop: 3 }}
         >
-          {alt2}
+          {answers[1]}
         </Button>
         <Button
           id={3}
@@ -38,7 +38,7 @@ const AnswerAlts = ({ answers }) => {
           onClick={activateAnswer}
           style={{ marginTop: 3 }}
         >
-          {alt3}
+          {answers[2]}
         </Button>
       </ButtonGroup>
     </div>

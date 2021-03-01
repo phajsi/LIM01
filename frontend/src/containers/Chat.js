@@ -63,20 +63,22 @@ const axiosInstance = axios.create({
 
 const Chat = () => {
   const [chatquestion, setChatquestion] = useState(null);
-  const [answer, setAnswer] = useState(null);
+  const [answer1, setAnswer1] = useState(null);
+  const [answer2, setAnswer2] = useState(null);
+  const [correctanswer, setCorrectanswer] = useState(null);
   const [userreply, setUserreply] = useState(null);
   const [defaultreply, setDefaultreply] = useState(null);
   // eslint-disable-next-line no-unused-vars
-  const [answerState, setAnswerState] = useState(null);
 
   const classes = useStyles();
-  const answers = { answ1: 'alt1', answ2: 'alt2', correctAnsw: 'alt3' };
 
   function test() {
     axiosInstance
       .post('/chat/', {
         chatquestion: 'hallo?',
-        answer: 'true',
+        answer1: 'what',
+        answer2: 'hei',
+        correctanswer: 'halla',
         defaultreply: 'hæ!',
         userreply: 'ja',
       })
@@ -90,7 +92,9 @@ const Chat = () => {
   function getContent() {
     axiosInstance.get('/chat/').then((res) => {
       setChatquestion(res.data[0].chatquestion);
-      setAnswer(res.data[0].answer);
+      setAnswer1(res.data[0].answer1);
+      setAnswer2(res.data[0].answer2);
+      setCorrectanswer(res.data[0].correctanswer);
       setDefaultreply(res.data[0].defaultreply);
       setUserreply(res.data[0].userreply);
     });
@@ -129,7 +133,7 @@ const Chat = () => {
           <Grid>
             <ChatBubble chat={chatquestion} />
           </Grid>
-          <Answers answers={answers} />
+          <Answers answers={[answer1, answer2, correctanswer]} />
         </Grid>
       </Paper>
     </Paper>
