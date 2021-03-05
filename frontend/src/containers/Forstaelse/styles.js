@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   text: {
+    fontWeight: '600',
     margin: theme.spacing(0),
   },
   gridText: {
@@ -53,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
   answerBtn: {
     backgroundColor: 'white',
     marginRight: theme.spacing(1),
+  },
+  explanation: {
+    margin: 'auto',
   },
 }));
 
