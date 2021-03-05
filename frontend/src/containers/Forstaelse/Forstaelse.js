@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import Grid from '@material-ui/core/Grid';
-import { Button, Card, CardHeader } from '@material-ui/core';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+
+import {
+  AppBar,
+  Button,
+  Card,
+  Grid,
+  CardHeader,
+  Toolbar,
+  Paper,
+} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import CancelIcon from '@material-ui/icons/Cancel';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
 import useStyles from './styles';
+import NextExerciseBtn from '../../components/NextExerciseBtn';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
@@ -114,75 +117,6 @@ const Forstaelse = ({ preview, createFormData }) => {
     }
   }, []);
 
-  function renderSwitch(answerState) {
-    switch (answerState) {
-      case 'incorrect':
-        return (
-          <Grid item xs={12}>
-            <p>{explanation}</p>
-            <Card className={classes.answerElementWrong}>
-              <CardHeader
-                avatar={<CancelIcon style={{ color: 'white' }} />}
-                title=" Feil! "
-              />
-              <Button
-                onClick={handleNextTask}
-                className={classes.answerBtn}
-                fullWidth
-                size="small"
-              >
-                <TrendingFlatIcon fontSize="large" />
-              </Button>
-            </Card>
-          </Grid>
-        );
-      case 'correct':
-        return (
-          <Grid item xs={12}>
-            <Card className={classes.answerElement}>
-              <CardHeader
-                avatar={<CheckCircleIcon style={{ color: 'white' }} />}
-                title="Riktig!"
-              />
-              <Button
-                onClick={handleNextTask}
-                className={classes.answerBtn}
-                fullWidth
-                size="small"
-              >
-                <TrendingFlatIcon fontSize="large" />
-              </Button>
-            </Card>
-          </Grid>
-        );
-      default:
-        return (
-          <>
-            <Grid item xs={6}>
-              <Button
-                onClick={onClickTrue}
-                variant="contained"
-                color="primary"
-                fullWidth
-              >
-                JA
-              </Button>
-            </Grid>
-            <Grid item xs={6}>
-              <Button
-                onClick={onClickFalse}
-                variant="contained"
-                color="primary"
-                fullWidth
-              >
-                NEI
-              </Button>
-            </Grid>
-          </>
-        );
-    }
-  }
-
   return (
     <Paper className={classes.root}>
       <AppBar className={classes.navbar} position="static">
@@ -212,7 +146,38 @@ const Forstaelse = ({ preview, createFormData }) => {
             <hr />
             <p className={classes.text}>{question}</p>
           </Grid>
-          {renderSwitch(answerState)}
+
+          {answerState === null && (
+            <>
+              <Grid item xs={6}>
+                <Button
+                  onClick={onClickTrue}
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
+                  JA
+                </Button>
+              </Grid>
+              <Grid item xs={6}>
+                <Button
+                  onClick={onClickFalse}
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
+                  NEI
+                </Button>
+              </Grid>
+            </>
+          )}
+          {answerState !== null && (
+            <p className={classes.explanation}>{explanation}</p>
+          )}
+          <NextExerciseBtn
+            answerState={answerState}
+            handleNextTask={handleNextTask}
+          />
         </Grid>
       </Paper>
     </Paper>
