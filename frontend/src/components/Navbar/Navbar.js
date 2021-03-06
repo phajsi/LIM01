@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
-import {
-  AppBar,
-  Box,
-  Typography,
-  IconButton,
-  Toolbar,
-} from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import { AppBar, Box, Typography, Toolbar } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
 import useStyles from './styles';
@@ -26,17 +19,24 @@ const Navbar = ({ logout, isAuthenticated }) => {
   const guestLinks = () => (
     <Typography variant="h6" className={classes.right}>
       <Link to="/login" className={classes.title}>
-        Login
+        Logg inn
       </Link>
       <Link to="/signup" className={classes.title}>
-        Signup
+        Registrering
       </Link>
     </Typography>
   );
 
   const authLinks = () => (
-    <Typography href="#!" onClick={logoutUser}>
-      Logout
+    <Typography
+      variant="h6"
+      className={classes.right}
+      href="#!"
+      onClick={logoutUser}
+    >
+      <Link to="/" className={classes.title}>
+        Logg ut
+      </Link>
     </Typography>
   );
 
@@ -44,14 +44,6 @@ const Navbar = ({ logout, isAuthenticated }) => {
     <div>
       <Box component={AppBar} boxShadow={3} className={classes.root}>
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography variant="h6">
             <Link to="/" className={classes.title}>
               Home
