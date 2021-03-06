@@ -68,6 +68,8 @@ const Chat = () => {
   const [correctanswer, setCorrectanswer] = useState(null);
   const [userreply, setUserreply] = useState(null);
   const [defaultreply, setDefaultreply] = useState(null);
+  const [answerchoice, setAnswerchoice] = useState('');
+  const [answerstate, setAnswerstate] = useState(null);
   // eslint-disable-next-line no-unused-vars
 
   const classes = useStyles();
@@ -99,12 +101,42 @@ const Chat = () => {
       setUserreply(res.data[0].userreply);
     });
   }
+
+  function isTrue() {
+    console.log(answerchoice, 'dette er svaret jeg trykte på');
+    console.log(correctanswer, 'dette er svaret jeg forventet');
+    if (answerchoice === correctanswer) {
+      setAnswerstate('istrue');
+      // console.log(answerstate, 'dette skal være sant');
+    } else {
+      setAnswerstate('isfalse');
+      // console.log(answerstate, 'dette skal være USANT');
+    }
+  }
+
+  function renderSwitch(answerstate) {
+    switch (answerstate) {
+      case 'istrue':
+        return (
+          <Grid>
+            <ChatBubble chat={answerchoice} />
+          </Grid>
+        );
+      case 'isfalse':
+        return (
+          <Grid>
+            <ChatBubble chat={answerchoice} />
+          </Grid>
+        );
+      default:
+        return null;
+    }
+  }
+
   useEffect(() => {
     getContent();
-  }, []);
-
-  test();
-  getContent();
+    isTrue();
+  }, [answerchoice]);
 
   return (
     <Paper className={classes.root}>
@@ -133,7 +165,13 @@ const Chat = () => {
           <Grid>
             <ChatBubble chat={chatquestion} />
           </Grid>
-          <Answers answers={[answer1, answer2, correctanswer]} />
+          <Answers
+            answer1={answer1}
+            answer2={answer2}
+            correctanswer={correctanswer}
+            setAnswerchoice={setAnswerchoice}
+          />
+          {renderSwitch(answerstate)}
         </Grid>
       </Paper>
     </Paper>
