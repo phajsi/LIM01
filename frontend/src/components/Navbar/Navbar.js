@@ -1,26 +1,17 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import {
+  AppBar,
+  Box,
+  Typography,
+  IconButton,
+  Toolbar,
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { connect } from 'react-redux';
-import { logout } from '../actions/auth';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
+import { logout } from '../../actions/auth';
+import useStyles from './styles';
 
 const Navbar = ({ logout, isAuthenticated }) => {
   const [redirect, setRedirect] = useState(false);
@@ -30,30 +21,28 @@ const Navbar = ({ logout, isAuthenticated }) => {
     setRedirect(true);
   };
 
+  const classes = useStyles();
+
   const guestLinks = () => (
-    <Fragment>
-      <Link to="/login" role="button">
+    <Typography variant="h6" className={classes.right}>
+      <Link to="/login" className={classes.title}>
         Login
       </Link>
-      <Link to="/signup" role="button">
+      <Link to="/signup" className={classes.title}>
         Signup
       </Link>
-    </Fragment>
+    </Typography>
   );
 
   const authLinks = () => (
-    <Fragment>
-      <a href="#!" onClick={logoutUser}>
-        Logout
-      </a>
-    </Fragment>
+    <Typography href="#!" onClick={logoutUser}>
+      Logout
+    </Typography>
   );
 
-  const classes = useStyles();
-
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
+    <div>
+      <Box component={AppBar} boxShadow={3} className={classes.root}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -63,12 +52,14 @@ const Navbar = ({ logout, isAuthenticated }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Home
+          <Typography variant="h6">
+            <Link to="/" className={classes.title}>
+              Home
+            </Link>
           </Typography>
           {isAuthenticated ? authLinks() : guestLinks()}
         </Toolbar>
-      </AppBar>
+      </Box>
       {redirect ? <Redirect to="/" /> : <div> </div>}
     </div>
   );

@@ -9,7 +9,9 @@ class AccountAdmin(admin.ModelAdmin):
     search_fields = ('email', 'name')
 
 class ForstaelseAdmin(admin.ModelAdmin):
-    list_display = ('chat', 'question', 'answer', 'explanation')
+    list_display = ('chat1', 'question1', 'answer1', 'explanation1', 
+                'chat2', 'question2', 'answer2', 'explanation2',
+                'chat3', 'question3', 'answer3', 'explanation3')
 
 class ChatAdmin(admin.ModelAdmin):
     list_display = ('chatquestion', 'answer1', 'answer2', 'correctanswer', 'defaultreply', 'userreply')
