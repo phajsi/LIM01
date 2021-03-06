@@ -2,16 +2,9 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
-const AnswerAlts = ({ answers }) => {
-  const alt1 = answers.answ1;
-  const alt2 = answers.answ2;
-  const alt3 = answers.correctAnsw;
-
-  function activateAnswer(e) {
-    if (e.currentTarget.innerText === answers.correctAnsw) {
-      return true;
-    }
-    return false;
+const AnswerAlts = ({ answer1, answer2, correctanswer, setAnswerchoice }) => {
+  function onclick(answer) {
+    setAnswerchoice(answer);
   }
   return (
     <div>
@@ -21,24 +14,24 @@ const AnswerAlts = ({ answers }) => {
         aria-label="vertical contained primary button group"
         variant="contained"
       >
-        <Button id={1} onClick={activateAnswer}>
-          {alt1}
+        <Button id={1} onClick={() => onclick(answer1)}>
+          {answer1}
         </Button>
         <Button
           id={2}
           value="ALT2"
-          onClick={activateAnswer}
+          onClick={() => onclick(answer2)}
           style={{ marginTop: 3 }}
         >
-          {alt2}
+          {answer2}
         </Button>
         <Button
           id={3}
           value="ALT3"
-          onClick={activateAnswer}
+          onClick={() => onclick(correctanswer)}
           style={{ marginTop: 3 }}
         >
-          {alt3}
+          {correctanswer}
         </Button>
       </ButtonGroup>
     </div>

@@ -14,7 +14,7 @@ class ForstaelseAdmin(admin.ModelAdmin):
                 'chat3', 'question3', 'answer3', 'explanation3')
 
 class ChatAdmin(admin.ModelAdmin):
-    list_display = ('chatquestion', 'answer', 'defaultreply', 'userreply')
+    list_display = ('chatquestion', 'answer1', 'answer2', 'correctanswer', 'defaultreply', 'userreply')
     
 admin.site.register(UserAccount, AccountAdmin)
 admin.site.register(Forstaelse, ForstaelseAdmin)
