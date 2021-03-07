@@ -11,7 +11,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
-import Answers from '../../components/Answers';
 import NextExerciseBtn from '../../components/NextExerciseBtn';
 import useStyles from './styles';
 
@@ -109,7 +108,12 @@ const Chat = () => {
           <Grid>
             <ChatBubble chat={chatquestion} />
           </Grid>
-          <Grid>
+          <Grid
+            container
+            direction="column"
+            justify="flex-end"
+            alignItems="flex-end"
+          >
             <ButtonGroup
               orientation="vertical"
               color="primary"
