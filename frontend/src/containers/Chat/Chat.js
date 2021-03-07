@@ -32,38 +32,34 @@ const Chat = () => {
   const [answer2, setAnswer2] = useState(null);
   const [correctanswer, setCorrectanswer] = useState(null);
   const [userreply, setUserreply] = useState(null);
-  const [defaultreply, setDefaultreply] = useState(null);
   const [answerchoice, setAnswerchoice] = useState('');
   const [answerstate, setAnswerstate] = useState(null);
   // eslint-disable-next-line no-unused-vars
 
   const classes = useStyles();
 
-  function test() {
-    axiosInstance
-      .post('/chat/', {
-        chatquestion: 'hallo?',
-        answer1: 'what',
-        answer2: 'hei',
-        correctanswer: 'halla',
-        defaultreply: 'hæ!',
-        userreply: 'ja',
-      })
-      .then((response) => {
-        return response;
-      })
-      .catch((e) => {
-        return e;
-      });
-  }
+  const [formData, setFormData] = useState({
+    chatquestion1: '',
+    answer11: '',
+    answer12: '',
+    correctanswer1: '',
+    chatquestion2: '',
+    answer21: '',
+    answer22: '',
+    correctanswer2: '',
+    chatquestion3: '',
+    answer31: '',
+    answer32: '',
+    correctanswer3: '',
+  });
+
   function getContent() {
     axiosInstance.get('/chat/').then((res) => {
-      setChatquestion(res.data[0].chatquestion);
-      setAnswer1(res.data[0].answer1);
-      setAnswer2(res.data[0].answer2);
-      setCorrectanswer(res.data[0].correctanswer);
-      setDefaultreply(res.data[0].defaultreply);
-      setUserreply(res.data[0].userreply);
+      setFormData(res.data[0]);
+      setChatquestion(res.data[0].chatquestion1);
+      setAnswer1(res.data[0].answer11);
+      setAnswer2(res.data[0].answer12);
+      setCorrectanswer(res.data[0].correctanswer1);
     });
   }
 

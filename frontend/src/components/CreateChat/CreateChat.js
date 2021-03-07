@@ -19,12 +19,18 @@ const axiosInstance = axios.create({
 const CreateChat = ({ setStep }) => {
   const classes = useStyles();
   const [formData, setFormData] = useState({
-    chatquestion: '',
-    answer1: '',
-    answer2: '',
-    correctanswer: '',
-    defaultreply: '',
-    userreply: '',
+    chatquestion1: '',
+    answer11: '',
+    answer12: '',
+    correctanswer1: '',
+    chatquestion2: '',
+    answer21: '',
+    answer22: '',
+    correctanswer2: '',
+    chatquestion3: '',
+    answer31: '',
+    answer32: '',
+    correctanswer3: '',
     onChange: '',
   });
 
@@ -35,12 +41,18 @@ const CreateChat = ({ setStep }) => {
     e.preventDefault();
     axiosInstance
       .post('/chat/', {
-        chatquestion: formData.chatquestion,
-        answer1: formData.answer1,
-        answer2: formData.answer2,
-        correctanswer: formData.correctanswer,
-        defaultreply: formData.defaultreply,
-        userreply: formData.userreply,
+        chatquestion1: formData.chatquestion1,
+        answer11: formData.answer11,
+        answer12: formData.answer12,
+        correctanswer1: formData.correctanswer1,
+        chatquestion2: formData.chatquestion2,
+        answer21: formData.answer21,
+        answer22: formData.answer22,
+        correctanswer2: formData.correctanswer2,
+        chatquestion3: formData.chatquestion3,
+        answer31: formData.answer31,
+        answer32: formData.answer32,
+        correctanswer3: formData.correctanswer3,
       })
       .then((response) => {
         return response;
@@ -56,12 +68,10 @@ const CreateChat = ({ setStep }) => {
       <form onSubmit={(e) => onClick(e)} className={classes.form}>
         <h2> Oppgave </h2>
         <FormChat
-          chatquestion="chatquestion"
-          answer1="answer1"
-          answer2="answer2"
-          correctanswer="correctanswer"
-          defaultreply="defaultreply"
-          userreply="userreply"
+          chatquestion="chatquestion1"
+          answer1="answer11"
+          answer2="answer12"
+          correctanswer="correctanswer1"
           onChange={onChange}
         />
         <hr />
