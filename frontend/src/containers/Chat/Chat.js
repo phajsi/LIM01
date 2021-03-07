@@ -34,6 +34,8 @@ const Chat = () => {
   const [userreply, setUserreply] = useState(null);
   const [answerchoice, setAnswerchoice] = useState('');
   const [answerstate, setAnswerstate] = useState(null);
+  const [taskStep, setTaskStep] = useState(1);
+  const [select, setSelect] = useState(false);
   // eslint-disable-next-line no-unused-vars
 
   const classes = useStyles();
@@ -64,6 +66,7 @@ const Chat = () => {
   }
 
   function isTrue() {
+    setTaskStep(taskStep + 1);
     if (answerchoice === correctanswer) {
       setAnswerstate('correct');
     } else {
@@ -71,14 +74,36 @@ const Chat = () => {
     }
   }
 
+  console.log(taskStep);
+
   const handleNextTask = () => {
-    <ChatBubble chat={chatquestion} />;
+    setAnswerstate(null);
+    if (taskStep === 2 && formData.chatquestion2 !== '') {
+      setChatquestion(formData.chatquestion2);
+      setAnswer1(formData.answer21);
+      setAnswer2(formData.answer22);
+      setCorrectanswer(formData.correctanswer2);
+    }
+    if (taskStep === 3 && formData.chatquestion3 !== '') {
+      setChatquestion(formData.chatquestion3);
+      setAnswer1(formData.answer31);
+      setAnswer2(formData.answer32);
+      setCorrectanswer(formData.correctanswer3);
+    }
+    ButtonGroup.attr('disabled', false);
+    setSelect(true);
   };
+
+  function onclick(answer) {
+    setAnswerchoice(answer);
+    ButtonGroup.attr('disabled', true);
+  }
 
   useEffect(() => {
     getContent();
     setAnswerstate(null);
     isTrue();
+    setSelect();
   }, [answerchoice]);
 
   return (
@@ -120,13 +145,13 @@ const Chat = () => {
               aria-label="vertical contained primary button group"
               variant="contained"
             >
-              <Button id={1} onClick={() => setAnswerchoice(answer1)}>
+              <Button id={1} onClick={() => onclick(answer1)}>
                 {answer1}
               </Button>
               <Button
                 id={2}
                 value="ALT2"
-                onClick={() => setAnswerchoice(answer2)}
+                onClick={() => onclick(answer2)}
                 style={{ marginTop: 3 }}
               >
                 {answer2}
@@ -134,17 +159,17 @@ const Chat = () => {
               <Button
                 id={3}
                 value="ALT3"
-                onClick={() => setAnswerchoice(correctanswer)}
+                onClick={() => onclick(correctanswer)}
                 style={{ marginTop: 3 }}
               >
                 {correctanswer}
               </Button>
             </ButtonGroup>
+            <NextExerciseBtn
+              answerState={answerstate}
+              handleNextTask={handleNextTask}
+            />
           </Grid>
-          <NextExerciseBtn
-            answerState={answerstate}
-            handleNextTask={handleNextTask}
-          />
         </Grid>
       </Paper>
     </Paper>
