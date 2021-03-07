@@ -2,9 +2,17 @@ from django.db import models
 
 # Create your models here.
 class Chat(models.Model):
-    chatquestion = models.CharField(max_length=1000)
-    userreply = models.CharField(max_length=1000)
-    defaultreply = models.CharField(max_length=1000)
-    answer1 = models.CharField(max_length=1000)
-    answer2 = models.CharField(max_length=1000)
-    correctanswer = models.CharField(max_length=1000)
+    chatquestion1 = models.CharField(max_length=1000)
+    answer11 = models.CharField(max_length=1000)
+    answer12 = models.CharField(max_length=1000)
+    correctanswer1 = models.CharField(max_length=1000)
+
+    chatquestion2 = models.CharField(max_length=1000)
+    answer21 = models.CharField(max_length=1000)
+    answer22 = models.CharField(max_length=1000)
+    correctanswer2 = models.CharField(max_length=1000)
+
+    chatquestion3 = models.CharField(max_length=1000)
+    answer31 = models.CharField(max_length=1000)
+    answer32 = models.CharField(max_length=1000)
+    correctanswer3 = models.CharField(max_length=1000)
