@@ -11,7 +11,7 @@ import store from './store';
 import Layout from './hocs/Layout';
 import Forstaelse from './containers/Forstaelse/Forstaelse';
 import CreateExercises from './containers/CreateExercises/CreateExercises';
-import Chat from './containers/Chat';
+import Chat from './containers/Chat/Chat';
 
 const App = () => (
   <Provider store={store}>
