@@ -5,13 +5,14 @@ import Paper from '@material-ui/core/Paper';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardHeader } from '@material-ui/core';
+import { Card, CardHeader, ButtonGroup, Button } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
 import Answers from '../../components/Answers';
+import NextExerciseBtn from '../../components/NextExerciseBtn';
 import useStyles from './styles';
 
 const axiosInstance = axios.create({
@@ -64,38 +65,20 @@ const Chat = () => {
   }
 
   function isTrue() {
-    console.log(answerchoice, 'dette er svaret jeg trykte på');
-    console.log(correctanswer, 'dette er svaret jeg forventet');
     if (answerchoice === correctanswer) {
-      setAnswerstate('istrue');
-      // console.log(answerstate, 'dette skal være sant');
+      setAnswerstate('correct');
     } else {
-      setAnswerstate('isfalse');
-      // console.log(answerstate, 'dette skal være USANT');
+      setAnswerstate('incorrect');
     }
   }
 
-  function renderSwitch(answerstate) {
-    switch (answerstate) {
-      case 'istrue':
-        return (
-          <Grid>
-            <ChatBubble chat={answerchoice} />
-          </Grid>
-        );
-      case 'isfalse':
-        return (
-          <Grid>
-            <ChatBubble chat={answerchoice} />
-          </Grid>
-        );
-      default:
-        return null;
-    }
-  }
+  const handleNextTask = () => {
+    <ChatBubble chat={chatquestion} />;
+  };
 
   useEffect(() => {
     getContent();
+    setAnswerstate(null);
     isTrue();
   }, [answerchoice]);
 
@@ -126,13 +109,38 @@ const Chat = () => {
           <Grid>
             <ChatBubble chat={chatquestion} />
           </Grid>
-          <Answers
-            answer1={answer1}
-            answer2={answer2}
-            correctanswer={correctanswer}
-            setAnswerchoice={setAnswerchoice}
+          <Grid>
+            <ButtonGroup
+              orientation="vertical"
+              color="primary"
+              aria-label="vertical contained primary button group"
+              variant="contained"
+            >
+              <Button id={1} onClick={() => setAnswerchoice(answer1)}>
+                {answer1}
+              </Button>
+              <Button
+                id={2}
+                value="ALT2"
+                onClick={() => setAnswerchoice(answer2)}
+                style={{ marginTop: 3 }}
+              >
+                {answer2}
+              </Button>
+              <Button
+                id={3}
+                value="ALT3"
+                onClick={() => setAnswerchoice(correctanswer)}
+                style={{ marginTop: 3 }}
+              >
+                {correctanswer}
+              </Button>
+            </ButtonGroup>
+          </Grid>
+          <NextExerciseBtn
+            answerState={answerstate}
+            handleNextTask={handleNextTask}
           />
-          {renderSwitch(answerstate)}
         </Grid>
       </Paper>
     </Paper>
