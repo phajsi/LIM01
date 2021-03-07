@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Paper, MenuList, MenuItem } from '@material-ui/core';
 import CreateExerciseModal from '../../components/ExerciseModal';
 import CreateForstaelse from '../../components/CreateForstaelse/CreateForstaelse';
+import CreateChat from '../../components/CreateChat/CreateChat';
 import useStyles from './styles';
 
 const axiosInstance = axios.create({
@@ -77,11 +78,7 @@ const CreateExercises = () => {
         </Paper>
       );
     case 'Chat':
-      return (
-        <Paper>
-          <h2>Chat</h2>
-        </Paper>
-      );
+      return <CreateChat setStep={setStep} />;
     case 'Forståelse':
       return <CreateForstaelse setStep={setStep} />;
     case 'Rydde Setninger':
