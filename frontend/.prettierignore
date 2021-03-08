@@ -1,0 +1,9 @@
+auth.js
+build/*
+README.md
+package.json
+package-lock.json
+public/*
+.eslintrc.json
+forstaelse.js
+createForstaelse.js

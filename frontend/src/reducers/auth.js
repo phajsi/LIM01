@@ -3,6 +3,17 @@ import {
   LOGIN_FAIL,
   USER_LOADED_SUCCESS,
   USER_LOADED_FAIL,
+  AUTHENTICATED_FAIL,
+  AUTHENTICATED_SUCCESS,
+  LOGOUT,
+  PASSWORD_RESET_CONFIRM_FAIL,
+  PASSWORD_RESET_CONFIRM_SUCCESS,
+  PASSWORD_RESET_FAIL,
+  PASSWORD_RESET_SUCCESS,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAIL,
+  ACTIVATION_SUCCESS,
+  ACTIVATION_FAIL,
 } from '../actions/types';
 
 const initialState = {
@@ -16,6 +27,11 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case AUTHENTICATED_SUCCESS:
+      return {
+        ...state,
+        isAuthenticated: true,
+      };
     case LOGIN_SUCCESS:
       localStorage.setItem('access', payload.access);
       return {
@@ -23,6 +39,16 @@ export default function (state = initialState, action) {
         isAuthenticated: true,
         access: payload.access,
         refresh: payload.refresh,
+      };
+    case SIGNUP_SUCCESS:
+      return {
+        ...state,
+        isAuthenticated: false,
+      };
+    case AUTHENTICATED_FAIL:
+      return {
+        ...state,
+        isAuthenticated: false,
       };
     case LOGIN_FAIL:
       localStorage.removeItem('access');
@@ -34,6 +60,17 @@ export default function (state = initialState, action) {
         refresh: null,
         user: null,
       };
+    case SIGNUP_FAIL:
+    case LOGOUT:
+      localStorage.removeItem('access');
+      localStorage.removeItem('refresh');
+      return {
+        ...state,
+        access: null,
+        refresh: null,
+        isAuthenticated: false,
+        user: null,
+      };
     case USER_LOADED_SUCCESS:
       return {
         ...state,
@@ -43,6 +80,15 @@ export default function (state = initialState, action) {
       return {
         ...state,
         user: null,
+      };
+    case PASSWORD_RESET_SUCCESS:
+    case PASSWORD_RESET_FAIL:
+    case PASSWORD_RESET_CONFIRM_SUCCESS:
+    case PASSWORD_RESET_CONFIRM_FAIL:
+    case ACTIVATION_SUCCESS:
+    case ACTIVATION_FAIL:
+      return {
+        ...state,
       };
     default:
       return state;

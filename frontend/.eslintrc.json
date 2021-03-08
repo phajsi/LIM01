@@ -19,8 +19,11 @@
         "extensions": [".js", ".jsx"]
       }
     ],
+    "react/jsx-fragments": "off",
     "func-names": "off",
     "no-shadow": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "camelcase": "off",
+    "prefer-destructuring": "off"
   }
 }
