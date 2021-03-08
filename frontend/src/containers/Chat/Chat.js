@@ -1,10 +1,8 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Paper from '@material-ui/core/Paper';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardHeader, ButtonGroup, Button } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -18,10 +16,8 @@ const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
   timeout: 5000,
   headers: {
-    // eslint-disable-next-line prettier/prettier
     Authorization: `JWT ${localStorage.getItem('access')}`,
     'Content-Type': 'application/json',
-    // eslint-disable-next-line prettier/prettier
     accept: 'application/json',
   },
 });
@@ -31,12 +27,10 @@ const Chat = () => {
   const [answer1, setAnswer1] = useState(null);
   const [answer2, setAnswer2] = useState(null);
   const [correctanswer, setCorrectanswer] = useState(null);
-  const [userreply, setUserreply] = useState(null);
-  const [answerchoice, setAnswerchoice] = useState('');
+  const [answerchoice, setAnswerchoice] = useState(null);
   const [answerstate, setAnswerstate] = useState(null);
   const [taskStep, setTaskStep] = useState(1);
   const [select, setSelect] = useState(false);
-  // eslint-disable-next-line no-unused-vars
 
   const classes = useStyles();
 
@@ -66,15 +60,17 @@ const Chat = () => {
   }
 
   function isTrue() {
-    setTaskStep(taskStep + 1);
-    if (answerchoice === correctanswer) {
-      setAnswerstate('correct');
-    } else {
-      setAnswerstate('incorrect');
+    if (taskStep < 4) {
+      setTaskStep(taskStep + 1);
+      if (answerchoice === correctanswer) {
+        setAnswerstate('correct');
+      } else {
+        setAnswerstate('incorrect');
+      }
     }
+    // eslint-disable-next-line no-restricted-globals
+    return null;
   }
-
-  console.log(taskStep);
 
   const handleNextTask = () => {
     setAnswerstate(null);
@@ -90,21 +86,24 @@ const Chat = () => {
       setAnswer2(formData.answer32);
       setCorrectanswer(formData.correctanswer3);
     }
-    ButtonGroup.attr('disabled', false);
-    setSelect(true);
+    setSelect(false);
   };
 
-  function onclick(answer) {
-    setAnswerchoice(answer);
-    ButtonGroup.attr('disabled', true);
+  function validateChoice() {
+    if (answerchoice != null) {
+      isTrue();
+      setSelect(true);
+    }
   }
 
   useEffect(() => {
-    getContent();
-    setAnswerstate(null);
-    isTrue();
-    setSelect();
+    if (chatquestion === null) {
+      getContent();
+    }
+    validateChoice();
   }, [answerchoice]);
+
+  console.log(taskStep);
 
   return (
     <Paper className={classes.root}>
@@ -130,45 +129,45 @@ const Chat = () => {
               />
             </Card>
           </Grid>
-          <Grid>
-            <ChatBubble chat={chatquestion} />
-          </Grid>
+          <ChatBubble chat={chatquestion} />
+          {select === true && <ChatBubble chat={answerchoice} />}
           <Grid
             container
             direction="column"
             justify="flex-end"
             alignItems="flex-end"
           >
-            <ButtonGroup
-              orientation="vertical"
-              color="primary"
-              aria-label="vertical contained primary button group"
-              variant="contained"
-            >
-              <Button id={1} onClick={() => onclick(answer1)}>
-                {answer1}
-              </Button>
-              <Button
-                id={2}
-                value="ALT2"
-                onClick={() => onclick(answer2)}
-                style={{ marginTop: 3 }}
-              >
-                {answer2}
-              </Button>
-              <Button
-                id={3}
-                value="ALT3"
-                onClick={() => onclick(correctanswer)}
-                style={{ marginTop: 3 }}
-              >
-                {correctanswer}
-              </Button>
-            </ButtonGroup>
+            {answerstate === null && (
+              <>
+                <ButtonGroup
+                  orientation="vertical"
+                  color="primary"
+                  aria-label="vertical contained primary button group"
+                  variant="contained"
+                >
+                  <Button id={1} onClick={() => setAnswerchoice(answer1)}>
+                    {answer1}
+                  </Button>
+                  <Button
+                    onClick={() => setAnswerchoice(answer2)}
+                    style={{ marginTop: 3 }}
+                  >
+                    {answer2}
+                  </Button>
+                  <Button
+                    onClick={() => setAnswerchoice(correctanswer)}
+                    style={{ marginTop: 3 }}
+                  >
+                    {correctanswer}
+                  </Button>
+                </ButtonGroup>
+              </>
+            )}
             <NextExerciseBtn
               answerState={answerstate}
               handleNextTask={handleNextTask}
             />
+            {taskStep > 3 && <p>You have finished this set</p>}
           </Grid>
         </Grid>
       </Paper>
