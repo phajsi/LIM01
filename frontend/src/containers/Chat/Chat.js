@@ -16,7 +16,6 @@ const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
   timeout: 5000,
   headers: {
-    Authorization: `JWT ${localStorage.getItem('access')}`,
     'Content-Type': 'application/json',
     accept: 'application/json',
   },

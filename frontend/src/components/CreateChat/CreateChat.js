@@ -43,7 +43,7 @@ const CreateChat = ({ setStep }) => {
   const onClick = (e) => {
     e.preventDefault();
     axiosInstance
-      .post('/chat/', {
+      .post('/createchat/', {
         chatquestion1: formData.chatquestion1,
         answer11: formData.answer11,
         answer12: formData.answer12,
