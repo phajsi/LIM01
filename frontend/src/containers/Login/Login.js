@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Grid, Paper } from '@material-ui/core';
+import {
+  Button,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Paper,
+  TextField,
+} from '@material-ui/core';
+import EmailIcon from '@material-ui/icons/Email';
+import LockIcon from '@material-ui/icons/Lock';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { connect } from 'react-redux';
-import { login } from '../actions/auth';
+import { login } from '../../actions/auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +41,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'gray',
     color: 'white',
   },
+  headline: {
+    textAlign: 'center',
+  },
+  divider: {
+    margin: theme.spacing(3),
+  },
 }));
 
 const Login = ({ login, isAuthenticated }) => {
@@ -38,6 +55,7 @@ const Login = ({ login, isAuthenticated }) => {
     email: '',
     password: '',
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const { email, password } = formData;
 
@@ -50,6 +68,10 @@ const Login = ({ login, isAuthenticated }) => {
     login(email, password);
   };
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   if (isAuthenticated) {
     return <Redirect to="/" />;
   }
@@ -57,39 +79,62 @@ const Login = ({ login, isAuthenticated }) => {
   return (
     <div className={classes.root}>
       <Paper className={classes.infoBox}>
-        <h1>Log In</h1>
-        <p>Log inn på din konto</p>
+        <h1 className={classes.headline}>Logg inn</h1>
         <form onSubmit={(e) => onSubmit(e)}>
-          <div>
-            <input
-              type="email"
-              placeholder="Email"
-              name="email"
-              value={email}
-              onChange={(e) => onChange(e)}
-              required
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={password}
-              onChange={(e) => onChange(e)}
-              minLength="6"
-              required
-            />
-          </div>
+          <TextField
+            type="email"
+            placeholder="Epost"
+            name="email"
+            variant="outlined"
+            value={email}
+            onChange={(e) => onChange(e)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <EmailIcon />
+                </InputAdornment>
+              ),
+            }}
+            required
+            fullWidth
+          />
+          <TextField
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Passord"
+            name="password"
+            variant="outlined"
+            margin="normal"
+            value={password}
+            onChange={(e) => onChange(e)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LockIcon />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleClickShowPassword}>
+                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            minLength="6"
+            required
+            fullWidth
+          />
           <Button
             variant="contained"
             color="secondary"
             type="submit"
+            fullWidth
             className={classes.button}
           >
-            Login
+            Logg inn
           </Button>
         </form>
+        <hr className={classes.divider} />
         <Grid container>
           <Grid item xs={6}>
             <p> Har du ikke en konto? </p>
@@ -103,13 +148,13 @@ const Login = ({ login, isAuthenticated }) => {
               size="small"
               className={classes.secondaryButton}
             >
-              Sign Up
+              Registrering
             </Button>
           </Grid>
         </Grid>
         <Grid container>
           <Grid item xs={6}>
-            <p> Glemt passwordet? </p>
+            <p> Glemt passordet? </p>
           </Grid>
           <Grid item xs={6}>
             <Button
@@ -120,7 +165,7 @@ const Login = ({ login, isAuthenticated }) => {
               size="small"
               className={classes.secondaryButton}
             >
-              Opprett passord
+              Bytt passord
             </Button>
           </Grid>
         </Grid>
