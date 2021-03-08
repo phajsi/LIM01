@@ -1,27 +1,23 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Paper from '@material-ui/core/Paper';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardHeader } from '@material-ui/core';
+import { Card, CardHeader, ButtonGroup, Button } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
-import Answers from '../../components/Answers';
+import NextExerciseBtn from '../../components/NextExerciseBtn';
 import useStyles from './styles';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
   timeout: 5000,
   headers: {
-    // eslint-disable-next-line prettier/prettier
     Authorization: `JWT ${localStorage.getItem('access')}`,
     'Content-Type': 'application/json',
-    // eslint-disable-next-line prettier/prettier
     accept: 'application/json',
   },
 });
@@ -31,77 +27,83 @@ const Chat = () => {
   const [answer1, setAnswer1] = useState(null);
   const [answer2, setAnswer2] = useState(null);
   const [correctanswer, setCorrectanswer] = useState(null);
-  const [userreply, setUserreply] = useState(null);
-  const [defaultreply, setDefaultreply] = useState(null);
-  const [answerchoice, setAnswerchoice] = useState('');
+  const [answerchoice, setAnswerchoice] = useState(null);
   const [answerstate, setAnswerstate] = useState(null);
-  // eslint-disable-next-line no-unused-vars
+  const [taskStep, setTaskStep] = useState(1);
+  const [select, setSelect] = useState(false);
 
   const classes = useStyles();
 
-  function test() {
-    axiosInstance
-      .post('/chat/', {
-        chatquestion: 'hallo?',
-        answer1: 'what',
-        answer2: 'hei',
-        correctanswer: 'halla',
-        defaultreply: 'hæ!',
-        userreply: 'ja',
-      })
-      .then((response) => {
-        return response;
-      })
-      .catch((e) => {
-        return e;
-      });
-  }
+  const [formData, setFormData] = useState({
+    chatquestion1: '',
+    answer11: '',
+    answer12: '',
+    correctanswer1: '',
+    chatquestion2: '',
+    answer21: '',
+    answer22: '',
+    correctanswer2: '',
+    chatquestion3: '',
+    answer31: '',
+    answer32: '',
+    correctanswer3: '',
+  });
+
   function getContent() {
     axiosInstance.get('/chat/').then((res) => {
-      setChatquestion(res.data[0].chatquestion);
-      setAnswer1(res.data[0].answer1);
-      setAnswer2(res.data[0].answer2);
-      setCorrectanswer(res.data[0].correctanswer);
-      setDefaultreply(res.data[0].defaultreply);
-      setUserreply(res.data[0].userreply);
+      setFormData(res.data[0]);
+      setChatquestion(res.data[0].chatquestion1);
+      setAnswer1(res.data[0].answer11);
+      setAnswer2(res.data[0].answer12);
+      setCorrectanswer(res.data[0].correctanswer1);
     });
   }
 
   function isTrue() {
-    console.log(answerchoice, 'dette er svaret jeg trykte på');
-    console.log(correctanswer, 'dette er svaret jeg forventet');
-    if (answerchoice === correctanswer) {
-      setAnswerstate('istrue');
-      // console.log(answerstate, 'dette skal være sant');
-    } else {
-      setAnswerstate('isfalse');
-      // console.log(answerstate, 'dette skal være USANT');
+    if (taskStep < 4) {
+      setTaskStep(taskStep + 1);
+      if (answerchoice === correctanswer) {
+        setAnswerstate('correct');
+      } else {
+        setAnswerstate('incorrect');
+      }
     }
+    // eslint-disable-next-line no-restricted-globals
+    return null;
   }
 
-  function renderSwitch(answerstate) {
-    switch (answerstate) {
-      case 'istrue':
-        return (
-          <Grid>
-            <ChatBubble chat={answerchoice} />
-          </Grid>
-        );
-      case 'isfalse':
-        return (
-          <Grid>
-            <ChatBubble chat={answerchoice} />
-          </Grid>
-        );
-      default:
-        return null;
+  const handleNextTask = () => {
+    setAnswerstate(null);
+    if (taskStep === 2 && formData.chatquestion2 !== '') {
+      setChatquestion(formData.chatquestion2);
+      setAnswer1(formData.answer21);
+      setAnswer2(formData.answer22);
+      setCorrectanswer(formData.correctanswer2);
+    }
+    if (taskStep === 3 && formData.chatquestion3 !== '') {
+      setChatquestion(formData.chatquestion3);
+      setAnswer1(formData.answer31);
+      setAnswer2(formData.answer32);
+      setCorrectanswer(formData.correctanswer3);
+    }
+    setSelect(false);
+  };
+
+  function validateChoice() {
+    if (answerchoice != null) {
+      isTrue();
+      setSelect(true);
     }
   }
 
   useEffect(() => {
-    getContent();
-    isTrue();
+    if (chatquestion === null) {
+      getContent();
+    }
+    validateChoice();
   }, [answerchoice]);
+
+  console.log(taskStep);
 
   return (
     <Paper className={classes.root}>
@@ -127,16 +129,46 @@ const Chat = () => {
               />
             </Card>
           </Grid>
-          <Grid>
-            <ChatBubble chat={chatquestion} />
+          <ChatBubble chat={chatquestion} />
+          {select === true && <ChatBubble chat={answerchoice} />}
+          <Grid
+            container
+            direction="column"
+            justify="flex-end"
+            alignItems="flex-end"
+          >
+            {answerstate === null && (
+              <>
+                <ButtonGroup
+                  orientation="vertical"
+                  color="primary"
+                  aria-label="vertical contained primary button group"
+                  variant="contained"
+                >
+                  <Button id={1} onClick={() => setAnswerchoice(answer1)}>
+                    {answer1}
+                  </Button>
+                  <Button
+                    onClick={() => setAnswerchoice(answer2)}
+                    style={{ marginTop: 3 }}
+                  >
+                    {answer2}
+                  </Button>
+                  <Button
+                    onClick={() => setAnswerchoice(correctanswer)}
+                    style={{ marginTop: 3 }}
+                  >
+                    {correctanswer}
+                  </Button>
+                </ButtonGroup>
+              </>
+            )}
+            <NextExerciseBtn
+              answerState={answerstate}
+              handleNextTask={handleNextTask}
+            />
+            {taskStep > 3 && <p>You have finished this set</p>}
           </Grid>
-          <Answers
-            answer1={answer1}
-            answer2={answer2}
-            correctanswer={correctanswer}
-            setAnswerchoice={setAnswerchoice}
-          />
-          {renderSwitch(answerstate)}
         </Grid>
       </Paper>
     </Paper>

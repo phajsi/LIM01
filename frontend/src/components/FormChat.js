@@ -7,7 +7,6 @@ const FormChat = ({
   answer1,
   answer2,
   correctanswer,
-  defaultreply,
   onChange,
 }) => {
   return (
@@ -45,16 +44,6 @@ const FormChat = ({
       <p>Skriv svaralternativ 3 her (Korrekt alternativ) her: </p>
       <TextField
         name={correctanswer}
-        multiline
-        fullWidth
-        rowsMax={3}
-        required
-        variant="outlined"
-        onChange={(e) => onChange(e)}
-      />
-      <p>Skriv inn respons på feil svar her: </p>
-      <TextField
-        name={defaultreply}
         multiline
         fullWidth
         rowsMax={3}
