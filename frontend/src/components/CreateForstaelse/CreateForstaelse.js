@@ -49,7 +49,7 @@ const CreateForstaelse = ({ setStep }) => {
   const onClick = (e) => {
     e.preventDefault();
     axiosInstance
-      .post('/forstaelse/', {
+      .post('/createforstaelse/', {
         chat1: formData.chat1,
         question1: formData.question1,
         answer1: formData.answer1,

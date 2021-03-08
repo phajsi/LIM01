@@ -7,11 +7,13 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.permissions import IsAdminUser
 
 class ForstaelseView(APIView):
+    permission_classes=[]
     def get(self, request):
         forstaelse = Forstaelse.objects.all()
         serializer = ForstaelseSerializer(forstaelse, many=True)
         return JsonResponse(serializer.data, safe=False)
 
+class CreateForstaelseView(APIView):
     def post(self, request):
         data = JSONParser().parse(request)
         serializer = ForstaelseSerializer(data=data)
