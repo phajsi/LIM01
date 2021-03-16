@@ -10,18 +10,13 @@ from rest_framework.permissions import IsAdminUser
 class ForstaelseView(APIView):
     permission_classes = []
 
-    def get(self, request):
-        forstaelse = Forstaelse.objects.all()
-        serializer = ForstaelseSerializer(forstaelse, many=True)
+    def get(self, request, pk):
+        try:
+            getForstaelse = Forstaelse.objects.get(pk=pk)
+        except Forstaelse.DoesNotExist:
+            return JsonResponse(serializer.errors, status=400)
+        serializer = ForstaelseSerializer(getForstaelse)
         return JsonResponse(serializer.data, safe=False)
-
-    # def get(self, request, pk):
-    #    try:
-    #        getForstaelse = Forstaelse.objects.get(pk=pk)
-    #    except Forstaelse.DoesNotExist:
-    #        return JsonResponse(serializer.errors, status=400)
-    #    serializer = ForstaelseSerializer(getForstaelse)
-    #    return JsonResponse(serializer.data, safe=False)
 
 
 class CreateForstaelseView(APIView):

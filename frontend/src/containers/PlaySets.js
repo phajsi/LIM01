@@ -15,33 +15,51 @@ const axiosInstance = axios.create({
 });
 
 const PlaySets = () => {
-  // eslint-disable-next-line no-unused-vars
   const [step, setStep] = useState('menu');
-  // eslint-disable-next-line no-unused-vars
-  const [formData, setFormData] = useState({
-    forstaelse1: '',
-    forstaelse2: '',
-    chat1: '',
-    chat2: '',
-  });
+  const [exercise, setExercise] = useState(0);
+  const [exerciseId, setExerciseId] = useState(0);
   const [id, setId] = useState(null);
+  const [IDs] = useState([]);
+  const [exerciseTypes] = useState([]);
+  const types = ['forstaelse', 'forstaelse', 'chat', 'chat'];
+  const [feedbackScore, setFeedBackScore] = useState(0);
+  let counter = 0;
 
   const onChange = (e) => setId(e.target.value);
 
   function nextExercise() {
-    // comment
+    if (IDs.length < exercise + 1) {
+      setStep('finish');
+    } else {
+      setExercise(exercise + 1);
+      setStep(exerciseTypes[exercise]);
+      setExerciseId(IDs[exercise]);
+    }
+  }
+
+  function checkExercise(ex) {
+    if (ex !== null && counter > 0) {
+      IDs.push(ex);
+      exerciseTypes.push(types[counter - 1]);
+    }
+    counter += 1;
   }
 
   function getContent(id) {
     axiosInstance
       .get(`/sets/${id}`)
       .then((res) => {
-        setFormData(res.data);
-        console.log(res.data);
+        Object.values(res.data).map((ex) => checkExercise(ex));
+        setStep('overview');
       })
       .catch((e) => {
         return e;
       });
+  }
+
+  function showFeedback(score) {
+    setFeedBackScore(score);
+    setStep('feedback');
   }
 
   switch (step) {
@@ -62,16 +80,84 @@ const PlaySets = () => {
             onClick={() => getContent(id)}
             fullWidth
           >
+            Choose
+          </Button>
+        </div>
+      );
+    case 'overview':
+      return (
+        <div>
+          <h1>
+            Click to play exercise set with id
+            {id}
+          </h1>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => nextExercise()}
+            fullWidth
+          >
             Opprett
           </Button>
         </div>
       );
+    case 'forstaelse2':
+      return (
+        <div>
+          <h1>
+            Forstaelse
+            {exerciseId}
+          </h1>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => nextExercise()}
+            fullWidth
+          >
+            next
+          </Button>
+        </div>
+      );
+    case 'chat2':
+      return (
+        <div>
+          <h1>
+            Chat
+            {exerciseId}
+          </h1>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => nextExercise()}
+            fullWidth
+          >
+            next
+          </Button>
+        </div>
+      );
     case 'forstaelse':
-      return <Forstaelse id={id} nextExercise={nextExercise} />;
+      return <Forstaelse id={exerciseId} showFeedback={showFeedback} />;
     case 'chat':
-      return <Chat id={id} nextExercise={nextExercise} />;
+      return <Chat id={exerciseId} showFeedback={showFeedback} />;
+    case 'feedback':
+      return (
+        <div>
+          <h1>
+            Well done, you got score was:
+            {feedbackScore}
+          </h1>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => nextExercise()}
+            fullWidth
+          >
+            next
+          </Button>
+        </div>
+      );
     case 'finish':
-      return <p>Finish</p>;
+      return <p>The set is completed</p>;
     default:
       return <p>default</p>;
   }

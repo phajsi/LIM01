@@ -21,7 +21,7 @@ const axiosInstance = axios.create({
   },
 });
 
-const Chat = () => {
+const Chat = ({ id, showFeedback }) => {
   const [chatquestion, setChatquestion] = useState(null);
   const [answer1, setAnswer1] = useState(null);
   const [answer2, setAnswer2] = useState(null);
@@ -30,6 +30,7 @@ const Chat = () => {
   const [answerstate, setAnswerstate] = useState(null);
   const [taskStep, setTaskStep] = useState(1);
   const [select, setSelect] = useState(false);
+  const [score, setScore] = useState(0);
 
   const classes = useStyles();
 
@@ -49,12 +50,12 @@ const Chat = () => {
   });
 
   function getContent() {
-    axiosInstance.get('/chat/').then((res) => {
-      setFormData(res.data[0]);
-      setChatquestion(res.data[0].chatquestion1);
-      setAnswer1(res.data[0].answer11);
-      setAnswer2(res.data[0].answer12);
-      setCorrectanswer(res.data[0].correctanswer1);
+    axiosInstance.get(`/chat/${id}`).then((res) => {
+      setFormData(res.data);
+      setChatquestion(res.data.chatquestion1);
+      setAnswer1(res.data.answer11);
+      setAnswer2(res.data.answer12);
+      setCorrectanswer(res.data.correctanswer1);
     });
   }
 
@@ -63,6 +64,7 @@ const Chat = () => {
       setTaskStep(taskStep + 1);
       if (answerchoice === correctanswer) {
         setAnswerstate('correct');
+        setScore(score + 1);
       } else {
         setAnswerstate('incorrect');
       }
@@ -78,12 +80,13 @@ const Chat = () => {
       setAnswer1(formData.answer21);
       setAnswer2(formData.answer22);
       setCorrectanswer(formData.correctanswer2);
-    }
-    if (taskStep === 3 && formData.chatquestion3 !== '') {
+    } else if (taskStep === 3 && formData.chatquestion3 !== '') {
       setChatquestion(formData.chatquestion3);
       setAnswer1(formData.answer31);
       setAnswer2(formData.answer32);
       setCorrectanswer(formData.correctanswer3);
+    } else {
+      showFeedback(score);
     }
     setSelect(false);
   };
@@ -101,8 +104,6 @@ const Chat = () => {
     }
     validateChoice();
   }, [answerchoice]);
-
-  console.log(taskStep);
 
   return (
     <Paper className={classes.root}>
