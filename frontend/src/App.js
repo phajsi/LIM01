@@ -14,6 +14,7 @@ import CreateExercises from './containers/CreateExercises/CreateExercises';
 import Chat from './containers/Chat/Chat';
 import PlaySets from './containers/PlaySets';
 import Sets from './containers/Sets';
+import RyddeSetninger from './containers/RyddeSetninger';
 
 const App = () => (
   <Provider store={store}>
@@ -27,6 +28,7 @@ const App = () => (
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/reset-password" component={ResetPassword} />
           <Route exact path="/chat" component={Chat} />
+          <Route exact path="/rydde-setninger" component={RyddeSetninger} />
           <Route exact path="/sets" component={PlaySets} />
           <Route exact path="/sets2" component={Sets} />
           <Route
