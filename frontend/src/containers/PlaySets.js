@@ -27,6 +27,11 @@ const PlaySets = () => {
 
   const onChange = (e) => setId(e.target.value);
 
+  /*
+  nextExercise function will handle logic for going to the next exercise
+  It checks if there are more exercises in the set, if not it changes the step to finish.
+  If there are more exercises it will change ids and go to the exercise.
+  */
   function nextExercise() {
     if (IDs.length < exercise + 1) {
       setStep('finish');
@@ -37,6 +42,10 @@ const PlaySets = () => {
     }
   }
 
+  /*
+  checkExercises is a helper function that makes sure that only
+  exercises with content can be played. 
+  */
   function checkExercise(ex) {
     if (ex !== null && counter > 0) {
       IDs.push(ex);
@@ -98,40 +107,6 @@ const PlaySets = () => {
             fullWidth
           >
             Opprett
-          </Button>
-        </div>
-      );
-    case 'forstaelse2':
-      return (
-        <div>
-          <h1>
-            Forstaelse
-            {exerciseId}
-          </h1>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => nextExercise()}
-            fullWidth
-          >
-            next
-          </Button>
-        </div>
-      );
-    case 'chat2':
-      return (
-        <div>
-          <h1>
-            Chat
-            {exerciseId}
-          </h1>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => nextExercise()}
-            fullWidth
-          >
-            next
           </Button>
         </div>
       );
