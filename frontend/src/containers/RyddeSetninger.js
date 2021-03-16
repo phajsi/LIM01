@@ -1,3 +1,5 @@
+/* eslint-disable no-return-assign */
+/* eslint-disable no-unused-expressions */
 import React, { useState } from 'react';
 import {
   AppBar,
@@ -48,18 +50,20 @@ const useStyles = makeStyles((theme) => ({
 
 const RyddeSetninger = () => {
   const classes = useStyles();
-  const [clickedBtn, setClickedBtn] = useState(false);
-  const [chosenWords, setChosenWords] = useState([null]);
+  const [chosenWords, setChosenWords] = useState([]);
+  // const [disableBtn, setDisableBtn] = useState(false);
 
   const clicked = (e) => {
     console.log(e.currentTarget);
-    console.log(e.target.innerHTML);
-    setClickedBtn(!clickedBtn);
-    setChosenWords(
-      <Button color="secondary" variant="contained">
-        {e.target.innerHTML}
-      </Button>
-    );
+    console.log(chosenWords);
+    setChosenWords((chosenWords) => [...chosenWords, e.target.innerHTML]);
+  };
+
+  const removeWord = (e) => {
+    console.log(e.currentTarget.id);
+    const temp = [...chosenWords];
+    temp.splice(e.currentTarget.id, 1);
+    setChosenWords(temp);
   };
 
   return (
@@ -82,7 +86,7 @@ const RyddeSetninger = () => {
             <Card className={classes.header}>
               <CardHeader
                 avatar={<VolumeUpIcon />}
-                title="Dra på ordene sånn at de kommer i
+                title="Trykk på ordene sånn at de kommer i
                  riktig rekkefølge. Husk å se på tegnsetting!"
               />
             </Card>
@@ -92,7 +96,6 @@ const RyddeSetninger = () => {
             color="secondary"
             variant="contained"
             onClick={(e) => clicked(e)}
-            disabled={clickedBtn}
           >
             Test
           </Button>
@@ -105,7 +108,18 @@ const RyddeSetninger = () => {
             Word
           </Button>
           <Grid item xs={12} className={classes.stnField}>
-            <div>{chosenWords}</div>
+            <div>
+              {chosenWords.map((el, index) => (
+                <Button
+                  id={index}
+                  color="secondary"
+                  variant="contained"
+                  onClick={(e) => removeWord(e)}
+                >
+                  {el}
+                </Button>
+              ))}
+            </div>
           </Grid>
         </Grid>
       </Paper>
