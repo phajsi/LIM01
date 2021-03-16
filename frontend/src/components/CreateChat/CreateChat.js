@@ -18,7 +18,7 @@ const axiosInstance = axios.create({
   },
 });
 
-const CreateChat = ({ setStep }) => {
+const CreateChat = ({ setStep, updateFormDataChat }) => {
   const classes = useStyles();
   const [taskAmount, setTaskAmount] = useState(1);
   const [formData, setFormData] = useState({
@@ -58,6 +58,8 @@ const CreateChat = ({ setStep }) => {
         correctanswer3: formData.correctanswer3,
       })
       .then((response) => {
+        setStep('Menu');
+        updateFormDataChat(response.data.id);
         return response;
       })
       .catch((e) => {

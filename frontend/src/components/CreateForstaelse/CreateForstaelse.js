@@ -24,7 +24,7 @@ const axiosInstance = axios.create({
   },
 });
 
-const CreateForstaelse = ({ setStep }) => {
+const CreateForstaelse = ({ setStep, updateFormDataForstaelse }) => {
   const classes = useStyles();
   const [taskAmount, setTaskAmount] = useState(1);
 
@@ -64,6 +64,8 @@ const CreateForstaelse = ({ setStep }) => {
         explanation3: formData.explanation3,
       })
       .then((response) => {
+        setStep('Menu');
+        updateFormDataForstaelse(response.data.id);
         return response;
       })
       .catch((e) => {

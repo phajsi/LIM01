@@ -12,6 +12,8 @@ import Layout from './hocs/Layout';
 import Forstaelse from './containers/Forstaelse/Forstaelse';
 import CreateExercises from './containers/CreateExercises/CreateExercises';
 import Chat from './containers/Chat/Chat';
+import PlaySets from './containers/PlaySets';
+import Sets from './containers/Sets';
 
 const App = () => (
   <Provider store={store}>
@@ -25,6 +27,8 @@ const App = () => (
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/reset-password" component={ResetPassword} />
           <Route exact path="/chat" component={Chat} />
+          <Route exact path="/sets" component={PlaySets} />
+          <Route exact path="/sets2" component={Sets} />
           <Route
             exact
             path="/password/reset/confirm/:uid/:token"
