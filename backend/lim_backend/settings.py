@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'accounts',
     'forstaelse',
     'chat',
-    'sets'
+    'sets',
+    'rydde_setninger',
 ]
 
 MIDDLEWARE = [
