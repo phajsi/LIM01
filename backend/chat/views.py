@@ -26,3 +26,11 @@ class CreateChatView(APIView):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+
+    def delete(self, request, pk):
+        try:
+            getChat = Chat.objects.get(pk=pk)
+        except Chat.DoesNotExist:
+            return JsonResponse(serializer.errors, status=400)
+        getChat.delete()
+        return HttpResponse(status=status.HTTP_204_NO_CONTENT)

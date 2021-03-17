@@ -4,5 +4,6 @@ from .views import ChatView, CreateChatView
 urlpatterns = [
     path('chat/', ChatView.as_view(), name='chat'),
     path('createchat/', CreateChatView.as_view(), name='createchat'),
+    path('createchat/<int:pk>', CreateChatView.as_view(), name='createchatdelete'),
     path('chat/<int:pk>', ChatView.as_view(), name='chat'),
 ]

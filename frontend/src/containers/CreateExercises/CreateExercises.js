@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Paper, MenuList, MenuItem, Button } from '@material-ui/core';
+import Chip from '@material-ui/core/Chip';
 import CreateForstaelse from '../../components/CreateForstaelse/CreateForstaelse';
 import CreateChat from '../../components/CreateChat/CreateChat';
 import useStyles from './styles';
@@ -13,6 +14,16 @@ const axiosInstance = axios.create({
     'Authorization': `JWT ${localStorage.getItem('access')}`,
     'Content-Type': 'application/json',
     // eslint-disable-next-line prettier/prettier
+    accept: 'application/json',
+  },
+});
+
+const axiosInstance2 = axios.create({
+  baseURL: `${process.env.REACT_APP_API_URL}/api/`,
+  timeout: 5000,
+  headers: {
+    // eslint-disable-next-line prettier/prettier
+    'Authorization': `JWT ${localStorage.getItem('access')}`,
     accept: 'application/json',
   },
 });
@@ -59,44 +70,106 @@ const CreateExercises = () => {
       });
   }
 
+  function editExercise(id, step) {
+    console.log(id);
+    console.log(step);
+    // add get request and send response.data to createforstealse/chat.
+    // consider having update and delete functions in createExercise and passing the functions
+  }
+
+  function handleDeleteForstaelse(id) {
+    axiosInstance2
+      .delete(`/createforstaelse/${id}`)
+      .then((res) => {
+        console.log(res);
+        forstaelseList[forstaelseList.indexOf(id)] = null;
+        setForstaelseCount(forstaelseCount - 1);
+      })
+      .catch((e) => {
+        return e;
+      });
+    // add backend for delete exercise. have button on chip.
+  }
+
+  function handleDeleteChat(id) {
+    axiosInstance2
+      .delete(`/createchat/${id}`)
+      .then((res) => {
+        console.log(res);
+        chatList[chatList.indexOf(id)] = null;
+        setChatCount(chatCount - 1);
+      })
+      .catch((e) => {
+        return e;
+      });
+    // add backend for delete exercise. have button on chip.
+  }
+
   switch (step) {
     case 'Menu':
       return (
-        <Paper className={classes.root}>
-          <h1>Velg oppgavetype</h1>
-          <MenuList>
-            {chatList[4] !== null ? (
-              <></>
-            ) : (
-              <MenuItem onClick={() => setStep('Chat')} id="Chat">
-                Chat:
-                {chatCount}
+        <div>
+          <Paper className={classes.root}>
+            <h1>Velg oppgavetype</h1>
+            <MenuList>
+              {chatList[4] !== null ? (
+                <></>
+              ) : (
+                <MenuItem onClick={() => setStep('Chat')} id="Chat">
+                  Chat
+                </MenuItem>
+              )}
+              {forstaelseList[4] !== null ? (
+                <></>
+              ) : (
+                <MenuItem onClick={() => setStep('Forståelse')} id="Forståelse">
+                  Forståelse
+                </MenuItem>
+              )}
+              <MenuItem
+                onClick={() => setStep('Rydde Setninger')}
+                id="Rydde Setninger"
+              >
+                Rydde Setninger
               </MenuItem>
-            )}
-            {forstaelseList[4] !== null ? (
-              <></>
-            ) : (
-              <MenuItem onClick={() => setStep('Forståelse')} id="Forståelse">
-                Forståelse:
-                {forstaelseCount}
-              </MenuItem>
-            )}
-            <MenuItem
-              onClick={() => setStep('Rydde Setninger')}
-              id="Rydde Setninger"
+            </MenuList>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={postContent}
+              fullWidth
             >
-              Rydde Setninger
-            </MenuItem>
-          </MenuList>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={postContent}
-            fullWidth
-          >
-            Opprett
-          </Button>
-        </Paper>
+              Opprett
+            </Button>
+          </Paper>
+          <Paper className={classes.root}>
+            <h4>Øvelser:</h4>
+            {chatList.map((id) => {
+              if (id !== null) {
+                return (
+                  <Chip
+                    label="Chat"
+                    onClick={() => editExercise(id, 'chat')}
+                    onDelete={() => handleDeleteChat(id)}
+                  />
+                );
+              }
+              return <></>;
+            })}
+            {forstaelseList.map((id) => {
+              if (id !== null) {
+                return (
+                  <Chip
+                    label="Forstaelse"
+                    onClick={() => editExercise(id, 'forstaelse')}
+                    onDelete={() => handleDeleteForstaelse(id)}
+                  />
+                );
+              }
+              return <></>;
+            })}
+          </Paper>
+        </div>
       );
     case 'Chat':
       return (
