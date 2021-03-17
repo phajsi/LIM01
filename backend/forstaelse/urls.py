@@ -3,6 +3,7 @@ from .views import ForstaelseView, CreateForstaelseView
 
 urlpatterns = [
     path('forstaelse/', ForstaelseView.as_view(), name='forstaelse'),
-    path('createforstaelse/', CreateForstaelseView.as_view(), name='createforstaelse')
-    #path('forstaelse/<int:pk>', ForstaelseView.as_view(), name='forstaelsepk'),
+    path('createforstaelse/', CreateForstaelseView.as_view(),
+         name='createforstaelse'),
+    path('forstaelse/<int:pk>', ForstaelseView.as_view(), name='forstaelsepk'),
 ]

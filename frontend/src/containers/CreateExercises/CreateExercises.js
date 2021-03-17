@@ -30,6 +30,9 @@ const CreateExercises = () => {
   const [step, setStep] = useState('Menu');
   const [open, setOpen] = useState(false);
   const [id, setId] = useState(null);
+  const [forstaelseCount, setForstaelseCount] = useState(0);
+  const [chatCount, setChatCount] = useState(0);
+  const [playId, setPlayId] = useState(0);
 
   const handleClickOpen = (e) => {
     setOpen(true);
@@ -46,16 +49,20 @@ const CreateExercises = () => {
   function updateFormDataForstaelse(id) {
     if (formData.forstaelse1 === '') {
       setFormData({ ...formData, forstaelse1: id });
+      setForstaelseCount(1);
     } else {
       setFormData({ ...formData, forstaelse2: id });
+      setForstaelseCount(2);
     }
   }
 
   function updateFormDataChat(id) {
     if (formData.chat1 === '') {
       setFormData({ ...formData, chat1: id });
+      setChatCount(1);
     } else {
       setFormData({ ...formData, chat2: id });
+      setChatCount(2);
     }
   }
 
@@ -68,7 +75,8 @@ const CreateExercises = () => {
         chat2: formData.chat2,
       })
       .then((response) => {
-        return response;
+        setPlayId(response.data.id);
+        setStep('confirmation');
       })
       .catch((e) => {
         return e;
@@ -82,10 +90,12 @@ const CreateExercises = () => {
           <h1>Velg oppgavetype</h1>
           <MenuList>
             <MenuItem onClick={(e) => handleClickOpen(e)} id="Chat">
-              Chat
+              Chat:
+              {chatCount}
             </MenuItem>
             <MenuItem onClick={(e) => handleClickOpen(e)} id="Forståelse">
-              Forståelse
+              Forståelse:
+              {forstaelseCount}
             </MenuItem>
             <MenuItem onClick={(e) => handleClickOpen(e)} id="Rydde Setninger">
               Rydde Setninger
@@ -123,6 +133,13 @@ const CreateExercises = () => {
         <Paper>
           <h2>Rydde Setninger</h2>
         </Paper>
+      );
+    case 'confirmation':
+      return (
+        <h1>
+          Thank you! the set can be played with id:
+          {playId}
+        </h1>
       );
     default:
       return <> </>;

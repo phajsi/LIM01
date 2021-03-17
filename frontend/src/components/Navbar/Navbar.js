@@ -28,16 +28,23 @@ const Navbar = ({ logout, isAuthenticated }) => {
   );
 
   const authLinks = () => (
-    <Typography
-      variant="h6"
-      className={classes.right}
-      href="#!"
-      onClick={logoutUser}
-    >
-      <Link to="/" className={classes.title}>
-        Logg ut
-      </Link>
-    </Typography>
+    <>
+      <Typography variant="h6" className={classes.right}>
+        <Link to="/createexercise" className={classes.title}>
+          Opprett øvelse
+        </Link>
+      </Typography>
+      <Typography
+        variant="h6"
+        className={classes.right}
+        href="#!"
+        onClick={logoutUser}
+      >
+        <Link to="/" className={classes.title}>
+          Logg ut
+        </Link>
+      </Typography>
+    </>
   );
 
   return (
