@@ -21,7 +21,18 @@ const PlaySets = () => {
   const [id, setId] = useState(null);
   const [IDs] = useState([]);
   const [exerciseTypes] = useState([]);
-  const types = ['forstaelse', 'forstaelse', 'chat', 'chat'];
+  const types = [
+    'forstaelse',
+    'forstaelse',
+    'forstaelse',
+    'forstaelse',
+    'forstaelse',
+    'chat',
+    'chat',
+    'chat',
+    'chat',
+    'chat',
+  ];
   const [feedbackScore, setFeedBackScore] = useState(0);
   let counter = 0;
 
