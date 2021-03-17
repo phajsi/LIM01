@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import {
   AppBar,
   Card,
@@ -48,11 +50,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const axiosInstance = axios.create({
+  baseURL: `${process.env.REACT_APP_API_URL}/api/`,
+  timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json',
+    // eslint-disable-next-line prettier/prettier
+    accept: 'application/json',
+  },
+});
+
 const RyddeSetninger = () => {
   const classes = useStyles();
-  const [words, setWords] = useState(['I', 'am', 'a', 'cute', 'doggo']);
+  const [words, setWords] = useState([]);
   const [chosenWords, setChosenWords] = useState([]);
   // const [disableBtn, setDisableBtn] = useState(false);
+
+  function getContent() {
+    axiosInstance
+      .get(`/rydde_setninger/1`)
+      .then((res) => {
+        console.log(res.data);
+        setWords((words) => [...words, res.data.word1]);
+        setWords((words) => [...words, res.data.word2]);
+        setWords((words) => [...words, res.data.word3]);
+        setWords((words) => [...words, res.data.word4]);
+      })
+      .catch((e) => {
+        return e;
+      });
+  }
 
   const clicked = (e) => {
     setChosenWords((chosenWords) => [...chosenWords, e.currentTarget.value]);
@@ -67,6 +94,11 @@ const RyddeSetninger = () => {
     temp.splice(e.currentTarget.id, 1);
     setChosenWords(temp);
   };
+
+  useEffect(() => {
+    getContent();
+    console.log(words);
+  }, []);
 
   return (
     <Paper className={classes.root}>
