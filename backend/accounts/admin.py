@@ -25,9 +25,9 @@ class ChatAdmin(admin.ModelAdmin):
                     'chatquestion3', 'answer31', 'answer32', 'correctanswer3',)
 
 class RyddeSetningerAdmin(admin.ModelAdmin):
-    list_display = ('word1', 'word2', 'word3', 'word4',
-                    'word5', 'word6', 'word7', 'word8',
-                    'word9', 'word10')
+    list_display = ('word1', 'wordClass1', 'word2', 'wordClass2', 'word3', 'wordClass3', 'word4', 'wordClass4',
+                    'word5', 'wordClass5', 'word6', 'wordClass6', 'word7', 'wordClass7', 'word8', 'wordClass8',
+                    'word9', 'wordClass9', 'word10', 'wordClass10')
 
 class SetsAdmin(admin.ModelAdmin):
     list_display = ('id', 'forstaelse1', 'forstaelse2', 'chat1', 'chat2')
