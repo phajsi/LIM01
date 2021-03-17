@@ -1,5 +1,3 @@
-/* eslint-disable no-return-assign */
-/* eslint-disable no-unused-expressions */
 import React, { useState } from 'react';
 import {
   AppBar,
@@ -45,22 +43,26 @@ const useStyles = makeStyles((theme) => ({
     outline: 'solid 1px black',
     borderRadius: '25px',
   },
-  wordBtn: {},
+  wordBtn: {
+    textTransform: 'lowercase',
+  },
 }));
 
 const RyddeSetninger = () => {
   const classes = useStyles();
+  const [words, setWords] = useState(['I', 'am', 'a', 'cute', 'doggo']);
   const [chosenWords, setChosenWords] = useState([]);
   // const [disableBtn, setDisableBtn] = useState(false);
 
   const clicked = (e) => {
-    console.log(e.currentTarget);
-    console.log(chosenWords);
-    setChosenWords((chosenWords) => [...chosenWords, e.target.innerHTML]);
+    setChosenWords((chosenWords) => [...chosenWords, e.currentTarget.value]);
+    const temp = [...words];
+    temp.splice(e.currentTarget.id, 1);
+    setWords(temp);
   };
 
   const removeWord = (e) => {
-    console.log(e.currentTarget.id);
+    setWords((words) => [...words, e.currentTarget.value]);
     const temp = [...chosenWords];
     temp.splice(e.currentTarget.id, 1);
     setChosenWords(temp);
@@ -91,22 +93,22 @@ const RyddeSetninger = () => {
               />
             </Card>
           </Grid>
-          <Button
-            className="wordBtn"
-            color="secondary"
-            variant="contained"
-            onClick={(e) => clicked(e)}
-          >
-            Test
-          </Button>
-          <Button
-            className="wordBtn"
-            color="secondary"
-            variant="contained"
-            onClick={(e) => clicked(e)}
-          >
-            Word
-          </Button>
+          <Grid item xs={12}>
+            <div>
+              {words.map((el, index) => (
+                <Button
+                  id={index}
+                  className="wordBtn"
+                  color="secondary"
+                  variant="contained"
+                  value={el}
+                  onClick={(e) => clicked(e)}
+                >
+                  {el}
+                </Button>
+              ))}
+            </div>
+          </Grid>
           <Grid item xs={12} className={classes.stnField}>
             <div>
               {chosenWords.map((el, index) => (
@@ -114,6 +116,7 @@ const RyddeSetninger = () => {
                   id={index}
                   color="secondary"
                   variant="contained"
+                  value={el}
                   onClick={(e) => removeWord(e)}
                 >
                   {el}
