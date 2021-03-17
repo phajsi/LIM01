@@ -9,6 +9,7 @@ urlpatterns = [
     path('api/', include('forstaelse.urls')),
     path('api/', include('chat.urls')),
     path('api/', include('sets.urls')),
+    path('api/', include('rydde_setninger.urls')),
     #    path('auth/', include('djoser.social.urls')),
 ]
 
