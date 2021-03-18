@@ -28,7 +28,10 @@ class CreateForstaelseView(APIView):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
+
+class DeleteForstaelseView(APIView):
     def delete(self, request, pk):
+        serializer = ForstaelseSerializer()
         try:
             getForstaelse = Forstaelse.objects.get(pk=pk)
         except Forstaelse.DoesNotExist:

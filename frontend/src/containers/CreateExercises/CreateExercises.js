@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Paper, MenuList, MenuItem, Button } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
@@ -18,7 +19,7 @@ const axiosInstance = axios.create({
   },
 });
 
-const axiosInstance2 = axios.create({
+const axiosInstanceDelete = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
   timeout: 5000,
   headers: {
@@ -36,6 +37,7 @@ const CreateExercises = () => {
   const [playId, setPlayId] = useState(0);
   const [forstaelseList] = useState([null, null, null, null, null]);
   const [chatList] = useState([null, null, null, null, null]);
+  const [emptySetError, setEmptySetError] = useState(null);
 
   function updateFormDataForstaelse(id) {
     forstaelseList[forstaelseCount] = id;
@@ -47,62 +49,55 @@ const CreateExercises = () => {
     setChatCount(chatCount + 1);
   }
 
+  function setExercise(step) {
+    setEmptySetError(null);
+    setStep(step);
+  }
+
   function postContent() {
-    axiosInstance
-      .post('/createsets/', {
-        forstaelse1: forstaelseList[0],
-        forstaelse2: forstaelseList[1],
-        forstaelse3: forstaelseList[2],
-        forstaelse4: forstaelseList[3],
-        forstaelse5: forstaelseList[4],
-        chat1: chatList[0],
-        chat2: chatList[1],
-        chat3: chatList[2],
-        chat4: chatList[3],
-        chat5: chatList[4],
-      })
-      .then((response) => {
-        setPlayId(response.data.id);
-        setStep('confirmation');
+    if (forstaelseCount === 0 && chatCount === 0) {
+      setEmptySetError(
+        'Du må legge til minst en øvelse for å opprette et sett'
+      );
+    } else {
+      axiosInstance
+        .post('/createsets/', {
+          forstaelse1: forstaelseList[0],
+          forstaelse2: forstaelseList[1],
+          forstaelse3: forstaelseList[2],
+          forstaelse4: forstaelseList[3],
+          forstaelse5: forstaelseList[4],
+          chat1: chatList[0],
+          chat2: chatList[1],
+          chat3: chatList[2],
+          chat4: chatList[3],
+          chat5: chatList[4],
+        })
+        .then((response) => {
+          setPlayId(response.data.id);
+          setStep('confirmation');
+        })
+        .catch((e) => {
+          return e;
+        });
+    }
+  }
+
+  function onDelete(id, type, url) {
+    axiosInstanceDelete
+      .delete(url)
+      .then(() => {
+        if (type === 1) {
+          chatList[chatList.indexOf(id)] = null;
+          setChatCount(chatCount - 1);
+        } else {
+          forstaelseList[forstaelseList.indexOf(id)] = null;
+          setForstaelseCount(forstaelseCount - 1);
+        }
       })
       .catch((e) => {
         return e;
       });
-  }
-
-  function editExercise(id, step) {
-    console.log(id);
-    console.log(step);
-    // add get request and send response.data to createforstealse/chat.
-    // consider having update and delete functions in createExercise and passing the functions
-  }
-
-  function handleDeleteForstaelse(id) {
-    axiosInstance2
-      .delete(`/createforstaelse/${id}`)
-      .then((res) => {
-        console.log(res);
-        forstaelseList[forstaelseList.indexOf(id)] = null;
-        setForstaelseCount(forstaelseCount - 1);
-      })
-      .catch((e) => {
-        return e;
-      });
-    // add backend for delete exercise. have button on chip.
-  }
-
-  function handleDeleteChat(id) {
-    axiosInstance2
-      .delete(`/createchat/${id}`)
-      .then((res) => {
-        console.log(res);
-        chatList[chatList.indexOf(id)] = null;
-        setChatCount(chatCount - 1);
-      })
-      .catch((e) => {
-        return e;
-      });
-    // add backend for delete exercise. have button on chip.
   }
 
   switch (step) {
@@ -115,24 +110,28 @@ const CreateExercises = () => {
               {chatList[4] !== null ? (
                 <></>
               ) : (
-                <MenuItem onClick={() => setStep('Chat')} id="Chat">
+                <MenuItem onClick={() => setExercise('Chat')} id="Chat">
                   Chat
                 </MenuItem>
               )}
               {forstaelseList[4] !== null ? (
                 <></>
               ) : (
-                <MenuItem onClick={() => setStep('Forståelse')} id="Forståelse">
+                <MenuItem
+                  onClick={() => setExercise('Forståelse')}
+                  id="Forståelse"
+                >
                   Forståelse
                 </MenuItem>
               )}
               <MenuItem
-                onClick={() => setStep('Rydde Setninger')}
+                onClick={() => setExercise('Rydde Setninger')}
                 id="Rydde Setninger"
               >
                 Rydde Setninger
               </MenuItem>
             </MenuList>
+            {emptySetError && <h4>{emptySetError}</h4>}
             <Button
               variant="contained"
               color="secondary"
@@ -149,8 +148,7 @@ const CreateExercises = () => {
                 return (
                   <Chip
                     label="Chat"
-                    onClick={() => editExercise(id, 'chat')}
-                    onDelete={() => handleDeleteChat(id)}
+                    onDelete={() => onDelete(id, 1, `/deletechat/${id}`)}
                   />
                 );
               }
@@ -161,8 +159,7 @@ const CreateExercises = () => {
                 return (
                   <Chip
                     label="Forstaelse"
-                    onClick={() => editExercise(id, 'forstaelse')}
-                    onDelete={() => handleDeleteForstaelse(id)}
+                    onDelete={() => onDelete(id, 2, `/deleteforstaelse/${id}`)}
                   />
                 );
               }
@@ -190,10 +187,15 @@ const CreateExercises = () => {
       );
     case 'confirmation':
       return (
-        <h1>
-          Thank you! the set can be played with id:
-          {playId}
-        </h1>
+        <div>
+          <h1>
+            Thank you! the set can be played with id:
+            {playId}
+          </h1>
+          <Link to="/" className={classes.title}>
+            Finish
+          </Link>
+        </div>
       );
     default:
       return <> </>;

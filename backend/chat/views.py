@@ -4,6 +4,7 @@ from .models import Chat
 from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class ChatView(APIView):
@@ -27,10 +28,12 @@ class CreateChatView(APIView):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
+
+class DeleteChatView(APIView):
     def delete(self, request, pk):
         try:
             getChat = Chat.objects.get(pk=pk)
-        except Chat.DoesNotExist:
-            return JsonResponse(serializer.errors, status=400)
+        except ObjectDoesNotExist:
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
         getChat.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
