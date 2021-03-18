@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Button, TextField } from '@material-ui/core';
 import Forstaelse from './Forstaelse/Forstaelse';
 import Chat from './Chat/Chat';
+import RyddeSetninger from './RyddeSetninger';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
@@ -32,6 +33,11 @@ const PlaySets = () => {
     'chat',
     'chat',
     'chat',
+    'ryddeSetninger',
+    'ryddeSetninger',
+    'ryddeSetninger',
+    'ryddeSetninger',
+    'ryddeSetninger',
   ];
   const [feedbackScore, setFeedBackScore] = useState(0);
   let counter = 0;
@@ -117,7 +123,7 @@ const PlaySets = () => {
             onClick={() => nextExercise()}
             fullWidth
           >
-            Opprett
+            Spill
           </Button>
         </div>
       );
@@ -125,11 +131,13 @@ const PlaySets = () => {
       return <Forstaelse id={exerciseId} showFeedback={showFeedback} />;
     case 'chat':
       return <Chat id={exerciseId} showFeedback={showFeedback} />;
+    case 'ryddeSetninger':
+      return <RyddeSetninger id={exerciseId} showFeedback={showFeedback} />;
     case 'feedback':
       return (
         <div>
           <h1>
-            Well done, you got score was:
+            Bra jobba bro, poensummen din er:
             {feedbackScore}
           </h1>
           <Button
@@ -138,7 +146,7 @@ const PlaySets = () => {
             onClick={() => nextExercise()}
             fullWidth
           >
-            next
+            neste
           </Button>
         </div>
       );

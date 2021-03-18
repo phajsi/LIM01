@@ -30,7 +30,7 @@ class RyddeSetningerAdmin(admin.ModelAdmin):
                     'word9', 'wordClass9', 'word10', 'wordClass10')
 
 class SetsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'forstaelse1', 'forstaelse2', 'chat1', 'chat2')
+    list_display = ('id', 'forstaelse1', 'forstaelse2', 'chat1', 'chat2', 'ryddeSetninger1', 'ryddeSetninger2')
 
 
 admin.site.register(UserAccount, AccountAdmin)

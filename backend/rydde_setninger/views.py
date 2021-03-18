@@ -27,3 +27,13 @@ class CreateRyddeSetningerView(APIView):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+
+class DeleteRyddeSetningerView(APIView):
+    def delete(self, request, pk):
+        serializer = RyddeSetningerSerializer()
+        try:
+            getRyddeSetninger = RyddeSetninger.objects.get(pk=pk)
+        except RyddeSetninger.DoesNotExist:
+            return JsonResponse(serializer.errors, status=400)
+        getRyddeSetninger.delete()
+        return HttpResponse(status=status.HTTP_204_NO_CONTENT)
