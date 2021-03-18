@@ -62,7 +62,7 @@ const axiosInstance = axios.create({
   },
 });
 
-const RyddeSetninger = () => {
+const RyddeSetninger = ({ id, showFeedback }) => {
   // eslint-disable-next-line no-unused-vars
   const [formData, setFormData] = useState({
     word1: '',
@@ -93,6 +93,7 @@ const RyddeSetninger = () => {
   const [wordClasses] = useState([]);
   const [rightAnswer, setRightAnswer] = useState();
   const [answerState, setAnswerState] = useState();
+  const [score, setScore] = useState(0);
   let counter = 0;
 
   const filterFormData = (el) => {
@@ -118,7 +119,7 @@ const RyddeSetninger = () => {
 
   function getContent() {
     axiosInstance
-      .get(`/rydde_setninger/1`)
+      .get(`/rydde_setninger/${id}`)
       .then((res) => {
         filterData(res.data);
         setFormData(res.data);
@@ -145,9 +146,15 @@ const RyddeSetninger = () => {
   const checkAnswer = () => {
     if (JSON.stringify(chosenWords) === JSON.stringify(rightAnswer)) {
       setAnswerState('correct');
+      setScore(1);
     } else {
       setAnswerState('incorrect');
+      setScore(0);
     }
+  };
+
+  const nextExercise = () => {
+    showFeedback(score);
   };
 
   useEffect(() => {
@@ -220,7 +227,10 @@ const RyddeSetninger = () => {
               Sjekk svar
             </Button>
           </Grid>
-          <NextExerciseBtn answerState={answerState} />
+          <NextExerciseBtn
+            answerState={answerState}
+            handleNextTask={nextExercise}
+          />
         </Grid>
       </Paper>
     </Paper>

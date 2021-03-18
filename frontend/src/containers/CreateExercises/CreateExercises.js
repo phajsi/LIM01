@@ -5,6 +5,7 @@ import { Paper, MenuList, MenuItem, Button } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import CreateForstaelse from '../../components/CreateForstaelse/CreateForstaelse';
 import CreateChat from '../../components/CreateChat/CreateChat';
+import CreateRyddeSetninger from '../../components/CreateRyddeSetninger';
 import useStyles from './styles';
 
 const axiosInstance = axios.create({
@@ -34,14 +35,21 @@ const CreateExercises = () => {
   const [step, setStep] = useState('Menu');
   const [forstaelseCount, setForstaelseCount] = useState(0);
   const [chatCount, setChatCount] = useState(0);
+  const [ryddeSetningerCount, setRyddeSetningerCount] = useState(0);
   const [playId, setPlayId] = useState(0);
   const [forstaelseList] = useState([null, null, null, null, null]);
   const [chatList] = useState([null, null, null, null, null]);
+  const [ryddeSetningerList] = useState([null, null, null, null, null]);
   const [emptySetError, setEmptySetError] = useState(null);
 
   function updateFormDataForstaelse(id) {
     forstaelseList[forstaelseCount] = id;
     setForstaelseCount(forstaelseCount + 1);
+  }
+
+  function updateFormDataRyddeSetninger(id) {
+    ryddeSetningerList[ryddeSetningerCount] = id;
+    setRyddeSetningerCount(ryddeSetningerCount + 1);
   }
 
   function updateFormDataChat(id) {
@@ -55,7 +63,7 @@ const CreateExercises = () => {
   }
 
   function postContent() {
-    if (forstaelseCount === 0 && chatCount === 0) {
+    if (forstaelseCount === 0 && chatCount === 0 && ryddeSetningerCount === 0) {
       setEmptySetError(
         'Du må legge til minst en øvelse for å opprette et sett'
       );
@@ -72,6 +80,11 @@ const CreateExercises = () => {
           chat3: chatList[2],
           chat4: chatList[3],
           chat5: chatList[4],
+          ryddeSetninger1: ryddeSetningerList[0],
+          ryddeSetninger2: ryddeSetningerList[1],
+          ryddeSetninger3: ryddeSetningerList[2],
+          ryddeSetninger4: ryddeSetningerList[3],
+          ryddeSetninger5: ryddeSetningerList[4],
         })
         .then((response) => {
           setPlayId(response.data.id);
@@ -90,9 +103,12 @@ const CreateExercises = () => {
         if (type === 1) {
           chatList[chatList.indexOf(id)] = null;
           setChatCount(chatCount - 1);
-        } else {
+        } else if (type === 2) {
           forstaelseList[forstaelseList.indexOf(id)] = null;
           setForstaelseCount(forstaelseCount - 1);
+        } else {
+          ryddeSetningerList[ryddeSetningerList.indexOf(id)] = null;
+          setRyddeSetningerCount(ryddeSetningerCount - 1);
         }
       })
       .catch((e) => {
@@ -124,12 +140,16 @@ const CreateExercises = () => {
                   Forståelse
                 </MenuItem>
               )}
-              <MenuItem
-                onClick={() => setExercise('Rydde Setninger')}
-                id="Rydde Setninger"
-              >
-                Rydde Setninger
-              </MenuItem>
+              {ryddeSetningerList[4] !== null ? (
+                <></>
+              ) : (
+                <MenuItem
+                  onClick={() => setExercise('Rydde Setninger')}
+                  id="RyddeSetninger"
+                >
+                  Rydde Setninger
+                </MenuItem>
+              )}
             </MenuList>
             {emptySetError && <h4>{emptySetError}</h4>}
             <Button
@@ -165,6 +185,19 @@ const CreateExercises = () => {
               }
               return <></>;
             })}
+            {ryddeSetningerList.map((id) => {
+              if (id !== null) {
+                return (
+                  <Chip
+                    label="Rydde Setninger"
+                    onDelete={() =>
+                      // eslint-disable-next-line prettier/prettier
+                      onDelete(id, 3, `/delete_rydde_setninger/${id}`)}
+                  />
+                );
+              }
+              return <></>;
+            })}
           </Paper>
         </div>
       );
@@ -181,19 +214,20 @@ const CreateExercises = () => {
       );
     case 'Rydde Setninger':
       return (
-        <Paper>
-          <h2>Rydde Setninger</h2>
-        </Paper>
+        <CreateRyddeSetninger
+          updateFormDataRyddeSetninger={updateFormDataRyddeSetninger}
+          setStep={setStep}
+        />
       );
     case 'confirmation':
       return (
         <div>
           <h1>
-            Thank you! the set can be played with id:
+            Takk! Settet kan spilles med id:
             {playId}
           </h1>
           <Link to="/" className={classes.title}>
-            Finish
+            Hjemmeside
           </Link>
         </div>
       );
