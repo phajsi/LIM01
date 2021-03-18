@@ -13,7 +13,6 @@ import Forstaelse from './containers/Forstaelse/Forstaelse';
 import CreateExercises from './containers/CreateExercises/CreateExercises';
 import Chat from './containers/Chat/Chat';
 import PlaySets from './containers/PlaySets';
-import Sets from './containers/Sets';
 import RyddeSetninger from './containers/RyddeSetninger';
 
 const App = () => (
@@ -30,7 +29,6 @@ const App = () => (
           <Route exact path="/chat" component={Chat} />
           <Route exact path="/rydde-setninger" component={RyddeSetninger} />
           <Route exact path="/sets" component={PlaySets} />
-          <Route exact path="/sets2" component={Sets} />
           <Route
             exact
             path="/password/reset/confirm/:uid/:token"
