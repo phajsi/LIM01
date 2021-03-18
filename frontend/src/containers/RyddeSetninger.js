@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -14,6 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import { makeStyles } from '@material-ui/core/styles';
+import NextExerciseBtn from '../components/NextExerciseBtn';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,8 +44,8 @@ const useStyles = makeStyles((theme) => ({
   stnField: {
     minHeight: '3em',
     backgroundColor: 'white',
-    outline: 'solid 1px black',
-    borderRadius: '25px',
+    borderRadius: '11px',
+    boxShadow: 'inset 0px 1px 6px rgba(147, 145, 145, 0.48)',
   },
   wordBtn: {
     textTransform: 'lowercase',
@@ -61,20 +63,65 @@ const axiosInstance = axios.create({
 });
 
 const RyddeSetninger = () => {
+  // eslint-disable-next-line no-unused-vars
+  const [formData, setFormData] = useState({
+    word1: '',
+    wordClass1: '',
+    word2: '',
+    wordClass2: '',
+    word3: '',
+    wordClass3: '',
+    word4: '',
+    wordClass4: '',
+    word5: '',
+    wordClass5: '',
+    word6: '',
+    wordClass6: '',
+    word7: '',
+    wordClass7: '',
+    word8: '',
+    wordClass8: '',
+    word9: '',
+    wordClass9: '',
+    word10: '',
+    wordClass10: '',
+  });
+
   const classes = useStyles();
   const [words, setWords] = useState([]);
   const [chosenWords, setChosenWords] = useState([]);
-  // const [disableBtn, setDisableBtn] = useState(false);
+  const [wordClasses] = useState([]);
+  const [rightAnswer, setRightAnswer] = useState();
+  const [answerState, setAnswerState] = useState();
+  let counter = 0;
+
+  const filterFormData = (el) => {
+    counter += 1;
+    if (!(el === '' || typeof el === 'number')) {
+      if (counter % 2 === 0) {
+        words.push(el);
+      } else {
+        wordClasses.push(el);
+      }
+    }
+  };
+
+  const randomizeWords = () => {
+    words.sort(() => Math.random() - 0.5);
+  };
+
+  const filterData = (responseData) => {
+    Object.values(responseData).map((el) => filterFormData(el));
+    setRightAnswer([...words]);
+    randomizeWords();
+  };
 
   function getContent() {
     axiosInstance
       .get(`/rydde_setninger/1`)
       .then((res) => {
-        console.log(res.data);
-        setWords((words) => [...words, res.data.word1]);
-        setWords((words) => [...words, res.data.word2]);
-        setWords((words) => [...words, res.data.word3]);
-        setWords((words) => [...words, res.data.word4]);
+        filterData(res.data);
+        setFormData(res.data);
       })
       .catch((e) => {
         return e;
@@ -82,22 +129,29 @@ const RyddeSetninger = () => {
   }
 
   const clicked = (e) => {
-    setChosenWords((chosenWords) => [...chosenWords, e.currentTarget.value]);
+    chosenWords.push(e.currentTarget.value);
     const temp = [...words];
     temp.splice(e.currentTarget.id, 1);
     setWords(temp);
   };
 
   const removeWord = (e) => {
-    setWords((words) => [...words, e.currentTarget.value]);
+    words.push(e.currentTarget.value);
     const temp = [...chosenWords];
     temp.splice(e.currentTarget.id, 1);
     setChosenWords(temp);
   };
 
+  const checkAnswer = () => {
+    if (JSON.stringify(chosenWords) === JSON.stringify(rightAnswer)) {
+      setAnswerState('correct');
+    } else {
+      setAnswerState('incorrect');
+    }
+  };
+
   useEffect(() => {
     getContent();
-    console.log(words);
   }, []);
 
   return (
@@ -131,7 +185,7 @@ const RyddeSetninger = () => {
                 <Button
                   id={index}
                   className="wordBtn"
-                  color="secondary"
+                  style={{ backgroundColor: '#21b6ae' }}
                   variant="contained"
                   value={el}
                   onClick={(e) => clicked(e)}
@@ -141,8 +195,8 @@ const RyddeSetninger = () => {
               ))}
             </div>
           </Grid>
-          <Grid item xs={12} className={classes.stnField}>
-            <div>
+          <Grid item xs={12}>
+            <div className={classes.stnField}>
               {chosenWords.map((el, index) => (
                 <Button
                   id={index}
@@ -156,6 +210,17 @@ const RyddeSetninger = () => {
               ))}
             </div>
           </Grid>
+          <Grid item xs={6} />
+          <Grid item xs={6}>
+            <Button
+              variant="outlined"
+              style={{ backgroundColor: 'white' }}
+              onClick={checkAnswer}
+            >
+              Sjekk svar
+            </Button>
+          </Grid>
+          <NextExerciseBtn answerState={answerState} />
         </Grid>
       </Paper>
     </Paper>
