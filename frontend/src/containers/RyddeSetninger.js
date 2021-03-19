@@ -67,44 +67,20 @@ const axiosInstance = axios.create({
 
 const RyddeSetninger = ({ id, showFeedback }) => {
   // eslint-disable-next-line no-unused-vars
-  // slette denne
-  const [formData, setFormData] = useState({
-    word1: '',
-    wordClass1: '',
-    word2: '',
-    wordClass2: '',
-    word3: '',
-    wordClass3: '',
-    word4: '',
-    wordClass4: '',
-    word5: '',
-    wordClass5: '',
-    word6: '',
-    wordClass6: '',
-    word7: '',
-    wordClass7: '',
-    word8: '',
-    wordClass8: '',
-    word9: '',
-    wordClass9: '',
-    word10: '',
-    wordClass10: '',
-  });
-
   const classes = useStyles();
+
+  const [renderPage, setRenderPage] = useState();
   const [words, setWords] = useState([]);
   const [chosenWords, setChosenWords] = useState([]);
-  const [newWords, setNewWords] = useState([]);
-  const [newWordClasses] = useState([]);
-  const [colorCodes, setColorCodes] = useState([]);
+  const [concatWords, setConcatWords] = useState([]);
 
   const [wordClasses, setWordClasses] = useState([]);
   const [rightAnswer, setRightAnswer] = useState();
   const [answerState, setAnswerState] = useState();
+  const [disableButton, setDisableButton] = useState(false);
   const [score, setScore] = useState(0);
 
   let concatWord = [];
-  let splitWord = [];
   let counter = 0;
 
   const filterFormData = (el) => {
@@ -122,64 +98,45 @@ const RyddeSetninger = ({ id, showFeedback }) => {
     concatWord.sort(() => Math.random() - 0.5);
   };
 
-  const addColorCode = (e) => {
-    switch (e) {
+  const addColorCode = (el) => {
+    switch (el) {
       case 'det':
-        colorCodes.push({ backgroundColor: '#FDFF95' });
-        return null;
+        return { backgroundColor: '#FDFF95' };
       case 'prp':
-        colorCodes.push({ backgroundColor: '#8EE7EF' });
-        return null;
+        return { backgroundColor: '#8EE7EF' };
       case 'pron':
-        colorCodes.push({ backgroundColor: '#9EFFFA' });
-        return null;
+        return { backgroundColor: '#9EFFFA' };
       case 'adv':
-        colorCodes.push({ backgroundColor: '#8EEF98' });
-        return null;
+        return { backgroundColor: '#8EEF98' };
       case 'intj':
-        colorCodes.push({ backgroundColor: '#CDFFC0' });
-        return null;
+        return { backgroundColor: '#CDFFC0' };
       case 'v':
-        colorCodes.push({ backgroundColor: '#FA9D48' });
-        return null;
+        return { backgroundColor: '#FA9D48' };
       case 'conj':
-        colorCodes.push({ backgroundColor: '#F3BB88' });
-        return null;
+        return { backgroundColor: '#F3BB88' };
       case 'n':
-        colorCodes.push({ backgroundColor: '#EC6F6F' });
-        return null;
+        return { backgroundColor: '#EC6F6F' };
       case 'subj':
-        colorCodes.push({ backgroundColor: '#FF9E9E' });
-        return null;
+        return { backgroundColor: '#FF9E9E' };
       case 'adj':
-        colorCodes.push({ backgroundColor: '#D08EEF' });
-        return null;
+        return { backgroundColor: '#D08EEF' };
       default:
-        colorCodes.push({ backgroundColor: '#gray' });
-        return null;
+        return { backgroundColor: '#gray' };
     }
   };
 
-  const filterData = (responseData) => {
-    Object.values(responseData).map((el) => filterFormData(el));
+  const filterData = (data) => {
+    Object.values(data).map((el) => filterFormData(el));
     setRightAnswer([...words]);
     concatWord = words.map(function (e, i) {
-      return `${words[i]}&${wordClasses[i]}`;
+      return [words[i], wordClasses[i]];
     });
     randomizeWords();
-    splitWord = concatWord.map(function (e, i) {
-      return e.split('&');
+    concatWord.forEach(function (item, index, array) {
+      const hexCode = addColorCode(item[1]);
+      concatWord[index].splice(1, 1, hexCode);
     });
-    console.log('split', splitWord);
-    const split = splitWord.map(function (e, i) {
-      newWords.push(e[0]);
-      newWordClasses.push(e[1]);
-      addColorCode(e[1]);
-      return null;
-    });
-    console.log('colorCodes', colorCodes);
-    console.log('newwords', newWords);
-    console.log('newwordclass', newWordClasses);
+    setConcatWords([...concatWord]);
   };
   //  Husk å bytte tilbake til når oppgaven er ferdig
   // .get(`/rydde_setninger/${id}`)
@@ -188,30 +145,31 @@ const RyddeSetninger = ({ id, showFeedback }) => {
       .get(`/rydde_setninger/1`)
       .then((res) => {
         filterData(res.data);
-        setFormData(res.data);
+        setRenderPage((renderPage) => renderPage + 1);
       })
       .catch((e) => {
         return e;
       });
   }
 
-  const clicked = (e) => {
-    chosenWords.push(e.currentTarget.value);
-    const temp = [...newWords];
+  const clicked = (e, el) => {
+    chosenWords.push(el);
+    const temp = [...concatWords];
     temp.splice(e.currentTarget.id, 1);
-    setNewWords(temp);
+    setConcatWords(temp);
   };
 
-  const removeWord = (e) => {
-    newWords.push(e.currentTarget.value);
+  const removeWord = (e, el) => {
+    concatWords.push(el);
     const temp = [...chosenWords];
     temp.splice(e.currentTarget.id, 1);
     setChosenWords(temp);
   };
 
   const checkAnswer = () => {
-    console.log(concatWord);
-    if (JSON.stringify(chosenWords) === JSON.stringify(rightAnswer)) {
+    setDisableButton(true);
+    const finalSentence = chosenWords.map((el) => el[0]);
+    if (JSON.stringify(finalSentence) === JSON.stringify(rightAnswer)) {
       setAnswerState('correct');
       setScore(1);
     } else {
@@ -255,15 +213,16 @@ const RyddeSetninger = ({ id, showFeedback }) => {
           </Grid>
           <Grid item xs={12}>
             <div>
-              {newWords.map((el, index) => (
+              {concatWords.map((el, index) => (
                 <Button
-                  style={colorCodes[index]}
+                  style={el[1]}
                   id={index}
                   variant="contained"
-                  value={el}
-                  onClick={(e) => clicked(e)}
+                  value={el[0]}
+                  disabled={disableButton}
+                  onClick={(e) => clicked(e, el)}
                 >
-                  {el}
+                  {el[0]}
                 </Button>
               ))}
             </div>
@@ -272,13 +231,14 @@ const RyddeSetninger = ({ id, showFeedback }) => {
             <div className={classes.stnField}>
               {chosenWords.map((el, index) => (
                 <Button
+                  style={el[1]}
                   id={index}
-                  style={colorCodes[index]}
                   variant="contained"
-                  value={el}
-                  onClick={(e) => removeWord(e)}
+                  value={el[0]}
+                  disabled={disableButton}
+                  onClick={(e) => removeWord(e, el)}
                 >
-                  {el}
+                  {el[0]}
                 </Button>
               ))}
             </div>
@@ -288,6 +248,7 @@ const RyddeSetninger = ({ id, showFeedback }) => {
             <Button
               variant="outlined"
               style={{ backgroundColor: 'white' }}
+              disabled={disableButton}
               onClick={checkAnswer}
             >
               Sjekk svar
