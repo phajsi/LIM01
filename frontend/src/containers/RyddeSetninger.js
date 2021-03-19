@@ -96,6 +96,7 @@ const RyddeSetninger = ({ id, showFeedback }) => {
   const [chosenWords, setChosenWords] = useState([]);
   const [newWords, setNewWords] = useState([]);
   const [newWordClasses] = useState([]);
+  const [colorCodes, setColorCodes] = useState([]);
 
   const [wordClasses, setWordClasses] = useState([]);
   const [rightAnswer, setRightAnswer] = useState();
@@ -105,17 +106,6 @@ const RyddeSetninger = ({ id, showFeedback }) => {
   let concatWord = [];
   let splitWord = [];
   let counter = 0;
-  const det = { backgroundColor: 'FDFF95' };
-  const prp = { backgroundColor: '8EE7EF' };
-  const pron = { backgroundColor: '9EFFFA' };
-  const adv = { backgroundColor: '8EEF98' };
-  const intj = { backgroundColor: 'CDFFC0' };
-  const v = { backgroundColor: 'FA9D48' };
-  const conj = { backgroundColor: 'F3BB88' };
-  const n = { backgroundColor: 'EC6F6F' };
-  const subj = { backgroundColor: 'FF9E9E' };
-  const adj = { backgroundColor: 'D08EEF' };
-  const noClass = { backgroundColor: 'gray' };
 
   const filterFormData = (el) => {
     counter += 1;
@@ -132,6 +122,44 @@ const RyddeSetninger = ({ id, showFeedback }) => {
     concatWord.sort(() => Math.random() - 0.5);
   };
 
+  const addColorCode = (e) => {
+    switch (e) {
+      case 'det':
+        colorCodes.push({ backgroundColor: '#FDFF95' });
+        return null;
+      case 'prp':
+        colorCodes.push({ backgroundColor: '#8EE7EF' });
+        return null;
+      case 'pron':
+        colorCodes.push({ backgroundColor: '#9EFFFA' });
+        return null;
+      case 'adv':
+        colorCodes.push({ backgroundColor: '#8EEF98' });
+        return null;
+      case 'intj':
+        colorCodes.push({ backgroundColor: '#CDFFC0' });
+        return null;
+      case 'v':
+        colorCodes.push({ backgroundColor: '#FA9D48' });
+        return null;
+      case 'conj':
+        colorCodes.push({ backgroundColor: '#F3BB88' });
+        return null;
+      case 'n':
+        colorCodes.push({ backgroundColor: '#EC6F6F' });
+        return null;
+      case 'subj':
+        colorCodes.push({ backgroundColor: '#FF9E9E' });
+        return null;
+      case 'adj':
+        colorCodes.push({ backgroundColor: '#D08EEF' });
+        return null;
+      default:
+        colorCodes.push({ backgroundColor: '#gray' });
+        return null;
+    }
+  };
+
   const filterData = (responseData) => {
     Object.values(responseData).map((el) => filterFormData(el));
     setRightAnswer([...words]);
@@ -146,8 +174,10 @@ const RyddeSetninger = ({ id, showFeedback }) => {
     const split = splitWord.map(function (e, i) {
       newWords.push(e[0]);
       newWordClasses.push(e[1]);
+      addColorCode(e[1]);
       return null;
     });
+    console.log('colorCodes', colorCodes);
     console.log('newwords', newWords);
     console.log('newwordclass', newWordClasses);
   };
@@ -227,9 +257,8 @@ const RyddeSetninger = ({ id, showFeedback }) => {
             <div>
               {newWords.map((el, index) => (
                 <Button
+                  style={colorCodes[index]}
                   id={index}
-                  className="wordBtn"
-                  style={pron}
                   variant="contained"
                   value={el}
                   onClick={(e) => clicked(e)}
@@ -244,7 +273,7 @@ const RyddeSetninger = ({ id, showFeedback }) => {
               {chosenWords.map((el, index) => (
                 <Button
                   id={index}
-                  color="secondary"
+                  style={colorCodes[index]}
                   variant="contained"
                   value={el}
                   onClick={(e) => removeWord(e)}
