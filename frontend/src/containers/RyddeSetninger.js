@@ -50,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
   wordBtn: {
     textTransform: 'lowercase',
   },
+  pron: {
+    backgroundColor: 'FDFF95',
+  },
 }));
 
 const axiosInstance = axios.create({
@@ -64,6 +67,7 @@ const axiosInstance = axios.create({
 
 const RyddeSetninger = ({ id, showFeedback }) => {
   // eslint-disable-next-line no-unused-vars
+  // slette denne
   const [formData, setFormData] = useState({
     word1: '',
     wordClass1: '',
@@ -90,11 +94,28 @@ const RyddeSetninger = ({ id, showFeedback }) => {
   const classes = useStyles();
   const [words, setWords] = useState([]);
   const [chosenWords, setChosenWords] = useState([]);
-  const [wordClasses] = useState([]);
+  const [newWords, setNewWords] = useState([]);
+  const [newWordClasses] = useState([]);
+
+  const [wordClasses, setWordClasses] = useState([]);
   const [rightAnswer, setRightAnswer] = useState();
   const [answerState, setAnswerState] = useState();
   const [score, setScore] = useState(0);
+
+  let concatWord = [];
+  let splitWord = [];
   let counter = 0;
+  const det = { backgroundColor: 'FDFF95' };
+  const prp = { backgroundColor: '8EE7EF' };
+  const pron = { backgroundColor: '9EFFFA' };
+  const adv = { backgroundColor: '8EEF98' };
+  const intj = { backgroundColor: 'CDFFC0' };
+  const v = { backgroundColor: 'FA9D48' };
+  const conj = { backgroundColor: 'F3BB88' };
+  const n = { backgroundColor: 'EC6F6F' };
+  const subj = { backgroundColor: 'FF9E9E' };
+  const adj = { backgroundColor: 'D08EEF' };
+  const noClass = { backgroundColor: 'gray' };
 
   const filterFormData = (el) => {
     counter += 1;
@@ -108,18 +129,33 @@ const RyddeSetninger = ({ id, showFeedback }) => {
   };
 
   const randomizeWords = () => {
-    words.sort(() => Math.random() - 0.5);
+    concatWord.sort(() => Math.random() - 0.5);
   };
 
   const filterData = (responseData) => {
     Object.values(responseData).map((el) => filterFormData(el));
     setRightAnswer([...words]);
+    concatWord = words.map(function (e, i) {
+      return `${words[i]}&${wordClasses[i]}`;
+    });
     randomizeWords();
+    splitWord = concatWord.map(function (e, i) {
+      return e.split('&');
+    });
+    console.log('split', splitWord);
+    const split = splitWord.map(function (e, i) {
+      newWords.push(e[0]);
+      newWordClasses.push(e[1]);
+      return null;
+    });
+    console.log('newwords', newWords);
+    console.log('newwordclass', newWordClasses);
   };
-
+  //  Husk å bytte tilbake til når oppgaven er ferdig
+  // .get(`/rydde_setninger/${id}`)
   function getContent() {
     axiosInstance
-      .get(`/rydde_setninger/${id}`)
+      .get(`/rydde_setninger/1`)
       .then((res) => {
         filterData(res.data);
         setFormData(res.data);
@@ -131,19 +167,20 @@ const RyddeSetninger = ({ id, showFeedback }) => {
 
   const clicked = (e) => {
     chosenWords.push(e.currentTarget.value);
-    const temp = [...words];
+    const temp = [...newWords];
     temp.splice(e.currentTarget.id, 1);
-    setWords(temp);
+    setNewWords(temp);
   };
 
   const removeWord = (e) => {
-    words.push(e.currentTarget.value);
+    newWords.push(e.currentTarget.value);
     const temp = [...chosenWords];
     temp.splice(e.currentTarget.id, 1);
     setChosenWords(temp);
   };
 
   const checkAnswer = () => {
+    console.log(concatWord);
     if (JSON.stringify(chosenWords) === JSON.stringify(rightAnswer)) {
       setAnswerState('correct');
       setScore(1);
@@ -188,11 +225,11 @@ const RyddeSetninger = ({ id, showFeedback }) => {
           </Grid>
           <Grid item xs={12}>
             <div>
-              {words.map((el, index) => (
+              {newWords.map((el, index) => (
                 <Button
                   id={index}
                   className="wordBtn"
-                  style={{ backgroundColor: '#21b6ae' }}
+                  style={pron}
                   variant="contained"
                   value={el}
                   onClick={(e) => clicked(e)}
