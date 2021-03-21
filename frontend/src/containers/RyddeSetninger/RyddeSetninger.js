@@ -15,7 +15,8 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import { makeStyles } from '@material-ui/core/styles';
-import NextExerciseBtn from '../components/NextExerciseBtn';
+import NextExerciseBtn from '../../components/NextExerciseBtn';
+import styles from './styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,26 +30,21 @@ const useStyles = makeStyles((theme) => ({
   },
   layout: {
     backgroundColor: '#f5f5f5',
-    marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
   },
   navbar: {
-    margin: 0,
-    padding: 0,
     backgroundColor: 'white',
     color: 'black',
   },
-  header: {
-    marginBottom: theme.spacing(3),
-  },
-  stnField: {
-    minHeight: '3em',
+  chosenWords: {
+    padding: theme.spacing(1),
+    minHeight: '2.5em',
     backgroundColor: 'white',
     borderRadius: '11px',
     boxShadow: 'inset 0px 1px 6px rgba(147, 145, 145, 0.48)',
   },
   wordBtn: {
-    textTransform: 'lowercase',
+    textTransform: 'none',
   },
 }));
 
@@ -63,40 +59,24 @@ const axiosInstance = axios.create({
 });
 
 const RyddeSetninger = ({ id, showFeedback }) => {
-  // eslint-disable-next-line no-unused-vars
-  const [formData, setFormData] = useState({
-    word1: '',
-    wordClass1: '',
-    word2: '',
-    wordClass2: '',
-    word3: '',
-    wordClass3: '',
-    word4: '',
-    wordClass4: '',
-    word5: '',
-    wordClass5: '',
-    word6: '',
-    wordClass6: '',
-    word7: '',
-    wordClass7: '',
-    word8: '',
-    wordClass8: '',
-    word9: '',
-    wordClass9: '',
-    word10: '',
-    wordClass10: '',
-  });
-
   const classes = useStyles();
-  const [words, setWords] = useState([]);
+
+  const [renderPage, setRenderPage] = useState();
+  const [words] = useState([]);
   const [chosenWords, setChosenWords] = useState([]);
+  const [wordWithColorCode, setWordWithColorCode] = useState([]);
+
   const [wordClasses] = useState([]);
   const [rightAnswer, setRightAnswer] = useState();
   const [answerState, setAnswerState] = useState();
+  const [disableButton, setDisableButton] = useState(false);
   const [score, setScore] = useState(0);
+
+  let concatenatedWords = [];
   let counter = 0;
 
-  const filterFormData = (el) => {
+  // splits the words in the sentence from their wordclasses
+  const splitData = (el) => {
     counter += 1;
     if (!(el === '' || typeof el === 'number')) {
       if (counter % 2 === 0) {
@@ -108,43 +88,81 @@ const RyddeSetninger = ({ id, showFeedback }) => {
   };
 
   const randomizeWords = () => {
-    words.sort(() => Math.random() - 0.5);
+    concatenatedWords.sort(() => Math.random() - 0.5);
   };
 
-  const filterData = (responseData) => {
-    Object.values(responseData).map((el) => filterFormData(el));
+  const colorCodeTransform = (wordClass) => {
+    switch (wordClass) {
+      case 'det':
+        return { backgroundColor: '#FDFF95' };
+      case 'prp':
+        return { backgroundColor: '#8EE7EF' };
+      case 'pron':
+        return { backgroundColor: '#9EFFFA' };
+      case 'adv':
+        return { backgroundColor: '#8EEF98' };
+      case 'intj':
+        return { backgroundColor: '#CDFFC0' };
+      case 'v':
+        return { backgroundColor: '#FA9D48' };
+      case 'conj':
+        return { backgroundColor: '#F3BB88' };
+      case 'n':
+        return { backgroundColor: '#EC6F6F' };
+      case 'subj':
+        return { backgroundColor: '#FF9E9E' };
+      case 'adj':
+        return { backgroundColor: '#D08EEF' };
+      default:
+        return { backgroundColor: 'gray' };
+    }
+  };
+
+  const filterData = (data) => {
+    Object.values(data).map((el) => splitData(el));
     setRightAnswer([...words]);
+    concatenatedWords = words.map(function (e, i) {
+      return [words[i], wordClasses[i]];
+    });
     randomizeWords();
+    concatenatedWords.forEach(function (item, index, array) {
+      const hexCode = colorCodeTransform(item[1]);
+      concatenatedWords[index].splice(1, 1, hexCode);
+    });
+    setWordWithColorCode([...concatenatedWords]);
   };
-
+  //  Husk å bytte tilbake til når oppgaven er ferdig
+  // .get(`/rydde_setninger/${id}`)
   function getContent() {
     axiosInstance
-      .get(`/rydde_setninger/${id}`)
+      .get(`/rydde_setninger/1`)
       .then((res) => {
         filterData(res.data);
-        setFormData(res.data);
+        setRenderPage((renderPage) => renderPage + 1);
       })
       .catch((e) => {
         return e;
       });
   }
 
-  const clicked = (e) => {
-    chosenWords.push(e.currentTarget.value);
-    const temp = [...words];
+  const clicked = (e, el) => {
+    chosenWords.push(el);
+    const temp = [...wordWithColorCode];
     temp.splice(e.currentTarget.id, 1);
-    setWords(temp);
+    setWordWithColorCode(temp);
   };
 
-  const removeWord = (e) => {
-    words.push(e.currentTarget.value);
+  const removeWord = (e, el) => {
+    wordWithColorCode.push(el);
     const temp = [...chosenWords];
     temp.splice(e.currentTarget.id, 1);
     setChosenWords(temp);
   };
 
   const checkAnswer = () => {
-    if (JSON.stringify(chosenWords) === JSON.stringify(rightAnswer)) {
+    setDisableButton(true);
+    const finalSentence = chosenWords.map((el) => el[0]);
+    if (JSON.stringify(finalSentence) === JSON.stringify(rightAnswer)) {
       setAnswerState('correct');
       setScore(1);
     } else {
@@ -178,7 +196,7 @@ const RyddeSetninger = ({ id, showFeedback }) => {
       <Paper className={classes.layout} elevation={0}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Card className={classes.header}>
+            <Card>
               <CardHeader
                 avatar={<VolumeUpIcon />}
                 title="Trykk på ordene sånn at de kommer i
@@ -188,31 +206,34 @@ const RyddeSetninger = ({ id, showFeedback }) => {
           </Grid>
           <Grid item xs={12}>
             <div>
-              {words.map((el, index) => (
+              {wordWithColorCode.map((el, index) => (
                 <Button
                   id={index}
-                  className="wordBtn"
-                  style={{ backgroundColor: '#21b6ae' }}
+                  value={el[0]}
+                  style={el[1]}
+                  className={classes.wordBtn}
                   variant="contained"
-                  value={el}
-                  onClick={(e) => clicked(e)}
+                  disabled={disableButton}
+                  onClick={(e) => clicked(e, el)}
                 >
-                  {el}
+                  {el[0]}
                 </Button>
               ))}
             </div>
           </Grid>
           <Grid item xs={12}>
-            <div className={classes.stnField}>
+            <div className={classes.chosenWords}>
               {chosenWords.map((el, index) => (
                 <Button
                   id={index}
-                  color="secondary"
+                  value={el[0]}
+                  style={el[1]}
+                  className={classes.wordBtn}
                   variant="contained"
-                  value={el}
-                  onClick={(e) => removeWord(e)}
+                  disabled={disableButton}
+                  onClick={(e) => removeWord(e, el)}
                 >
-                  {el}
+                  {el[0]}
                 </Button>
               ))}
             </div>
@@ -222,6 +243,7 @@ const RyddeSetninger = ({ id, showFeedback }) => {
             <Button
               variant="outlined"
               style={{ backgroundColor: 'white' }}
+              disabled={disableButton}
               onClick={checkAnswer}
             >
               Sjekk svar
