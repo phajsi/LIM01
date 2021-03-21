@@ -13,7 +13,7 @@ import Forstaelse from './containers/Forstaelse/Forstaelse';
 import CreateExercises from './containers/CreateExercises/CreateExercises';
 import Chat from './containers/Chat/Chat';
 import PlaySets from './containers/PlaySets';
-import RyddeSetninger from './containers/RyddeSetninger';
+import RyddeSetninger from './containers/RyddeSetninger/RyddeSetninger';
 
 const App = () => (
   <Provider store={store}>
