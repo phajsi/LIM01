@@ -1,23 +1,11 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import { Button, Grid, Paper, Fab, TextField } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import useStyles from '../CreateForstaelse/styles';
-
-const axiosInstance = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}/api/`,
-  timeout: 5000,
-  headers: {
-    // eslint-disable-next-line prettier/prettier
-    Authorization: `JWT ${localStorage.getItem('access')}`,
-    'Content-Type': 'application/json',
-    // eslint-disable-next-line prettier/prettier
-    accept: 'application/json',
-  },
-});
+import { axiosInstance } from '../../helpers/ApiFunctions';
 
 const validationSchema = yup.object({
   chatquestion1: yup.string().required('Dette feltet må fylles ut.').max(1000),
@@ -28,7 +16,7 @@ const validationSchema = yup.object({
 
 const CreateChat = ({
   setStep,
-  updateFormDataChat,
+  updateFormData,
   editId,
   formDataEdit,
   setEditId,
@@ -41,7 +29,7 @@ const CreateChat = ({
       .post('/createchat/', values)
       .then((response) => {
         setStep('Menu');
-        updateFormDataChat(response.data.id);
+        updateFormData(response.data.id, 2);
         return response;
       })
       .catch((e) => {

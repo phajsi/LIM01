@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import {
@@ -11,18 +10,7 @@ import {
   MenuItem,
 } from '@material-ui/core';
 import useStyles from './CreateForstaelse/styles';
-
-const axiosInstance = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}/api/`,
-  timeout: 5000,
-  headers: {
-    // eslint-disable-next-line prettier/prettier
-    Authorization: `JWT ${localStorage.getItem('access')}`,
-    'Content-Type': 'application/json',
-    // eslint-disable-next-line prettier/prettier
-    accept: 'application/json',
-  },
-});
+import { axiosInstance } from '../helpers/ApiFunctions';
 
 const validationSchema = yup.object({
   word1: yup.string().required('Dette feltet må fylles ut.').max(30),
@@ -35,7 +23,7 @@ const validationSchema = yup.object({
 
 const CreateRyddeSetninger = ({
   setStep,
-  updateFormDataRyddeSetninger,
+  updateFormData,
   editId,
   formDataEdit,
   setEditId,
@@ -54,7 +42,7 @@ const CreateRyddeSetninger = ({
       .post('/create_rydde_setninger/', values)
       .then((response) => {
         setStep('Menu');
-        updateFormDataRyddeSetninger(response.data.id);
+        updateFormData(response.data.id, 3);
         return response;
       })
       .catch((e) => {

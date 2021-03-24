@@ -1,24 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Fab, Paper, Grid, Select, MenuItem } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
-import axios from 'axios';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import useStyles from './styles';
-
-const axiosInstance = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}/api/`,
-  timeout: 5000,
-  headers: {
-    // eslint-disable-next-line prettier/prettier
-    'Authorization': `JWT ${localStorage.getItem('access')}`,
-    'Content-Type': 'application/json',
-    // eslint-disable-next-line prettier/prettier
-    'accept': 'application/json',
-  },
-});
+import { axiosInstance } from '../../helpers/ApiFunctions';
 
 const validationSchema = yup.object({
   chat1: yup.string().required('Dette feltet må fylles ut.').max(1000),
@@ -29,7 +17,7 @@ const validationSchema = yup.object({
 
 const CreateForstaelse = ({
   setStep,
-  updateFormDataForstaelse,
+  updateFormData,
   editId,
   formDataEditForstaelse,
   setEditId,
@@ -42,7 +30,7 @@ const CreateForstaelse = ({
       .post('/createforstaelse/', values)
       .then((response) => {
         setStep('Menu');
-        updateFormDataForstaelse(response.data.id);
+        updateFormData(response.data.id, 1);
         return response;
       })
       .catch((e) => {

@@ -1,34 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { Paper, MenuList, MenuItem, Button } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import CreateForstaelse from '../../components/CreateForstaelse/CreateForstaelse';
 import CreateChat from '../../components/CreateChat/CreateChat';
 import CreateRyddeSetninger from '../../components/CreateRyddeSetninger';
 import useStyles from './styles';
-
-const axiosInstance = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}/api/`,
-  timeout: 5000,
-  headers: {
-    // eslint-disable-next-line prettier/prettier
-    'Authorization': `JWT ${localStorage.getItem('access')}`,
-    'Content-Type': 'application/json',
-    // eslint-disable-next-line prettier/prettier
-    accept: 'application/json',
-  },
-});
-
-const axiosInstanceDelete = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}/api/`,
-  timeout: 5000,
-  headers: {
-    // eslint-disable-next-line prettier/prettier
-    'Authorization': `JWT ${localStorage.getItem('access')}`,
-    accept: 'application/json',
-  },
-});
+import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
 
 const CreateExercises = () => {
   const classes = useStyles();
@@ -45,9 +23,17 @@ const CreateExercises = () => {
   const [formDataEdit, setFormDataEdit] = useState(null);
   const [currentExercise, setCurrentExercise] = useState(null);
 
-  function updateFormDataForstaelse(id) {
-    forstaelseList[forstaelseCount] = id;
-    setForstaelseCount(forstaelseCount + 1);
+  function updateFormData(id, type) {
+    if (type === 1) {
+      forstaelseList[forstaelseCount] = id;
+      setForstaelseCount(forstaelseCount + 1);
+    } else if (type === 2) {
+      chatList[chatCount] = id;
+      setChatCount(chatCount + 1);
+    } else {
+      ryddeSetningerList[ryddeSetningerCount] = id;
+      setRyddeSetningerCount(ryddeSetningerCount + 1);
+    }
   }
 
   function editExercise(id, exerciseType) {
@@ -69,16 +55,6 @@ const CreateExercises = () => {
     }
   }, [editId]);
 
-  function updateFormDataRyddeSetninger(id) {
-    ryddeSetningerList[ryddeSetningerCount] = id;
-    setRyddeSetningerCount(ryddeSetningerCount + 1);
-  }
-
-  function updateFormDataChat(id) {
-    chatList[chatCount] = id;
-    setChatCount(chatCount + 1);
-  }
-
   function setExercise(step) {
     setEmptySetError(null);
     setStep(step);
@@ -87,7 +63,7 @@ const CreateExercises = () => {
   function postContent() {
     if (forstaelseCount === 0 && chatCount === 0 && ryddeSetningerCount === 0) {
       setEmptySetError(
-        'Du må legge til minst en øvelse for å opprette et sett.'
+        'Du må legge til minst en oppgave for å opprette et sett.'
       );
     } else {
       axiosInstance
@@ -145,33 +121,24 @@ const CreateExercises = () => {
           <Paper className={classes.root}>
             <h1>Velg oppgavetype</h1>
             <MenuList>
-              {chatList[4] !== null ? (
-                <></>
-              ) : (
-                <MenuItem onClick={() => setExercise('chat')} id="Chat">
-                  Chat
-                </MenuItem>
-              )}
-              {forstaelseList[4] !== null ? (
-                <></>
-              ) : (
-                <MenuItem
-                  onClick={() => setExercise('forstaelse')}
-                  id="Forståelse"
-                >
-                  Forståelse
-                </MenuItem>
-              )}
-              {ryddeSetningerList[4] !== null ? (
-                <></>
-              ) : (
-                <MenuItem
-                  onClick={() => setExercise('rydde_setninger')}
-                  id="RyddeSetninger"
-                >
-                  Rydde Setninger
-                </MenuItem>
-              )}
+              <MenuItem
+                disabled={chatCount > 4}
+                onClick={() => setStep('chat')}
+              >
+                Chat
+              </MenuItem>
+              <MenuItem
+                disabled={forstaelseCount > 4}
+                onClick={() => setExercise('forstaelse')}
+              >
+                Forståelse
+              </MenuItem>
+              <MenuItem
+                disabled={ryddeSetningerCount > 4}
+                onClick={() => setExercise('rydde_setninger')}
+              >
+                Rydde Setninger
+              </MenuItem>
             </MenuList>
             {emptySetError && <h4>{emptySetError}</h4>}
             <Button
@@ -229,7 +196,7 @@ const CreateExercises = () => {
     case 'chat':
       return (
         <CreateChat
-          updateFormDataChat={updateFormDataChat}
+          updateFormData={updateFormData}
           setStep={setStep}
           editId={editId}
           formDataEdit={formDataEdit}
@@ -239,7 +206,7 @@ const CreateExercises = () => {
     case 'forstaelse':
       return (
         <CreateForstaelse
-          updateFormDataForstaelse={updateFormDataForstaelse}
+          updateFormData={updateFormData}
           setStep={setStep}
           editId={editId}
           formDataEditForstaelse={formDataEdit}
@@ -249,7 +216,7 @@ const CreateExercises = () => {
     case 'rydde_setninger':
       return (
         <CreateRyddeSetninger
-          updateFormDataRyddeSetninger={updateFormDataRyddeSetninger}
+          updateFormData={updateFormData}
           setStep={setStep}
           editId={editId}
           formDataEdit={formDataEdit}
