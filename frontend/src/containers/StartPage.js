@@ -11,6 +11,8 @@ import {
 import Appbar from '@material-ui/core/AppBar';
 import pickleLogo from '../assets/images/pickleLogo.png';
 import ellipse from '../assets/images/ellipse.png';
+import tree from '../assets/images/tree.png';
+import forest from '../assets/images/forest.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
     background: 'linear-gradient(90deg, #53A77A 1.46%, #80D197 100%)',
   },
-  ellipse: {},
   navbar: {
     backgroundColor: 'transparent',
     elevation: 'none',
@@ -68,6 +69,26 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     filter: 'drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.15))',
   },
+  ellipse: {
+    width: '20vw',
+    display: 'block',
+    position: 'absolute',
+    top: '0',
+  },
+  tree: {
+    width: '16vw',
+    display: 'block',
+    position: 'absolute',
+    bottom: '0',
+    right: '10vw',
+  },
+  forest: {
+    width: '28vw',
+    display: 'block',
+    position: 'absolute',
+    bottom: '0',
+    left: '12vw',
+  },
 }));
 
 const StartPage = () => {
@@ -86,7 +107,7 @@ const StartPage = () => {
           </Typography>
         </Toolbar>
       </Appbar>
-      <img src={ellipse} alt="ellipse" />
+      <img src={ellipse} alt="ellipse" className={classes.ellipse} />
       <div className={classes.logoBox}>
         <img src={pickleLogo} alt="pickle logo" className={classes.logoImg} />
         <Typography variant="h3" className={classes.logoText}>
@@ -119,6 +140,8 @@ const StartPage = () => {
           </Grid>
         </Grid>
       </div>
+      <img src={forest} alt="forest" className={classes.forest} />
+      <img src={tree} alt="tree" className={classes.tree} />
     </div>
   );
 };
