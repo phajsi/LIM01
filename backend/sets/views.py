@@ -23,6 +23,13 @@ class PostSetsView(APIView):
         data = JSONParser().parse(request)
         serializer = SetsSerializer(data=data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(owner=self.request.user)
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+
+
+class UserSetsView(APIView):
+    def get(self, request):
+        getSet = Sets.objects.filter(owner=self.request.user)
+        serializer = SetsSerializer(getSet, many=True)
+        return JsonResponse(serializer.data, safe=False)

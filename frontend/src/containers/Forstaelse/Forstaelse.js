@@ -27,7 +27,7 @@ const axiosInstance = axios.create({
   },
 });
 
-const Forstaelse = ({ id, showFeedback, preview, createFormData }) => {
+const Forstaelse = ({ id, showFeedback }) => {
   // const [forstaelse, setForstaelse] = useState(null);
 
   const [formData, setFormData] = useState({
@@ -108,15 +108,7 @@ const Forstaelse = ({ id, showFeedback, preview, createFormData }) => {
   };
 
   useEffect(() => {
-    if (preview) {
-      setFormData(createFormData);
-      setChat(createFormData.chat1);
-      setQuestion(createFormData.question1);
-      setAnswer(createFormData.answer1);
-      setExplanation(createFormData.explanation1);
-    } else {
-      getContent();
-    }
+    getContent();
   }, []);
 
   return (

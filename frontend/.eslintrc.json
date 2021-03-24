@@ -24,6 +24,7 @@
     "no-shadow": "off",
     "react/prop-types": "off",
     "camelcase": "off",
-    "prefer-destructuring": "off"
+    "prefer-destructuring": "off",
+    "import/no-unresolved": "off"
   }
 }

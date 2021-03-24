@@ -7,6 +7,8 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.permissions import IsAdminUser
 
 # Create your views here.
+
+
 class RyddeSetningerView(APIView):
     permission_classes = []
 
@@ -27,6 +29,19 @@ class CreateRyddeSetningerView(APIView):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+
+    def put(self, request, pk):
+        try:
+            getRyddeSetninger = RyddeSetninger.objects.get(pk=pk)
+        except RyddeSetninger.DoesNotExist:
+            return JsonResponse(serializer.errors, status=400)
+        data = JSONParser().parse(request)
+        serializer = RyddeSetningerSerializer(getRyddeSetninger, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
 
 class DeleteRyddeSetningerView(APIView):
     def delete(self, request, pk):

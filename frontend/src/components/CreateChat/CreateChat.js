@@ -1,65 +1,35 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { Button, Grid, Paper, Fab } from '@material-ui/core';
+import { Formik, Form, Field } from 'formik';
+import * as yup from 'yup';
+import { Button, Grid, Paper, Fab, TextField } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import FormChat from '../FormChat';
 import useStyles from '../CreateForstaelse/styles';
+import { axiosInstance } from '../../helpers/ApiFunctions';
 
-const axiosInstance = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}/api/`,
-  timeout: 5000,
-  headers: {
-    // eslint-disable-next-line prettier/prettier
-    Authorization: `JWT ${localStorage.getItem('access')}`,
-    'Content-Type': 'application/json',
-    // eslint-disable-next-line prettier/prettier
-    accept: 'application/json',
-  },
+const validationSchema = yup.object({
+  chatquestion1: yup.string().required('Dette feltet må fylles ut.').max(1000),
+  answer11: yup.string().required('Dette feltet må fylles ut.').max(1000),
+  answer12: yup.string().required('Dette feltet må fylles ut.').max(1000),
+  correctanswer1: yup.string().required('Dette feltet må fylles ut.').max(1000),
 });
 
-const CreateChat = ({ setStep, updateFormDataChat }) => {
+const CreateChat = ({
+  setStep,
+  updateFormData,
+  editId,
+  formDataEdit,
+  setEditId,
+}) => {
   const classes = useStyles();
   const [taskAmount, setTaskAmount] = useState(1);
-  const [formData, setFormData] = useState({
-    chatquestion1: '',
-    answer11: '',
-    answer12: '',
-    correctanswer1: '',
-    chatquestion2: '',
-    answer21: '',
-    answer22: '',
-    correctanswer2: '',
-    chatquestion3: '',
-    answer31: '',
-    answer32: '',
-    correctanswer3: '',
-    onChange: '',
-  });
 
-  const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const onClick = (e) => {
-    e.preventDefault();
+  const onSubmitPost = (values) => {
     axiosInstance
-      .post('/createchat/', {
-        chatquestion1: formData.chatquestion1,
-        answer11: formData.answer11,
-        answer12: formData.answer12,
-        correctanswer1: formData.correctanswer1,
-        chatquestion2: formData.chatquestion2,
-        answer21: formData.answer21,
-        answer22: formData.answer22,
-        correctanswer2: formData.correctanswer2,
-        chatquestion3: formData.chatquestion3,
-        answer31: formData.answer31,
-        answer32: formData.answer32,
-        correctanswer3: formData.correctanswer3,
-      })
+      .post('/createchat/', values)
       .then((response) => {
         setStep('Menu');
-        updateFormDataChat(response.data.id);
+        updateFormData(response.data.id, 2);
         return response;
       })
       .catch((e) => {
@@ -67,107 +37,226 @@ const CreateChat = ({ setStep, updateFormDataChat }) => {
       });
   };
 
-  const removeTask = () => {
-    if (taskAmount === 2) {
-      setFormData({
-        ...formData,
-        chatquestion2: '',
-        answer21: '',
-        answer22: '',
-        correctanswer2: '',
+  const onSubmitPut = (values) => {
+    axiosInstance
+      .put(`/createchat/${editId}`, values)
+      .then((response) => {
+        setEditId(null);
+        setStep('Menu');
+        return response;
+      })
+      .catch((e) => {
+        return e;
       });
-    }
-    if (taskAmount === 3) {
-      setFormData({
-        ...formData,
-        chatquestion3: '',
-        answer31: '',
-        answer32: '',
-        correctanswer3: '',
-      });
-    }
-    setTaskAmount(taskAmount - 1);
   };
+
+  function formTextField(name, touched, errors) {
+    return (
+      <Field
+        name={name}
+        margin="dense"
+        fullWidth
+        variant="outlined"
+        as={TextField}
+        error={touched && errors}
+        helperText={touched && errors}
+      />
+    );
+  }
 
   return (
     <Paper className={classes.root}>
       <h1>Chat</h1>
-      <form onSubmit={(e) => onClick(e)} className={classes.form}>
-        <h2> Tema 1 </h2>
-        <FormChat
-          chatquestion="chatquestion1"
-          answer1="answer11"
-          answer2="answer12"
-          correctanswer="correctanswer1"
-          onChange={onChange}
-        />
-        {taskAmount > 1 && (
-          <>
-            <hr />
-            <h2> Tema 2 </h2>
-            <FormChat
-              chatquestion="chatquestion2"
-              answer1="answer21"
-              answer2="answer22"
-              correctanswer="correctanswer2"
-              onChange={onChange}
-            />
-          </>
+      <Formik
+        initialValues={
+          editId !== null
+            ? formDataEdit
+            : {
+                chatquestion1: '',
+                answer11: '',
+                answer12: '',
+                correctanswer1: '',
+              }
+        }
+        onSubmit={(values) => {
+          if (editId === null) {
+            onSubmitPost(values);
+          } else {
+            onSubmitPut(values);
+          }
+        }}
+        validationSchema={validationSchema}
+      >
+        {({ errors, touched, setFieldValue, isSubmitting }) => (
+          <Form className={classes.form}>
+            <h2> Tema 1 </h2>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <p>Skriv spørsmålet her: </p>
+                {formTextField(
+                  'chatquestion1',
+                  touched.chatquestion1,
+                  errors.chatquestion1
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
+                {formTextField('answer11', touched.answer11, errors.answer11)}
+              </Grid>
+              <Grid item xs={12}>
+                <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
+                {formTextField('answer12', touched.answer12, errors.answer12)}
+              </Grid>
+              <Grid item xs={12}>
+                <p>Skriv svaralternativ 3 her (Korrekt alternativ) her: </p>
+                {formTextField(
+                  'correctanswer1',
+                  touched.correctanswer1,
+                  errors.correctanswer1
+                )}
+              </Grid>
+            </Grid>
+            {taskAmount > 1 && (
+              <>
+                <hr />
+                <h2> Tema 2 </h2>
+                <Grid container spacing={3}>
+                  <Grid item xs={12}>
+                    <p>Skriv spørsmålet her: </p>
+                    {formTextField(
+                      'chatquestion2',
+                      touched.chatquestion2,
+                      errors.chatquestion2
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
+                    {formTextField(
+                      'answer21',
+                      touched.answer21,
+                      errors.answer21
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
+                    {formTextField(
+                      'answer22',
+                      touched.answer22,
+                      errors.answer22
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <p>Skriv svaralternativ 3 her (Korrekt alternativ) her: </p>
+                    {formTextField(
+                      'correctanswer2',
+                      touched.correctanswer2,
+                      errors.correctanswer2
+                    )}
+                  </Grid>
+                </Grid>
+              </>
+            )}
+            {taskAmount > 2 && (
+              <>
+                <hr />
+                <h2> Tema 3 </h2>
+                <Grid container spacing={3}>
+                  <Grid item xs={12}>
+                    <p>Skriv spørsmålet her: </p>
+                    {formTextField(
+                      'chatquestion3',
+                      touched.chatquestion3,
+                      errors.chatquestion3
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
+                    {formTextField(
+                      'answer31',
+                      touched.answer31,
+                      errors.answer31
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
+                    {formTextField(
+                      'answer32',
+                      touched.answer32,
+                      errors.answer32
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <p>Skriv svaralternativ 3 her (Korrekt alternativ) her: </p>
+                    {formTextField(
+                      'correctanswer3',
+                      touched.correctanswer3,
+                      errors.correctanswer3
+                    )}
+                  </Grid>
+                </Grid>
+              </>
+            )}
+            <Grid />
+            <div className={classes.addIcon}>
+              {taskAmount > 1 && (
+                <Fab
+                  className={classes.innerMargin}
+                  size="small"
+                  onClick={() => {
+                    if (taskAmount === 3) {
+                      setFieldValue('chatquestion3', '', false);
+                      setFieldValue('answer31', '', false);
+                      setFieldValue('answer32', '', false);
+                      setFieldValue('correctanswer3', '', false);
+                    } else {
+                      setFieldValue('chatquestion2', '', false);
+                      setFieldValue('answer21', '', false);
+                      setFieldValue('answer22', '', false);
+                      setFieldValue('correctanswer2', '', false);
+                    }
+                    setTaskAmount(taskAmount - 1);
+                  }}
+                  variant="contained"
+                >
+                  <RemoveIcon />
+                </Fab>
+              )}
+              {taskAmount < 3 && (
+                <Fab
+                  className={classes.innerMargin}
+                  size="small"
+                  onClick={() => setTaskAmount(taskAmount + 1)}
+                  variant="contained"
+                >
+                  <AddIcon />
+                </Fab>
+              )}
+            </div>
+            <div className={classes.buttons}>
+              <Button
+                disabled={isSubmitting}
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.button}
+              >
+                Continue
+              </Button>
+            </div>
+          </Form>
         )}
-        {taskAmount > 2 && (
-          <>
-            <hr />
-            <h2> Tema 3 </h2>
-            <FormChat
-              chatquestion="chatquestion3"
-              answer1="answer31"
-              answer2="answer32"
-              correctanswer="correctanswer3"
-              onChange={onChange}
-            />
-          </>
-        )}
-        <div className={classes.addIcon}>
-          {taskAmount > 1 && (
-            <Fab
-              className={classes.innerMargin}
-              size="small"
-              onClick={() => removeTask()}
-              variant="contained"
-            >
-              <RemoveIcon />
-            </Fab>
-          )}
-          {taskAmount < 3 && (
-            <Fab
-              className={classes.innerMargin}
-              size="small"
-              onClick={() => setTaskAmount(taskAmount + 1)}
-              variant="contained"
-            >
-              <AddIcon />
-            </Fab>
-          )}
-        </div>
-        <hr />
-        <Grid container spacing={3}>
-          <Grid item xs={3}>
-            <Button
-              onClick={() => setStep('Menu')}
-              className={classes.buttonRight}
-              variant="contained"
-              color="secondary"
-            >
-              AVBRYT
-            </Button>
-          </Grid>
-          <Grid item xs={9}>
-            <Button type="Submit" variant="contained" color="primary">
-              OPPRETT
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
+      </Formik>
+      <Button
+        variant="contained"
+        color="secondary"
+        className={classes.button}
+        onClick={() => {
+          setStep('Menu');
+          setEditId(null);
+        }}
+      >
+        Tilbake
+      </Button>
     </Paper>
   );
 };
