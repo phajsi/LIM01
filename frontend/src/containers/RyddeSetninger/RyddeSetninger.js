@@ -135,7 +135,7 @@ const RyddeSetninger = ({ id, showFeedback }) => {
   // .get(`/rydde_setninger/${id}`)
   function getContent() {
     axiosInstance
-      .get(`/rydde_setninger/1`)
+      .get(`/rydde_setninger/${id}`)
       .then((res) => {
         filterData(res.data);
         setRenderPage((renderPage) => renderPage + 1);

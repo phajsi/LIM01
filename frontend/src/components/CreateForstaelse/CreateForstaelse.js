@@ -63,12 +63,11 @@ const CreateForstaelse = ({
       });
   };
 
-  function formTextField(name, label, touched, errors) {
+  function formTextField(name, touched, errors) {
     return (
       <Field
         name={name}
-        label={label}
-        margin="normal"
+        margin="dense"
         fullWidth
         variant="outlined"
         as={TextField}
@@ -116,112 +115,104 @@ const CreateForstaelse = ({
       >
         {({ errors, touched, setFieldValue, isSubmitting }) => (
           <Form className={classes.form}>
-            <h1>Forståelse</h1>
+            <h2>Oppgave 1</h2>
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
-                {formTextField(
-                  'chat1',
-                  'Chat melding',
-                  touched.chat1,
-                  errors.chat1
-                )}
+              <Grid item xs={12}>
+                <p>Skriv chat meldingen her:</p>
+                {formTextField('chat1', touched.chat1, errors.chat1)}
               </Grid>
               <Grid item xs={12}>
+                <p>Skriv et ja/nei spørsmål til chat meldingen:</p>
                 {formTextField(
                   'question1',
-                  'Spørsmål',
                   touched.question1,
                   errors.question1
                 )}
               </Grid>
               <Grid item xs={12}>
-                {formSelectField(
-                  'answer1',
-                  'Riktig Svar',
-                  touched.answer1,
-                  errors.answer1
-                )}
+                <p>Velg om svaret er ja eller nei</p>
+                {formSelectField('answer1', touched.answer1, errors.answer1)}
               </Grid>
               <Grid item xs={12}>
+                <p>Skriv en forklaring til riktig svar</p>
                 {formTextField(
                   'explanation1',
-                  'Forklaring',
                   touched.explanation1,
                   errors.explanation1
                 )}
               </Grid>
             </Grid>
             {taskAmount > 1 && (
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                  {formTextField(
-                    'chat2',
-                    'Chat melding',
-                    touched.chat2,
-                    errors.chat2
-                  )}
+              <>
+                <hr />
+                <h2> Oppgave 2 </h2>
+                <Grid container spacing={3}>
+                  <Grid item xs={12}>
+                    <p>Skriv chat meldingen her:</p>
+                    {formTextField('chat2', touched.chat2, errors.chat2)}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <p>Skriv et ja/nei spørsmål til chat meldingen:</p>
+                    {formTextField(
+                      'question2',
+                      touched.question2,
+                      errors.question2
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <p>Velg om svaret er ja eller nei</p>
+                    {formSelectField(
+                      'answer2',
+                      touched.answer2,
+                      errors.answer2
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <p>Skriv en forklaring til riktig svar</p>
+                    {formTextField(
+                      'explanation2',
+                      touched.explanation2,
+                      errors.explanation2
+                    )}
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  {formTextField(
-                    'question2',
-                    'Spørsmål',
-                    touched.question2,
-                    errors.question2
-                  )}
-                </Grid>
-                <Grid item xs={12}>
-                  {formSelectField(
-                    'answer2',
-                    'Riktig Svar',
-                    touched.answer2,
-                    errors.answer2
-                  )}
-                </Grid>
-                <Grid item xs={12}>
-                  {formTextField(
-                    'explanation2',
-                    'Forklaring',
-                    touched.explanation2,
-                    errors.explanation2
-                  )}
-                </Grid>
-              </Grid>
+              </>
             )}
             {taskAmount > 2 && (
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                  {formTextField(
-                    'chat3',
-                    'Chat melding',
-                    touched.chat3,
-                    errors.chat3
-                  )}
+              <>
+                <hr />
+                <h2> Oppgave 3 </h2>
+                <Grid container spacing={3}>
+                  <Grid item xs={12}>
+                    <p>Skriv chat meldingen her:</p>
+                    {formTextField('chat3', touched.chat3, errors.chat3)}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <p>Skriv et ja/nei spørsmål til chat meldingen:</p>
+                    {formTextField(
+                      'question3',
+                      touched.question3,
+                      errors.question3
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <p>Velg om svaret er ja eller nei</p>
+                    {formSelectField(
+                      'answer3',
+                      touched.answer3,
+                      errors.answer3
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <p>Skriv en forklaring til riktig svar</p>
+                    {formTextField(
+                      'explanation3',
+                      touched.explanation3,
+                      errors.explanation3
+                    )}
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  {formTextField(
-                    'question3',
-                    'Spørsmål',
-                    touched.question3,
-                    errors.question3
-                  )}
-                </Grid>
-                <Grid item xs={12}>
-                  {formSelectField(
-                    'answer3',
-                    'Riktig Svar',
-                    touched.answer3,
-                    errors.answer3
-                  )}
-                </Grid>
-                <Grid item xs={12}>
-                  {formTextField(
-                    'explanation3',
-                    'Forklaring',
-                    touched.explanation3,
-                    errors.explanation3
-                  )}
-                </Grid>
-              </Grid>
+              </>
             )}
             <Grid />
             <div className={classes.addIcon}>

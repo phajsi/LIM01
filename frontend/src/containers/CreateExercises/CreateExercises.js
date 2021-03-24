@@ -148,7 +148,7 @@ const CreateExercises = () => {
               {chatList[4] !== null ? (
                 <></>
               ) : (
-                <MenuItem onClick={() => setExercise('Chat')} id="Chat">
+                <MenuItem onClick={() => setExercise('chat')} id="Chat">
                   Chat
                 </MenuItem>
               )}
@@ -191,6 +191,7 @@ const CreateExercises = () => {
                   <Chip
                     label="Chat"
                     onDelete={() => onDelete(id, 1, `/deletechat/${id}`)}
+                    onClick={() => editExercise(id, 'chat')}
                   />
                 );
               }
@@ -225,9 +226,15 @@ const CreateExercises = () => {
           </Paper>
         </div>
       );
-    case 'Chat':
+    case 'chat':
       return (
-        <CreateChat updateFormDataChat={updateFormDataChat} setStep={setStep} />
+        <CreateChat
+          updateFormDataChat={updateFormDataChat}
+          setStep={setStep}
+          editId={editId}
+          formDataEdit={formDataEdit}
+          setEditId={setEditId}
+        />
       );
     case 'forstaelse':
       return (
