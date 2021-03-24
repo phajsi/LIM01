@@ -23,6 +23,12 @@ const CreateExercises = () => {
   const [formDataEdit, setFormDataEdit] = useState(null);
   const [currentExercise, setCurrentExercise] = useState(null);
 
+  /**
+   * This function is called after an exercise has been created backend. It
+   * adds the exercise id to the set list and increments the counter for that exercise type.
+   * @param {*} id the id for the exercise that has been created
+   * @param {*} type what type of exercise it is
+   */
   function updateFormData(id, type) {
     if (type === 1) {
       forstaelseList[forstaelseCount] = id;
@@ -36,6 +42,13 @@ const CreateExercises = () => {
     }
   }
 
+  /**
+   * The function is used to retrieve the data from the exercise the user wants to edit.
+   * It saves the return data and if in local states
+   * which is passed as prop to the corresponding create Exercise type.
+   * @param {*} id id for the exercise which will be edited
+   * @param {*} exerciseType type of exercise to be edited
+   */
   function editExercise(id, exerciseType) {
     axiosInstance
       .get(`/${exerciseType}/${id}`)
@@ -49,6 +62,7 @@ const CreateExercises = () => {
       });
   }
 
+  // used to change step correctly when a user wants to edit an exercise
   useEffect(() => {
     if (editId !== null) {
       setStep(currentExercise);
