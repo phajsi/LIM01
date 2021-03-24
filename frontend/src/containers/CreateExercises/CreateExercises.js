@@ -166,7 +166,7 @@ const CreateExercises = () => {
                 <></>
               ) : (
                 <MenuItem
-                  onClick={() => setExercise('Rydde Setninger')}
+                  onClick={() => setExercise('rydde_setninger')}
                   id="RyddeSetninger"
                 >
                   Rydde Setninger
@@ -216,6 +216,7 @@ const CreateExercises = () => {
                     onDelete={() =>
                       // eslint-disable-next-line prettier/prettier
                       onDelete(id, 3, `/delete_rydde_setninger/${id}`)}
+                    onClick={() => editExercise(id, 'rydde_setninger')}
                   />
                 );
               }
@@ -238,11 +239,14 @@ const CreateExercises = () => {
           setEditId={setEditId}
         />
       );
-    case 'Rydde Setninger':
+    case 'rydde_setninger':
       return (
         <CreateRyddeSetninger
           updateFormDataRyddeSetninger={updateFormDataRyddeSetninger}
           setStep={setStep}
+          editId={editId}
+          formDataEdit={formDataEdit}
+          setEditId={setEditId}
         />
       );
     case 'confirmation':
