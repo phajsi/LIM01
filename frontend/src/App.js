@@ -7,6 +7,7 @@ import Signup from './containers/Signup';
 import Activate from './containers/Activate';
 import ResetPassword from './containers/ResetPassword';
 import ResetPasswordConfirm from './containers/ResetPasswordConfirm';
+import StartPage from './containers/StartPage';
 import store from './store';
 import Layout from './hocs/Layout';
 import Forstaelse from './containers/Forstaelse/Forstaelse';
@@ -18,9 +19,10 @@ import RyddeSetninger from './containers/RyddeSetninger/RyddeSetninger';
 const App = () => (
   <Provider store={store}>
     <Router>
-      <Layout>
-        <Switch>
-          <Route exact path="/" component={Home} />
+      <Switch>
+        <Route exact path="/" component={StartPage} />
+        <Layout>
+          <Route exact path="/home" component={Home} />
           <Route exact path="/forstaelse" component={Forstaelse} />
           <Route exact path="/createexercise" component={CreateExercises} />
           <Route exact path="/login" component={Login} />
@@ -35,8 +37,8 @@ const App = () => (
             component={ResetPasswordConfirm}
           />
           <Route exact path="/activate/:uid/:token" component={Activate} />
-        </Switch>
-      </Layout>
+        </Layout>
+      </Switch>
     </Router>
   </Provider>
 );

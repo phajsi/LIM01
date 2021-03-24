@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     alignItems: 'center',
     height: '100vh',
-    backgroundColor: '#3f51b5',
+    background: 'linear-gradient(90deg, #53A77A 1.46%, #80D197 100%)',
     flexDirection: 'column',
     padding: theme.spacing(3),
     fontFamily: 'roboto, helvetica, arial, sansSerif',
