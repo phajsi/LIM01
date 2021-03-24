@@ -131,8 +131,8 @@ const CreateExercises = () => {
   switch (step) {
     case 'Menu':
       return (
-        <div>
-          <Paper className={classes.root}>
+        <div className={classes.root}>
+          <Paper className={classes.menu}>
             <h1>Velg oppgavetype</h1>
             <MenuList>
               <MenuItem
@@ -164,7 +164,7 @@ const CreateExercises = () => {
               Opprett
             </Button>
           </Paper>
-          <Paper className={classes.root}>
+          <Paper className={classes.menu}>
             <h4>Øvelser:</h4>
             {chatList.map((id) => {
               if (id !== null) {

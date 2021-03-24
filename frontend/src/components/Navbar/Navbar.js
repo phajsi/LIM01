@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
-import { AppBar, Box, Typography, Toolbar } from '@material-ui/core';
+import { AppBar, Typography, Toolbar } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
 import useStyles from './styles';
@@ -49,16 +49,20 @@ const Navbar = ({ logout, isAuthenticated }) => {
 
   return (
     <div>
-      <Box component={AppBar} boxShadow={3} className={classes.root}>
+      <AppBar position="relative" className={classes.root}>
         <Toolbar>
           <Typography variant="h6">
-            <Link to="/" className={classes.title}>
+            <Link
+              to="/home"
+              className={classes.title}
+              style={{ color: '#143725' }}
+            >
               Home
             </Link>
           </Typography>
           {isAuthenticated ? authLinks() : guestLinks()}
         </Toolbar>
-      </Box>
+      </AppBar>
       {redirect ? <Redirect to="/" /> : <div> </div>}
     </div>
   );
