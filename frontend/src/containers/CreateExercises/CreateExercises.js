@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Paper, MenuList, MenuItem, Button } from '@material-ui/core';
@@ -41,11 +41,33 @@ const CreateExercises = () => {
   const [chatList] = useState([null, null, null, null, null]);
   const [ryddeSetningerList] = useState([null, null, null, null, null]);
   const [emptySetError, setEmptySetError] = useState(null);
+  const [editId, setEditId] = useState(null);
+  const [formDataEdit, setFormDataEdit] = useState(null);
+  const [currentExercise, setCurrentExercise] = useState(null);
 
   function updateFormDataForstaelse(id) {
     forstaelseList[forstaelseCount] = id;
     setForstaelseCount(forstaelseCount + 1);
   }
+
+  function editExercise(id, exerciseType) {
+    axiosInstance
+      .get(`/${exerciseType}/${id}`)
+      .then((res) => {
+        setFormDataEdit(res.data);
+        setCurrentExercise(exerciseType);
+        setEditId(id);
+      })
+      .catch((e) => {
+        return e;
+      });
+  }
+
+  useEffect(() => {
+    if (editId !== null) {
+      setStep(currentExercise);
+    }
+  }, [editId]);
 
   function updateFormDataRyddeSetninger(id) {
     ryddeSetningerList[ryddeSetningerCount] = id;
@@ -65,7 +87,7 @@ const CreateExercises = () => {
   function postContent() {
     if (forstaelseCount === 0 && chatCount === 0 && ryddeSetningerCount === 0) {
       setEmptySetError(
-        'Du må legge til minst en øvelse for å opprette et sett'
+        'Du må legge til minst en øvelse for å opprette et sett.'
       );
     } else {
       axiosInstance
@@ -134,7 +156,7 @@ const CreateExercises = () => {
                 <></>
               ) : (
                 <MenuItem
-                  onClick={() => setExercise('Forståelse')}
+                  onClick={() => setExercise('forstaelse')}
                   id="Forståelse"
                 >
                   Forståelse
@@ -180,6 +202,7 @@ const CreateExercises = () => {
                   <Chip
                     label="Forstaelse"
                     onDelete={() => onDelete(id, 2, `/deleteforstaelse/${id}`)}
+                    onClick={() => editExercise(id, 'forstaelse')}
                   />
                 );
               }
@@ -205,11 +228,14 @@ const CreateExercises = () => {
       return (
         <CreateChat updateFormDataChat={updateFormDataChat} setStep={setStep} />
       );
-    case 'Forståelse':
+    case 'forstaelse':
       return (
         <CreateForstaelse
           updateFormDataForstaelse={updateFormDataForstaelse}
           setStep={setStep}
+          editId={editId}
+          formDataEditForstaelse={formDataEdit}
+          setEditId={setEditId}
         />
       );
     case 'Rydde Setninger':
