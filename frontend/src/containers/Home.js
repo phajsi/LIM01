@@ -5,7 +5,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     alignItems: 'center',
     color: 'black',
-    background: 'linear-gradient(90deg, #53A77A 1.46%, #80D197 100%)',
     height: '100%',
     flexDirection: 'column',
     padding: theme.spacing(3),

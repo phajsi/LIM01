@@ -97,6 +97,9 @@ const PlaySets = () => {
             name="id"
             variant="outlined"
             margin="dense"
+            style={{
+              backgroundColor: 'white',
+            }}
             onChange={(e) => onChange(e)}
             fullWidth
           />
