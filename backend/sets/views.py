@@ -27,9 +27,31 @@ class PostSetsView(APIView):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
+    def put(self, request, pk):
+        try:
+            getSets = Sets.objects.filter(owner=self.request.user).get(pk=pk)
+        except ObjectDoesNotExist:
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+        data = JSONParser().parse(request)
+        serializer = SetsSerializer(getSets, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
 
 class UserSetsView(APIView):
     def get(self, request):
         getSet = Sets.objects.filter(owner=self.request.user)
         serializer = SetsSerializer(getSet, many=True)
         return JsonResponse(serializer.data, safe=False)
+
+
+class DeleteSetsView(APIView):
+    def delete(self, request, pk):
+        try:
+            getSets = Sets.objects.filter(owner=self.request.user).get(pk=pk)
+        except ObjectDoesNotExist:
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+        getSets.delete()
+        return HttpResponse(status=status.HTTP_204_NO_CONTENT)
