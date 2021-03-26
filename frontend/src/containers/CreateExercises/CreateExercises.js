@@ -168,6 +168,11 @@ const CreateExercises = () => {
     }
   }
 
+  function onGoBack() {
+    setFormDataEdit(null);
+    setStep('Menu');
+  }
+
   switch (step) {
     case 'Menu':
       return (
@@ -252,7 +257,7 @@ const CreateExercises = () => {
     case 'chat':
       return (
         <CreateChat
-          setStep={setStep}
+          onGoBack={onGoBack}
           formDataEdit={formDataEdit}
           onSubmitPost={onSubmitPost}
           onSubmitPut={onSubmitPut}
@@ -261,7 +266,7 @@ const CreateExercises = () => {
     case 'forstaelse':
       return (
         <CreateForstaelse
-          setStep={setStep}
+          onGoBack={onGoBack}
           formDataEdit={formDataEdit}
           onSubmitPost={onSubmitPost}
           onSubmitPut={onSubmitPut}
@@ -270,7 +275,7 @@ const CreateExercises = () => {
     case 'rydde_setninger':
       return (
         <CreateRyddeSetninger
-          setStep={setStep}
+          onGoBack={onGoBack}
           formDataEdit={formDataEdit}
           onSubmitPost={onSubmitPost}
           onSubmitPut={onSubmitPut}

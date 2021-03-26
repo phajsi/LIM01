@@ -13,7 +13,7 @@ const validationSchema = yup.object({
   correctanswer1: yup.string().required('Dette feltet må fylles ut.').max(1000),
 });
 
-const CreateChat = ({ setStep, formDataEdit, onSubmitPost, onSubmitPut }) => {
+const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
   const classes = useStyles();
   const [taskAmount, setTaskAmount] = useState(1);
 
@@ -25,8 +25,8 @@ const CreateChat = ({ setStep, formDataEdit, onSubmitPost, onSubmitPut }) => {
         fullWidth
         variant="outlined"
         as={TextField}
-        error={touched && errors}
-        helperText={touched && errors}
+        error={touched[name] && errors[name]}
+        helperText={touched[name] && errors[name]}
       />
     );
   }
@@ -58,27 +58,19 @@ const CreateChat = ({ setStep, formDataEdit, onSubmitPost, onSubmitPut }) => {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <p>Skriv spørsmålet her: </p>
-                {formTextField(
-                  'chatquestion1',
-                  touched.chatquestion1,
-                  errors.chatquestion1
-                )}
+                {formTextField('chatquestion1', touched, errors)}
               </Grid>
               <Grid item xs={12}>
                 <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
-                {formTextField('answer11', touched.answer11, errors.answer11)}
+                {formTextField('answer11', touched, errors)}
               </Grid>
               <Grid item xs={12}>
                 <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
-                {formTextField('answer12', touched.answer12, errors.answer12)}
+                {formTextField('answer12', touched, errors)}
               </Grid>
               <Grid item xs={12}>
                 <p>Skriv svaralternativ 3 her (Korrekt alternativ) her: </p>
-                {formTextField(
-                  'correctanswer1',
-                  touched.correctanswer1,
-                  errors.correctanswer1
-                )}
+                {formTextField('correctanswer1', touched, errors)}
               </Grid>
             </Grid>
             {taskAmount > 1 && (
@@ -88,35 +80,19 @@ const CreateChat = ({ setStep, formDataEdit, onSubmitPost, onSubmitPut }) => {
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <p>Skriv spørsmålet her: </p>
-                    {formTextField(
-                      'chatquestion2',
-                      touched.chatquestion2,
-                      errors.chatquestion2
-                    )}
+                    {formTextField('chatquestion2', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
-                    {formTextField(
-                      'answer21',
-                      touched.answer21,
-                      errors.answer21
-                    )}
+                    {formTextField('answer21', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
-                    {formTextField(
-                      'answer22',
-                      touched.answer22,
-                      errors.answer22
-                    )}
+                    {formTextField('answer22', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Skriv svaralternativ 3 her (Korrekt alternativ) her: </p>
-                    {formTextField(
-                      'correctanswer2',
-                      touched.correctanswer2,
-                      errors.correctanswer2
-                    )}
+                    {formTextField('correctanswer2', touched, errors)}
                   </Grid>
                 </Grid>
               </>
@@ -128,35 +104,19 @@ const CreateChat = ({ setStep, formDataEdit, onSubmitPost, onSubmitPut }) => {
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <p>Skriv spørsmålet her: </p>
-                    {formTextField(
-                      'chatquestion3',
-                      touched.chatquestion3,
-                      errors.chatquestion3
-                    )}
+                    {formTextField('chatquestion3', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
-                    {formTextField(
-                      'answer31',
-                      touched.answer31,
-                      errors.answer31
-                    )}
+                    {formTextField('answer31', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
-                    {formTextField(
-                      'answer32',
-                      touched.answer32,
-                      errors.answer32
-                    )}
+                    {formTextField('answer32', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Skriv svaralternativ 3 her (Korrekt alternativ) her: </p>
-                    {formTextField(
-                      'correctanswer3',
-                      touched.correctanswer3,
-                      errors.correctanswer3
-                    )}
+                    {formTextField('correctanswer3', touched, errors)}
                   </Grid>
                 </Grid>
               </>
@@ -216,7 +176,7 @@ const CreateChat = ({ setStep, formDataEdit, onSubmitPost, onSubmitPut }) => {
         color="secondary"
         className={classes.button}
         onClick={() => {
-          setStep('Menu');
+          onGoBack();
         }}
       >
         Tilbake

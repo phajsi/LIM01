@@ -15,7 +15,7 @@ const validationSchema = yup.object({
 });
 
 const CreateForstaelse = ({
-  setStep,
+  onGoBack,
   formDataEdit,
   onSubmitPost,
   onSubmitPut,
@@ -31,8 +31,8 @@ const CreateForstaelse = ({
         fullWidth
         variant="outlined"
         as={TextField}
-        error={touched && errors}
-        helperText={touched && errors}
+        error={touched[name] && errors[name]}
+        helperText={touched[name] && errors[name]}
       />
     );
   }
@@ -46,8 +46,8 @@ const CreateForstaelse = ({
         margin="normal"
         fullWidth
         as={Select}
-        error={touched && errors}
-        helperText={touched && errors}
+        error={touched[name] && errors[name]}
+        helperText={touched[name] && errors[name]}
       >
         <MenuItem value="true">Ja</MenuItem>
         <MenuItem value="false">Nei</MenuItem>
@@ -82,27 +82,19 @@ const CreateForstaelse = ({
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <p>Skriv chat meldingen her:</p>
-                {formTextField('chat1', touched.chat1, errors.chat1)}
+                {formTextField('chat1', touched, errors)}
               </Grid>
               <Grid item xs={12}>
                 <p>Skriv et ja/nei spørsmål til chat meldingen:</p>
-                {formTextField(
-                  'question1',
-                  touched.question1,
-                  errors.question1
-                )}
+                {formTextField('question1', touched, errors)}
               </Grid>
               <Grid item xs={12}>
                 <p>Velg om svaret er ja eller nei</p>
-                {formSelectField('answer1', touched.answer1, errors.answer1)}
+                {formSelectField('answer1', touched, errors)}
               </Grid>
               <Grid item xs={12}>
                 <p>Skriv en forklaring til riktig svar</p>
-                {formTextField(
-                  'explanation1',
-                  touched.explanation1,
-                  errors.explanation1
-                )}
+                {formTextField('explanation1', touched, errors)}
               </Grid>
             </Grid>
             {taskAmount > 1 && (
@@ -112,31 +104,19 @@ const CreateForstaelse = ({
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <p>Skriv chat meldingen her:</p>
-                    {formTextField('chat2', touched.chat2, errors.chat2)}
+                    {formTextField('chat2', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Skriv et ja/nei spørsmål til chat meldingen:</p>
-                    {formTextField(
-                      'question2',
-                      touched.question2,
-                      errors.question2
-                    )}
+                    {formTextField('question2', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Velg om svaret er ja eller nei</p>
-                    {formSelectField(
-                      'answer2',
-                      touched.answer2,
-                      errors.answer2
-                    )}
+                    {formSelectField('answer2', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Skriv en forklaring til riktig svar</p>
-                    {formTextField(
-                      'explanation2',
-                      touched.explanation2,
-                      errors.explanation2
-                    )}
+                    {formTextField('explanation2', touched, errors)}
                   </Grid>
                 </Grid>
               </>
@@ -148,31 +128,19 @@ const CreateForstaelse = ({
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <p>Skriv chat meldingen her:</p>
-                    {formTextField('chat3', touched.chat3, errors.chat3)}
+                    {formTextField('chat3', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Skriv et ja/nei spørsmål til chat meldingen:</p>
-                    {formTextField(
-                      'question3',
-                      touched.question3,
-                      errors.question3
-                    )}
+                    {formTextField('question3', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Velg om svaret er ja eller nei</p>
-                    {formSelectField(
-                      'answer3',
-                      touched.answer3,
-                      errors.answer3
-                    )}
+                    {formSelectField('answer3', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Skriv en forklaring til riktig svar</p>
-                    {formTextField(
-                      'explanation3',
-                      touched.explanation3,
-                      errors.explanation3
-                    )}
+                    {formTextField('explanation3', touched, errors)}
                   </Grid>
                 </Grid>
               </>
@@ -230,7 +198,7 @@ const CreateForstaelse = ({
         color="secondary"
         className={classes.button}
         onClick={() => {
-          setStep('Menu');
+          onGoBack();
         }}
       >
         Tilbake
