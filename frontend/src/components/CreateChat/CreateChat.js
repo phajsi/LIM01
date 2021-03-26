@@ -5,7 +5,6 @@ import { Button, Grid, Paper, Fab, TextField } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import useStyles from '../CreateForstaelse/styles';
-import { axiosInstance } from '../../helpers/ApiFunctions';
 
 const validationSchema = yup.object({
   chatquestion1: yup.string().required('Dette feltet må fylles ut.').max(1000),
@@ -14,41 +13,9 @@ const validationSchema = yup.object({
   correctanswer1: yup.string().required('Dette feltet må fylles ut.').max(1000),
 });
 
-const CreateChat = ({
-  setStep,
-  updateFormData,
-  editId,
-  formDataEdit,
-  setEditId,
-}) => {
+const CreateChat = ({ setStep, formDataEdit, onSubmitPost, onSubmitPut }) => {
   const classes = useStyles();
   const [taskAmount, setTaskAmount] = useState(1);
-
-  const onSubmitPost = (values) => {
-    axiosInstance
-      .post('/createchat/', values)
-      .then((response) => {
-        setStep('Menu');
-        updateFormData(response.data.id, 2);
-        return response;
-      })
-      .catch((e) => {
-        return e;
-      });
-  };
-
-  const onSubmitPut = (values) => {
-    axiosInstance
-      .put(`/createchat/${editId}`, values)
-      .then((response) => {
-        setEditId(null);
-        setStep('Menu');
-        return response;
-      })
-      .catch((e) => {
-        return e;
-      });
-  };
 
   function formTextField(name, touched, errors) {
     return (
@@ -69,20 +36,18 @@ const CreateChat = ({
       <h1>Chat</h1>
       <Formik
         initialValues={
-          editId !== null
-            ? formDataEdit
-            : {
-                chatquestion1: '',
-                answer11: '',
-                answer12: '',
-                correctanswer1: '',
-              }
+          formDataEdit || {
+            chatquestion1: '',
+            answer11: '',
+            answer12: '',
+            correctanswer1: '',
+          }
         }
         onSubmit={(values) => {
-          if (editId === null) {
-            onSubmitPost(values);
+          if (!formDataEdit) {
+            onSubmitPost(values, '/createchat/');
           } else {
-            onSubmitPut(values);
+            onSubmitPut(values, `/createchat/${formDataEdit.id}`);
           }
         }}
         validationSchema={validationSchema}
@@ -252,7 +217,6 @@ const CreateChat = ({
         className={classes.button}
         onClick={() => {
           setStep('Menu');
-          setEditId(null);
         }}
       >
         Tilbake

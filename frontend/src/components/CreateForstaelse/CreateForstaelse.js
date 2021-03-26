@@ -6,7 +6,6 @@ import * as yup from 'yup';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import useStyles from './styles';
-import { axiosInstance } from '../../helpers/ApiFunctions';
 
 const validationSchema = yup.object({
   chat1: yup.string().required('Dette feltet må fylles ut.').max(1000),
@@ -17,39 +16,12 @@ const validationSchema = yup.object({
 
 const CreateForstaelse = ({
   setStep,
-  updateFormData,
-  editId,
-  formDataEditForstaelse,
-  setEditId,
+  formDataEdit,
+  onSubmitPost,
+  onSubmitPut,
 }) => {
   const classes = useStyles();
   const [taskAmount, setTaskAmount] = useState(1);
-
-  const onSubmitPost = (values) => {
-    axiosInstance
-      .post('/createforstaelse/', values)
-      .then((response) => {
-        setStep('Menu');
-        updateFormData(response.data.id, 1);
-        return response;
-      })
-      .catch((e) => {
-        return e;
-      });
-  };
-
-  const onSubmitPut = (values) => {
-    axiosInstance
-      .put(`/createforstaelse/${editId}`, values)
-      .then((response) => {
-        setEditId(null);
-        setStep('Menu');
-        return response;
-      })
-      .catch((e) => {
-        return e;
-      });
-  };
 
   function formTextField(name, touched, errors) {
     return (
@@ -88,15 +60,18 @@ const CreateForstaelse = ({
       <h1>Forståelse</h1>
       <Formik
         initialValues={
-          editId !== null
-            ? formDataEditForstaelse
-            : { chat1: '', question1: '', answer1: 'true', explanation1: '' }
+          formDataEdit || {
+            chat1: '',
+            question1: '',
+            answer1: 'true',
+            explanation1: '',
+          }
         }
         onSubmit={(values) => {
-          if (editId === null) {
-            onSubmitPost(values);
+          if (!formDataEdit) {
+            onSubmitPost(values, '/createforstaelse/');
           } else {
-            onSubmitPut(values);
+            onSubmitPut(values, `/createforstaelse/${formDataEdit.id}`);
           }
         }}
         validationSchema={validationSchema}
@@ -256,7 +231,6 @@ const CreateForstaelse = ({
         className={classes.button}
         onClick={() => {
           setStep('Menu');
-          setEditId(null);
         }}
       >
         Tilbake

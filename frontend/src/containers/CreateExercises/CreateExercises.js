@@ -15,9 +15,7 @@ const CreateExercises = () => {
   const [step, setStep] = useState('Menu');
   const [playId, setPlayId] = useState(0);
   const [emptySetError, setEmptySetError] = useState(null);
-  const [editId, setEditId] = useState(null);
   const [formDataEdit, setFormDataEdit] = useState(null);
-  const [currentExercise, setCurrentExercise] = useState(null);
 
   const [formDataSet, setFormDataSet] = useState({});
   const [exerciseCounts, setExerciseCounts] = useState({ c: 0, f: 0, r: 0 });
@@ -25,7 +23,7 @@ const CreateExercises = () => {
   // used to check whether the user is editing an existing set or creating a new one
   const [editSet, setEditSet] = useState(false);
 
-  function updateCounts() {
+  function updateCounts(formDataSet) {
     let ch = 0;
     let fo = 0;
     let ry = 0;
@@ -52,16 +50,56 @@ const CreateExercises = () => {
    */
 
   function updateSet(id, type) {
-    if (type === 2) {
+    if (type === '/createchat/') {
       formDataSet[`chat${[exerciseCounts.c + 1]}`] = id;
-    } else if (type === 1) {
+    } else if (type === '/createforstaelse/') {
       formDataSet[`forstaelse${[exerciseCounts.f + 1]}`] = id;
     } else {
       formDataSet[`ryddeSetninger${[exerciseCounts.r + 1]}`] = id;
     }
-    updateCounts();
+    updateCounts(formDataSet);
     setEmptySetError(null);
   }
+
+  // updates formdata for the set if user wants to edit an already existing set
+  useEffect(() => {
+    if (location.state?.editSet && !editSet) {
+      setFormDataSet(location.state?.formSets);
+      updateCounts(location.state?.formSets);
+      setEditSet(true);
+    }
+  });
+
+  /**
+   * Either this function or onsubmitPut() will be run when the user submits the form.
+   * It sends a post request to the API and changes the step in CreateExercise.js back to menu.
+   * It also adds the ID of the Rydde Setninger exercise to the current set in CreateExercises.
+   * @param {*} values all fields used in the Formik form.
+   */
+
+  const onSubmitPost = (values, url) => {
+    axiosInstance
+      .post(url, values)
+      .then((response) => {
+        setStep('Menu');
+        updateSet(response.data.id, url);
+      })
+      .catch((e) => {
+        return e;
+      });
+  };
+
+  const onSubmitPut = (values, url) => {
+    axiosInstance
+      .put(url, values)
+      .then(() => {
+        setFormDataEdit(null);
+        setStep('Menu');
+      })
+      .catch((e) => {
+        return e;
+      });
+  };
 
   /**
    * The function is used to retrieve the data from the exercise the user wants to edit.
@@ -75,32 +113,12 @@ const CreateExercises = () => {
       .get(`/${exerciseType}/${id}`)
       .then((res) => {
         setFormDataEdit(res.data);
-        setCurrentExercise(exerciseType);
-        setEditId(id);
+        setStep(exerciseType);
       })
       .catch((e) => {
         return e;
       });
   }
-
-  // used to change step correctly when a user wants to edit an exercise
-  useEffect(() => {
-    if (editId !== null) {
-      setStep(currentExercise);
-    }
-  }, [editId]);
-
-  // updates formdata for the set if user wants to edit an already existing set
-  useEffect(() => {
-    if (location.state?.editSet && !editSet) {
-      setFormDataSet(location.state?.formSets);
-      setEditSet(true);
-    }
-  });
-
-  useEffect(() => {
-    updateCounts();
-  }, [formDataSet]);
 
   function postContent() {
     if (Object.keys(formDataSet).length === 0) {
@@ -142,7 +160,7 @@ const CreateExercises = () => {
         .delete(url)
         .then(() => {
           delete formDataSet[exercise];
-          updateCounts();
+          updateCounts(formDataSet);
         })
         .catch((e) => {
           return e;
@@ -234,31 +252,28 @@ const CreateExercises = () => {
     case 'chat':
       return (
         <CreateChat
-          updateFormData={updateSet}
           setStep={setStep}
-          editId={editId}
           formDataEdit={formDataEdit}
-          setEditId={setEditId}
+          onSubmitPost={onSubmitPost}
+          onSubmitPut={onSubmitPut}
         />
       );
     case 'forstaelse':
       return (
         <CreateForstaelse
-          updateFormData={updateSet}
           setStep={setStep}
-          editId={editId}
-          formDataEditForstaelse={formDataEdit}
-          setEditId={setEditId}
+          formDataEdit={formDataEdit}
+          onSubmitPost={onSubmitPost}
+          onSubmitPut={onSubmitPut}
         />
       );
     case 'rydde_setninger':
       return (
         <CreateRyddeSetninger
-          updateFormData={updateSet}
           setStep={setStep}
-          editId={editId}
           formDataEdit={formDataEdit}
-          setEditId={setEditId}
+          onSubmitPost={onSubmitPost}
+          onSubmitPut={onSubmitPut}
         />
       );
     case 'confirmation':

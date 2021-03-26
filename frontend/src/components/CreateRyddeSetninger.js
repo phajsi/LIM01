@@ -10,7 +10,6 @@ import {
   MenuItem,
 } from '@material-ui/core';
 import useStyles from './CreateForstaelse/styles';
-import { axiosInstance } from '../helpers/ApiFunctions';
 
 const validationSchema = yup.object({
   word1: yup.string().required('Dette feltet må fylles ut.').max(30),
@@ -23,45 +22,11 @@ const validationSchema = yup.object({
 
 const CreateRyddeSetninger = ({
   setStep,
-  updateFormData,
-  editId,
   formDataEdit,
-  setEditId,
+  onSubmitPost,
+  onSubmitPut,
 }) => {
   const classes = useStyles();
-
-  /**
-   * Either this function or onsubmitPut() will be run when the user submits the form.
-   * It sends a post request to the API and changes the step in CreateExercise.js back to menu.
-   * It also adds the ID of the Rydde Setninger exercise to the current set in CreateExercises.
-   * @param {*} values all fields used in the Formik form.
-   */
-
-  const onSubmitPost = (values) => {
-    axiosInstance
-      .post('/create_rydde_setninger/', values)
-      .then((response) => {
-        setStep('Menu');
-        updateFormData(response.data.id, 3);
-        return response;
-      })
-      .catch((e) => {
-        return e;
-      });
-  };
-
-  const onSubmitPut = (values) => {
-    axiosInstance
-      .put(`/create_rydde_setninger/${editId}`, values)
-      .then((response) => {
-        setEditId(null);
-        setStep('Menu');
-        return response;
-      })
-      .catch((e) => {
-        return e;
-      });
-  };
 
   /**
    * Used to avoid repetition of same code.
@@ -117,22 +82,20 @@ const CreateRyddeSetninger = ({
       <h1>Rydde Setninger</h1>
       <Formik
         initialValues={
-          editId !== null
-            ? formDataEdit
-            : {
-                word1: '',
-                wordClass1: '',
-                word2: '',
-                wordClass2: '',
-                word3: '',
-                wordClass3: '',
-              }
+          formDataEdit || {
+            word1: '',
+            wordClass1: '',
+            word2: '',
+            wordClass2: '',
+            word3: '',
+            wordClass3: '',
+          }
         }
         onSubmit={(values) => {
-          if (editId === null) {
-            onSubmitPost(values);
+          if (!formDataEdit) {
+            onSubmitPost(values, '/create_rydde_setninger/');
           } else {
-            onSubmitPut(values);
+            onSubmitPut(values, `/create_rydde_setninger/${formDataEdit.id}`);
           }
         }}
         validationSchema={validationSchema}
@@ -272,7 +235,6 @@ const CreateRyddeSetninger = ({
         className={classes.button}
         onClick={() => {
           setStep('Menu');
-          setEditId(null);
         }}
       >
         Tilbake
