@@ -121,7 +121,10 @@ const CreateExercises = () => {
   }
 
   function postContent() {
-    if (Object.keys(formDataSet).length === 0) {
+    if (
+      Object.keys(formDataSet).length === 0 ||
+      (Object.keys(formDataSet).length === 1 && editSet)
+    ) {
       setEmptySetError(
         'Du må legge til minst en oppgave for å opprette et sett.'
       );
@@ -135,10 +138,6 @@ const CreateExercises = () => {
         .catch((e) => {
           return e;
         });
-    } else if (Object.keys(formDataSet).length === 1 && editSet) {
-      setEmptySetError(
-        'Du må legge til minst en oppgave for å opprette et sett.'
-      );
     } else if (editSet) {
       axiosInstance
         .put(`/createsets/${formDataSet.id}`, formDataSet)
@@ -152,6 +151,28 @@ const CreateExercises = () => {
     }
   }
 
+  function updateDelete() {
+    let c = 1;
+    let f = 1;
+    let r = 1;
+    // eslint-disable-next-line array-callback-return
+    Object.entries(formDataSet).map(([type, id]) => {
+      if (type[0] === 'c') {
+        delete formDataSet[type];
+        formDataSet[`chat${[c]}`] = id;
+        c += 1;
+      } else if (type[0] === 'f') {
+        delete formDataSet[type];
+        formDataSet[`forstaelse${[f]}`] = id;
+        f += 1;
+      } else if (type[0] === 'r') {
+        delete formDataSet[type];
+        formDataSet[`ryddeSetninger${[r]}`] = id;
+        r += 1;
+      }
+    });
+  }
+
   function onDelete(exercise, url) {
     if (editSet && Object.keys(formDataSet).length === 2) {
       setEmptySetError('Det må være igjen minst en oppgave i settet.');
@@ -160,6 +181,7 @@ const CreateExercises = () => {
         .delete(url)
         .then(() => {
           delete formDataSet[exercise];
+          updateDelete();
           updateCounts(formDataSet);
         })
         .catch((e) => {
