@@ -13,82 +13,87 @@ const CreateExercises = () => {
   const location = useLocation();
 
   const [step, setStep] = useState('Menu');
-  const [playId, setPlayId] = useState(0);
   const [emptySetError, setEmptySetError] = useState(null);
+  // object which contains formData from the exercise the user wants to edit
   const [formDataEdit, setFormDataEdit] = useState(null);
-
+  // object which contains all the IDs for the exercises added to the set.
   const [formDataSet, setFormDataSet] = useState({});
+  const [playId, setPlayId] = useState(0);
+  // keeps track of count to make sure no more than 5 of each are added.
   const [exerciseCounts, setExerciseCounts] = useState({ c: 0, f: 0, r: 0 });
-
-  // used to check whether the user is editing an existing set or creating a new one
+  // bool used to check whether the user is editing an existing set or creating a new one
   const [editSet, setEditSet] = useState(false);
 
-  function updateCounts(formDataSet) {
-    let ch = 0;
-    let fo = 0;
-    let ry = 0;
-    // eslint-disable-next-line array-callback-return
-    Object.keys(formDataSet).map((exercise) => {
-      if (exercise[0] === 'c') {
-        ch += 1;
-      } else if (exercise[0] === 'f') {
-        fo += 1;
-      } else {
-        ry += 1;
-      }
-    });
-    setExerciseCounts((prevState) => ({ ...prevState, c: ch, f: fo, r: ry }));
-  }
-
   /**
-   * This function is called after an exercise has been
-   * created backend from one of the createExercise types.
-   * It adds the exercise to the formdata for the set
-   * and increments the counter for that exercise type.
-   * @param {*} id the id for the exercise that has been created
-   * @param {*} type what type of exercise it is
+   * This function updates the formData for the current exercise set being made.
+   * It deletes all entries in the object before adding them back with the correct number
+   * i.e. It makes sure that chat2 will always be added before chat3 if both are empty.
+   * It also updates the exercise counts which keeps track of how many exercises are in the set
+   * and that it is not possible to add more than 5.
+   * @param {*} form the function formDataSet as input.
    */
 
-  function updateSet(id, type) {
-    if (type === '/createchat/') {
-      formDataSet[`chat${[exerciseCounts.c + 1]}`] = id;
-    } else if (type === '/createforstaelse/') {
-      formDataSet[`forstaelse${[exerciseCounts.f + 1]}`] = id;
-    } else {
-      formDataSet[`ryddeSetninger${[exerciseCounts.r + 1]}`] = id;
-    }
-    updateCounts(formDataSet);
-    setEmptySetError(null);
+  function updateSet(form) {
+    const formData = form;
+    const count = { c: 1, f: 1, r: 1 };
+    Object.entries(formData).forEach(([type, id]) => {
+      if (type.substring(0, 4) === 'chat') {
+        // deletes the exercise
+        delete formData[type];
+        // adds it back in to the right position
+        formData[`chat${[count.c]}`] = id;
+        // updates the count
+        count.c += 1;
+      } else if (type.substring(0, 4) === 'fors') {
+        delete formData[type];
+        formData[`forstaelse${[count.f]}`] = id;
+        count.f += 1;
+      } else if (type.substring(0, 4) === 'rydd') {
+        delete formData[type];
+        formData[`ryddeSetninger${[count.r]}`] = id;
+        count.r += 1;
+      }
+    });
+    setFormDataSet(formData);
+    setExerciseCounts((prevState) => ({
+      ...prevState,
+      c: count.c - 1,
+      f: count.f - 1,
+      r: count.r - 1,
+    }));
   }
 
   // updates formdata for the set if user wants to edit an already existing set
   useEffect(() => {
+    // location.state?... is the state/props passed from the Redirect.
     if (location.state?.editSet && !editSet) {
-      setFormDataSet(location.state?.formSets);
-      updateCounts(location.state?.formSets);
+      updateSet(location.state?.formSets);
       setEditSet(true);
     }
   });
 
   /**
-   * Either this function or onsubmitPut() will be run when the user submits the form.
-   * It sends a post request to the API and changes the step in CreateExercise.js back to menu.
-   * It also adds the ID of the Rydde Setninger exercise to the current set in CreateExercises.
-   * @param {*} values all fields used in the Formik form.
+   * regular post request to the backend for the exercises being created in the set.
+   * @param {*} values formData object for the exercise being created
+   * @param {*} url url to the correct exercise type backend.
+   * @param {*} type either chat, forstaelse or ryddeSetnigner
    */
-
-  const onSubmitPost = (values, url) => {
+  const onSubmitPost = (values, url, type) => {
     axiosInstance
       .post(url, values)
       .then((response) => {
+        // this line is adding a row to the formDataSetObject. i.e formdataSet.chat3 = id
+        formDataSet[`${type}${[exerciseCounts.c + 1]}`] = response.data.id;
+        updateSet(formDataSet);
+        setEmptySetError(null);
         setStep('Menu');
-        updateSet(response.data.id, url);
       })
       .catch((e) => {
         return e;
       });
   };
 
+  // Same as function above, but is used when a user wants to edit an exising esercise in the set.
   const onSubmitPut = (values, url) => {
     axiosInstance
       .put(url, values)
@@ -102,9 +107,8 @@ const CreateExercises = () => {
   };
 
   /**
-   * The function is used to retrieve the data from the exercise the user wants to edit.
-   * It saves the return data and if in local states
-   * which is passed as prop to the corresponding create Exercise type.
+   * Gets the exercise formData from backend and passes it into the correct exercise
+   * component when a user wants to edit an exercise.
    * @param {*} id id for the exercise which will be edited
    * @param {*} exerciseType type of exercise to be edited
    */
@@ -120,15 +124,39 @@ const CreateExercises = () => {
       });
   }
 
-  function postContent() {
-    if (
-      Object.keys(formDataSet).length === 0 ||
-      (Object.keys(formDataSet).length === 1 && editSet)
-    ) {
+  /**
+   * Deletes an exercise in the current set.
+   * If a user tries to delete the last exercise in an already existing set then an error is thrown.
+   * @param {*} exercise name of exercise. i.e chat4.
+   * @param {*} url url to the delete api endpoint.
+   */
+  function onDeleteExercise(exercise, url) {
+    if (editSet && Object.keys(formDataSet).length === 2) {
+      setEmptySetError('Det må være igjen minst en oppgave i settet.');
+    } else {
+      axiosInstanceDelete
+        .delete(url)
+        .then(() => {
+          delete formDataSet[exercise];
+          updateSet(formDataSet);
+        })
+        .catch((e) => {
+          return e;
+        });
+    }
+  }
+
+  /**
+   * after the user has finished adding/deleting/editing exerices in the set this function will be run
+   * If a user is editing an existing set, a put request will be sent and if a new set is made a post request.
+   */
+
+  function onSubmitPostSet() {
+    if (Object.keys(formDataSet).length === 0) {
       setEmptySetError(
         'Du må legge til minst en oppgave for å opprette et sett.'
       );
-    } else if (!editSet) {
+    } else {
       axiosInstance
         .post('/createsets/', formDataSet)
         .then((response) => {
@@ -138,7 +166,15 @@ const CreateExercises = () => {
         .catch((e) => {
           return e;
         });
-    } else if (editSet) {
+    }
+  }
+
+  function onSubmitPutSet() {
+    if (Object.keys(formDataSet).length === 1 && editSet) {
+      setEmptySetError(
+        'Du må legge til minst en oppgave for å opprette et sett.'
+      );
+    } else {
       axiosInstance
         .put(`/createsets/${formDataSet.id}`, formDataSet)
         .then((response) => {
@@ -151,45 +187,7 @@ const CreateExercises = () => {
     }
   }
 
-  function updateDelete() {
-    let c = 1;
-    let f = 1;
-    let r = 1;
-    // eslint-disable-next-line array-callback-return
-    Object.entries(formDataSet).map(([type, id]) => {
-      if (type[0] === 'c') {
-        delete formDataSet[type];
-        formDataSet[`chat${[c]}`] = id;
-        c += 1;
-      } else if (type[0] === 'f') {
-        delete formDataSet[type];
-        formDataSet[`forstaelse${[f]}`] = id;
-        f += 1;
-      } else if (type[0] === 'r') {
-        delete formDataSet[type];
-        formDataSet[`ryddeSetninger${[r]}`] = id;
-        r += 1;
-      }
-    });
-  }
-
-  function onDelete(exercise, url) {
-    if (editSet && Object.keys(formDataSet).length === 2) {
-      setEmptySetError('Det må være igjen minst en oppgave i settet.');
-    } else {
-      axiosInstanceDelete
-        .delete(url)
-        .then(() => {
-          delete formDataSet[exercise];
-          updateDelete();
-          updateCounts(formDataSet);
-        })
-        .catch((e) => {
-          return e;
-        });
-    }
-  }
-
+  // function to reset formdataedit if a user doesnt want to edit the exercise
   function onGoBack() {
     setFormDataEdit(null);
     setStep('Menu');
@@ -225,7 +223,13 @@ const CreateExercises = () => {
             <Button
               variant="contained"
               color="secondary"
-              onClick={() => postContent()}
+              onClick={() => {
+                if (editSet) {
+                  onSubmitPutSet();
+                } else {
+                  onSubmitPostSet();
+                }
+              }}
               fullWidth
             >
               {editSet ? 'Endre' : 'Opprett'}
@@ -234,39 +238,33 @@ const CreateExercises = () => {
           <Paper className={classes.menu}>
             <h4>Øvelser:</h4>
             {Object.entries(formDataSet).map(([type, id]) => {
-              if (type[0] === 'c') {
+              if (type.substring(0, 4) === 'chat') {
                 return (
                   <Chip
                     label="Chat"
-                    onDelete={() => onDelete(type, `/deletechat/${id}`)}
+                    onDelete={() => onDeleteExercise(type, `/deletechat/${id}`)}
                     onClick={() => editExercise(id, 'chat')}
                   />
                 );
               }
-              return <></>;
-            })}
-            {Object.entries(formDataSet).map(([type, id]) => {
-              if (type[0] === 'f') {
+              if (type.substring(0, 4) === 'fors') {
                 return (
                   <Chip
                     label="Forstaelse"
                     onDelete={() =>
                       // eslint-disable-next-line prettier/prettier
-                      onDelete(type, `/deleteforstaelse/${id}`)}
+                      onDeleteExercise(type, `/deleteforstaelse/${id}`)}
                     onClick={() => editExercise(id, 'forstaelse')}
                   />
                 );
               }
-              return <></>;
-            })}
-            {Object.entries(formDataSet).map(([type, id]) => {
-              if (type[0] === 'r') {
+              if (type.substring(0, 4) === 'rydd') {
                 return (
                   <Chip
                     label="Rydde Setninger"
                     onDelete={() =>
                       // eslint-disable-next-line prettier/prettier
-                      onDelete(type, `/delete_rydde_setninger/${id}`)}
+                      onDeleteExercise(type, `/delete_rydde_setninger/${id}`)}
                     onClick={() => editExercise(id, 'rydde_setninger')}
                   />
                 );

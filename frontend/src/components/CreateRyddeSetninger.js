@@ -93,7 +93,7 @@ const CreateRyddeSetninger = ({
         }
         onSubmit={(values) => {
           if (!formDataEdit) {
-            onSubmitPost(values, '/create_rydde_setninger/');
+            onSubmitPost(values, '/create_rydde_setninger/', 'ryddeSetninger');
           } else {
             onSubmitPut(values, `/create_rydde_setninger/${formDataEdit.id}`);
           }

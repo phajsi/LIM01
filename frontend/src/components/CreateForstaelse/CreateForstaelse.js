@@ -69,7 +69,7 @@ const CreateForstaelse = ({
         }
         onSubmit={(values) => {
           if (!formDataEdit) {
-            onSubmitPost(values, '/createforstaelse/');
+            onSubmitPost(values, '/createforstaelse/', 'forstaelse');
           } else {
             onSubmitPut(values, `/createforstaelse/${formDataEdit.id}`);
           }

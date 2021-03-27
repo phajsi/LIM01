@@ -81,6 +81,7 @@ const PlaySets = () => {
     setStep('feedback');
   }
 
+  // only runs if an id is passed as state/props while redirected to this page. i.e search bar on front page
   useEffect(() => {
     if (location.state?.id && !redirected) {
       getContent(location.state?.id);
