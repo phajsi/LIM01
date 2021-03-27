@@ -4,6 +4,7 @@ import { Button, TextField } from '@material-ui/core';
 import Forstaelse from './Forstaelse/Forstaelse';
 import Chat from './Chat/Chat';
 import RyddeSetninger from './RyddeSetninger/RyddeSetninger';
+import OverviewPage from './OverviewPage';
 import { axiosInstanceGet } from '../helpers/ApiFunctions';
 
 const PlaySets = () => {
@@ -122,6 +123,7 @@ const PlaySets = () => {
             Click to play exercise set with id
             {id}
           </h1>
+          <OverviewPage />
           <Button
             variant="contained"
             color="secondary"
