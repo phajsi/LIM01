@@ -10,7 +10,6 @@ import {
   MenuItem,
 } from '@material-ui/core';
 import useStyles from './CreateForstaelse/styles';
-import { axiosInstance } from '../helpers/ApiFunctions';
 
 const validationSchema = yup.object({
   word1: yup.string().required('Dette feltet må fylles ut.').max(30),
@@ -22,46 +21,12 @@ const validationSchema = yup.object({
 });
 
 const CreateRyddeSetninger = ({
-  setStep,
-  updateFormData,
-  editId,
+  onGoBack,
   formDataEdit,
-  setEditId,
+  onSubmitPost,
+  onSubmitPut,
 }) => {
   const classes = useStyles();
-
-  /**
-   * Either this function or onsubmitPut() will be run when the user submits the form.
-   * It sends a post request to the API and changes the step in CreateExercise.js back to menu.
-   * It also adds the ID of the Rydde Setninger exercise to the current set in CreateExercises.
-   * @param {*} values all fields used in the Formik form.
-   */
-
-  const onSubmitPost = (values) => {
-    axiosInstance
-      .post('/create_rydde_setninger/', values)
-      .then((response) => {
-        setStep('Menu');
-        updateFormData(response.data.id, 3);
-        return response;
-      })
-      .catch((e) => {
-        return e;
-      });
-  };
-
-  const onSubmitPut = (values) => {
-    axiosInstance
-      .put(`/create_rydde_setninger/${editId}`, values)
-      .then((response) => {
-        setEditId(null);
-        setStep('Menu');
-        return response;
-      })
-      .catch((e) => {
-        return e;
-      });
-  };
 
   /**
    * Used to avoid repetition of same code.
@@ -81,8 +46,8 @@ const CreateRyddeSetninger = ({
         fullWidth
         variant="outlined"
         as={TextField}
-        error={touched && errors}
-        helperText={touched && errors}
+        error={touched[name] && errors[name]}
+        helperText={touched[name] && errors[name]}
       />
     );
   }
@@ -95,8 +60,8 @@ const CreateRyddeSetninger = ({
         margin="dense"
         fullWidth
         as={Select}
-        error={touched && errors}
-        helperText={touched && errors}
+        error={touched[name] && errors[name]}
+        helperText={touched[name] && errors[name]}
       >
         <MenuItem value="n">Substantiv</MenuItem>
         <MenuItem value="v">Verb</MenuItem>
@@ -117,22 +82,20 @@ const CreateRyddeSetninger = ({
       <h1>Rydde Setninger</h1>
       <Formik
         initialValues={
-          editId !== null
-            ? formDataEdit
-            : {
-                word1: '',
-                wordClass1: '',
-                word2: '',
-                wordClass2: '',
-                word3: '',
-                wordClass3: '',
-              }
+          formDataEdit || {
+            word1: '',
+            wordClass1: '',
+            word2: '',
+            wordClass2: '',
+            word3: '',
+            wordClass3: '',
+          }
         }
         onSubmit={(values) => {
-          if (editId === null) {
-            onSubmitPost(values);
+          if (!formDataEdit) {
+            onSubmitPost(values, '/create_rydde_setninger/');
           } else {
-            onSubmitPut(values);
+            onSubmitPut(values, `/create_rydde_setninger/${formDataEdit.id}`);
           }
         }}
         validationSchema={validationSchema}
@@ -147,109 +110,64 @@ const CreateRyddeSetninger = ({
                 <h3>Velg tilhørende ordklasse:</h3>
               </Grid>
               <Grid item xs={6}>
-                {formTextField('word1', 'ord 1', touched.word1, errors.word1)}
+                {formTextField('word1', 'ord 1', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formSelectField(
-                  'wordClass1',
-                  touched.wordClass1,
-                  errors.wordClass1
-                )}
+                {formSelectField('wordClass1', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formTextField('word2', 'ord 2', touched.word2, errors.word2)}
+                {formTextField('word2', 'ord 2', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formSelectField(
-                  'wordClass2',
-                  touched.wordClass2,
-                  errors.wordClass2
-                )}
+                {formSelectField('wordClass2', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formTextField('word3', 'ord 3', touched.word3, errors.word3)}
+                {formTextField('word3', 'ord 3', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formSelectField(
-                  'wordClass3',
-                  touched.wordClass3,
-                  errors.wordClass1
-                )}
+                {formSelectField('wordClass3', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formTextField('word4', 'ord 4', touched.word4, errors.word4)}
+                {formTextField('word4', 'ord 4', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formSelectField(
-                  'wordClass4',
-                  touched.wordClass1,
-                  errors.wordClass1
-                )}
+                {formSelectField('wordClass4', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formTextField('word5', 'ord 5', touched.word5, errors.word5)}
+                {formTextField('word5', 'ord 5', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formSelectField(
-                  'wordClass5',
-                  touched.wordClass5,
-                  errors.wordClass5
-                )}
+                {formSelectField('wordClass5', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formTextField('word6', 'ord 6', touched.word6, errors.word6)}
+                {formTextField('word6', 'ord 6', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formSelectField(
-                  'wordClass6',
-                  touched.wordClass6,
-                  errors.wordClass6
-                )}
+                {formSelectField('wordClass6', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formTextField('word7', 'ord 7', touched.word7, errors.word7)}
+                {formTextField('word7', 'ord 7', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formSelectField(
-                  'wordClass7',
-                  touched.wordClass7,
-                  errors.wordClass7
-                )}
+                {formSelectField('wordClass7', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formTextField('word8', 'ord 8', touched.word8, errors.word8)}
+                {formTextField('word8', 'ord 8', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formSelectField(
-                  'wordClass8',
-                  touched.wordClass8,
-                  errors.wordClass8
-                )}
+                {formSelectField('wordClass8', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formTextField('word9', 'ord 9', touched.word9, errors.word9)}
+                {formTextField('word9', 'ord 9', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formSelectField(
-                  'wordClass9',
-                  touched.wordClass9,
-                  errors.wordClass9
-                )}
+                {formSelectField('wordClass9', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formTextField(
-                  'word10',
-                  'ord 10',
-                  touched.word10,
-                  errors.word10
-                )}
+                {formTextField('word10', 'ord 10', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                {formSelectField(
-                  'wordClass10',
-                  touched.wordClass10,
-                  errors.wordClass10
-                )}
+                {formSelectField('wordClass10', touched, errors)}
               </Grid>
             </Grid>
             <div className={classes.buttons}>
@@ -271,8 +189,7 @@ const CreateRyddeSetninger = ({
         color="secondary"
         className={classes.button}
         onClick={() => {
-          setStep('Menu');
-          setEditId(null);
+          onGoBack();
         }}
       >
         Tilbake

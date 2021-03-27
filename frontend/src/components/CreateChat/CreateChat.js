@@ -5,7 +5,6 @@ import { Button, Grid, Paper, Fab, TextField } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import useStyles from '../CreateForstaelse/styles';
-import { axiosInstance } from '../../helpers/ApiFunctions';
 
 const validationSchema = yup.object({
   chatquestion1: yup.string().required('Dette feltet må fylles ut.').max(1000),
@@ -14,41 +13,9 @@ const validationSchema = yup.object({
   correctanswer1: yup.string().required('Dette feltet må fylles ut.').max(1000),
 });
 
-const CreateChat = ({
-  setStep,
-  updateFormData,
-  editId,
-  formDataEdit,
-  setEditId,
-}) => {
+const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
   const classes = useStyles();
   const [taskAmount, setTaskAmount] = useState(1);
-
-  const onSubmitPost = (values) => {
-    axiosInstance
-      .post('/createchat/', values)
-      .then((response) => {
-        setStep('Menu');
-        updateFormData(response.data.id, 2);
-        return response;
-      })
-      .catch((e) => {
-        return e;
-      });
-  };
-
-  const onSubmitPut = (values) => {
-    axiosInstance
-      .put(`/createchat/${editId}`, values)
-      .then((response) => {
-        setEditId(null);
-        setStep('Menu');
-        return response;
-      })
-      .catch((e) => {
-        return e;
-      });
-  };
 
   function formTextField(name, touched, errors) {
     return (
@@ -58,8 +25,8 @@ const CreateChat = ({
         fullWidth
         variant="outlined"
         as={TextField}
-        error={touched && errors}
-        helperText={touched && errors}
+        error={touched[name] && errors[name]}
+        helperText={touched[name] && errors[name]}
       />
     );
   }
@@ -69,20 +36,18 @@ const CreateChat = ({
       <h1>Chat</h1>
       <Formik
         initialValues={
-          editId !== null
-            ? formDataEdit
-            : {
-                chatquestion1: '',
-                answer11: '',
-                answer12: '',
-                correctanswer1: '',
-              }
+          formDataEdit || {
+            chatquestion1: '',
+            answer11: '',
+            answer12: '',
+            correctanswer1: '',
+          }
         }
         onSubmit={(values) => {
-          if (editId === null) {
-            onSubmitPost(values);
+          if (!formDataEdit) {
+            onSubmitPost(values, '/createchat/');
           } else {
-            onSubmitPut(values);
+            onSubmitPut(values, `/createchat/${formDataEdit.id}`);
           }
         }}
         validationSchema={validationSchema}
@@ -93,27 +58,19 @@ const CreateChat = ({
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <p>Skriv spørsmålet her: </p>
-                {formTextField(
-                  'chatquestion1',
-                  touched.chatquestion1,
-                  errors.chatquestion1
-                )}
+                {formTextField('chatquestion1', touched, errors)}
               </Grid>
               <Grid item xs={12}>
                 <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
-                {formTextField('answer11', touched.answer11, errors.answer11)}
+                {formTextField('answer11', touched, errors)}
               </Grid>
               <Grid item xs={12}>
                 <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
-                {formTextField('answer12', touched.answer12, errors.answer12)}
+                {formTextField('answer12', touched, errors)}
               </Grid>
               <Grid item xs={12}>
                 <p>Skriv svaralternativ 3 her (Korrekt alternativ) her: </p>
-                {formTextField(
-                  'correctanswer1',
-                  touched.correctanswer1,
-                  errors.correctanswer1
-                )}
+                {formTextField('correctanswer1', touched, errors)}
               </Grid>
             </Grid>
             {taskAmount > 1 && (
@@ -123,35 +80,19 @@ const CreateChat = ({
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <p>Skriv spørsmålet her: </p>
-                    {formTextField(
-                      'chatquestion2',
-                      touched.chatquestion2,
-                      errors.chatquestion2
-                    )}
+                    {formTextField('chatquestion2', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
-                    {formTextField(
-                      'answer21',
-                      touched.answer21,
-                      errors.answer21
-                    )}
+                    {formTextField('answer21', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
-                    {formTextField(
-                      'answer22',
-                      touched.answer22,
-                      errors.answer22
-                    )}
+                    {formTextField('answer22', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Skriv svaralternativ 3 her (Korrekt alternativ) her: </p>
-                    {formTextField(
-                      'correctanswer2',
-                      touched.correctanswer2,
-                      errors.correctanswer2
-                    )}
+                    {formTextField('correctanswer2', touched, errors)}
                   </Grid>
                 </Grid>
               </>
@@ -163,35 +104,19 @@ const CreateChat = ({
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <p>Skriv spørsmålet her: </p>
-                    {formTextField(
-                      'chatquestion3',
-                      touched.chatquestion3,
-                      errors.chatquestion3
-                    )}
+                    {formTextField('chatquestion3', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
-                    {formTextField(
-                      'answer31',
-                      touched.answer31,
-                      errors.answer31
-                    )}
+                    {formTextField('answer31', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
-                    {formTextField(
-                      'answer32',
-                      touched.answer32,
-                      errors.answer32
-                    )}
+                    {formTextField('answer32', touched, errors)}
                   </Grid>
                   <Grid item xs={12}>
                     <p>Skriv svaralternativ 3 her (Korrekt alternativ) her: </p>
-                    {formTextField(
-                      'correctanswer3',
-                      touched.correctanswer3,
-                      errors.correctanswer3
-                    )}
+                    {formTextField('correctanswer3', touched, errors)}
                   </Grid>
                 </Grid>
               </>
@@ -251,8 +176,7 @@ const CreateChat = ({
         color="secondary"
         className={classes.button}
         onClick={() => {
-          setStep('Menu');
-          setEditId(null);
+          onGoBack();
         }}
       >
         Tilbake
