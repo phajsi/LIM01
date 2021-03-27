@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Button,
@@ -93,6 +93,21 @@ const useStyles = makeStyles((theme) => ({
 
 const StartPage = () => {
   const classes = useStyles();
+  // eslint-disable-next-line no-unused-vars
+  const [id, setId] = useState(null);
+  const [redirect, setRedirect] = useState(false);
+  const [error, setError] = useState(false);
+
+  const onChange = (e) => setId(e.target.value);
+
+  function playSet() {
+    if (!id) {
+      setError(true);
+    } else {
+      setRedirect(true);
+    }
+  }
+
   return (
     <div className={classes.root}>
       <Appbar position="relative" className={classes.navbar} elevation={0}>
@@ -130,11 +145,18 @@ const StartPage = () => {
               variant="outlined"
               margin="dense"
               fullWidth
+              error={error}
+              onChange={(e) => onChange(e)}
             />
           </Grid>
           <Grid item xs={1} />
           <Grid item xs={2}>
-            <Button fullWidth variant="contained" className={classes.btn}>
+            <Button
+              fullWidth
+              variant="contained"
+              className={classes.btn}
+              onClick={() => playSet()}
+            >
               Søk
             </Button>
           </Grid>
@@ -142,6 +164,16 @@ const StartPage = () => {
       </div>
       <img src={forest} alt="forest" className={classes.forest} />
       <img src={tree} alt="tree" className={classes.tree} />
+      {redirect ? (
+        <Redirect
+          to={{
+            pathname: '/sets',
+            state: { id },
+          }}
+        />
+      ) : (
+        <> </>
+      )}
     </div>
   );
 };

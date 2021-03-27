@@ -4,6 +4,7 @@ from .models import Sets
 from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class SetsView(APIView):
@@ -12,8 +13,8 @@ class SetsView(APIView):
     def get(self, request, pk):
         try:
             getSet = Sets.objects.get(pk=pk)
-        except Sets.DoesNotExist:
-            return JsonResponse(serializer.errors, status=400)
+        except ObjectDoesNotExist:
+            return HttpResponse('Det finnes ingen sett med denne IDen', status=404)
         serializer = SetsSerializer(getSet)
         return JsonResponse(serializer.data, safe=False)
 
