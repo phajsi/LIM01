@@ -45,7 +45,7 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
         }
         onSubmit={(values) => {
           if (!formDataEdit) {
-            onSubmitPost(values, '/createchat/');
+            onSubmitPost(values, '/createchat/', 'chat');
           } else {
             onSubmitPut(values, `/createchat/${formDataEdit.id}`);
           }
