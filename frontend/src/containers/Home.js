@@ -35,6 +35,7 @@ const Home = () => {
   const [deleteId, setDeleteId] = useState(null);
   const [redirect, setRedircet] = useState(false);
   const [formDataEdit, setFormDataEdit] = useState(null);
+  const [savedIdsList, setSavedIdsList] = useState([]);
 
   function getContent() {
     const list = [];
@@ -50,9 +51,23 @@ const Home = () => {
       });
   }
 
+  function getSaved() {
+    const savedList = [];
+    axiosInstance
+      .get(`/saved/`)
+      .then((res) => {
+        res.data.map((sets) => savedList.push(sets.sets));
+        setSavedIdsList(savedList);
+      })
+      .catch((e) => {
+        return e;
+      });
+  }
+
   useEffect(() => {
     if (ExerciseSetList === null) {
       getContent();
+      getSaved();
     }
   });
 
@@ -93,6 +108,22 @@ const Home = () => {
             <Chip
               avatar={<Avatar>{id}</Avatar>}
               label="sett"
+              onDelete={() => {
+                setDeleteId(id);
+                setOpen(true);
+              }}
+              onClick={() => editExerciseSet(id)}
+            />
+          );
+        })}
+      </div>
+      <div className={classes.infoBox}>
+        <h3>Dine Lagrede sett:</h3>
+        {savedIdsList.map((id) => {
+          return (
+            <Chip
+              avatar={<Avatar>{id}</Avatar>}
+              label="Lagret Sett"
               onDelete={() => {
                 setDeleteId(id);
                 setOpen(true);

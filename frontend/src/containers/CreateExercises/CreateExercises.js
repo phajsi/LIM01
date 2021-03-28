@@ -137,7 +137,7 @@ const CreateExercises = () => {
    * @param {*} url url to the delete api endpoint.
    */
   function onDeleteExercise(exercise, url) {
-    if (editSet && Object.keys(formDataSet).length === 2) {
+    if (editSet && Object.keys(formDataSet).length === 4) {
       setEmptySetError('Det må være igjen minst en oppgave i settet.');
     } else {
       axiosInstanceDelete
@@ -158,7 +158,11 @@ const CreateExercises = () => {
    */
 
   function onSubmitPostSet() {
-    if (Object.keys(formDataSet).slice(2).length === 0) {
+    if (
+      !formDataSet.chat1 &&
+      !formDataSet.forstaelse1 &&
+      !formDataSet.ryddeSetninger1
+    ) {
       setEmptySetError(
         'Du må legge til minst en oppgave for å opprette et sett.'
       );
@@ -176,21 +180,15 @@ const CreateExercises = () => {
   }
 
   function onSubmitPutSet() {
-    if (Object.keys(formDataSet).length === 1 && editSet) {
-      setEmptySetError(
-        'Du må legge til minst en oppgave for å opprette et sett.'
-      );
-    } else {
-      axiosInstance
-        .put(`/createsets/${formDataSet.id}`, formDataSet)
-        .then((response) => {
-          setPlayId(response.data.id);
-          setStep('confirmation');
-        })
-        .catch((e) => {
-          return e;
-        });
-    }
+    axiosInstance
+      .put(`/createsets/${formDataSet.id}`, formDataSet)
+      .then((response) => {
+        setPlayId(response.data.id);
+        setStep('confirmation');
+      })
+      .catch((e) => {
+        return e;
+      });
   }
 
   // function to reset formdataedit if a user doesnt want to edit the exercise
