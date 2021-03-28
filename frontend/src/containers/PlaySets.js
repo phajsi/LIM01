@@ -4,6 +4,7 @@ import { Button, TextField } from '@material-ui/core';
 import Forstaelse from './Forstaelse/Forstaelse';
 import Chat from './Chat/Chat';
 import RyddeSetninger from './RyddeSetninger/RyddeSetninger';
+import OverviewPage from './OverviewPage';
 import { axiosInstanceGet } from '../helpers/ApiFunctions';
 
 const PlaySets = () => {
@@ -13,6 +14,8 @@ const PlaySets = () => {
   const [id, setId] = useState(null);
   const [feedbackScore, setFeedBackScore] = useState(0);
   const [redirected, setRedirected] = useState(false);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [formDataExercises] = useState({
     chat: [],
     forstaelse: [],
@@ -68,6 +71,8 @@ const PlaySets = () => {
       .get(`/sets/${id}`)
       .then((res) => {
         createPlayList(res.data);
+        setTitle(res.data.title);
+        setDescription(res.data.description);
         setStep('overview');
       })
       .catch((e) => {
@@ -122,6 +127,7 @@ const PlaySets = () => {
             Click to play exercise set with id
             {id}
           </h1>
+          <OverviewPage title={title} description={description} />
           <Button
             variant="contained"
             color="secondary"

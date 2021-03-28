@@ -9,6 +9,8 @@ from accounts.models import UserAccount
 
 class Sets(models.Model):
     owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    title = models.CharField(max_length=50)
+    description = models.CharField(max_length=1000)
     forstaelse1 = models.ForeignKey(
         Forstaelse, on_delete=models.SET_NULL, related_name='forstaelse1', blank=True, null=True)
     forstaelse2 = models.ForeignKey(

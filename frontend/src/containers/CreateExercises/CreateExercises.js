@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Paper, MenuList, MenuItem, Button } from '@material-ui/core';
+import {
+  Paper,
+  MenuList,
+  MenuItem,
+  Button,
+  TextField,
+} from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import CreateForstaelse from '../../components/CreateForstaelse/CreateForstaelse';
 import CreateChat from '../../components/CreateChat/CreateChat';
@@ -152,7 +158,7 @@ const CreateExercises = () => {
    */
 
   function onSubmitPostSet() {
-    if (Object.keys(formDataSet).length === 0) {
+    if (Object.keys(formDataSet).slice(2).length === 0) {
       setEmptySetError(
         'Du må legge til minst en oppgave for å opprette et sett.'
       );
@@ -219,23 +225,45 @@ const CreateExercises = () => {
                 Rydde Setninger
               </MenuItem>
             </MenuList>
-            {emptySetError && <h4>{emptySetError}</h4>}
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => {
-                if (editSet) {
-                  onSubmitPutSet();
-                } else {
-                  onSubmitPostSet();
-                }
-              }}
-              fullWidth
-            >
-              {editSet ? 'Endre' : 'Opprett'}
-            </Button>
           </Paper>
           <Paper className={classes.menu}>
+            <h1>Ditt sett</h1>
+            <div>
+              <p>Gi settet ditt et navn</p>
+              <TextField
+                name="title"
+                multiline
+                fullWidth
+                rowsMax={1}
+                required
+                variant="outlined"
+                onChange={
+                  (e) =>
+                    setFormDataSet({
+                      ...formDataSet,
+                      title: e.target.value,
+                    })
+                  // eslint-disable-next-line react/jsx-curly-newline
+                }
+              />
+              <p>Gi settet ditt en beskrivelse</p>
+              <TextField
+                name="description"
+                multiline
+                fullWidth
+                rowsMax={1}
+                required
+                variant="outlined"
+                onChange={
+                  (e) =>
+                    setFormDataSet({
+                      ...formDataSet,
+                      description: e.target.value,
+                    })
+                  // eslint-disable-next-line react/jsx-curly-newline
+                }
+              />
+            </div>
             <h4>Øvelser:</h4>
             {Object.entries(formDataSet).map(([type, id]) => {
               if (type.substring(0, 4) === 'chat') {
@@ -271,6 +299,21 @@ const CreateExercises = () => {
               }
               return <></>;
             })}
+            {emptySetError && <h4>{emptySetError}</h4>}
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => {
+                if (editSet) {
+                  onSubmitPutSet();
+                } else {
+                  onSubmitPostSet();
+                }
+              }}
+              fullWidth
+            >
+              {editSet ? 'Endre' : 'Opprett'}
+            </Button>
           </Paper>
         </div>
       );
