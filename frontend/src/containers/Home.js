@@ -1,13 +1,16 @@
-/* eslint-disable array-callback-return */
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { Chip, Avatar } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import {
+  Chip,
+  Avatar,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import { axiosInstance, axiosInstanceDelete } from '../helpers/ApiFunctions';
 
@@ -29,75 +32,96 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
-  const [ExerciseSetList, setExerciseSetList] = useState(null);
-  const [setsIdList, setSetsIdList] = useState([]);
-  const [open, setOpen] = React.useState(false);
+
+  const [ExerciseSetList, setExerciseSetList] = useState([]);
+  const [savedList, setSavedList] = useState([]);
+
+  const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
-  const [redirect, setRedircet] = useState(false);
+
+  const [playId, setPlayId] = useState(null);
   const [formDataEdit, setFormDataEdit] = useState(null);
+  const [redirectEdit, setRedirectEdit] = useState(false);
+  const [redirectPlay, setRedirectPlay] = useState(false);
 
   function getContent() {
-    const list = [];
-    axiosInstance
-      .get(`/usersets/`)
-      .then((res) => {
-        res.data.map((sets) => list.push(sets.id));
-        setSetsIdList(list);
-        setExerciseSetList(res.data);
-      })
+    const requestOne = axiosInstance.get(`/usersets/`);
+    const requestTwo = axiosInstance.get(`/saved/`);
+    axios
+      .all([requestOne, requestTwo])
+      .then(
+        axios.spread((...res) => {
+          setExerciseSetList(res[0].data);
+          setSavedList(res[1].data);
+        })
+      )
       .catch((e) => {
         return e;
       });
   }
 
   useEffect(() => {
-    if (ExerciseSetList === null) {
-      getContent();
-    }
-  });
+    getContent();
+  }, []);
 
   function onDelete(id) {
     axiosInstanceDelete
       .delete(`/deletesets/${id}`)
       .then(() => {
-        getContent();
         setOpen(false);
+        getContent();
       })
       .catch((e) => {
         return e;
       });
   }
 
-  // eslint-disable-next-line no-unused-vars
-  function editExerciseSet(id) {
-    ExerciseSetList.map((exercise) => {
-      if (exercise.id === id) {
-        const setUpdate = exercise;
-        Object.entries(exercise).map(([type, id]) => {
-          if (id === null) {
-            delete setUpdate[type];
-          }
-        });
-        setFormDataEdit(setUpdate);
-        setRedircet(true);
-      }
-    });
+  function removeSaved(id) {
+    axiosInstanceDelete
+      .delete(`/saved/${id}`)
+      .then(() => {
+        getContent();
+      })
+      .catch((e) => {
+        return e;
+      });
   }
 
   return (
     <div className={classes.root}>
       <div className={classes.infoBox}>
         <h3>Dine oppgavesett:</h3>
-        {setsIdList.map((id) => {
+        {ExerciseSetList.map((set) => {
           return (
             <Chip
-              avatar={<Avatar>{id}</Avatar>}
+              avatar={<Avatar>{set.id}</Avatar>}
               label="sett"
               onDelete={() => {
-                setDeleteId(id);
+                setDeleteId(set.id);
                 setOpen(true);
               }}
-              onClick={() => editExerciseSet(id)}
+              onClick={() => {
+                setFormDataEdit(set);
+                setRedirectEdit(true);
+              }}
+            />
+          );
+        })}
+      </div>
+      <div className={classes.infoBox}>
+        <h3>Dine Lagrede sett:</h3>
+        {savedList.map((saved) => {
+          return (
+            <Chip
+              avatar={<Avatar>{saved.sets}</Avatar>}
+              label="Lagret Sett"
+              onDelete={() => {
+                removeSaved(saved.id);
+              }}
+              onClick={() => {
+                setPlayId(saved.sets);
+                setRedirectPlay(true);
+              }}
             />
           );
         })}
@@ -124,11 +148,21 @@ const Home = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      {redirect ? (
+      {redirectEdit ? (
         <Redirect
           to={{
             pathname: '/createexercise',
             state: { formSets: formDataEdit, editSet: true },
+          }}
+        />
+      ) : (
+        <> </>
+      )}
+      {redirectPlay ? (
+        <Redirect
+          to={{
+            pathname: '/sets',
+            state: { id: playId },
           }}
         />
       ) : (
