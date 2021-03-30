@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: 'center',
     height: '100vh',
-    background: 'linear-gradient(90deg, #53A77A 1.46%, #80D197 100%)',
   },
   navbar: {
     backgroundColor: 'transparent',
