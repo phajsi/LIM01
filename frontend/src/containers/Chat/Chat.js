@@ -1,13 +1,26 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Paper from '@material-ui/core/Paper';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import Grid from '@material-ui/core/Grid';
-import { Card, CardHeader, ButtonGroup, Button } from '@material-ui/core';
+import {
+  Card,
+  CardHeader,
+  Grid,
+  ButtonGroup,
+  Button,
+  Avatar,
+  Paper,
+} from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import gingerMan from '../../assets/images/gingerMan.png';
+import capsMan from '../../assets/images/capsMan.png';
+import frenchMan from '../../assets/images/frenchMan.png';
+import brunetteWoman from '../../assets/images/brunetteWoman.png';
+import blondeWoman from '../../assets/images/blondeWoman.png';
+import muslimWoman from '../../assets/images/muslimWoman.png';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
 import NextExerciseBtn from '../../components/NextExerciseBtn';
 import useStyles from './styles';
@@ -25,6 +38,8 @@ const Chat = ({ id, showFeedback }) => {
   const [chatquestion, setChatquestion] = useState(null);
   const [answer1, setAnswer1] = useState(null);
   const [answer2, setAnswer2] = useState(null);
+  const [sendericon, setSendericon] = useState(null);
+  const [receivericon, setReceivericon] = useState(null);
   const [correctanswer, setCorrectanswer] = useState(null);
   const [answerchoice, setAnswerchoice] = useState(null);
   const [answerstate, setAnswerstate] = useState(null);
@@ -55,6 +70,8 @@ const Chat = ({ id, showFeedback }) => {
       setChatquestion(res.data.chatquestion1);
       setAnswer1(res.data.answer11);
       setAnswer2(res.data.answer12);
+      setSendericon(res.data.sendericon);
+      setReceivericon(res.data.receivericon);
       setCorrectanswer(res.data.correctanswer1);
     });
   }
@@ -129,7 +146,7 @@ const Chat = ({ id, showFeedback }) => {
               />
             </Card>
           </Grid>
-          <ChatBubble chat={chatquestion} />
+          <ChatBubble chat={chatquestion} senderIcon={sendericon} />
           {select === true && <ChatBubble chat={answerchoice} />}
           <Grid
             container
@@ -145,6 +162,11 @@ const Chat = ({ id, showFeedback }) => {
                   aria-label="vertical contained primary button group"
                   variant="contained"
                 >
+                  <Avatar
+                    className={classes.avatarLarge}
+                    alt="placeholder_icon"
+                    src={receivericon}
+                  />
                   <Button id={1} onClick={() => setAnswerchoice(answer1)}>
                     {answer1}
                   </Button>

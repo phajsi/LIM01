@@ -22,7 +22,7 @@ class ForstaelseAdmin(admin.ModelAdmin):
 class ChatAdmin(admin.ModelAdmin):
     list_display = ('id', 'chatquestion1', 'answer11', 'answer12', 'correctanswer1',
                     'chatquestion2', 'answer21', 'answer22', 'correctanswer2',
-                    'chatquestion3', 'answer31', 'answer32', 'correctanswer3',)
+                    'chatquestion3', 'answer31', 'answer32', 'correctanswer3', 'sendericon', 'receivericon')
 
 
 class RyddeSetningerAdmin(admin.ModelAdmin):

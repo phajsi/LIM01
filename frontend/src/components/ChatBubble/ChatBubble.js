@@ -2,10 +2,9 @@ import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
-import img from '../../assets/images/User2.png';
 import useStyles from './styles';
 
-const ChatBubble = ({ chat }) => {
+const ChatBubble = ({ chat, senderIcon }) => {
   const classes = useStyles();
   return (
     <Grid container spacing={3}>
@@ -13,7 +12,7 @@ const ChatBubble = ({ chat }) => {
         <Avatar
           className={classes.avatarLarge}
           alt="placeholder_icon"
-          src={img}
+          src={senderIcon}
         />
       </Grid>
       <Grid item xs={9}>
