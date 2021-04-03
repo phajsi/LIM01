@@ -11,7 +11,6 @@ const useStyles = makeStyles(() => ({
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
-    background: 'linear-gradient(90deg, #53A77A 1.46%, #80D197 100%)',
   },
 }));
 
