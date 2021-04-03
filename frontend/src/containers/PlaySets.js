@@ -5,7 +5,7 @@ import Forstaelse from './Forstaelse/Forstaelse';
 import Chat from './Chat/Chat';
 import RyddeSetninger from './RyddeSetninger/RyddeSetninger';
 import OverviewPage from './OverviewPage';
-import { axiosInstanceGet } from '../helpers/ApiFunctions';
+import { axiosInstanceGet, axiosInstance } from '../helpers/ApiFunctions';
 
 const PlaySets = () => {
   const location = useLocation();
@@ -95,6 +95,17 @@ const PlaySets = () => {
     }
   });
 
+  function saveExercise() {
+    axiosInstance
+      .post('/saved/', { sets: id })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((e) => {
+        return e;
+      });
+  }
+
   switch (step) {
     case 'menu':
       return (
@@ -135,6 +146,9 @@ const PlaySets = () => {
             fullWidth
           >
             Spill
+          </Button>
+          <Button variant="contained" onClick={() => saveExercise()} fullWidth>
+            Save
           </Button>
         </div>
       );

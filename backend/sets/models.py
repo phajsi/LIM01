@@ -42,3 +42,11 @@ class Sets(models.Model):
         RyddeSetninger, on_delete=models.SET_NULL, related_name='ryddeSetninger4', blank=True, null=True)
     ryddeSetninger5 = models.ForeignKey(
         RyddeSetninger, on_delete=models.SET_NULL, related_name='ryddeSetninger5', blank=True, null=True)
+
+
+class Saved(models.Model):
+    owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    sets = models.ForeignKey(Sets, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('owner', 'sets',)
