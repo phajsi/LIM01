@@ -50,3 +50,8 @@ class Saved(models.Model):
 
     class Meta:
         unique_together = ('owner', 'sets',)
+
+class Feedback(models.Model):
+    comment = models.CharField(max_length=1000)
+    owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    sets = models.ForeignKey(Sets, on_delete=models.CASCADE)
