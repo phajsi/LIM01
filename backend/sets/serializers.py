@@ -21,5 +21,4 @@ class SavedSerializer(serializers.ModelSerializer):
 class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feedback
-        fields = ('id', 'comment', 'sets')
-        owner = serializers.ReadOnlyField(source='owner.email')
+        fields = '__all__'

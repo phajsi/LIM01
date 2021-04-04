@@ -40,7 +40,7 @@ class SavedAdmin(admin.ModelAdmin):
     list_display = ('id', 'owner', 'sets')
 
 class FeedbackAdmin(admin.ModelAdmin):
-    list_display = ('id', 'owner', 'comment', 'sets')
+    list_display = ('id', 'sets', 'owner', 'comment', 'created_on')
 
 
 admin.site.register(UserAccount, AccountAdmin)

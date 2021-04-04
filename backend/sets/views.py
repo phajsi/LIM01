@@ -1,5 +1,5 @@
 from rest_framework import status, permissions
-from .serializers import SetsSerializer, SavedSerializer
+from .serializers import SetsSerializer, SavedSerializer, FeedbackSerializer
 from .models import Sets, Saved, Feedback
 from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
@@ -79,8 +79,10 @@ class SavedView(APIView):
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
 class FeedbackView(APIView):
+    permission_classes = []
+
     def get(self, request):
-        getFeedback = Feedback.objects.filter(owner=self.request.user)
+        getFeedback = Feedback.objects.all()
         serializer = FeedbackSerializer(getFeedback, many=True)
         return JsonResponse(serializer.data, safe=False)
 
@@ -88,14 +90,6 @@ class FeedbackView(APIView):
         data = JSONParser().parse(request)
         serializer = FeedbackSerializer(data=data)
         if serializer.is_valid():
-            serializer.save(owner=self.request.user)
+            serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
-
-    def delete(self, request, pk):
-        try:
-            getFeedback = Feedback.objects.filter(owner=self.request.user).get(pk=pk)
-        except ObjectDoesNotExist:
-            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
-        getFeedback.delete()
-        return HttpResponse(status=status.HTTP_204_NO_CONTENT)
