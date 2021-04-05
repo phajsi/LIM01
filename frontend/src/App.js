@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import Home from './containers/Home';
+import Home from './containers/Home/Home';
 import Login from './containers/UserAccess/Login';
 import Signup from './containers/UserAccess/Signup';
 import Activate from './containers/UserAccess/Activate';

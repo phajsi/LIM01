@@ -8,9 +8,9 @@ import {
   TextField,
 } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
-import CreateForstaelse from '../../components/CreateForstaelse/CreateForstaelse';
-import CreateChat from '../../components/CreateChat/CreateChat';
-import CreateRyddeSetninger from '../../components/CreateRyddeSetninger';
+import CreateForstaelse from '../../components/CreateExerciseForms/CreateForstaelse';
+import CreateChat from '../../components/CreateExerciseForms/CreateChat';
+import CreateRyddeSetninger from '../../components/CreateExerciseForms/CreateRyddeSetninger';
 import useStyles from './styles';
 import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
 
