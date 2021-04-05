@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
+  Chip,
   Paper,
   MenuList,
   MenuItem,
   Button,
   TextField,
 } from '@material-ui/core';
-import Chip from '@material-ui/core/Chip';
 import CreateForstaelse from '../../components/CreateExerciseForms/CreateForstaelse';
 import CreateChat from '../../components/CreateExerciseForms/CreateChat';
 import CreateRyddeSetninger from '../../components/CreateExerciseForms/CreateRyddeSetninger';
