@@ -32,7 +32,7 @@ const PlaySets = () => {
    * @param {*} sets a object containing sets from backend.
    */
   function createPlayList(sets) {
-    Object.entries(sets).forEach(([exercise]) => {
+    Object.entries(sets).forEach(([exercise, id]) => {
       if (exercise.substring(0, 4) === 'chat' && id) {
         formDataExercises.chat.push(id);
       } else if (exercise.substring(0, 4) === 'fors' && id) {
@@ -76,6 +76,7 @@ const PlaySets = () => {
         setStep('overview');
       })
       .catch((e) => {
+        console.log(e.response.data);
         return e;
       });
   }
@@ -137,7 +138,7 @@ const PlaySets = () => {
             Click to play exercise set with id
             {id}
           </h1>
-          <OverviewPage title={title} description={description} id={id} />
+          <OverviewPage title={title} description={description} />
           <Button
             variant="contained"
             color="secondary"
