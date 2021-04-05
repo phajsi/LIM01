@@ -65,7 +65,7 @@ const OverviewPage = ({ title, description, id }) => {
 
   useEffect(() => {
     getFeedback();
-  }, []);
+  }, [exerciseFeedback]);
 
   console.log(exerciseFeedback);
 
@@ -122,18 +122,21 @@ const OverviewPage = ({ title, description, id }) => {
       </Grid>
       <Grid className={classes.card}>
         <h2>Kommentarer...</h2>
-        <Card>
-          <Avatar alt="placeholder_icon" src={img} />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              Tittel
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              Lizards are a widespread group of squamate reptiles, with over
-              6,000 species, ranging across all continents except Antarctica
-            </Typography>
-          </CardContent>
-        </Card>
+        {Object.values(exerciseFeedback).map((el) => {
+          return (
+            <Card>
+              <Avatar alt="placeholder_icon" src={img} />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  {el.owner}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {el.comment}
+                </Typography>
+              </CardContent>
+            </Card>
+          );
+        })}
       </Grid>
     </Paper>
   );
