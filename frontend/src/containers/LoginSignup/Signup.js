@@ -12,7 +12,7 @@ import {
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
-import { signup } from '../actions/auth';
+import { signup } from '../../actions/auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
