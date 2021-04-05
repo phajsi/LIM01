@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import img from '../assets/images/User2.png';
-import { axiosInstance, axiosInstanceGet } from '../helpers/ApiFunctions';
+import { axiosInstanceGet } from '../helpers/ApiFunctions';
 
 const useStyles = makeStyles({
   root: {
@@ -52,7 +52,7 @@ const OverviewPage = ({ title, description, id }) => {
   }
 
   function onsubmitPostComment() {
-    axiosInstance
+    axiosInstanceGet
       .post('/feedback/', formDataSet)
       .then(() => {
         getFeedback();
