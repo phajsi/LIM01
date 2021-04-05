@@ -138,7 +138,7 @@ const PlaySets = () => {
             Click to play exercise set with id
             {id}
           </h1>
-          <OverviewPage title={title} description={description} />
+          <OverviewPage title={title} description={description} id={id} />
           <Button
             variant="contained"
             color="secondary"

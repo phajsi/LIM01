@@ -31,6 +31,7 @@ const OverviewPage = ({ title, description, id }) => {
   const [exerciseFeedback] = useState([]);
   const [formDataSet, setFormDataSet] = useState({ sets: id });
   const classes = useStyles();
+  console.log(id);
 
   function createFeedbackList(feedbacks) {
     Object.entries(feedbacks).forEach(([comment]) => {
