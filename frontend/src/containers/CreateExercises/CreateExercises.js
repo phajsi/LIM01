@@ -233,6 +233,7 @@ const CreateExercises = () => {
                 rowsMax={1}
                 required
                 variant="outlined"
+                defaultValue={formDataSet.title}
                 onChange={
                   (e) =>
                     setFormDataSet({
@@ -250,6 +251,7 @@ const CreateExercises = () => {
                 rowsMax={1}
                 required
                 variant="outlined"
+                defaultValue={formDataSet.description}
                 onChange={
                   (e) =>
                     setFormDataSet({
