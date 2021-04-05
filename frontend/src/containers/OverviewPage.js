@@ -30,6 +30,8 @@ const useStyles = makeStyles({
 const OverviewPage = ({ title, description, id }) => {
   const [exerciseFeedback] = useState([]);
   const [formDataSet, setFormDataSet] = useState({ sets: id });
+  // eslint-disable-next-line no-unused-vars
+  const [renderPage, setRenderPage] = useState(0);
   const classes = useStyles();
   console.log(id);
 
@@ -46,6 +48,7 @@ const OverviewPage = ({ title, description, id }) => {
       .get(`/feedback/`)
       .then((response) => {
         createFeedbackList(response.data);
+        setRenderPage((render) => render + 1);
       })
       .catch((e) => {
         return e;
