@@ -7,7 +7,7 @@ import Signup from './containers/UserAccess/Signup';
 import Activate from './containers/UserAccess/Activate';
 import ResetPassword from './containers/UserAccess/ResetPassword';
 import ResetPasswordConfirm from './containers/UserAccess/ResetPasswordConfirm';
-import StartPage from './containers/StartPage';
+import StartPage from './containers/StartPage/StartPage';
 import store from './store';
 import Layout from './hocs/Layout';
 import CreateExercises from './containers/CreateExercises/CreateExercises';
