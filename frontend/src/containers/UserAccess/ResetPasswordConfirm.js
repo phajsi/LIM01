@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { reset_password_confirm } from '../../actions/auth';
+import useStyles from './styles';
 
 const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
+  const classes = useStyles();
   const [requestSent, setRequestSent] = useState(false);
   const [formData, setFormData] = useState({
     new_password: '',
@@ -30,7 +32,7 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
   }
 
   return (
-    <div>
+    <div className={classes.root}>
       <form onSubmit={(e) => onSubmit(e)}>
         <div>
           <input
