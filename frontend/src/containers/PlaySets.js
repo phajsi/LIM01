@@ -76,7 +76,6 @@ const PlaySets = () => {
         setStep('overview');
       })
       .catch((e) => {
-        console.log(e.response.data);
         return e;
       });
   }
