@@ -65,7 +65,7 @@ const OverviewPage = ({ title, description, id }) => {
 
   useEffect(() => {
     getFeedback();
-  }, [exerciseFeedback]);
+  }, []);
 
   console.log(exerciseFeedback);
 
