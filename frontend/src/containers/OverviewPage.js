@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Paper, TextField, Button } from '@material-ui/core';
+import {
+  Grid,
+  Paper,
+  TextField,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+  Avatar,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
 import img from '../assets/images/User2.png';
 import { axiosInstanceGet } from '../helpers/ApiFunctions';
 
@@ -13,17 +18,33 @@ const useStyles = makeStyles({
     maxWidth: 1200,
     margin: 'auto',
   },
-  card: {
+  text: {
+    textlign: 'center',
     maxWidth: 800,
     margin: 'auto',
+  },
+  commentfield: {
+    backgroundColor: '#F5F5F5',
+    maxWidth: 800,
+    margin: 'auto',
+  },
+  card: {
+    marginBottom: '5px',
+    marginTop: '5px',
+    display: 'flex',
+    flexDirection: 'column',
   },
   media: {
-    maxHeight: 45,
+    maxHeight: 60,
+    alignSelf: 'flex-start',
   },
   form: {
-    maxWidth: 800,
-    backgroundColor: '#F5F5F5',
     margin: 'auto',
+  },
+  formfields: {
+    width: '100%',
+    marginBottom: '10px',
+    marginTop: '5px',
   },
 });
 
@@ -74,75 +95,86 @@ const OverviewPage = ({ title, description, id }) => {
 
   return (
     <Paper className={classes.root}>
-      <Grid>
+      <Grid className={classes.text}>
         <h1>{title}</h1>
-        <h2>{description}</h2>
+        <p>{description}</p>
       </Grid>
-      <Grid className={classes.form}>
-        <h2>Legg igjen en kommentar!</h2>
-        <div>
-          <TextField
-            name="owner"
-            rowsMax={1}
-            required
-            placeholder="Navn"
-            variant="outlined"
-            onChange={
-              (e) =>
-                setFormDataSet({
-                  ...formDataSet,
-                  owner: e.target.value,
-                })
-              // eslint-disable-next-line react/jsx-curly-newline
-            }
-          />
-        </div>
-        <div>
-          <TextField
-            name="comment"
-            multiline="true"
-            rowsMax={50}
-            required
-            placeholder="Kommentar..."
-            variant="outlined"
-            onChange={
-              (e) =>
-                setFormDataSet({
-                  ...formDataSet,
-                  comment: e.target.value,
-                })
-              // eslint-disable-next-line react/jsx-curly-newline
-            }
-          />
-        </div>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => onsubmitPostComment()}
-        >
-          Send inn
-        </Button>
-      </Grid>
-      <Grid className={classes.card}>
+      <Grid className={classes.commentfield}>
         <h2>Kommentarer...</h2>
-        {exerciseFeedback.length === 0 && (
-          <p>Det finnes ingen kommentarer for dette settet ennå</p>
-        )}
-        {Object.values(exerciseFeedback).map((el) => {
-          return (
-            <Card>
-              <Avatar alt="placeholder_icon" src={img} />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {el.owner}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {el.comment}
-                </Typography>
-              </CardContent>
-            </Card>
-          );
-        })}
+        <Grid className={classes.form}>
+          <p>Legg igjen en kommentar!</p>
+          <div>
+            <TextField
+              name="owner"
+              rowsMax={1}
+              required
+              placeholder="Navn"
+              variant="outlined"
+              onChange={
+                (e) =>
+                  setFormDataSet({
+                    ...formDataSet,
+                    owner: e.target.value,
+                  })
+                // eslint-disable-next-line react/jsx-curly-newline
+              }
+            />
+          </div>
+          <div>
+            <TextField
+              className={classes.formfields}
+              name="comment"
+              multiline="true"
+              rows={5}
+              required
+              placeholder="Kommentar..."
+              variant="outlined"
+              onChange={
+                (e) =>
+                  setFormDataSet({
+                    ...formDataSet,
+                    comment: e.target.value,
+                  })
+                // eslint-disable-next-line react/jsx-curly-newline
+              }
+            />
+          </div>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => onsubmitPostComment()}
+          >
+            Send inn
+          </Button>
+        </Grid>
+        <Grid>
+          {exerciseFeedback.length === 0 && (
+            <p>Det finnes ingen kommentarer for dette settet ennå</p>
+          )}
+          {Object.values(exerciseFeedback).map((el) => {
+            return (
+              <Card className={classes.card}>
+                <Avatar
+                  alt="placeholder_icon"
+                  src={img}
+                  className={classes.media}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    {el.owner}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {el.comment}
+                  </Typography>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </Grid>
       </Grid>
     </Paper>
   );
