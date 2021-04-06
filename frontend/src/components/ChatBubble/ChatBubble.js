@@ -1,7 +1,5 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Card from '@material-ui/core/Card';
-import Grid from '@material-ui/core/Grid';
+import { Avatar, Card, Grid } from '@material-ui/core';
 import img from '../../assets/images/User2.png';
 import useStyles from './styles';
 
@@ -17,7 +15,7 @@ const ChatBubble = ({ chat }) => {
         />
       </Grid>
       <Grid item xs={9}>
-        <Card className={classes.cardleft}>
+        <Card className={classes.cardLeft}>
           <p>{chat}</p>
         </Card>
       </Grid>

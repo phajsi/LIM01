@@ -9,7 +9,7 @@ import {
   Select,
   MenuItem,
 } from '@material-ui/core';
-import useStyles from './CreateForstaelse/styles';
+import useStyles from './styles';
 
 const validationSchema = yup.object({
   word1: yup.string().required('Dette feltet må fylles ut.').max(30),

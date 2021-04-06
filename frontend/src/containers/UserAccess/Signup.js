@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
 import {
   Button,
   Grid,
@@ -12,40 +11,8 @@ import {
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
-import { signup } from '../actions/auth';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    alignItems: 'center',
-    height: '100vh',
-    background: 'linear-gradient(90deg, #53A77A 1.46%, #80D197 100%)',
-    flexDirection: 'column',
-    padding: theme.spacing(3),
-    fontFamily: 'roboto, helvetica, arial, sansSerif',
-  },
-  infoBox: {
-    marginTop: theme.spacing(3),
-    margin: 'auto',
-    padding: theme.spacing(3),
-    width: '60vh',
-  },
-  button: {
-    margin: theme.spacing(1),
-    marginLeft: 0,
-  },
-  secondaryButton: {
-    margin: theme.spacing(1),
-    marginLeft: 0,
-    backgroundColor: 'gray',
-    color: 'white',
-  },
-  headline: {
-    textAlign: 'center',
-  },
-  divider: {
-    margin: theme.spacing(3),
-  },
-}));
+import { signup } from '../../actions/auth';
+import useStyles from './styles';
 
 const Signup = ({ signup, isAuthenticated }) => {
   const classes = useStyles();

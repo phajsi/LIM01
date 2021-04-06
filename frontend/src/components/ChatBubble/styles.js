@@ -7,14 +7,14 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     maxWidth: theme.spacing(100),
   },
-  cardleft: {
+  cardLeft: {
     maxWidth: theme.spacing(50),
     display: 'inline-block',
     marginRight: theme.spacing(4),
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
   },
-  cardright: {
+  cardRight: {
     maxWidth: theme.spacing(50),
     float: 'right',
     display: 'inline-block',

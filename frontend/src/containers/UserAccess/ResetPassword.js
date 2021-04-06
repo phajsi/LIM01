@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { reset_password } from '../actions/auth';
+import { reset_password } from '../../actions/auth';
+import useStyles from './styles';
 
 const ResetPassword = ({ reset_password }) => {
+  const classes = useStyles();
   const [requestSent, setRequestSent] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -26,7 +28,7 @@ const ResetPassword = ({ reset_password }) => {
   }
 
   return (
-    <div>
+    <div className={classes.root}>
       <h1>Request Password Reset:</h1>
       <form onSubmit={(e) => onSubmit(e)}>
         <div>

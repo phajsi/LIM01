@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Paper from '@material-ui/core/Paper';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import Grid from '@material-ui/core/Grid';
-import { Card, CardHeader, ButtonGroup, Button } from '@material-ui/core';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
+import {
+  AppBar,
+  Card,
+  CardHeader,
+  ButtonGroup,
+  Button,
+  Grid,
+  IconButton,
+  Paper,
+  Toolbar,
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
-import NextExerciseBtn from '../../components/NextExerciseBtn';
+import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
 
 const axiosInstance = axios.create({

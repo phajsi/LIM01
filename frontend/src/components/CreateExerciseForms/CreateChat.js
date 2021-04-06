@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { Button, Grid, Paper, Fab, TextField } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import useStyles from '../CreateForstaelse/styles';
+import useStyles from './styles';
 
 const validationSchema = yup.object({
   chatquestion1: yup.string().required('Dette feltet må fylles ut.').max(1000),
