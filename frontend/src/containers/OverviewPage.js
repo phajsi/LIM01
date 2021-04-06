@@ -125,6 +125,9 @@ const OverviewPage = ({ title, description, id }) => {
       </Grid>
       <Grid className={classes.card}>
         <h2>Kommentarer...</h2>
+        {exerciseFeedback.length === 0 && (
+          <p>Det finnes ingen kommentarer for dette settet ennå</p>
+        )}
         {Object.values(exerciseFeedback).map((el) => {
           return (
             <Card>
