@@ -1,24 +1,9 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
-import {
-  Button,
-  Grid,
-  Paper,
-  Fab,
-  TextField,
-  MenuItem,
-  Select,
-  Avatar,
-} from '@material-ui/core';
+import { Button, Grid, Paper, Fab, TextField } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import gingerMan from '../../assets/images/gingerMan.png';
-import capsMan from '../../assets/images/capsMan.png';
-import frenchMan from '../../assets/images/frenchMan.png';
-import brunetteWoman from '../../assets/images/brunetteWoman.png';
-import blondeWoman from '../../assets/images/blondeWoman.png';
-import muslimWoman from '../../assets/images/muslimWoman.png';
 import useStyles from './styles';
 
 const validationSchema = yup.object({
@@ -43,39 +28,6 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
         error={touched[name] && errors[name]}
         helperText={touched[name] && errors[name]}
       />
-    );
-  }
-
-  function formSelectField(name, touched, errors) {
-    return (
-      <Field
-        className={classes.field}
-        name={name}
-        margin="dense"
-        fullWidth
-        as={Select}
-        error={touched[name] && errors[name]}
-        helperText={touched[name] && errors[name]}
-      >
-        <MenuItem value="gingerMan">
-          <Avatar alt="gingerMan" src={gingerMan} />
-        </MenuItem>
-        <MenuItem value="capsMan">
-          <Avatar alt="capsMan" src={capsMan} />
-        </MenuItem>
-        <MenuItem value="frenchMan">
-          <Avatar alt="frenchMan" src={frenchMan} />
-        </MenuItem>
-        <MenuItem value="brunetteWoman">
-          <Avatar alt="brunetteWoman" src={brunetteWoman} />
-        </MenuItem>
-        <MenuItem value="blondeWoman">
-          <Avatar alt="blondeWoman" src={blondeWoman} />
-        </MenuItem>
-        <MenuItem value="muslimWoman">
-          <Avatar alt="muslimWoman" src={muslimWoman} />
-        </MenuItem>
-      </Field>
     );
   }
 
@@ -104,20 +56,6 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
           <Form className={classes.form}>
             <h2> Tema 1 </h2>
             <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <p>Hvem sender meldingen? </p>
-              </Grid>
-              <Grid item xs={3} />
-              <Grid item xs={3}>
-                {formSelectField('sendericon', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                <p>Hvem mottar meldingen? </p>
-              </Grid>
-              <Grid item xs={3} />
-              <Grid item xs={3}>
-                {formSelectField('receivericon', touched, errors)}
-              </Grid>
               <Grid item xs={12}>
                 <p>Skriv spørsmålet her: </p>
                 {formTextField('chatquestion1', touched, errors)}
