@@ -134,11 +134,6 @@ const PlaySets = () => {
     case 'overview':
       return (
         <div>
-          <h1>
-            Click to play exercise set with id
-            {id}
-          </h1>
-          <OverviewPage title={title} description={description} />
           <Button
             variant="contained"
             color="secondary"
@@ -150,6 +145,7 @@ const PlaySets = () => {
           <Button variant="contained" onClick={() => saveExercise()} fullWidth>
             Save
           </Button>
+          <OverviewPage title={title} description={description} id={id} />
         </div>
       );
     case 'forstaelse':
