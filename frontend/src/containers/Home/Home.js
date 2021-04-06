@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { makeStyles } from '@material-ui/core/styles';
 import {
   Chip,
   Avatar,
@@ -12,23 +11,8 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
-import { axiosInstance, axiosInstanceDelete } from '../helpers/ApiFunctions';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    alignItems: 'center',
-    color: 'black',
-    height: '100%',
-    flexDirection: 'column',
-    padding: theme.spacing(3),
-    fontFamily: 'roboto, helvetica, arial, sansSerif',
-  },
-  infoBox: {
-    margin: 'auto',
-    padding: theme.spacing(2),
-    width: '50%',
-  },
-}));
+import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
+import useStyles from './styles';
 
 const Home = () => {
   const classes = useStyles();

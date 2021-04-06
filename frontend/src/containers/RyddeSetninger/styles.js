@@ -12,26 +12,21 @@ const useStyles = makeStyles((theme) => ({
   },
   layout: {
     backgroundColor: '#f5f5f5',
-    marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
   },
   navbar: {
-    margin: 0,
-    padding: 0,
     backgroundColor: 'white',
     color: 'black',
   },
-  header: {
-    marginBottom: theme.spacing(3),
-  },
-  stnField: {
-    minHeight: '3em',
+  chosenWords: {
+    padding: theme.spacing(1),
+    minHeight: '2.5em',
     backgroundColor: 'white',
     borderRadius: '11px',
     boxShadow: 'inset 0px 1px 6px rgba(147, 145, 145, 0.48)',
   },
   wordBtn: {
-    textTransform: 'lowercase',
+    textTransform: 'none',
   },
 }));
 

@@ -22,7 +22,7 @@ import brunetteWoman from '../../assets/images/brunetteWoman.png';
 import blondeWoman from '../../assets/images/blondeWoman.png';
 import muslimWoman from '../../assets/images/muslimWoman.png';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
-import NextExerciseBtn from '../../components/NextExerciseBtn';
+import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
 
 const axiosInstance = axios.create({

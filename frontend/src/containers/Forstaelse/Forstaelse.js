@@ -15,7 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
 import useStyles from './styles';
-import NextExerciseBtn from '../../components/NextExerciseBtn';
+import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
