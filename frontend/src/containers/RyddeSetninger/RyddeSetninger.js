@@ -17,6 +17,7 @@ import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import { makeStyles } from '@material-ui/core/styles';
 import NextExerciseBtn from '../../components/NextExerciseBtn';
 import styles from './styles';
+import ProgressBar from '../../components/ProgressBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,7 +59,7 @@ const axiosInstance = axios.create({
   },
 });
 
-const RyddeSetninger = ({ id, showFeedback }) => {
+const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
   const classes = useStyles();
 
   const [renderPage, setRenderPage] = useState();
@@ -182,6 +183,7 @@ const RyddeSetninger = ({ id, showFeedback }) => {
   return (
     <Paper className={classes.root}>
       <AppBar className={classes.navbar} position="static">
+        <ProgressBar progress={progress} possible={possible} />
         <Toolbar>
           <IconButton
             edge="start"

@@ -13,6 +13,10 @@ const PlaySets = () => {
   const [exerciseId, setExerciseId] = useState(0);
   const [id, setId] = useState(null);
   const [feedbackScore, setFeedBackScore] = useState(0);
+  const [totalScore, setTotalScore] = useState(0);
+  const [exerciseProgress, setExerciseProgress] = useState(0);
+  // eslint-disable-next-line no-unused-vars
+  const [totalExercises, setTotalExercises] = useState(0);
   const [redirected, setRedirected] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -41,6 +45,11 @@ const PlaySets = () => {
         formDataExercises.ryddeSetninger.push(id);
       }
     });
+    setTotalExercises(
+      formDataExercises.chat.length +
+        formDataExercises.forstaelse.length +
+        formDataExercises.ryddeSetninger.length
+    );
   }
 
   /**
@@ -53,12 +62,15 @@ const PlaySets = () => {
 
   function nextExercise() {
     if (formDataExercises.chat[0]) {
+      setExerciseProgress(exerciseProgress + 1);
       setExerciseId(formDataExercises.chat.shift());
       setStep('chat');
     } else if (formDataExercises.forstaelse[0]) {
+      setExerciseProgress(exerciseProgress + 1);
       setExerciseId(formDataExercises.forstaelse.shift());
       setStep('forstaelse');
     } else if (formDataExercises.ryddeSetninger[0]) {
+      setExerciseProgress(exerciseProgress + 1);
       setExerciseId(formDataExercises.ryddeSetninger.shift());
       setStep('ryddeSetninger');
     } else {
@@ -83,6 +95,7 @@ const PlaySets = () => {
 
   function showFeedback(score) {
     setFeedBackScore(score);
+    setTotalScore(totalScore + score);
     setStep('feedback');
   }
 
@@ -139,17 +152,40 @@ const PlaySets = () => {
         </div>
       );
     case 'forstaelse':
-      return <Forstaelse id={exerciseId} showFeedback={showFeedback} />;
+      return (
+        <Forstaelse
+          id={exerciseId}
+          showFeedback={showFeedback}
+          progress={exerciseProgress}
+          possible={totalExercises}
+        />
+      );
     case 'chat':
-      return <Chat id={exerciseId} showFeedback={showFeedback} />;
+      return (
+        <Chat
+          id={exerciseId}
+          showFeedback={showFeedback}
+          progress={exerciseProgress}
+          possible={totalExercises}
+        />
+      );
     case 'ryddeSetninger':
-      return <RyddeSetninger id={exerciseId} showFeedback={showFeedback} />;
+      return (
+        <RyddeSetninger
+          id={exerciseId}
+          showFeedback={showFeedback}
+          progress={exerciseProgress}
+          possible={totalExercises}
+        />
+      );
     case 'feedback':
       return (
         <div>
           <h1>
             Bra jobba, poengsummen din er:
             {feedbackScore}
+            Din sammenlagte score er:
+            {totalScore}
           </h1>
           <Button
             variant="contained"
@@ -162,7 +198,15 @@ const PlaySets = () => {
         </div>
       );
     case 'finish':
-      return <p>The set is completed</p>;
+      return (
+        <div>
+          <h1>Du har spilt ferdig settet</h1>
+          <h1>
+            Din totale poengsum er:
+            {totalScore}
+          </h1>
+        </div>
+      );
     default:
       return <p>default</p>;
   }

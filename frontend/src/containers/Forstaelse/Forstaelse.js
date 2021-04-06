@@ -16,6 +16,7 @@ import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
 import useStyles from './styles';
 import NextExerciseBtn from '../../components/NextExerciseBtn';
+import ProgressBar from '../../components/ProgressBar';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
@@ -27,7 +28,7 @@ const axiosInstance = axios.create({
   },
 });
 
-const Forstaelse = ({ id, showFeedback }) => {
+const Forstaelse = ({ id, showFeedback, progress, possible }) => {
   // const [forstaelse, setForstaelse] = useState(null);
 
   const [formData, setFormData] = useState({
@@ -114,6 +115,7 @@ const Forstaelse = ({ id, showFeedback }) => {
   return (
     <Paper className={classes.root}>
       <AppBar className={classes.navbar} position="static">
+        <ProgressBar progress={progress} possible={possible} />
         <Toolbar>
           <IconButton
             edge="start"
