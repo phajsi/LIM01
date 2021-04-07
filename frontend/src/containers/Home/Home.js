@@ -9,6 +9,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Grid,
+  TextField,
 } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
@@ -27,6 +29,8 @@ const Home = () => {
   const [formDataEdit, setFormDataEdit] = useState(null);
   const [redirectEdit, setRedirectEdit] = useState(false);
   const [redirectPlay, setRedirectPlay] = useState(false);
+
+  const [error, setError] = useState(false);
 
   function getContent() {
     const requestOne = axiosInstance.get(`/usersets/`);
@@ -71,10 +75,53 @@ const Home = () => {
       });
   }
 
+  const onChange = (e) => setPlayId(e.target.value);
+
+  function playSet() {
+    if (!playId) {
+      setError(true);
+    } else {
+      setRedirectPlay(true);
+    }
+  }
+
   return (
     <div className={classes.root}>
       <div className={classes.infoBox}>
-        <h3>Dine oppgavesett:</h3>
+        <div className={classes.searchBox}>
+          <h3 className={classes.searchTitle}> Søk med sett ID </h3>
+          <Grid
+            container
+            spacing={1}
+            direction="row"
+            alignItems="center"
+            justify="center"
+          >
+            <Grid item xs={10}>
+              <TextField
+                className={classes.search}
+                type="text"
+                variant="outlined"
+                placeholder="Finn oppgavesett"
+                margin="dense"
+                fullWidth
+                error={error}
+                onChange={(e) => onChange(e)}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <Button
+                fullWidth
+                variant="contained"
+                className={classes.btn}
+                onClick={() => playSet()}
+              >
+                Søk
+              </Button>
+            </Grid>
+          </Grid>
+        </div>
+        <h3>Mine oppgavesett</h3>
         {ExerciseSetList.map((set) => {
           return (
             <Chip
@@ -93,7 +140,7 @@ const Home = () => {
         })}
       </div>
       <div className={classes.infoBox}>
-        <h3>Dine Lagrede sett:</h3>
+        <h3>Lagrede sett</h3>
         {savedList.map((saved) => {
           return (
             <Chip
