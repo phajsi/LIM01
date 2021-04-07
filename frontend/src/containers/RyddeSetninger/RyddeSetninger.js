@@ -14,7 +14,7 @@ import {
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import { makeStyles } from '@material-ui/core/styles';
+import ProgressBar from '../../components/ProgressBar';
 import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
 
@@ -28,7 +28,7 @@ const axiosInstance = axios.create({
   },
 });
 
-const RyddeSetninger = ({ id, showFeedback }) => {
+const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
   const classes = useStyles();
 
   const [renderPage, setRenderPage] = useState();
@@ -101,8 +101,7 @@ const RyddeSetninger = ({ id, showFeedback }) => {
     });
     setWordWithColorCode([...concatenatedWords]);
   };
-  //  Husk å bytte tilbake til når oppgaven er ferdig
-  // .get(`/rydde_setninger/${id}`)
+
   function getContent() {
     axiosInstance
       .get(`/rydde_setninger/${id}`)
@@ -152,6 +151,7 @@ const RyddeSetninger = ({ id, showFeedback }) => {
   return (
     <Paper className={classes.root}>
       <AppBar className={classes.navbar} position="static">
+        <ProgressBar progress={progress} possible={possible} />
         <Toolbar>
           <IconButton
             edge="start"

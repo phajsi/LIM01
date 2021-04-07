@@ -23,6 +23,7 @@ import defaultMan from '../../assets/images/defaultMan.png';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
 import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
+import ProgressBar from '../../components/ProgressBar';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
@@ -33,8 +34,7 @@ const axiosInstance = axios.create({
   },
 });
 
-// sette id
-const Chat = ({ id, showFeedback }) => {
+const Chat = ({ id, showFeedback, progress, possible }) => {
   const [chatquestion, setChatquestion] = useState(null);
   const [answer1, setAnswer1] = useState(null);
   const [answer2, setAnswer2] = useState(null);
@@ -147,6 +147,7 @@ const Chat = ({ id, showFeedback }) => {
   return (
     <Paper className={classes.root}>
       <AppBar className={classes.navbar} position="static">
+        <ProgressBar progress={progress} possible={possible} />
         <Toolbar>
           <IconButton
             edge="start"
