@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button, TextField } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import Forstaelse from './Forstaelse/Forstaelse';
 import Chat from './Chat/Chat';
 import RyddeSetninger from './RyddeSetninger/RyddeSetninger';
@@ -22,7 +22,7 @@ const PlaySets = () => {
     ryddeSetninger: [],
   });
 
-  const onChange = (e) => setId(e.target.value);
+  // const onChange = (e) => setId(e.target.value);
 
   /**
    * The function will turn the response object from the API endpoint into a
@@ -107,30 +107,6 @@ const PlaySets = () => {
   }
 
   switch (step) {
-    case 'menu':
-      return (
-        <div>
-          <TextField
-            type="number"
-            name="id"
-            variant="outlined"
-            margin="dense"
-            style={{
-              backgroundColor: 'white',
-            }}
-            onChange={(e) => onChange(e)}
-            fullWidth
-          />
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => getContent(id)}
-            fullWidth
-          >
-            Choose
-          </Button>
-        </div>
-      );
     case 'overview':
       return (
         <div>
