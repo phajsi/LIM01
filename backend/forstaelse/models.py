@@ -1,11 +1,15 @@
 from django.db import models
+from accounts.models import UserAccount
 
-# Create your models here.
+
 class Forstaelse(models.Model):
     ANSWER_STATE = (
         ('true', 'true'),
         ('false', 'false')
     )
+
+    owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+
     chat1 = models.CharField(max_length=1000)
     question1 = models.CharField(max_length=1000)
     answer1 = models.CharField(max_length=5, choices=ANSWER_STATE)

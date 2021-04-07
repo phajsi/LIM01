@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { checkAuthenticated, load_user } from '../actions/auth';
 import Navbar from '../components/Navbar/Navbar';
-// import { Paper } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   root: {

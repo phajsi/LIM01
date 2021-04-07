@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'djoser',
     'accounts',
     'forstaelse',
-    'chat'
+    'chat',
+    'sets',
+    'rydde_setninger',
 ]
 
 MIDDLEWARE = [
@@ -167,11 +169,9 @@ DJOSER = {
     'SERIALIZERS': {
         'user_create': 'accounts.serializers.UserCreateSerializer',
         'user': 'accounts.serializers.UserCreateSerializer',
-        #'current_user': 'accounts.serializers.UserCreateSerializer',
+        # 'current_user': 'accounts.serializers.UserCreateSerializer',
         'user_delete': 'djoser.serializers.UserDeleteSerializer',
     }
 }
 
 AUTH_USER_MODEL = 'accounts.UserAccount'
-
-

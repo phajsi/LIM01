@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
-import { AppBar, Box, Typography, Toolbar } from '@material-ui/core';
+import { AppBar, Typography, Toolbar } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
+import logo from '../../assets/images/logoWithText.png';
 import useStyles from './styles';
 
 const Navbar = ({ logout, isAuthenticated }) => {
@@ -28,31 +29,36 @@ const Navbar = ({ logout, isAuthenticated }) => {
   );
 
   const authLinks = () => (
-    <Typography
-      variant="h6"
-      className={classes.right}
-      href="#!"
-      onClick={logoutUser}
-    >
-      <Link to="/" className={classes.title}>
-        Logg ut
-      </Link>
-    </Typography>
+    <>
+      <Typography variant="h6" className={classes.right}>
+        <Link to="/createexercise" className={classes.title}>
+          Opprett oppgavesett
+        </Link>
+      </Typography>
+      <Typography
+        variant="h6"
+        className={classes.right}
+        href="#!"
+        onClick={logoutUser}
+      >
+        <Link to="/" className={classes.title}>
+          Logg ut
+        </Link>
+      </Typography>
+    </>
   );
 
   return (
     <div>
-      <Box component={AppBar} boxShadow={3} className={classes.root}>
+      <AppBar position="relative" className={classes.root}>
         <Toolbar>
-          <Typography variant="h6">
-            <Link to="/" className={classes.title}>
-              Home
-            </Link>
-          </Typography>
+          <Link to="/home">
+            <img src={logo} alt="logo" />
+          </Link>
           {isAuthenticated ? authLinks() : guestLinks()}
         </Toolbar>
-      </Box>
-      {redirect ? <Redirect to="/" /> : <div> </div>}
+      </AppBar>
+      {redirect ? <Redirect to="/" /> : <> </>}
     </div>
   );
 };

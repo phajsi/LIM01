@@ -15,7 +15,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
 import useStyles from './styles';
-import NextExerciseBtn from '../../components/NextExerciseBtn';
+import ProgressBar from '../../components/ProgressBar';
+import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
@@ -27,7 +28,7 @@ const axiosInstance = axios.create({
   },
 });
 
-const Forstaelse = ({ preview, createFormData }) => {
+const Forstaelse = ({ id, showFeedback, progress, possible }) => {
   // const [forstaelse, setForstaelse] = useState(null);
 
   const [formData, setFormData] = useState({
@@ -51,18 +52,19 @@ const Forstaelse = ({ preview, createFormData }) => {
   const [answer, setAnswer] = useState('');
   const [explanation, setExplanation] = useState('');
   const [taskStep, setTaskStep] = useState(1);
+  const [score, setScore] = useState(0);
 
   const classes = useStyles();
 
   function getContent() {
     axiosInstance
-      .get('/forstaelse/')
+      .get(`/forstaelse/${id}`)
       .then((res) => {
-        setFormData(res.data[0]);
-        setChat(res.data[0].chat1);
-        setQuestion(res.data[0].question1);
-        setAnswer(res.data[0].answer1);
-        setExplanation(res.data[0].explanation1);
+        setFormData(res.data);
+        setChat(res.data.chat1);
+        setQuestion(res.data.question1);
+        setAnswer(res.data.answer1);
+        setExplanation(res.data.explanation1);
       })
       .catch((e) => {
         return e;
@@ -73,6 +75,7 @@ const Forstaelse = ({ preview, createFormData }) => {
     setTaskStep(taskStep + 1);
     if (answer === 'true') {
       setAnswerState('correct');
+      setScore(score + 1);
     } else {
       setAnswerState('incorrect');
     }
@@ -82,6 +85,7 @@ const Forstaelse = ({ preview, createFormData }) => {
     setTaskStep(taskStep + 1);
     if (answer === 'false') {
       setAnswerState('correct');
+      setScore(score + 1);
     } else {
       setAnswerState('incorrect');
     }
@@ -94,30 +98,24 @@ const Forstaelse = ({ preview, createFormData }) => {
       setQuestion(formData.question2);
       setAnswer(formData.answer2);
       setExplanation(formData.explanation2);
-    }
-    if (taskStep === 3 && formData.chat3 !== '') {
+    } else if (taskStep === 3 && formData.chat3 !== '') {
       setChat(formData.chat3);
       setQuestion(formData.question3);
       setAnswer(formData.answer3);
       setExplanation(formData.explanation3);
+    } else {
+      showFeedback(score);
     }
   };
 
   useEffect(() => {
-    if (preview) {
-      setFormData(createFormData);
-      setChat(createFormData.chat1);
-      setQuestion(createFormData.question1);
-      setAnswer(createFormData.answer1);
-      setExplanation(createFormData.explanation1);
-    } else {
-      getContent();
-    }
+    getContent();
   }, []);
 
   return (
     <Paper className={classes.root}>
       <AppBar className={classes.navbar} position="static">
+        <ProgressBar progress={progress} possible={possible} />
         <Toolbar>
           <IconButton
             edge="start"

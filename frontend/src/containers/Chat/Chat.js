@@ -1,16 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Paper from '@material-ui/core/Paper';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import Grid from '@material-ui/core/Grid';
-import { Card, CardHeader, ButtonGroup, Button } from '@material-ui/core';
+import {
+  Card,
+  CardHeader,
+  Grid,
+  ButtonGroup,
+  Button,
+  Paper,
+  Toolbar,
+  IconButton,
+} from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import gingerMan from '../../assets/images/gingerMan.png';
+import capsMan from '../../assets/images/capsMan.png';
+import frenchMan from '../../assets/images/frenchMan.png';
+import brunetteWoman from '../../assets/images/brunetteWoman.png';
+import blondeWoman from '../../assets/images/blondeWoman.png';
+import muslimWoman from '../../assets/images/muslimWoman.png';
+import defaultMan from '../../assets/images/defaultMan.png';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
-import NextExerciseBtn from '../../components/NextExerciseBtn';
+import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
+import ProgressBar from '../../components/ProgressBar';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
@@ -21,15 +34,18 @@ const axiosInstance = axios.create({
   },
 });
 
-const Chat = () => {
+const Chat = ({ id, showFeedback, progress, possible }) => {
   const [chatquestion, setChatquestion] = useState(null);
   const [answer1, setAnswer1] = useState(null);
   const [answer2, setAnswer2] = useState(null);
+  const [sendericon, setSendericon] = useState();
+  const [receivericon, setReceivericon] = useState();
   const [correctanswer, setCorrectanswer] = useState(null);
   const [answerchoice, setAnswerchoice] = useState(null);
   const [answerstate, setAnswerstate] = useState(null);
   const [taskStep, setTaskStep] = useState(1);
   const [select, setSelect] = useState(false);
+  const [score, setScore] = useState(0);
 
   const classes = useStyles();
 
@@ -48,13 +64,37 @@ const Chat = () => {
     correctanswer3: '',
   });
 
+  const transformIcon = (iconName) => {
+    switch (iconName) {
+      case 'gingerMan':
+        return gingerMan;
+      case 'capsMan':
+        return capsMan;
+      case 'frenchMan':
+        return frenchMan;
+      case 'brunetteWoman':
+        return brunetteWoman;
+      case 'blondeWoman':
+        return blondeWoman;
+      case 'muslimWoman':
+        return muslimWoman;
+      default:
+        return defaultMan;
+    }
+  };
+
+  // axiosInstance.get(`/chat/${id}`).then((res) => {
   function getContent() {
-    axiosInstance.get('/chat/').then((res) => {
-      setFormData(res.data[0]);
-      setChatquestion(res.data[0].chatquestion1);
-      setAnswer1(res.data[0].answer11);
-      setAnswer2(res.data[0].answer12);
-      setCorrectanswer(res.data[0].correctanswer1);
+    axiosInstance.get(`/chat/${id}`).then((res) => {
+      setFormData(res.data);
+      setChatquestion(res.data.chatquestion1);
+      setAnswer1(res.data.answer11);
+      setAnswer2(res.data.answer12);
+      const avatarS = transformIcon(res.data.sendericon);
+      setSendericon(avatarS);
+      const avatarR = transformIcon(res.data.receivericon);
+      setReceivericon(avatarR);
+      setCorrectanswer(res.data.correctanswer1);
     });
   }
 
@@ -63,6 +103,7 @@ const Chat = () => {
       setTaskStep(taskStep + 1);
       if (answerchoice === correctanswer) {
         setAnswerstate('correct');
+        setScore(score + 1);
       } else {
         setAnswerstate('incorrect');
       }
@@ -78,12 +119,13 @@ const Chat = () => {
       setAnswer1(formData.answer21);
       setAnswer2(formData.answer22);
       setCorrectanswer(formData.correctanswer2);
-    }
-    if (taskStep === 3 && formData.chatquestion3 !== '') {
+    } else if (taskStep === 3 && formData.chatquestion3 !== '') {
       setChatquestion(formData.chatquestion3);
       setAnswer1(formData.answer31);
       setAnswer2(formData.answer32);
       setCorrectanswer(formData.correctanswer3);
+    } else {
+      showFeedback(score);
     }
     setSelect(false);
   };
@@ -102,11 +144,10 @@ const Chat = () => {
     validateChoice();
   }, [answerchoice]);
 
-  console.log(taskStep);
-
   return (
     <Paper className={classes.root}>
       <AppBar className={classes.navbar} position="static">
+        <ProgressBar progress={progress} possible={possible} />
         <Toolbar>
           <IconButton
             edge="start"
@@ -128,8 +169,10 @@ const Chat = () => {
               />
             </Card>
           </Grid>
-          <ChatBubble chat={chatquestion} />
-          {select === true && <ChatBubble chat={answerchoice} />}
+          <ChatBubble chat={chatquestion} icon={sendericon} />
+          {select === true && (
+            <ChatBubble chat={answerchoice} icon={receivericon} />
+          )}
           <Grid
             container
             direction="column"

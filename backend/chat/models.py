@@ -1,7 +1,12 @@
 from django.db import models
+from accounts.models import UserAccount
 
-# Create your models here.
+
 class Chat(models.Model):
+    owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    sendericon = models.CharField(max_length=100, blank=True)
+    receivericon = models.CharField(max_length=100, blank=True)
+
     chatquestion1 = models.CharField(max_length=1000)
     answer11 = models.CharField(max_length=1000)
     answer12 = models.CharField(max_length=1000)
