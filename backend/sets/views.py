@@ -1,10 +1,11 @@
 from rest_framework import status, permissions
-from .serializers import SetsSerializer, SavedSerializer, FeedbackSerializer
+from .serializers import SetsSerializer, SavedSerializer, FeedbackSerializer, RatingSerializer
 from .models import Sets, Saved, Feedback
 from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.response import Response
 
 
 class SetsView(APIView):
@@ -78,6 +79,7 @@ class SavedView(APIView):
         getSaved.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
+
 class FeedbackView(APIView):
     permission_classes = []
 
@@ -93,3 +95,27 @@ class FeedbackView(APIView):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+
+
+class RatingView(APIView):
+    def get(self, request, pk):
+        getRatings = Rating.objects.filter(sets=pk).count()
+        content = {'ratings': getRatings}
+        return Response(content)
+
+    def post(self, request):
+        data = JSONParser().parse(request)
+        serializer = RatingSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save(owner=self.request.user)
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+    def delete(self, request, pk):
+        try:
+            getRating = Rating.objects.filter(
+                owner=self.request.user).get(pk=pk)
+        except ObjectDoesNotExist:
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+        getRating.delete()
+        return HttpResponse(status=status.HTTP_204_NO_CONTENT)

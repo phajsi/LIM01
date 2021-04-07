@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import SetsView, ProtectedSetsView, UserSetsView, SavedView, FeedbackView
+from .views import SetsView, ProtectedSetsView, UserSetsView, SavedView, FeedbackView, RatingView
 
 urlpatterns = [
     path('sets/<int:pk>', SetsView.as_view(), name='setspk'),
@@ -10,5 +10,7 @@ urlpatterns = [
     path('usersets/', UserSetsView.as_view(), name='usersets'),
     path('saved/', SavedView.as_view(), name='saved'),
     path('saved/<int:pk>', SavedView.as_view(), name='saved'),
-    path('feedback/', FeedbackView.as_view(), name='feedback')
+    path('feedback/', FeedbackView.as_view(), name='feedback'),
+    path('Rating/<int:pk>', RatingView.as_view(), name='rating'),
+    path('Rating/', RatingView.as_view(), name='rating')
 ]
