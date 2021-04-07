@@ -101,7 +101,7 @@ const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
     });
     setWordWithColorCode([...concatenatedWords]);
   };
-  
+
   function getContent() {
     axiosInstance
       .get(`/rydde_setninger/${id}`)
