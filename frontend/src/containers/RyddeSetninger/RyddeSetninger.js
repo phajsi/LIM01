@@ -14,40 +14,9 @@ import {
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import { makeStyles } from '@material-ui/core/styles';
-import NextExerciseBtn from '../../components/NextExerciseBtn';
-import styles from './styles';
 import ProgressBar from '../../components/ProgressBar';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: '#f5f5f5',
-    maxWidth: theme.spacing(40),
-    marginTop: theme.spacing(3),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    margin: 'auto',
-  },
-  layout: {
-    backgroundColor: '#f5f5f5',
-    padding: theme.spacing(2),
-  },
-  navbar: {
-    backgroundColor: 'white',
-    color: 'black',
-  },
-  chosenWords: {
-    padding: theme.spacing(1),
-    minHeight: '2.5em',
-    backgroundColor: 'white',
-    borderRadius: '11px',
-    boxShadow: 'inset 0px 1px 6px rgba(147, 145, 145, 0.48)',
-  },
-  wordBtn: {
-    textTransform: 'none',
-  },
-}));
+import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
+import useStyles from './styles';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
@@ -132,8 +101,7 @@ const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
     });
     setWordWithColorCode([...concatenatedWords]);
   };
-  //  Husk å bytte tilbake til når oppgaven er ferdig
-  // .get(`/rydde_setninger/${id}`)
+  
   function getContent() {
     axiosInstance
       .get(`/rydde_setninger/${id}`)

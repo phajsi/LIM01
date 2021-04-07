@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
+  Chip,
   Paper,
   MenuList,
   MenuItem,
   Button,
   TextField,
 } from '@material-ui/core';
-import Chip from '@material-ui/core/Chip';
-import CreateForstaelse from '../../components/CreateForstaelse/CreateForstaelse';
-import CreateChat from '../../components/CreateChat/CreateChat';
-import CreateRyddeSetninger from '../../components/CreateRyddeSetninger';
+import CreateForstaelse from '../../components/CreateExerciseForms/CreateForstaelse';
+import CreateChat from '../../components/CreateExerciseForms/CreateChat';
+import CreateRyddeSetninger from '../../components/CreateExerciseForms/CreateRyddeSetninger';
 import useStyles from './styles';
 import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
 
@@ -41,39 +41,37 @@ const CreateExercises = () => {
 
   function updateSet(form) {
     const formData = form;
-    const count = { c: 1, f: 1, r: 1 };
+    const count = { c: 0, f: 0, r: 0 };
     Object.entries(formData).forEach(([type, id]) => {
       if (type.substring(0, 4) === 'chat') {
-        // deletes the exercise
         delete formData[type];
-        // adds it back in to the right position
-        formData[`chat${[count.c]}`] = id;
-        // updates the count
+        formData[`chat${[count.c + 1]}`] = id;
         count.c += 1;
       } else if (type.substring(0, 4) === 'fors') {
         delete formData[type];
-        formData[`forstaelse${[count.f]}`] = id;
+        formData[`forstaelse${[count.f + 1]}`] = id;
         count.f += 1;
       } else if (type.substring(0, 4) === 'rydd') {
         delete formData[type];
-        formData[`ryddeSetninger${[count.r]}`] = id;
+        formData[`ryddeSetninger${[count.r + 1]}`] = id;
         count.r += 1;
       }
     });
     setFormDataSet(formData);
-    setExerciseCounts((prevState) => ({
-      ...prevState,
-      c: count.c - 1,
-      f: count.f - 1,
-      r: count.r - 1,
-    }));
+    setExerciseCounts(count);
   }
 
   // updates formdata for the set if user wants to edit an already existing set
   useEffect(() => {
     // location.state?... is the state/props passed from the Redirect.
     if (location.state?.editSet && !editSet) {
-      updateSet(location.state?.formSets);
+      const editSet = location.state?.formSets;
+      Object.entries(editSet).forEach(([type, id]) => {
+        if (!id) {
+          delete editSet[type];
+        }
+      });
+      updateSet(editSet);
       setEditSet(true);
     }
   });
@@ -137,7 +135,7 @@ const CreateExercises = () => {
    * @param {*} url url to the delete api endpoint.
    */
   function onDeleteExercise(exercise, url) {
-    if (editSet && Object.keys(formDataSet).length === 2) {
+    if (editSet && Object.keys(formDataSet).length === 4) {
       setEmptySetError('Det må være igjen minst en oppgave i settet.');
     } else {
       axiosInstanceDelete
@@ -158,7 +156,11 @@ const CreateExercises = () => {
    */
 
   function onSubmitPostSet() {
-    if (Object.keys(formDataSet).slice(2).length === 0) {
+    if (
+      !formDataSet.chat1 &&
+      !formDataSet.forstaelse1 &&
+      !formDataSet.ryddeSetninger1
+    ) {
       setEmptySetError(
         'Du må legge til minst en oppgave for å opprette et sett.'
       );
@@ -176,21 +178,15 @@ const CreateExercises = () => {
   }
 
   function onSubmitPutSet() {
-    if (Object.keys(formDataSet).length === 1 && editSet) {
-      setEmptySetError(
-        'Du må legge til minst en oppgave for å opprette et sett.'
-      );
-    } else {
-      axiosInstance
-        .put(`/createsets/${formDataSet.id}`, formDataSet)
-        .then((response) => {
-          setPlayId(response.data.id);
-          setStep('confirmation');
-        })
-        .catch((e) => {
-          return e;
-        });
-    }
+    axiosInstance
+      .put(`/createsets/${formDataSet.id}`, formDataSet)
+      .then((response) => {
+        setPlayId(response.data.id);
+        setStep('confirmation');
+      })
+      .catch((e) => {
+        return e;
+      });
   }
 
   // function to reset formdataedit if a user doesnt want to edit the exercise
@@ -237,6 +233,7 @@ const CreateExercises = () => {
                 rowsMax={1}
                 required
                 variant="outlined"
+                defaultValue={formDataSet.title}
                 onChange={
                   (e) =>
                     setFormDataSet({
@@ -254,6 +251,7 @@ const CreateExercises = () => {
                 rowsMax={1}
                 required
                 variant="outlined"
+                defaultValue={formDataSet.description}
                 onChange={
                   (e) =>
                     setFormDataSet({
