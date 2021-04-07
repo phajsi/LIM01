@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import {
-  AppBar,
   Card,
   CardHeader,
+  Grid,
   ButtonGroup,
   Button,
-  Grid,
-  IconButton,
   Paper,
   Toolbar,
+  IconButton,
 } from '@material-ui/core';
+import AppBar from '@material-ui/core/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import gingerMan from '../../assets/images/gingerMan.png';
+import capsMan from '../../assets/images/capsMan.png';
+import frenchMan from '../../assets/images/frenchMan.png';
+import brunetteWoman from '../../assets/images/brunetteWoman.png';
+import blondeWoman from '../../assets/images/blondeWoman.png';
+import muslimWoman from '../../assets/images/muslimWoman.png';
+import defaultMan from '../../assets/images/defaultMan.png';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
 import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
@@ -26,10 +33,13 @@ const axiosInstance = axios.create({
   },
 });
 
+// sette id
 const Chat = ({ id, showFeedback }) => {
   const [chatquestion, setChatquestion] = useState(null);
   const [answer1, setAnswer1] = useState(null);
   const [answer2, setAnswer2] = useState(null);
+  const [sendericon, setSendericon] = useState();
+  const [receivericon, setReceivericon] = useState();
   const [correctanswer, setCorrectanswer] = useState(null);
   const [answerchoice, setAnswerchoice] = useState(null);
   const [answerstate, setAnswerstate] = useState(null);
@@ -54,12 +64,36 @@ const Chat = ({ id, showFeedback }) => {
     correctanswer3: '',
   });
 
+  const transformIcon = (iconName) => {
+    switch (iconName) {
+      case 'gingerMan':
+        return gingerMan;
+      case 'capsMan':
+        return capsMan;
+      case 'frenchMan':
+        return frenchMan;
+      case 'brunetteWoman':
+        return brunetteWoman;
+      case 'blondeWoman':
+        return blondeWoman;
+      case 'muslimWoman':
+        return muslimWoman;
+      default:
+        return defaultMan;
+    }
+  };
+
+  // axiosInstance.get(`/chat/${id}`).then((res) => {
   function getContent() {
     axiosInstance.get(`/chat/${id}`).then((res) => {
       setFormData(res.data);
       setChatquestion(res.data.chatquestion1);
       setAnswer1(res.data.answer11);
       setAnswer2(res.data.answer12);
+      const avatarS = transformIcon(res.data.sendericon);
+      setSendericon(avatarS);
+      const avatarR = transformIcon(res.data.receivericon);
+      setReceivericon(avatarR);
       setCorrectanswer(res.data.correctanswer1);
     });
   }
@@ -134,8 +168,10 @@ const Chat = ({ id, showFeedback }) => {
               />
             </Card>
           </Grid>
-          <ChatBubble chat={chatquestion} />
-          {select === true && <ChatBubble chat={answerchoice} />}
+          <ChatBubble chat={chatquestion} icon={sendericon} />
+          {select === true && (
+            <ChatBubble chat={answerchoice} icon={receivericon} />
+          )}
           <Grid
             container
             direction="column"

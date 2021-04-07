@@ -10,7 +10,7 @@ import {
   Avatar,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import img from '../assets/images/User2.png';
+import img from '../assets/images/defaultMan.png';
 import { axiosInstanceGet } from '../helpers/ApiFunctions';
 
 const useStyles = makeStyles({
