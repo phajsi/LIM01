@@ -4,6 +4,7 @@ import { Redirect, Link } from 'react-router-dom';
 import { AppBar, Typography, Toolbar } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
+import logo from '../../assets/images/logoWithText.png';
 import useStyles from './styles';
 
 const Navbar = ({ logout, isAuthenticated }) => {
@@ -31,7 +32,7 @@ const Navbar = ({ logout, isAuthenticated }) => {
     <>
       <Typography variant="h6" className={classes.right}>
         <Link to="/createexercise" className={classes.title}>
-          Opprett øvelse
+          Opprett oppgavesett
         </Link>
       </Typography>
       <Typography
@@ -51,19 +52,13 @@ const Navbar = ({ logout, isAuthenticated }) => {
     <div>
       <AppBar position="relative" className={classes.root}>
         <Toolbar>
-          <Typography variant="h6">
-            <Link
-              to="/home"
-              className={classes.title}
-              style={{ color: '#143725' }}
-            >
-              Home
-            </Link>
-          </Typography>
+          <Link to="/home">
+            <img src={logo} alt="logo" />
+          </Link>
           {isAuthenticated ? authLinks() : guestLinks()}
         </Toolbar>
       </AppBar>
-      {redirect ? <Redirect to="/" /> : <div> </div>}
+      {redirect ? <Redirect to="/" /> : <> </>}
     </div>
   );
 };
