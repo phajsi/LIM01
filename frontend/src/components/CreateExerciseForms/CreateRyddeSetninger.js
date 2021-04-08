@@ -13,11 +13,8 @@ import useStyles from './styles';
 
 const validationSchema = yup.object({
   word1: yup.string().required('Dette feltet må fylles ut.').max(30),
-  wordClass1: yup.string().required('Dette feltet må fylles ut.'),
   word2: yup.string().required('Dette feltet må fylles ut.').max(30),
-  wordClass2: yup.string().required('Dette feltet må fylles ut.'),
   word3: yup.string().required('Dette feltet må fylles ut.').max(30),
-  wordClass3: yup.string().required('Dette feltet må fylles ut.'),
 });
 
 const CreateRyddeSetninger = ({
