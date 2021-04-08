@@ -1,6 +1,6 @@
 from rest_framework import status, permissions
 from .serializers import SetsSerializer, SavedSerializer, FeedbackSerializer, RatingSerializer
-from .models import Sets, Saved, Feedback
+from .models import Sets, Saved, Feedback, Rating
 from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
@@ -80,6 +80,17 @@ class SavedView(APIView):
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
 
+class UserSavedView(APIView):
+    def get(self, request, pk):
+        try:
+            getSaved = Saved.objects.filter(
+                owner=self.request.user).get(sets=pk)
+        except ObjectDoesNotExist:
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+        serializer = SavedSerializer(getSaved)
+        return JsonResponse(serializer.data, safe=False)
+
+
 class FeedbackView(APIView):
     permission_classes = []
 
@@ -99,8 +110,13 @@ class FeedbackView(APIView):
 
 class RatingView(APIView):
     def get(self, request, pk):
-        getRatings = Rating.objects.filter(sets=pk).count()
-        content = {'ratings': getRatings}
+        getRatings = Rating.objects.filter(sets=pk)
+        ratingCount = getRatings.count()
+        upvotes = getRatings.filter(rating=True).count()
+        downvotes = getRatings.filter(rating=False).count()
+        percentage = (upvotes/ratingCount)*100
+        content = {'ratings': ratingCount,
+                   'upvotes': upvotes, 'downvotes': downvotes, 'percentage': percentage}
         return Response(content)
 
     def post(self, request):
@@ -119,3 +135,14 @@ class RatingView(APIView):
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)
         getRating.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+
+
+class UserRatingView(APIView):
+    def get(self, request, pk):
+        try:
+            getRating = Rating.objects.filter(
+                owner=self.request.user).get(sets=pk)
+        except ObjectDoesNotExist:
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+        serializer = RatingSerializer(getRating)
+        return JsonResponse(serializer.data, safe=False)
