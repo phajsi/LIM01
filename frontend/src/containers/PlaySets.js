@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core';
 import Forstaelse from './Forstaelse/Forstaelse';
 import Chat from './Chat/Chat';
 import RyddeSetninger from './RyddeSetninger/RyddeSetninger';
-import OverviewPage from './OverviewPage';
+import OverviewPage from './OverviewPage/OverviewPage';
 import { axiosInstanceGet, axiosInstance } from '../helpers/ApiFunctions';
 
 const PlaySets = () => {
