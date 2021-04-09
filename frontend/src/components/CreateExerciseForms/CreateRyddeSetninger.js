@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import {
@@ -78,6 +79,17 @@ const CreateRyddeSetninger = ({
       </Field>
     );
   }
+  useEffect(() => {
+    if (formDataEdit) {
+      let wordAmount = 0;
+      Object.entries(formDataEdit).forEach(([key, values]) => {
+        if (!key.includes('Class') && key !== 'id' && values !== '') {
+          wordAmount += 1;
+        }
+      });
+      addWords(wordAmount);
+    }
+  }, []);
 
   return (
     <Paper className={classes.root}>
@@ -86,11 +98,8 @@ const CreateRyddeSetninger = ({
         initialValues={
           formDataEdit || {
             word1: '',
-            wordClass1: '',
             word2: '',
-            wordClass2: '',
             word3: '',
-            wordClass3: '',
           }
         }
         onSubmit={(values) => {
@@ -113,7 +122,6 @@ const CreateRyddeSetninger = ({
               </Grid>
               {words > 0 &&
                 [...Array(words).keys()].map((el) => {
-                  console.log(el);
                   return (
                     <>
                       <Grid item xs={6}>
