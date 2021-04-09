@@ -121,21 +121,32 @@ class RatingView(APIView):
         return Response(content)
 
     def post(self, request):
-        data = JSONParser().parse(request)
-        serializer = RatingSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save(owner=self.request.user)
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+        """adds, changes or deletes user rating for a set.
 
-    def delete(self, request, pk):
+        If a user has not rated this set, the post request will make a new rating.
+        If a user has rated the set before and a new rating is sent it will either
+        be deleted or changed. 
+        """
+        data = JSONParser().parse(request)
+        setId = data["sets"]
+        rating = data["rating"]
         try:
             getRating = Rating.objects.filter(
-                owner=self.request.user).get(sets=pk)
+                owner=self.request.user).get(sets=setId)
         except ObjectDoesNotExist:
-            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
-        getRating.delete()
-        return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+            serializer = RatingSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save(owner=self.request.user)
+                return JsonResponse(serializer.data, status=201)
+        if (getRating.rating == rating):
+            getRating.delete()
+            return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+        else:
+            serializer = RatingSerializer(getRating, data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
 
 
 class UserRatingView(APIView):

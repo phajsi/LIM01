@@ -49,33 +49,15 @@ const FinishedSet = ({ totalScore, id }) => {
       rating: rated,
       sets: id,
     };
-    if (rating.rating === null) {
-      axiosInstance
-        .post(`/rating/`, formData)
-        .then(() => {
-          getContent();
-        })
-        .catch((e) => {
-          console.log(e.response.data);
-          return e;
-        });
-    } else if (rating.rating !== null) {
-      axiosInstanceDelete
-        .delete(`/rating/${id}`)
-        .then(() => {
-          axiosInstance
-            .post(`/rating/`, formData)
-            .then(() => {
-              getContent();
-            })
-            .catch((e) => {
-              return e;
-            });
-        })
-        .catch((e) => {
-          return e;
-        });
-    }
+    axiosInstance
+      .post(`/rating/`, formData)
+      .then(() => {
+        getContent();
+      })
+      .catch((e) => {
+        console.log(e.response.data);
+        return e;
+      });
   }
 
   function onClickSave() {
