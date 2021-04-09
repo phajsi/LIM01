@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import {
   Button,
   Grid,
+  Fab,
   Paper,
   TextField,
   Select,
   MenuItem,
 } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 import useStyles from './styles';
 
 const validationSchema = yup.object({
@@ -24,6 +27,8 @@ const CreateRyddeSetninger = ({
   onSubmitPut,
 }) => {
   const classes = useStyles();
+
+  const [words, addWords] = useState(3);
 
   /**
    * Used to avoid repetition of same code.
@@ -97,7 +102,7 @@ const CreateRyddeSetninger = ({
         }}
         validationSchema={validationSchema}
       >
-        {({ errors, touched, isSubmitting }) => (
+        {({ errors, touched, isSubmitting, setFieldValue }) => (
           <Form className={classes.form}>
             <Grid container spacing={3}>
               <Grid item xs={6}>
@@ -106,67 +111,50 @@ const CreateRyddeSetninger = ({
               <Grid item xs={6}>
                 <h3>Velg tilhørende ordklasse:</h3>
               </Grid>
-              <Grid item xs={6}>
-                {formTextField('word1', 'ord 1', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass1', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word2', 'ord 2', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass2', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word3', 'ord 3', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass3', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word4', 'ord 4', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass4', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word5', 'ord 5', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass5', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word6', 'ord 6', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass6', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word7', 'ord 7', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass7', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word8', 'ord 8', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass8', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word9', 'ord 9', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass9', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word10', 'ord 10', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass10', touched, errors)}
-              </Grid>
+              {words > 0 &&
+                [...Array(words).keys()].map((el) => {
+                  console.log(el);
+                  return (
+                    <>
+                      <Grid item xs={6}>
+                        {formTextField(
+                          `word${el + 1}`,
+                          `ord ${el + 1}`,
+                          touched,
+                          errors
+                        )}
+                      </Grid>
+                      <Grid item xs={6}>
+                        {formSelectField(`wordClass${el + 1}`, touched, errors)}
+                      </Grid>
+                    </>
+                  );
+                })}
             </Grid>
+            {words < 10 && (
+              <Fab
+                className={classes.innerMargin}
+                size="small"
+                onClick={() => addWords(words + 1)}
+                variant="contained"
+              >
+                <AddIcon />
+              </Fab>
+            )}
+            {words > 3 && (
+              <Fab
+                className={classes.innerMargin}
+                size="small"
+                onClick={() => {
+                  setFieldValue(`word${words}`, undefined, false);
+                  setFieldValue(`wordClass${words}`, undefined, false);
+                  addWords(words - 1);
+                }}
+                variant="contained"
+              >
+                <RemoveIcon />
+              </Fab>
+            )}
             <div className={classes.buttons}>
               <Button
                 disabled={isSubmitting}
