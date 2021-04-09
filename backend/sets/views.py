@@ -73,7 +73,8 @@ class SavedView(APIView):
 
     def delete(self, request, pk):
         try:
-            getSaved = Saved.objects.filter(owner=self.request.user).get(pk=pk)
+            getSaved = Saved.objects.filter(
+                owner=self.request.user).get(sets=pk)
         except ObjectDoesNotExist:
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)
         getSaved.delete()
@@ -86,9 +87,10 @@ class UserSavedView(APIView):
             getSaved = Saved.objects.filter(
                 owner=self.request.user).get(sets=pk)
         except ObjectDoesNotExist:
-            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
-        serializer = SavedSerializer(getSaved)
-        return JsonResponse(serializer.data, safe=False)
+            content = {'saved': False}
+            return Response(content)
+        content = {'saved': True}
+        return Response(content)
 
 
 class FeedbackView(APIView):
@@ -114,9 +116,8 @@ class RatingView(APIView):
         ratingCount = getRatings.count()
         upvotes = getRatings.filter(rating=True).count()
         downvotes = getRatings.filter(rating=False).count()
-        percentage = (upvotes/ratingCount)*100
         content = {'ratings': ratingCount,
-                   'upvotes': upvotes, 'downvotes': downvotes, 'percentage': percentage}
+                   'upvotes': upvotes, 'downvotes': downvotes}
         return Response(content)
 
     def post(self, request):
@@ -130,7 +131,7 @@ class RatingView(APIView):
     def delete(self, request, pk):
         try:
             getRating = Rating.objects.filter(
-                owner=self.request.user).get(pk=pk)
+                owner=self.request.user).get(sets=pk)
         except ObjectDoesNotExist:
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)
         getRating.delete()
@@ -143,6 +144,7 @@ class UserRatingView(APIView):
             getRating = Rating.objects.filter(
                 owner=self.request.user).get(sets=pk)
         except ObjectDoesNotExist:
-            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
-        serializer = RatingSerializer(getRating)
-        return JsonResponse(serializer.data, safe=False)
+            content = {'rating': None}
+            return Response(content)
+        content = {'rating': getRating.rating}
+        return Response(content)
