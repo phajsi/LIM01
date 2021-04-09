@@ -84,7 +84,7 @@ const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
       case 'adj':
         return { backgroundColor: '#D08EEF' };
       default:
-        return { backgroundColor: 'gray' };
+        return { backgroundColor: '#E0E0E0' };
     }
   };
 
