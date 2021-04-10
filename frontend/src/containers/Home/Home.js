@@ -147,7 +147,7 @@ const Home = () => {
               avatar={<Avatar>{saved.sets}</Avatar>}
               label="Lagret Sett"
               onDelete={() => {
-                removeSaved(saved.id);
+                removeSaved(saved.sets);
               }}
               onClick={() => {
                 setPlayId(saved.sets);

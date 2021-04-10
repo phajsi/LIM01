@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   Grid,
   Paper,
@@ -9,8 +10,10 @@ import {
   Typography,
   Avatar,
 } from '@material-ui/core';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import img from '../../assets/images/defaultMan.png';
-import { axiosInstanceGet } from '../../helpers/ApiFunctions';
+import { axiosInstanceGet, axiosInstance } from '../../helpers/ApiFunctions';
 import useStyles from './style';
 
 const OverviewPage = ({ title, description, id }) => {
@@ -18,6 +21,8 @@ const OverviewPage = ({ title, description, id }) => {
   const [formDataSet, setFormDataSet] = useState({ sets: id });
   // eslint-disable-next-line no-unused-vars
   const [renderPage, setRenderPage] = useState(0);
+  const [ratings, setRatings] = useState({ upvote: 0, downvote: 0 });
+
   const classes = useStyles();
   console.log(id);
 
@@ -29,13 +34,18 @@ const OverviewPage = ({ title, description, id }) => {
     });
   }
 
-  function getFeedback() {
-    axiosInstanceGet
-      .get(`/feedback/`)
-      .then((response) => {
-        createFeedbackList(response.data);
-        setRenderPage((render) => render + 1);
-      })
+  function getContent() {
+    const requestOne = axiosInstanceGet.get(`/feedback/`);
+    const requestTwo = axiosInstance.get(`/rating/${id}`);
+    axios
+      .all([requestOne, requestTwo])
+      .then(
+        axios.spread((...res) => {
+          createFeedbackList(res[0].data);
+          setRenderPage((render) => render + 1);
+          setRatings(res[1].data);
+        })
+      )
       .catch((e) => {
         return e;
       });
@@ -45,7 +55,7 @@ const OverviewPage = ({ title, description, id }) => {
     axiosInstanceGet
       .post('/feedback/', formDataSet)
       .then(() => {
-        getFeedback();
+        getContent();
       })
       .catch((e) => {
         return e;
@@ -53,7 +63,7 @@ const OverviewPage = ({ title, description, id }) => {
   }
 
   useEffect(() => {
-    getFeedback();
+    getContent();
   }, []);
 
   console.log(exerciseFeedback);
@@ -63,6 +73,14 @@ const OverviewPage = ({ title, description, id }) => {
       <Grid className={classes.text}>
         <h1>{title}</h1>
         <p>{description}</p>
+        <div>
+          <p>
+            <ThumbUpIcon />
+            {ratings.upvotes}
+            <ThumbDownIcon />
+            {ratings.downvotes}
+          </p>
+        </div>
       </Grid>
       <Grid className={classes.commentfield}>
         <h2>Kommentarer...</h2>

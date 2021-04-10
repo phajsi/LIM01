@@ -4,7 +4,8 @@ import { Button } from '@material-ui/core';
 import Forstaelse from './Forstaelse/Forstaelse';
 import Chat from './Chat/Chat';
 import RyddeSetninger from './RyddeSetninger/RyddeSetninger';
-import OverviewPage from './OverviewPage/OverviewPage';
+import FinishedSet from './FinishedSet';
+import OverviewPage from './overviewPage/OverviewPage';
 import { axiosInstanceGet, axiosInstance } from '../helpers/ApiFunctions';
 
 const PlaySets = () => {
@@ -184,15 +185,7 @@ const PlaySets = () => {
         </div>
       );
     case 'finish':
-      return (
-        <div>
-          <h1>Du har spilt ferdig settet</h1>
-          <h1>
-            Din totale poengsum er:
-            {totalScore}
-          </h1>
-        </div>
-      );
+      return <FinishedSet totalScore={totalScore} id={id} />;
     default:
       return <p>default</p>;
   }

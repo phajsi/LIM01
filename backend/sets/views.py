@@ -1,10 +1,11 @@
 from rest_framework import status, permissions
-from .serializers import SetsSerializer, SavedSerializer, FeedbackSerializer
-from .models import Sets, Saved, Feedback
+from .serializers import SetsSerializer, SavedSerializer, FeedbackSerializer, RatingSerializer
+from .models import Sets, Saved, Feedback, Rating
 from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.response import Response
 
 
 class SetsView(APIView):
@@ -72,11 +73,25 @@ class SavedView(APIView):
 
     def delete(self, request, pk):
         try:
-            getSaved = Saved.objects.filter(owner=self.request.user).get(pk=pk)
+            getSaved = Saved.objects.filter(
+                owner=self.request.user).get(sets=pk)
         except ObjectDoesNotExist:
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)
         getSaved.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+
+
+class UserSavedView(APIView):
+    def get(self, request, pk):
+        try:
+            getSaved = Saved.objects.filter(
+                owner=self.request.user).get(sets=pk)
+        except ObjectDoesNotExist:
+            content = {'saved': False}
+            return Response(content)
+        content = {'saved': True}
+        return Response(content)
+
 
 class FeedbackView(APIView):
     permission_classes = []
@@ -93,3 +108,54 @@ class FeedbackView(APIView):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+
+
+class RatingView(APIView):
+    def get(self, request, pk):
+        getRatings = Rating.objects.filter(sets=pk)
+        ratingCount = getRatings.count()
+        upvotes = getRatings.filter(rating=True).count()
+        downvotes = getRatings.filter(rating=False).count()
+        content = {'ratings': ratingCount,
+                   'upvotes': upvotes, 'downvotes': downvotes}
+        return Response(content)
+
+    def post(self, request):
+        """adds, changes or deletes user rating for a set.
+
+        If a user has not rated this set, the post request will make a new rating.
+        If a user has rated the set before and a new rating is sent it will either
+        be deleted or changed. 
+        """
+        data = JSONParser().parse(request)
+        setId = data["sets"]
+        rating = data["rating"]
+        try:
+            getRating = Rating.objects.filter(
+                owner=self.request.user).get(sets=setId)
+        except ObjectDoesNotExist:
+            serializer = RatingSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save(owner=self.request.user)
+                return JsonResponse(serializer.data, status=201)
+        if (getRating.rating == rating):
+            getRating.delete()
+            return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+        else:
+            serializer = RatingSerializer(getRating, data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+
+class UserRatingView(APIView):
+    def get(self, request, pk):
+        try:
+            getRating = Rating.objects.filter(
+                owner=self.request.user).get(sets=pk)
+        except ObjectDoesNotExist:
+            content = {'rating': None}
+            return Response(content)
+        content = {'rating': getRating.rating}
+        return Response(content)
