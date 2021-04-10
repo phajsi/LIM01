@@ -12,44 +12,9 @@ import {
 } from '@material-ui/core';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import { makeStyles } from '@material-ui/core/styles';
-import img from '../assets/images/defaultMan.png';
-import { axiosInstanceGet, axiosInstance } from '../helpers/ApiFunctions';
-
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 1200,
-    margin: 'auto',
-  },
-  text: {
-    textlign: 'center',
-    maxWidth: 800,
-    margin: 'auto',
-  },
-  commentfield: {
-    backgroundColor: '#F5F5F5',
-    maxWidth: 800,
-    margin: 'auto',
-  },
-  card: {
-    marginBottom: '5px',
-    marginTop: '5px',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  media: {
-    maxHeight: 60,
-    alignSelf: 'flex-start',
-  },
-  form: {
-    margin: 'auto',
-  },
-  formfields: {
-    width: '100%',
-    marginBottom: '10px',
-    marginTop: '5px',
-  },
-});
+import img from '../../assets/images/defaultMan.png';
+import { axiosInstanceGet, axiosInstance } from '../../helpers/ApiFunctions';
+import useStyles from './style';
 
 const OverviewPage = ({ title, description, id }) => {
   const [exerciseFeedback] = useState([]);
@@ -169,7 +134,7 @@ const OverviewPage = ({ title, description, id }) => {
           {exerciseFeedback.length === 0 && (
             <p>Det finnes ingen kommentarer for dette settet ennå</p>
           )}
-          {Object.values(exerciseFeedback).map((el) => {
+          {exerciseFeedback.map((el) => {
             return (
               <Card className={classes.card}>
                 <Avatar
