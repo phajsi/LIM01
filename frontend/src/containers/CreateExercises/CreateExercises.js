@@ -87,7 +87,8 @@ const CreateExercises = () => {
       .post(url, values)
       .then((response) => {
         // this line is adding a row to the formDataSetObject. i.e formdataSet.chat3 = id
-        formDataSet[`${type}${[exerciseCounts.c + 1]}`] = response.data.id;
+        formDataSet[`${type}${[exerciseCounts[type.substring(0, 1)] + 1]}`] =
+          response.data.id;
         updateSet(formDataSet);
         setEmptySetError(null);
         setStep('Menu');

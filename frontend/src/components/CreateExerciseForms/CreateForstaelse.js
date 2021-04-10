@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Fab, Paper, Grid, Select, MenuItem } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import { Formik, Form, Field } from 'formik';
@@ -22,6 +22,16 @@ const CreateForstaelse = ({
 }) => {
   const classes = useStyles();
   const [taskAmount, setTaskAmount] = useState(1);
+
+  useEffect(() => {
+    if (formDataEdit) {
+      if (formDataEdit.chat3) {
+        setTaskAmount(3);
+      } else if (formDataEdit.chat2) {
+        setTaskAmount(2);
+      }
+    }
+  }, []);
 
   function formTextField(name, touched, errors) {
     return (
@@ -78,73 +88,34 @@ const CreateForstaelse = ({
       >
         {({ errors, touched, setFieldValue, isSubmitting }) => (
           <Form className={classes.form}>
-            <h2>Oppgave 1</h2>
             <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <p>Skriv chat meldingen her:</p>
-                {formTextField('chat1', touched, errors)}
-              </Grid>
-              <Grid item xs={12}>
-                <p>Skriv et ja/nei spørsmål til chat meldingen:</p>
-                {formTextField('question1', touched, errors)}
-              </Grid>
-              <Grid item xs={12}>
-                <p>Velg om svaret er ja eller nei</p>
-                {formSelectField('answer1', touched, errors)}
-              </Grid>
-              <Grid item xs={12}>
-                <p>Skriv en forklaring til riktig svar</p>
-                {formTextField('explanation1', touched, errors)}
-              </Grid>
+              {[...Array(taskAmount).keys()].map((el) => {
+                return (
+                  <>
+                    <h2>
+                      Oppgave
+                      {el + 1}
+                    </h2>
+                    <Grid item xs={12}>
+                      <p>Skriv chat meldingen her:</p>
+                      {formTextField(`chat${el + 1}`, touched, errors)}
+                    </Grid>
+                    <Grid item xs={12}>
+                      <p>Skriv et ja/nei spørsmål til chat meldingen:</p>
+                      {formTextField(`question${el + 1}`, touched, errors)}
+                    </Grid>
+                    <Grid item xs={12}>
+                      <p>Velg om svaret er ja eller nei</p>
+                      {formSelectField(`answer${el + 1}`, touched, errors)}
+                    </Grid>
+                    <Grid item xs={12}>
+                      <p>Skriv en forklaring til riktig svar</p>
+                      {formTextField(`explanation${el + 1}`, touched, errors)}
+                    </Grid>
+                  </>
+                );
+              })}
             </Grid>
-            {taskAmount > 1 && (
-              <>
-                <hr />
-                <h2> Oppgave 2 </h2>
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <p>Skriv chat meldingen her:</p>
-                    {formTextField('chat2', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Skriv et ja/nei spørsmål til chat meldingen:</p>
-                    {formTextField('question2', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Velg om svaret er ja eller nei</p>
-                    {formSelectField('answer2', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Skriv en forklaring til riktig svar</p>
-                    {formTextField('explanation2', touched, errors)}
-                  </Grid>
-                </Grid>
-              </>
-            )}
-            {taskAmount > 2 && (
-              <>
-                <hr />
-                <h2> Oppgave 3 </h2>
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <p>Skriv chat meldingen her:</p>
-                    {formTextField('chat3', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Skriv et ja/nei spørsmål til chat meldingen:</p>
-                    {formTextField('question3', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Velg om svaret er ja eller nei</p>
-                    {formSelectField('answer3', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Skriv en forklaring til riktig svar</p>
-                    {formTextField('explanation3', touched, errors)}
-                  </Grid>
-                </Grid>
-              </>
-            )}
             <Grid />
             <div className={classes.addIcon}>
               {taskAmount > 1 && (
@@ -152,15 +123,9 @@ const CreateForstaelse = ({
                   className={classes.innerMargin}
                   size="small"
                   onClick={() => {
-                    if (taskAmount === 3) {
-                      setFieldValue('chat3', '', false);
-                      setFieldValue('question3', '', false);
-                      setFieldValue('explanation3', '', false);
-                    } else {
-                      setFieldValue('chat2', '', false);
-                      setFieldValue('question2', '', false);
-                      setFieldValue('explanation2', '', false);
-                    }
+                    setFieldValue(`chat${taskAmount}`, '', false);
+                    setFieldValue(`question${taskAmount}`, '', false);
+                    setFieldValue(`explanation${taskAmount}`, '', false);
                     setTaskAmount(taskAmount - 1);
                   }}
                   variant="contained"
