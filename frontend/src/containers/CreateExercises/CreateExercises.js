@@ -27,8 +27,6 @@ const CreateExercises = () => {
   const [playId, setPlayId] = useState(0);
   // keeps track of count to make sure no more than 5 of each are added.
   const [exerciseCounts, setExerciseCounts] = useState({ c: 0, f: 0, r: 0 });
-  // bool used to check whether the user is editing an existing set or creating a new one
-  const [editSet, setEditSet] = useState(false);
 
   /**
    * This function updates the formData for the current exercise set being made.
@@ -43,7 +41,9 @@ const CreateExercises = () => {
     const formData = form;
     const count = { c: 0, f: 0, r: 0 };
     Object.entries(formData).forEach(([type, id]) => {
-      if (type.substring(0, 4) === 'chat') {
+      if (!id) {
+        delete formData[type];
+      } else if (type.substring(0, 4) === 'chat') {
         delete formData[type];
         formData[`chat${[count.c + 1]}`] = id;
         count.c += 1;
@@ -64,17 +64,10 @@ const CreateExercises = () => {
   // updates formdata for the set if user wants to edit an already existing set
   useEffect(() => {
     // location.state?... is the state/props passed from the Redirect.
-    if (location.state?.editSet && !editSet) {
-      const editSet = location.state?.formSets;
-      Object.entries(editSet).forEach(([type, id]) => {
-        if (!id) {
-          delete editSet[type];
-        }
-      });
-      updateSet(editSet);
-      setEditSet(true);
+    if (location.state?.editSet) {
+      updateSet(location.state?.formSets);
     }
-  });
+  }, []);
 
   /**
    * regular post request to the backend for the exercises being created in the set.
@@ -136,7 +129,7 @@ const CreateExercises = () => {
    * @param {*} url url to the delete api endpoint.
    */
   function onDeleteExercise(exercise, url) {
-    if (editSet && Object.keys(formDataSet).length === 4) {
+    if (location.state?.editSet && Object.keys(formDataSet).length === 4) {
       setEmptySetError('Det må være igjen minst en oppgave i settet.');
     } else {
       axiosInstanceDelete
@@ -303,7 +296,7 @@ const CreateExercises = () => {
               variant="contained"
               color="secondary"
               onClick={() => {
-                if (editSet) {
+                if (location.state?.editSet) {
                   onSubmitPutSet();
                 } else {
                   onSubmitPostSet();
@@ -311,7 +304,7 @@ const CreateExercises = () => {
               }}
               fullWidth
             >
-              {editSet ? 'Endre' : 'Opprett'}
+              {location.state?.editSet ? 'Endre' : 'Opprett'}
             </Button>
           </Paper>
         </div>
