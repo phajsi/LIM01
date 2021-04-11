@@ -55,6 +55,7 @@ const OverviewPage = ({ title, description, id }) => {
     axiosInstanceGet
       .post('/feedback/', formDataSet)
       .then(() => {
+        exerciseFeedback.length = 0;
         getContent();
       })
       .catch((e) => {
