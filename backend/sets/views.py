@@ -1,6 +1,6 @@
 from rest_framework import status, permissions
-from .serializers import SetsSerializer, SavedSerializer, FeedbackSerializer, RatingSerializer
-from .models import Sets, Saved, Feedback, Rating
+from .serializers import SetsSerializer, SavedSerializer, CommentSerializer, RatingSerializer
+from .models import Sets, Saved, Comment, Rating
 from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
@@ -93,21 +93,40 @@ class UserSavedView(APIView):
         return Response(content)
 
 
-class FeedbackView(APIView):
+class CommentView(APIView):
     permission_classes = []
 
-    def get(self, request):
-        getFeedback = Feedback.objects.all()
-        serializer = FeedbackSerializer(getFeedback, many=True)
+    def get(self, request, pk):
+        getComment = Comment.objects.filter(sets=pk)
+        serializer = CommentSerializer(getComment, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+class UserCommentView(APIView):
+    def get(self, request, pk):
+        try:
+            getComment = Comment.objects.filter(owner=self.request.user).get(sets=pk)
+        except ObjectDoesNotExist:
+            content = {'comment': None}
+            return Response(content)
+        serializer = CommentSerializer(getComment, many=True)
         return JsonResponse(serializer.data, safe=False)
 
     def post(self, request):
         data = JSONParser().parse(request)
-        serializer = FeedbackSerializer(data=data)
+        serializer = CommentSerializer(data=data)
         if serializer.is_valid():
+            serializer.save(owner=self.request.user)
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+
+    def delete(self, request, pk):
+        try:
+            getComment = Comment.objects.filter(owner=self.request.user).get(pk=pk)
+        except ObjectDoesNotExist:
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+        getComment.delete()
+        return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
 
 class RatingView(APIView):

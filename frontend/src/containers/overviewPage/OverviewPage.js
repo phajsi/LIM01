@@ -35,7 +35,7 @@ const OverviewPage = ({ title, description, id }) => {
   }
 
   function getContent() {
-    const requestOne = axiosInstanceGet.get(`/feedback/`);
+    const requestOne = axiosInstanceGet.get(`/comment/${id}`);
     const requestTwo = axiosInstance.get(`/rating/${id}`);
     axios
       .all([requestOne, requestTwo])
@@ -52,8 +52,8 @@ const OverviewPage = ({ title, description, id }) => {
   }
 
   function onsubmitPostComment() {
-    axiosInstanceGet
-      .post('/feedback/', formDataSet)
+    axiosInstance
+      .post('/comment/', formDataSet)
       .then(() => {
         exerciseFeedback.length = 0;
         getContent();

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Sets, Saved, Feedback, Rating
+from .models import Sets, Saved, Comment, Rating
 
 
 class SetsSerializer(serializers.ModelSerializer):
@@ -19,10 +19,11 @@ class SavedSerializer(serializers.ModelSerializer):
         owner = serializers.ReadOnlyField(source='owner.email')
 
 
-class FeedbackSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Feedback
-        fields = '__all__'
+        model = Comment
+        fields = ('id', 'sets', 'comment')
+        owner = serializers.ReadOnlyField(source='owner.email')
 
 
 class RatingSerializer(serializers.ModelSerializer):
