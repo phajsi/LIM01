@@ -6,7 +6,7 @@ import Chat from './Chat/Chat';
 import RyddeSetninger from './RyddeSetninger/RyddeSetninger';
 import FinishedSet from './FinishedSet';
 import OverviewPage from './overviewPage/OverviewPage';
-import { axiosInstanceGet, axiosInstance } from '../helpers/ApiFunctions';
+import { axiosInstanceGet } from '../helpers/ApiFunctions';
 
 const PlaySets = () => {
   const location = useLocation();
@@ -109,33 +109,16 @@ const PlaySets = () => {
     }
   });
 
-  function saveExercise() {
-    axiosInstance
-      .post('/saved/', { sets: id })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((e) => {
-        return e;
-      });
-  }
-
   switch (step) {
     case 'overview':
       return (
         <div>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => nextExercise()}
-            fullWidth
-          >
-            Spill
-          </Button>
-          <Button variant="contained" onClick={() => saveExercise()} fullWidth>
-            Save
-          </Button>
-          <OverviewPage title={title} description={description} id={id} />
+          <OverviewPage
+            title={title}
+            description={description}
+            id={id}
+            nextExercise={nextExercise}
+          />
         </div>
       );
     case 'forstaelse':

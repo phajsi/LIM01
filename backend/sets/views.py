@@ -106,7 +106,7 @@ class UserCommentView(APIView):
         try:
             getComment = Comment.objects.filter(owner=self.request.user).get(sets=pk)
         except ObjectDoesNotExist:
-            content = {'comment': None}
+            HttpResponse(status=status.HTTP_404_NOT_FOUND)
             return Response(content)
         serializer = CommentSerializer(getComment, many=True)
         return JsonResponse(serializer.data, safe=False)
@@ -116,7 +116,6 @@ class UserCommentView(APIView):
         serializer = CommentSerializer(data=data)
         if serializer.is_valid():
             serializer.save(owner=self.request.user)
-            serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 

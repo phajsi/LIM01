@@ -57,10 +57,6 @@ class Comment(models.Model):
     sets = models.ForeignKey(
         Sets, related_name='comments', on_delete=models.CASCADE)
     comment = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True, null=True)
-
-    class Meta:
-        unique_together = ('owner', 'sets',)
 
 
 class Rating(models.Model):

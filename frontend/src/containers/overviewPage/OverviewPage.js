@@ -16,7 +16,7 @@ import img from '../../assets/images/defaultMan.png';
 import { axiosInstanceGet, axiosInstance } from '../../helpers/ApiFunctions';
 import useStyles from './style';
 
-const OverviewPage = ({ title, description, id }) => {
+const OverviewPage = ({ title, description, id, nextExercise }) => {
   const [exerciseFeedback] = useState([]);
   const [formDataSet, setFormDataSet] = useState({ sets: id });
   // eslint-disable-next-line no-unused-vars
@@ -24,13 +24,10 @@ const OverviewPage = ({ title, description, id }) => {
   const [ratings, setRatings] = useState({ upvote: 0, downvote: 0 });
 
   const classes = useStyles();
-  console.log(id);
 
   function createFeedbackList(feedbacks) {
     Object.entries(feedbacks).forEach(([comment]) => {
-      if (feedbacks[comment].sets === Number(id)) {
-        exerciseFeedback.push(feedbacks[comment]);
-      }
+      exerciseFeedback.push(feedbacks[comment]);
     });
   }
 
@@ -53,10 +50,21 @@ const OverviewPage = ({ title, description, id }) => {
 
   function onsubmitPostComment() {
     axiosInstance
-      .post('/comment/', formDataSet)
+      .post(`/usercomment/`, formDataSet)
       .then(() => {
         exerciseFeedback.length = 0;
         getContent();
+      })
+      .catch((e) => {
+        return e;
+      });
+  }
+
+  function saveExercise() {
+    axiosInstance
+      .post('/saved/', { sets: id })
+      .then((response) => {
+        console.log(response);
       })
       .catch((e) => {
         return e;
@@ -71,40 +79,37 @@ const OverviewPage = ({ title, description, id }) => {
 
   return (
     <Paper className={classes.root}>
-      <Grid className={classes.text}>
-        <h1>{title}</h1>
-        <p>{description}</p>
-        <div>
-          <p>
-            <ThumbUpIcon />
-            {ratings.upvotes}
-            <ThumbDownIcon />
-            {ratings.downvotes}
-          </p>
-        </div>
-      </Grid>
-      <Grid className={classes.commentfield}>
-        <h2>Kommentarer...</h2>
-        <Grid className={classes.form}>
-          <p>Legg igjen en kommentar!</p>
+      <Grid container spacing={3}>
+        <Grid item xs={12} className={classes.infobox}>
+          <h1>{title}</h1>
+          <p>{description}</p>
           <div>
-            <TextField
-              name="owner"
-              rowsMax={1}
-              required
-              placeholder="Navn"
-              variant="outlined"
-              onChange={
-                (e) =>
-                  setFormDataSet({
-                    ...formDataSet,
-                    owner: e.target.value,
-                  })
-                // eslint-disable-next-line react/jsx-curly-newline
-              }
-            />
+            <p>
+              <ThumbUpIcon />
+              {ratings.upvotes}
+              <ThumbDownIcon />
+              {ratings.downvotes}
+            </p>
           </div>
-          <div>
+        </Grid>
+        <Grid item xs={6} className={classes.buttons}>
+          <Button variant="contained" onClick={() => saveExercise()} fullWidth>
+            Lagre
+          </Button>
+        </Grid>
+        <Grid item xs={6} className={classes.buttons}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => nextExercise()}
+            fullWidth
+          >
+            Spill
+          </Button>
+        </Grid>
+        <Grid item xs={12} className={classes.makecomment}>
+          <h2>Legg igjen en kommentar!</h2>
+          <Grid item xs={12} className={classes.form}>
             <TextField
               className={classes.formfields}
               name="comment"
@@ -122,16 +127,14 @@ const OverviewPage = ({ title, description, id }) => {
                 // eslint-disable-next-line react/jsx-curly-newline
               }
             />
-          </div>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => onsubmitPostComment()}
-          >
-            Send inn
-          </Button>
+          </Grid>
+          <Grid>
+            <Button variant="contained" onClick={() => onsubmitPostComment()}>
+              Send inn
+            </Button>
+          </Grid>
         </Grid>
-        <Grid>
+        <Grid item xs={12} className={classes.commentfield}>
           {exerciseFeedback.length === 0 && (
             <p>Det finnes ingen kommentarer for dette settet ennå</p>
           )}
