@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import {
@@ -31,6 +31,16 @@ const validationSchema = yup.object({
 const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
   const classes = useStyles();
   const [taskAmount, setTaskAmount] = useState(1);
+
+  useEffect(() => {
+    if (formDataEdit) {
+      if (formDataEdit.chatquestion3) {
+        setTaskAmount(3);
+      } else if (formDataEdit.chatquestion2) {
+        setTaskAmount(2);
+      }
+    }
+  }, []);
 
   function formTextField(name, touched, errors) {
     return (
@@ -118,89 +128,44 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
               <Grid item xs={3}>
                 {formSelectField('receivericon', touched, errors)}
               </Grid>
-              <Grid item xs={12}>
-                <p>Skriv spørsmålet her: </p>
-                {formTextField('chatquestion1', touched, errors)}
-              </Grid>
-              <Grid item xs={12}>
-                <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
-                {formTextField('answer11', touched, errors)}
-              </Grid>
-              <Grid item xs={12}>
-                <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
-                {formTextField('answer12', touched, errors)}
-              </Grid>
-              <Grid item xs={12}>
-                <p>Skriv svaralternativ 3 her (Korrekt alternativ) her: </p>
-                {formTextField('correctanswer1', touched, errors)}
-              </Grid>
+              <Grid item xs={3} />
+              {[...Array(taskAmount).keys()].map((el) => {
+                return (
+                  <>
+                    <h2>
+                      Tema
+                      {el + 1}
+                    </h2>
+                    <Grid item xs={12}>
+                      <p>Skriv spørsmålet her: </p>
+                      {formTextField(`chatquestion${el + 1}`, touched, errors)}
+                    </Grid>
+                    <Grid item xs={12}>
+                      <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
+                      {formTextField(`answer${el + 1}1`, touched, errors)}
+                    </Grid>
+                    <Grid item xs={12}>
+                      <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
+                      {formTextField(`answer${el + 1}2`, touched, errors)}
+                    </Grid>
+                    <Grid item xs={12}>
+                      <p>Skriv svaralternativ 3 her (Korrekt alternativ): </p>
+                      {formTextField(`correctanswer${el + 1}`, touched, errors)}
+                    </Grid>
+                  </>
+                );
+              })}
             </Grid>
-            {taskAmount > 1 && (
-              <>
-                <hr />
-                <h2> Tema 2 </h2>
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <p>Skriv spørsmålet her: </p>
-                    {formTextField('chatquestion2', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
-                    {formTextField('answer21', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
-                    {formTextField('answer22', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Skriv svaralternativ 3 her (Korrekt alternativ) her: </p>
-                    {formTextField('correctanswer2', touched, errors)}
-                  </Grid>
-                </Grid>
-              </>
-            )}
-            {taskAmount > 2 && (
-              <>
-                <hr />
-                <h2> Tema 3 </h2>
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <p>Skriv spørsmålet her: </p>
-                    {formTextField('chatquestion3', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
-                    {formTextField('answer31', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
-                    {formTextField('answer32', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Skriv svaralternativ 3 her (Korrekt alternativ) her: </p>
-                    {formTextField('correctanswer3', touched, errors)}
-                  </Grid>
-                </Grid>
-              </>
-            )}
-            <Grid />
             <div className={classes.addIcon}>
               {taskAmount > 1 && (
                 <Fab
                   className={classes.innerMargin}
                   size="small"
                   onClick={() => {
-                    if (taskAmount === 3) {
-                      setFieldValue('chatquestion3', '', false);
-                      setFieldValue('answer31', '', false);
-                      setFieldValue('answer32', '', false);
-                      setFieldValue('correctanswer3', '', false);
-                    } else {
-                      setFieldValue('chatquestion2', '', false);
-                      setFieldValue('answer21', '', false);
-                      setFieldValue('answer22', '', false);
-                      setFieldValue('correctanswer2', '', false);
-                    }
+                    setFieldValue(`chatquestion${taskAmount}`, '', false);
+                    setFieldValue(`answer${taskAmount}1`, '', false);
+                    setFieldValue(`answer${taskAmount}2`, '', false);
+                    setFieldValue(`correctanswer${taskAmount}`, '', false);
                     setTaskAmount(taskAmount - 1);
                   }}
                   variant="contained"

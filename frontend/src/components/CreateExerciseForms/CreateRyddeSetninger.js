@@ -16,9 +16,9 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import useStyles from './styles';
 
 const validationSchema = yup.object({
-  word1: yup.string().required('Dette feltet må fylles ut.').max(30),
-  word2: yup.string().required('Dette feltet må fylles ut.').max(30),
-  word3: yup.string().required('Dette feltet må fylles ut.').max(30),
+  word1: yup.string().required('Dette feltet må fylles ut.').max(20),
+  word2: yup.string().required('Dette feltet må fylles ut.').max(20),
+  word3: yup.string().required('Dette feltet må fylles ut.').max(20),
 });
 
 const CreateRyddeSetninger = ({
@@ -34,10 +34,10 @@ const CreateRyddeSetninger = ({
   /**
    * Used to avoid repetition of same code.
    * All fields in the form will use this function
-   * @param {*} name the name of the field.
-   * @param {*} label name/description that will be visibile to the user
-   * @param {*} touched Formik prop. validation will only run if field has been touched by user
-   * @param {*} errors Formik prop to handle errors on user input.
+   * @param {String} name the name of the field.
+   * @param {String} label name/description that will be visibile to the user
+   * @param {Boolean} touched Formik prop. validation will only run if field has been touched by user
+   * @param {Boolean} errors Formik prop to handle errors on user input.
    * @returns The complete field that will be shown to the user
    */
   function formTextField(name, label, touched, errors) {
@@ -154,8 +154,8 @@ const CreateRyddeSetninger = ({
                 className={classes.innerMargin}
                 size="small"
                 onClick={() => {
-                  setFieldValue(`word${words}`, undefined, false);
-                  setFieldValue(`wordClass${words}`, undefined, false);
+                  setFieldValue(`word${words}`, '', false);
+                  setFieldValue(`wordClass${words}`, '', false);
                   addWords(words - 1);
                 }}
                 variant="contained"
