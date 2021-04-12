@@ -8,12 +8,21 @@ import {
   Card,
   CardContent,
   Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from '@material-ui/core';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import { connect } from 'react-redux';
 import { login } from '../../actions/auth';
-import { axiosInstanceGet, axiosInstance } from '../../helpers/ApiFunctions';
+import {
+  axiosInstanceGet,
+  axiosInstance,
+  axiosInstanceDelete,
+} from '../../helpers/ApiFunctions';
 import useStyles from './style';
 
 const OverviewPage = ({
@@ -29,6 +38,8 @@ const OverviewPage = ({
   const [formDataSet, setFormDataSet] = useState({ sets: id, name: username });
   // eslint-disable-next-line no-unused-vars
   const [renderPage, setRenderPage] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
   const [ratings, setRatings] = useState({ upvote: 0, downvote: 0 });
 
   const classes = useStyles();
@@ -56,10 +67,34 @@ const OverviewPage = ({
       });
   }
 
+  function checkAuthentication() {
+    if (isAuthenticated === true) {
+      setUsername(user.name);
+      console.log(user.name);
+      console.log(typeof user.name);
+    } else {
+      setUsername('');
+      console.log('dette funker ikke');
+    }
+  }
+
   function onsubmitPostComment() {
     axiosInstance
       .post(`/usercomment/`, formDataSet)
       .then(() => {
+        exerciseFeedback.length = 0;
+        getContent();
+      })
+      .catch((e) => {
+        return e;
+      });
+  }
+
+  function onDelete(id) {
+    axiosInstanceDelete
+      .delete(`/usercomment/${id}`)
+      .then(() => {
+        setOpen(false);
         exerciseFeedback.length = 0;
         getContent();
       })
@@ -79,21 +114,10 @@ const OverviewPage = ({
       });
   }
 
-  function checkAuthentication() {
-    if (isAuthenticated === true) {
-      setUsername(user.name);
-    } else {
-      setUsername('');
-    }
-  }
-
   useEffect(() => {
     checkAuthentication();
     getContent();
   }, []);
-
-  console.log(username);
-  // console.log(exerciseFeedback);
 
   return (
     <Paper className={classes.root}>
@@ -173,26 +197,62 @@ const OverviewPage = ({
           {exerciseFeedback.length === 0 && (
             <p>Det finnes ingen kommentarer for dette settet ennå</p>
           )}
-          {exerciseFeedback.map((el) => {
-            // console.log(el);
+          {exerciseFeedback.map((comment) => {
             return (
               <Card className={classes.card}>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="h2">
-                    {el.name}
+                    {comment.name}
                   </Typography>
                   <Typography
                     variant="body2"
                     color="textSecondary"
                     component="p"
                   >
-                    {el.comment}
+                    {comment.comment}
                   </Typography>
+                  {comment.name === username.toString() && (
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        setDeleteId(comment.id);
+                        setOpen(true);
+                      }}
+                    >
+                      Slett
+                    </Button>
+                  )}
                 </CardContent>
               </Card>
             );
           })}
         </Grid>
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Bekreft Sletting</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Er du sikker på at du vil slette kommentaren? Det vil bli borte
+              for alltid.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpen(false)} color="primary">
+              Avbryt
+            </Button>
+            <Button
+              onClick={() => onDelete(deleteId)}
+              color="primary"
+              autoFocus
+            >
+              Slett
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Grid>
     </Paper>
   );
