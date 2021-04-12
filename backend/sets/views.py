@@ -129,6 +129,8 @@ class UserCommentView(APIView):
 
 
 class RatingView(APIView):
+    permission_classes = []
+    
     def get(self, request, pk):
         getRatings = Rating.objects.filter(sets=pk)
         ratingCount = getRatings.count()

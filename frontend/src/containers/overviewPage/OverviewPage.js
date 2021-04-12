@@ -33,7 +33,7 @@ const OverviewPage = ({ title, description, id, nextExercise }) => {
 
   function getContent() {
     const requestOne = axiosInstanceGet.get(`/comment/${id}`);
-    const requestTwo = axiosInstance.get(`/rating/${id}`);
+    const requestTwo = axiosInstanceGet.get(`/rating/${id}`);
     axios
       .all([requestOne, requestTwo])
       .then(
