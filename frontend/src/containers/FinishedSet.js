@@ -25,8 +25,8 @@ const FinishedSet = ({ totalScore, id }) => {
   const classes = useStyles();
 
   function getContent() {
-    const requestOne = axiosInstance.get(`/userrating/${id}`);
-    const requestTwo = axiosInstance.get(`/usersaved/${id}`);
+    const requestOne = axiosInstance().get(`/userrating/${id}`);
+    const requestTwo = axiosInstance().get(`/usersaved/${id}`);
     axios
       .all([requestOne, requestTwo])
       .then(
@@ -49,7 +49,7 @@ const FinishedSet = ({ totalScore, id }) => {
       rating: rated,
       sets: id,
     };
-    axiosInstance
+    axiosInstance()
       .post(`/rating/`, formData)
       .then(() => {
         getContent();
@@ -62,7 +62,7 @@ const FinishedSet = ({ totalScore, id }) => {
 
   function onClickSave() {
     if (!saved) {
-      axiosInstance
+      axiosInstance()
         .post('/saved/', { sets: id })
         .then(() => {
           getContent();
@@ -71,7 +71,7 @@ const FinishedSet = ({ totalScore, id }) => {
           return e;
         });
     } else if (saved) {
-      axiosInstanceDelete
+      axiosInstanceDelete()
         .delete(`/saved/${id}`)
         .then(() => {
           getContent();

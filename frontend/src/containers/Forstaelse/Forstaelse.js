@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 import {
   AppBar,
@@ -17,16 +16,7 @@ import ChatBubble from '../../components/ChatBubble/ChatBubble';
 import useStyles from './styles';
 import ProgressBar from '../../components/ProgressBar';
 import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
-
-const axiosInstance = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}/api/`,
-  timeout: 5000,
-  headers: {
-    'Content-Type': 'application/json',
-    // eslint-disable-next-line prettier/prettier
-    accept: 'application/json',
-  },
-});
+import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
 const Forstaelse = ({ id, showFeedback, progress, possible }) => {
   // const [forstaelse, setForstaelse] = useState(null);
@@ -57,7 +47,7 @@ const Forstaelse = ({ id, showFeedback, progress, possible }) => {
   const classes = useStyles();
 
   function getContent() {
-    axiosInstance
+    axiosInstanceGet()
       .get(`/forstaelse/${id}`)
       .then((res) => {
         setFormData(res.data);

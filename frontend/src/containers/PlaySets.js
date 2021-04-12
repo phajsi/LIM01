@@ -80,7 +80,7 @@ const PlaySets = () => {
   }
 
   function getContent(id) {
-    axiosInstanceGet
+    axiosInstanceGet()
       .get(`/sets/${id}`)
       .then((res) => {
         createPlayList(res.data);

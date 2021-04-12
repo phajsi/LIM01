@@ -17,7 +17,6 @@ import {
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import { connect } from 'react-redux';
-import { login } from '../../actions/auth';
 import {
   axiosInstanceGet,
   axiosInstance,
@@ -34,8 +33,7 @@ const OverviewPage = ({
   user,
 }) => {
   const [exerciseFeedback] = useState([]);
-  const [username, setUsername] = useState();
-  const [formDataSet, setFormDataSet] = useState({ sets: id, name: username });
+  const [formDataComment, setFormDataComment] = useState({ sets: id });
   // eslint-disable-next-line no-unused-vars
   const [renderPage, setRenderPage] = useState(0);
   const [open, setOpen] = useState(false);
@@ -51,8 +49,8 @@ const OverviewPage = ({
   }
 
   function getContent() {
-    const requestOne = axiosInstanceGet.get(`/comment/${id}`);
-    const requestTwo = axiosInstanceGet.get(`/rating/${id}`);
+    const requestOne = axiosInstanceGet().get(`/comment/${id}`);
+    const requestTwo = axiosInstanceGet().get(`/rating/${id}`);
     axios
       .all([requestOne, requestTwo])
       .then(
@@ -67,20 +65,10 @@ const OverviewPage = ({
       });
   }
 
-  function checkAuthentication() {
-    if (isAuthenticated === true) {
-      setUsername(user.name);
-      console.log(user.name);
-      console.log(typeof user.name);
-    } else {
-      setUsername('');
-      console.log('dette funker ikke');
-    }
-  }
-
   function onsubmitPostComment() {
-    axiosInstance
-      .post(`/usercomment/`, formDataSet)
+    formDataComment.name = user.name;
+    axiosInstance()
+      .post(`/usercomment/`, formDataComment)
       .then(() => {
         exerciseFeedback.length = 0;
         getContent();
@@ -91,7 +79,7 @@ const OverviewPage = ({
   }
 
   function onDelete(id) {
-    axiosInstanceDelete
+    axiosInstanceDelete()
       .delete(`/usercomment/${id}`)
       .then(() => {
         setOpen(false);
@@ -104,7 +92,7 @@ const OverviewPage = ({
   }
 
   function saveExercise() {
-    axiosInstance
+    axiosInstance()
       .post('/saved/', { sets: id })
       .then((response) => {
         console.log(response);
@@ -115,7 +103,6 @@ const OverviewPage = ({
   }
 
   useEffect(() => {
-    checkAuthentication();
     getContent();
   }, []);
 
@@ -153,13 +140,7 @@ const OverviewPage = ({
           <Grid item xs={12} className={classes.makecomment}>
             <h2>Legg igjen en kommentar!</h2>
             <Grid item xs={12} className={classes.form}>
-              <TextField
-                name="name"
-                rowsMax={1}
-                disabled
-                placeholder={username}
-                variant="outlined"
-              />
+              <p>{user ? user.name : 'Test'}</p>
               <TextField
                 className={classes.formfields}
                 name="comment"
@@ -170,8 +151,8 @@ const OverviewPage = ({
                 variant="outlined"
                 onChange={
                   (e) =>
-                    setFormDataSet({
-                      ...formDataSet,
+                    setFormDataComment({
+                      ...formDataComment,
                       comment: e.target.value,
                     })
                   // eslint-disable-next-line react/jsx-curly-newline
@@ -211,7 +192,7 @@ const OverviewPage = ({
                   >
                     {comment.comment}
                   </Typography>
-                  {comment.name === username.toString() && (
+                  {comment.name === user.name.toString() && (
                     <Button
                       variant="contained"
                       onClick={() => {
@@ -263,4 +244,4 @@ const mapStateToProps = (state) => ({
   user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { login })(OverviewPage);
+export default connect(mapStateToProps)(OverviewPage);

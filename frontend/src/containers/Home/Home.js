@@ -13,7 +13,7 @@ import {
   TextField,
 } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
-import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
+import { axiosInstanceDelete, axiosInstance } from '../../helpers/ApiFunctions';
 import useStyles from './styles';
 
 const Home = () => {
@@ -33,8 +33,8 @@ const Home = () => {
   const [error, setError] = useState(false);
 
   function getContent() {
-    const requestOne = axiosInstance.get(`/usersets/`);
-    const requestTwo = axiosInstance.get(`/saved/`);
+    const requestOne = axiosInstance().get(`/usersets/`);
+    const requestTwo = axiosInstance().get(`/saved/`);
     axios
       .all([requestOne, requestTwo])
       .then(
@@ -53,7 +53,7 @@ const Home = () => {
   }, []);
 
   function onDelete(id) {
-    axiosInstanceDelete
+    axiosInstanceDelete()
       .delete(`/deletesets/${id}`)
       .then(() => {
         setOpen(false);
@@ -65,7 +65,7 @@ const Home = () => {
   }
 
   function removeSaved(id) {
-    axiosInstanceDelete
+    axiosInstanceDelete()
       .delete(`/saved/${id}`)
       .then(() => {
         getContent();
