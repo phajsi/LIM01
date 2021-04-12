@@ -8,12 +8,10 @@ import {
   Card,
   CardContent,
   Typography,
-  Avatar,
 } from '@material-ui/core';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import { connect } from 'react-redux';
-import img from '../../assets/images/defaultMan.png';
 import { login } from '../../actions/auth';
 import { axiosInstanceGet, axiosInstance } from '../../helpers/ApiFunctions';
 import useStyles from './style';
@@ -24,9 +22,11 @@ const OverviewPage = ({
   id,
   nextExercise,
   isAuthenticated,
+  user,
 }) => {
   const [exerciseFeedback] = useState([]);
-  const [formDataSet, setFormDataSet] = useState({ sets: id });
+  const [username, setUsername] = useState();
+  const [formDataSet, setFormDataSet] = useState({ sets: id, name: username });
   // eslint-disable-next-line no-unused-vars
   const [renderPage, setRenderPage] = useState(0);
   const [ratings, setRatings] = useState({ upvote: 0, downvote: 0 });
@@ -79,13 +79,21 @@ const OverviewPage = ({
       });
   }
 
+  function checkAuthentication() {
+    if (isAuthenticated === true) {
+      setUsername(user.name);
+    } else {
+      setUsername('');
+    }
+  }
+
   useEffect(() => {
+    checkAuthentication();
     getContent();
   }, []);
 
-  console.log(typeof isAuthenticated);
-
-  console.log(exerciseFeedback);
+  console.log(username);
+  // console.log(exerciseFeedback);
 
   return (
     <Paper className={classes.root}>
@@ -122,6 +130,13 @@ const OverviewPage = ({
             <h2>Legg igjen en kommentar!</h2>
             <Grid item xs={12} className={classes.form}>
               <TextField
+                name="name"
+                rowsMax={1}
+                disabled
+                placeholder={username}
+                variant="outlined"
+              />
+              <TextField
                 className={classes.formfields}
                 name="comment"
                 multiline="true"
@@ -146,23 +161,25 @@ const OverviewPage = ({
             </Grid>
           </Grid>
         ) : (
-          'Du må logge inn for å kunne kunne legge til en kommentar'
+          <Grid item xs={12} className={classes.makecomment}>
+            <h2>Kommentarer...</h2>
+            <p>
+              Du må være innlogget for å kunne kunne legge igen en kommentar til
+              dette settet.
+            </p>
+          </Grid>
         )}
         <Grid item xs={12} className={classes.commentfield}>
           {exerciseFeedback.length === 0 && (
             <p>Det finnes ingen kommentarer for dette settet ennå</p>
           )}
           {exerciseFeedback.map((el) => {
+            // console.log(el);
             return (
               <Card className={classes.card}>
-                <Avatar
-                  alt="placeholder_icon"
-                  src={img}
-                  className={classes.media}
-                />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="h2">
-                    {el.owner}
+                    {el.name}
                   </Typography>
                   <Typography
                     variant="body2"
@@ -183,6 +200,7 @@ const OverviewPage = ({
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps, { login })(OverviewPage);

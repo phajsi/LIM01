@@ -22,7 +22,7 @@ class SavedSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('id', 'sets', 'comment')
+        fields = ('id', 'sets', 'comment', 'name')
         owner = serializers.ReadOnlyField(source='owner.email')
 
 

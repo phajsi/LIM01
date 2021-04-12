@@ -39,7 +39,7 @@ class SavedAdmin(admin.ModelAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'sets', 'owner', 'comment')
+    list_display = ('id', 'sets', 'owner', 'comment', 'name')
 
 
 class RatingAdmin(admin.ModelAdmin):

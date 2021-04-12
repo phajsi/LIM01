@@ -57,6 +57,7 @@ class Comment(models.Model):
     sets = models.ForeignKey(
         Sets, related_name='comments', on_delete=models.CASCADE)
     comment = models.TextField()
+    name = models.CharField(max_length=50, default='')
 
 
 class Rating(models.Model):
