@@ -12,11 +12,19 @@ import {
 } from '@material-ui/core';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import { connect } from 'react-redux';
 import img from '../../assets/images/defaultMan.png';
+import { login } from '../../actions/auth';
 import { axiosInstanceGet, axiosInstance } from '../../helpers/ApiFunctions';
 import useStyles from './style';
 
-const OverviewPage = ({ title, description, id, nextExercise }) => {
+const OverviewPage = ({
+  title,
+  description,
+  id,
+  nextExercise,
+  isAuthenticated,
+}) => {
   const [exerciseFeedback] = useState([]);
   const [formDataSet, setFormDataSet] = useState({ sets: id });
   // eslint-disable-next-line no-unused-vars
@@ -75,6 +83,8 @@ const OverviewPage = ({ title, description, id, nextExercise }) => {
     getContent();
   }, []);
 
+  console.log(typeof isAuthenticated);
+
   console.log(exerciseFeedback);
 
   return (
@@ -107,33 +117,37 @@ const OverviewPage = ({ title, description, id, nextExercise }) => {
             Spill
           </Button>
         </Grid>
-        <Grid item xs={12} className={classes.makecomment}>
-          <h2>Legg igjen en kommentar!</h2>
-          <Grid item xs={12} className={classes.form}>
-            <TextField
-              className={classes.formfields}
-              name="comment"
-              multiline="true"
-              rows={5}
-              required
-              placeholder="Kommentar..."
-              variant="outlined"
-              onChange={
-                (e) =>
-                  setFormDataSet({
-                    ...formDataSet,
-                    comment: e.target.value,
-                  })
-                // eslint-disable-next-line react/jsx-curly-newline
-              }
-            />
+        {isAuthenticated ? (
+          <Grid item xs={12} className={classes.makecomment}>
+            <h2>Legg igjen en kommentar!</h2>
+            <Grid item xs={12} className={classes.form}>
+              <TextField
+                className={classes.formfields}
+                name="comment"
+                multiline="true"
+                rows={5}
+                required
+                placeholder="Kommentar..."
+                variant="outlined"
+                onChange={
+                  (e) =>
+                    setFormDataSet({
+                      ...formDataSet,
+                      comment: e.target.value,
+                    })
+                  // eslint-disable-next-line react/jsx-curly-newline
+                }
+              />
+            </Grid>
+            <Grid>
+              <Button variant="contained" onClick={() => onsubmitPostComment()}>
+                Send inn
+              </Button>
+            </Grid>
           </Grid>
-          <Grid>
-            <Button variant="contained" onClick={() => onsubmitPostComment()}>
-              Send inn
-            </Button>
-          </Grid>
-        </Grid>
+        ) : (
+          'Du må logge inn for å kunne kunne legge til en kommentar'
+        )}
         <Grid item xs={12} className={classes.commentfield}>
           {exerciseFeedback.length === 0 && (
             <p>Det finnes ingen kommentarer for dette settet ennå</p>
@@ -167,4 +181,8 @@ const OverviewPage = ({ title, description, id, nextExercise }) => {
   );
 };
 
-export default OverviewPage;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { login })(OverviewPage);
