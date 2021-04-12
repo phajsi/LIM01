@@ -34,8 +34,6 @@ const OverviewPage = ({
 }) => {
   const [exerciseFeedback] = useState([]);
   const [formDataComment, setFormDataComment] = useState({ sets: id });
-  // eslint-disable-next-line no-unused-vars
-  const [renderPage, setRenderPage] = useState(0);
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [ratings, setRatings] = useState({ upvote: 0, downvote: 0 });
@@ -50,13 +48,12 @@ const OverviewPage = ({
 
   function getContent() {
     const requestOne = axiosInstanceGet().get(`/comment/${id}`);
-    const requestTwo = axiosInstanceGet().get(`/rating/${id}`);
+    const requestTwo = axiosInstanceGet().get(`/getrating/${id}`);
     axios
       .all([requestOne, requestTwo])
       .then(
         axios.spread((...res) => {
           createFeedbackList(res[0].data);
-          setRenderPage((render) => render + 1);
           setRatings(res[1].data);
         })
       )
@@ -192,7 +189,7 @@ const OverviewPage = ({
                   >
                     {comment.comment}
                   </Typography>
-                  {comment.name === user.name.toString() && (
+                  {user && comment.name === user.name.toString() && (
                     <Button
                       variant="contained"
                       onClick={() => {

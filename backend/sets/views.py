@@ -127,8 +127,7 @@ class UserCommentView(APIView):
         getComment.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
-
-class RatingView(APIView):
+class getRatingView(APIView):
     permission_classes = []
     
     def get(self, request, pk):
@@ -138,6 +137,17 @@ class RatingView(APIView):
         downvotes = getRatings.filter(rating=False).count()
         content = {'ratings': ratingCount,
                    'upvotes': upvotes, 'downvotes': downvotes}
+        return Response(content)
+
+class RatingView(APIView):
+    def get(self, request, pk):
+        try:
+            getRating = Rating.objects.filter(
+                owner=self.request.user).get(sets=pk)
+        except ObjectDoesNotExist:
+            content = {'rating': None}
+            return Response(content)
+        content = {'rating': getRating.rating}
         return Response(content)
 
     def post(self, request):
@@ -167,15 +177,4 @@ class RatingView(APIView):
                 serializer.save()
                 return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
-
-
-class UserRatingView(APIView):
-    def get(self, request, pk):
-        try:
-            getRating = Rating.objects.filter(
-                owner=self.request.user).get(sets=pk)
-        except ObjectDoesNotExist:
-            content = {'rating': None}
-            return Response(content)
-        content = {'rating': getRating.rating}
-        return Response(content)
+    

@@ -25,7 +25,7 @@ const FinishedSet = ({ totalScore, id }) => {
   const classes = useStyles();
 
   function getContent() {
-    const requestOne = axiosInstance().get(`/userrating/${id}`);
+    const requestOne = axiosInstance().get(`/rating/${id}`);
     const requestTwo = axiosInstance().get(`/usersaved/${id}`);
     axios
       .all([requestOne, requestTwo])
