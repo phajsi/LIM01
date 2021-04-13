@@ -6,7 +6,6 @@ const SearchBar = ({ onChange, playSet, error }) => {
   const classes = useStyles();
   return (
     <div className={classes.searchBox}>
-      <h3 className={classes.searchTitle}> Søk med sett ID </h3>
       <Grid
         container
         spacing={1}

@@ -87,6 +87,7 @@ const Home = () => {
   return (
     <div className={classes.root}>
       <div className={classes.infoBox}>
+        <h3 className={classes.searchTitle}> Søk med sett ID </h3>
         <SearchBar onChange={onChange} playSet={playSet} error={error} />
         <h3>Mine oppgavesett</h3>
         {ExerciseSetList.map((set) => {

@@ -4,9 +4,6 @@ const useStyles = makeStyles((theme) => ({
   infoBox: {
     padding: theme.spacing(2),
   },
-  searchTitle: {
-    margin: 'auto',
-  },
   searchBox: {
     margin: 'auto',
     color: '#FFFAF0',
