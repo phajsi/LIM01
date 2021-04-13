@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import {
-  Button,
-  Grid,
-  TextField,
-  Toolbar,
-  Typography,
-} from '@material-ui/core';
+import { Toolbar, Typography } from '@material-ui/core';
 import Appbar from '@material-ui/core/AppBar';
 import pickleLogo from '../../assets/images/pickleLogo.png';
 import ellipse from '../../assets/images/ellipse.png';
 import tree from '../../assets/images/tree.png';
 import forest from '../../assets/images/forest.png';
 import useStyles from './styles';
+import SearchBar from '../../components/SearchBar/SearchBar';
 
 const StartPage = () => {
   const classes = useStyles();
@@ -52,39 +47,7 @@ const StartPage = () => {
           DiPICKLE
         </Typography>
       </div>
-      <div className={classes.searchBox}>
-        <Grid
-          container
-          spacing={0}
-          direction="row"
-          alignItems="center"
-          justify="center"
-        >
-          <Grid item xs={9}>
-            <TextField
-              className={classes.search}
-              type="text"
-              placeholder="Finn oppgavesett"
-              variant="outlined"
-              margin="dense"
-              fullWidth
-              error={error}
-              onChange={(e) => onChange(e)}
-            />
-          </Grid>
-          <Grid item xs={1} />
-          <Grid item xs={2}>
-            <Button
-              fullWidth
-              variant="contained"
-              className={classes.btn}
-              onClick={() => playSet()}
-            >
-              Søk
-            </Button>
-          </Grid>
-        </Grid>
-      </div>
+      <SearchBar onChange={onChange} playSet={playSet} error={error} />
       <img src={forest} alt="forest" className={classes.forest} />
       <img src={tree} alt="tree" className={classes.tree} />
       {redirect ? (

@@ -37,23 +37,6 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
   },
-  searchBox: {
-    margin: 'auto',
-    width: '40vw',
-  },
-  search: {
-    backgroundColor: 'white',
-    border: '2px solid #0F6D5F',
-    boxSizing: 'border-box',
-    borderRadius: '5px',
-    margin: theme.spacing(4),
-  },
-  btn: {
-    backgroundColor: '#F7B733',
-    color: 'black',
-    fontWeight: 'bold',
-    filter: 'drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.15))',
-  },
   ellipse: {
     width: '20vw',
     display: 'block',
