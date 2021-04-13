@@ -8,41 +8,62 @@ import {
   Card,
   CardContent,
   Typography,
-  Avatar,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from '@material-ui/core';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import img from '../../assets/images/defaultMan.png';
-import { axiosInstanceGet, axiosInstance } from '../../helpers/ApiFunctions';
+import { connect } from 'react-redux';
+import {
+  axiosInstanceGet,
+  axiosInstance,
+  axiosInstanceDelete,
+} from '../../helpers/ApiFunctions';
 import useStyles from './style';
 
-const OverviewPage = ({ title, description, id }) => {
+const OverviewPage = ({
+  title,
+  description,
+  id,
+  nextExercise,
+  isAuthenticated,
+  user,
+}) => {
+  // object which contains all the comments related to an exercise set with a specific ID
   const [exerciseFeedback] = useState([]);
-  const [formDataSet, setFormDataSet] = useState({ sets: id });
-  // eslint-disable-next-line no-unused-vars
-  const [renderPage, setRenderPage] = useState(0);
+  // object which contains a set ID, comment and username for creating a new comment
+  const [formDataComment, setFormDataComment] = useState({ sets: id });
+  // bool used to check whether a user has clicked on a comment to delete it
+  const [open, setOpen] = useState(false);
+  // stores the ID of a comment the user is attempting to delete
+  const [deleteId, setDeleteId] = useState(null);
   const [ratings, setRatings] = useState({ upvote: 0, downvote: 0 });
 
   const classes = useStyles();
-  console.log(id);
 
+  /**
+   * this function updates exerciseFeedback when a user enters
+   * the overviewpage of an exercise set with a given ID.
+   * only comments related to that set ID are added to exerciseFeedback.
+   * @param {*} feedbacks an object containing comments from backend as input.
+   */
   function createFeedbackList(feedbacks) {
     Object.entries(feedbacks).forEach(([comment]) => {
-      if (feedbacks[comment].sets === Number(id)) {
-        exerciseFeedback.push(feedbacks[comment]);
-      }
+      exerciseFeedback.push(feedbacks[comment]);
     });
   }
 
   function getContent() {
-    const requestOne = axiosInstanceGet.get(`/feedback/`);
-    const requestTwo = axiosInstance.get(`/rating/${id}`);
+    const requestOne = axiosInstanceGet().get(`/comment/${id}`);
+    const requestTwo = axiosInstanceGet().get(`/getrating/${id}`);
     axios
       .all([requestOne, requestTwo])
       .then(
         axios.spread((...res) => {
           createFeedbackList(res[0].data);
-          setRenderPage((render) => render + 1);
           setRatings(res[1].data);
         })
       )
@@ -51,11 +72,47 @@ const OverviewPage = ({ title, description, id }) => {
       });
   }
 
+  // post request to the backend for the comment being created.
   function onsubmitPostComment() {
-    axiosInstanceGet
-      .post('/feedback/', formDataSet)
+    // this line adds the name of the user creating the comment to formDataComment
+    formDataComment.name = user.name;
+    axiosInstance()
+      .post(`/usercomment/`, formDataComment)
       .then(() => {
+        exerciseFeedback.length = 0;
         getContent();
+      })
+      .catch((e) => {
+        return e;
+      });
+  }
+
+  /**
+   * this function deletes a comment with a specific ID from backend.
+   * setOpen is set to false so the delete dialog is closed
+   * length of exerciseFeedback is set to 0 to empty the variable before
+   * requesting the object list of updated comments from backend.
+   * @param {*} id ID of a specific comment as input.
+   */
+  function onDelete(id) {
+    axiosInstanceDelete()
+      .delete(`/usercomment/${id}`)
+      .then(() => {
+        setOpen(false);
+        exerciseFeedback.length = 0;
+        getContent();
+      })
+      .catch((e) => {
+        return e;
+      });
+  }
+
+  // post request to the backend for saving an exercise set with a specific ID.
+  function saveExercise() {
+    axiosInstance()
+      .post('/saved/', { sets: id })
+      .then((response) => {
+        console.log(response);
       })
       .catch((e) => {
         return e;
@@ -66,101 +123,142 @@ const OverviewPage = ({ title, description, id }) => {
     getContent();
   }, []);
 
-  console.log(exerciseFeedback);
-
   return (
     <Paper className={classes.root}>
-      <Grid className={classes.text}>
-        <h1>{title}</h1>
-        <p>{description}</p>
-        <div>
-          <p>
-            <ThumbUpIcon />
-            {ratings.upvotes}
-            <ThumbDownIcon />
-            {ratings.downvotes}
-          </p>
-        </div>
-      </Grid>
-      <Grid className={classes.commentfield}>
-        <h2>Kommentarer...</h2>
-        <Grid className={classes.form}>
-          <p>Legg igjen en kommentar!</p>
+      <Grid container spacing={3}>
+        <Grid item xs={12} className={classes.infobox}>
+          <h1>{title}</h1>
+          <p>{description}</p>
           <div>
-            <TextField
-              name="owner"
-              rowsMax={1}
-              required
-              placeholder="Navn"
-              variant="outlined"
-              onChange={
-                (e) =>
-                  setFormDataSet({
-                    ...formDataSet,
-                    owner: e.target.value,
-                  })
-                // eslint-disable-next-line react/jsx-curly-newline
-              }
-            />
+            <p>
+              <ThumbUpIcon />
+              {ratings.upvotes}
+              <ThumbDownIcon />
+              {ratings.downvotes}
+            </p>
           </div>
-          <div>
-            <TextField
-              className={classes.formfields}
-              name="comment"
-              multiline="true"
-              rows={5}
-              required
-              placeholder="Kommentar..."
-              variant="outlined"
-              onChange={
-                (e) =>
-                  setFormDataSet({
-                    ...formDataSet,
-                    comment: e.target.value,
-                  })
-                // eslint-disable-next-line react/jsx-curly-newline
-              }
-            />
-          </div>
+        </Grid>
+        <Grid item xs={6} className={classes.buttons}>
+          <Button variant="contained" onClick={() => saveExercise()} fullWidth>
+            Lagre
+          </Button>
+        </Grid>
+        <Grid item xs={6} className={classes.buttons}>
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => onsubmitPostComment()}
+            onClick={() => nextExercise()}
+            fullWidth
           >
-            Send inn
+            Spill
           </Button>
         </Grid>
-        <Grid>
+        {isAuthenticated ? (
+          <Grid item xs={12} className={classes.makecomment}>
+            <h2>Legg igjen en kommentar!</h2>
+            <Grid item xs={12} className={classes.form}>
+              <p>{user ? user.name : 'Test'}</p>
+              <TextField
+                className={classes.formfields}
+                name="comment"
+                multiline="true"
+                rows={5}
+                required
+                placeholder="Kommentar..."
+                variant="outlined"
+                onChange={
+                  (e) =>
+                    setFormDataComment({
+                      ...formDataComment,
+                      comment: e.target.value,
+                    })
+                  // eslint-disable-next-line react/jsx-curly-newline
+                }
+              />
+            </Grid>
+            <Grid>
+              <Button variant="contained" onClick={() => onsubmitPostComment()}>
+                Send inn
+              </Button>
+            </Grid>
+          </Grid>
+        ) : (
+          <Grid item xs={12} className={classes.makecomment}>
+            <h2>Kommentarer...</h2>
+            <p>
+              Du må være innlogget for å kunne kunne legge igen en kommentar til
+              dette settet.
+            </p>
+          </Grid>
+        )}
+        <Grid item xs={12} className={classes.commentfield}>
           {exerciseFeedback.length === 0 && (
             <p>Det finnes ingen kommentarer for dette settet ennå</p>
           )}
-          {exerciseFeedback.map((el) => {
+          {exerciseFeedback.map((comment) => {
             return (
               <Card className={classes.card}>
-                <Avatar
-                  alt="placeholder_icon"
-                  src={img}
-                  className={classes.media}
-                />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="h2">
-                    {el.owner}
+                    {comment.name}
                   </Typography>
                   <Typography
                     variant="body2"
                     color="textSecondary"
                     component="p"
                   >
-                    {el.comment}
+                    {comment.comment}
                   </Typography>
+                  {user && comment.name === user.name.toString() && (
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        setDeleteId(comment.id);
+                        setOpen(true);
+                      }}
+                    >
+                      Slett
+                    </Button>
+                  )}
                 </CardContent>
               </Card>
             );
           })}
         </Grid>
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Bekreft Sletting</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Er du sikker på at du vil slette kommentaren? Det vil bli borte
+              for alltid.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpen(false)} color="primary">
+              Avbryt
+            </Button>
+            <Button
+              onClick={() => onDelete(deleteId)}
+              color="primary"
+              autoFocus
+            >
+              Slett
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Grid>
     </Paper>
   );
 };
 
-export default OverviewPage;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
+});
+
+export default connect(mapStateToProps)(OverviewPage);

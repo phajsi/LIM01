@@ -2,17 +2,31 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 1200,
+    maxWidth: 900,
     margin: 'auto',
   },
-  text: {
+  infobox: {
     textlign: 'center',
-    maxWidth: 800,
+    maxWidth: 600,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '50px',
+    marginBottom: '50px',
+  },
+  buttons: {
+    textlign: 'center',
     margin: 'auto',
+  },
+  makecomment: {
+    maxWidth: 600,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '30px',
+    border: '2px solid #F5F5F5',
+    borderRadius: 5,
   },
   commentfield: {
-    backgroundColor: '#F5F5F5',
-    maxWidth: 800,
+    maxWidth: 600,
     margin: 'auto',
   },
   card: {

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import {
   Card,
@@ -24,15 +23,7 @@ import ChatBubble from '../../components/ChatBubble/ChatBubble';
 import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
 import ProgressBar from '../../components/ProgressBar';
-
-const axiosInstance = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}/api/`,
-  timeout: 5000,
-  headers: {
-    'Content-Type': 'application/json',
-    accept: 'application/json',
-  },
-});
+import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
 const Chat = ({ id, showFeedback, progress, possible }) => {
   const [chatquestion, setChatquestion] = useState(null);
@@ -83,19 +74,20 @@ const Chat = ({ id, showFeedback, progress, possible }) => {
     }
   };
 
-  // axiosInstance.get(`/chat/${id}`).then((res) => {
   function getContent() {
-    axiosInstance.get(`/chat/${id}`).then((res) => {
-      setFormData(res.data);
-      setChatquestion(res.data.chatquestion1);
-      setAnswer1(res.data.answer11);
-      setAnswer2(res.data.answer12);
-      const avatarS = transformIcon(res.data.sendericon);
-      setSendericon(avatarS);
-      const avatarR = transformIcon(res.data.receivericon);
-      setReceivericon(avatarR);
-      setCorrectanswer(res.data.correctanswer1);
-    });
+    axiosInstanceGet()
+      .get(`/chat/${id}`)
+      .then((res) => {
+        setFormData(res.data);
+        setChatquestion(res.data.chatquestion1);
+        setAnswer1(res.data.answer11);
+        setAnswer2(res.data.answer12);
+        const avatarS = transformIcon(res.data.sendericon);
+        setSendericon(avatarS);
+        const avatarR = transformIcon(res.data.receivericon);
+        setReceivericon(avatarR);
+        setCorrectanswer(res.data.correctanswer1);
+      });
   }
 
   function isTrue() {

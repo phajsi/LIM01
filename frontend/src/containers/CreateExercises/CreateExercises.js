@@ -76,7 +76,7 @@ const CreateExercises = () => {
    * @param {*} type either chat, forstaelse or ryddeSetnigner
    */
   const onSubmitPost = (values, url, type) => {
-    axiosInstance
+    axiosInstance()
       .post(url, values)
       .then((response) => {
         // this line is adding a row to the formDataSetObject. i.e formdataSet.chat3 = id
@@ -93,7 +93,7 @@ const CreateExercises = () => {
 
   // Same as function above, but is used when a user wants to edit an exising esercise in the set.
   const onSubmitPut = (values, url) => {
-    axiosInstance
+    axiosInstance()
       .put(url, values)
       .then(() => {
         setFormDataEdit(null);
@@ -111,7 +111,7 @@ const CreateExercises = () => {
    * @param {*} exerciseType type of exercise to be edited
    */
   function editExercise(id, exerciseType) {
-    axiosInstance
+    axiosInstance()
       .get(`/${exerciseType}/${id}`)
       .then((res) => {
         setFormDataEdit(res.data);
@@ -132,7 +132,7 @@ const CreateExercises = () => {
     if (location.state?.editSet && Object.keys(formDataSet).length === 4) {
       setEmptySetError('Det må være igjen minst en oppgave i settet.');
     } else {
-      axiosInstanceDelete
+      axiosInstanceDelete()
         .delete(url)
         .then(() => {
           delete formDataSet[exercise];
@@ -159,7 +159,7 @@ const CreateExercises = () => {
         'Du må legge til minst en oppgave for å opprette et sett.'
       );
     } else {
-      axiosInstance
+      axiosInstance()
         .post('/createsets/', formDataSet)
         .then((response) => {
           setPlayId(response.data.id);
@@ -172,7 +172,7 @@ const CreateExercises = () => {
   }
 
   function onSubmitPutSet() {
-    axiosInstance
+    axiosInstance()
       .put(`/createsets/${formDataSet.id}`, formDataSet)
       .then((response) => {
         setPlayId(response.data.id);

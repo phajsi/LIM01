@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 import {
   AppBar,
@@ -17,16 +16,7 @@ import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import ProgressBar from '../../components/ProgressBar';
 import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
-
-const axiosInstance = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}/api/`,
-  timeout: 5000,
-  headers: {
-    'Content-Type': 'application/json',
-    // eslint-disable-next-line prettier/prettier
-    accept: 'application/json',
-  },
-});
+import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
 const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
   const classes = useStyles();
@@ -103,7 +93,7 @@ const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
   };
 
   function getContent() {
-    axiosInstance
+    axiosInstanceGet()
       .get(`/rydde_setninger/${id}`)
       .then((res) => {
         filterData(res.data);

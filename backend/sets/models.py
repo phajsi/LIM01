@@ -52,12 +52,12 @@ class Saved(models.Model):
         unique_together = ('owner', 'sets',)
 
 
-class Feedback(models.Model):
+class Comment(models.Model):
+    owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     sets = models.ForeignKey(
         Sets, related_name='comments', on_delete=models.CASCADE)
-    owner = models.CharField(max_length=100)
     comment = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True, null=True)
+    name = models.CharField(max_length=50, default='')
 
 
 class Rating(models.Model):
