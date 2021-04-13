@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 import Forstaelse from './Forstaelse/Forstaelse';
 import Chat from './Chat/Chat';
 import RyddeSetninger from './RyddeSetninger/RyddeSetninger';
@@ -26,6 +27,7 @@ const PlaySets = () => {
     forstaelse: [],
     ryddeSetninger: [],
   });
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   // const onChange = (e) => setId(e.target.value);
 
@@ -80,6 +82,7 @@ const PlaySets = () => {
   }
 
   function getContent(id) {
+    console.log(isAuthenticated);
     axiosInstanceGet()
       .get(`/sets/${id}`)
       .then((res) => {
@@ -119,7 +122,7 @@ const PlaySets = () => {
       setRedirected(true);
       setId(location.state?.id);
     }
-  });
+  }, []);
 
   switch (step) {
     case 'overview':
@@ -187,6 +190,7 @@ const PlaySets = () => {
           id={id}
           totalExercises={totalExercises}
           completed={completed}
+          isAuthenticated={isAuthenticated}
         />
       );
     default:

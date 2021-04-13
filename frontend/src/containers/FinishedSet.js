@@ -16,7 +16,13 @@ const useStyles = makeStyles({
   },
 });
 
-const FinishedSet = ({ totalScore, id, totalExercises, completed }) => {
+const FinishedSet = ({
+  totalScore,
+  id,
+  totalExercises,
+  completed,
+  isAuthenticated,
+}) => {
   const [rating, setRating] = useState({ rating: null });
   const [saved, setSaved] = useState(false);
 
@@ -57,11 +63,13 @@ const FinishedSet = ({ totalScore, id, totalExercises, completed }) => {
   }
 
   useEffect(() => {
-    getContent();
-    if (!completed.completed) {
-      postCompleted();
-    } else if (completed.completed && totalScore > completed.score) {
-      putCompleted();
+    if (isAuthenticated) {
+      getContent();
+      if (!completed.completed) {
+        postCompleted();
+      } else if (completed.completed && totalScore > completed.score) {
+        putCompleted();
+      }
     }
   }, []);
 
