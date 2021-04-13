@@ -10,6 +10,8 @@ const useStyles = makeStyles((theme) => ({
   },
   searchTitle: {
     margin: 'auto',
+    width: 'fit-content',
+    color: '#FFFAF0',
   },
 }));
 export default useStyles;

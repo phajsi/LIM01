@@ -6,7 +6,6 @@ const useStyles = makeStyles((theme) => ({
   },
   searchBox: {
     margin: 'auto',
-    color: '#FFFAF0',
     width: '40vw',
   },
   search: {
