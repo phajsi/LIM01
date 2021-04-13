@@ -190,9 +190,10 @@ class CompletedView(APIView):
             getCompleted = Completed.objects.filter(
                 owner=self.request.user).get(sets=pk)
         except ObjectDoesNotExist:
-            content = {'completed': False}
+            content = {'completed': False, 'score': '0'}
             return Response(content)
-        content = {'completed': True}
+        content = {'completed': True,
+                   'score': getCompleted.score, 'id': getCompleted.id}
         return Response(content)
 
     def post(self, request):
@@ -200,6 +201,19 @@ class CompletedView(APIView):
         serializer = CompletedSerializer(data=data)
         if serializer.is_valid():
             serializer.save(owner=self.request.user)
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+    def put(self, request, pk):
+        try:
+            getCompleted = Completed.objects.filter(
+                owner=self.request.user).get(pk=pk)
+        except ObjectDoesNotExist:
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+        data = JSONParser().parse(request)
+        serializer = CompletedSerializer(getCompleted, data=data)
+        if serializer.is_valid():
+            serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 

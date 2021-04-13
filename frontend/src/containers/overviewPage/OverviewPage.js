@@ -130,7 +130,12 @@ const OverviewPage = ({
         <Grid item xs={12} className={classes.infobox}>
           <h1>{title}</h1>
           <p>{description}</p>
-          {completed && <p>Du har fullført dette settet</p>}
+          {completed.completed && (
+            <p>
+              Du har fullført dette settet med score
+              {completed.score}
+            </p>
+          )}
           <div>
             <p>
               <ThumbUpIcon />

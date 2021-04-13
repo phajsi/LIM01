@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 const FinishedSet = ({ totalScore, id, totalExercises, completed }) => {
   // eslint-disable-next-line no-unused-vars
   const [rating, setRating] = useState({ rating: null });
-  const [completedSet, setCompletedSet] = useState(completed);
+  const [completedSet, setCompletedSet] = useState(completed.completed);
   // eslint-disable-next-line no-unused-vars
   const [saved, setSaved] = useState(false);
 
@@ -43,7 +43,21 @@ const FinishedSet = ({ totalScore, id, totalExercises, completed }) => {
 
   function postCompleted() {
     axiosInstance()
-      .post(`/completed/`, { sets: id })
+      .post(`/completed/`, { sets: id, score: totalScore })
+      .then(() => {
+        setCompletedSet(true);
+      })
+      .catch((e) => {
+        return e;
+      });
+  }
+  function putCompleted() {
+    console.log(completed.sets);
+    axiosInstance()
+      .put(`/completed/${completed.id}`, {
+        score: totalScore,
+        sets: id,
+      })
       .then(() => {
         setCompletedSet(true);
       })
@@ -54,8 +68,10 @@ const FinishedSet = ({ totalScore, id, totalExercises, completed }) => {
 
   useEffect(() => {
     getContent();
-    if (totalScore === totalExercises && !completed) {
+    if (!completed.completed) {
       postCompleted();
+    } else if (completed.completed && totalScore > completed.score) {
+      putCompleted();
     }
   }, []);
 
@@ -102,7 +118,7 @@ const FinishedSet = ({ totalScore, id, totalExercises, completed }) => {
       <h1>Du har spilt ferdig settet</h1>
       <h1>
         Din totale poengsum er:
-        {totalScore}
+        {`${totalScore} av ${totalExercises}`}
       </h1>
       <p>{completedSet ? 'Du har fullført dette settet' : 'Prøv igjen'}</p>
       <h3>Hvis du likte settet kan du gi det tommel opp</h3>

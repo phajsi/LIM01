@@ -36,5 +36,5 @@ class RatingSerializer(serializers.ModelSerializer):
 class CompletedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Completed
-        fields = ('id', 'sets')
+        fields = ('id', 'sets', 'score')
         owner = serializers.ReadOnlyField(source='owner.email')
