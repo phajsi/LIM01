@@ -108,8 +108,7 @@ class UserCommentView(APIView):
             getComment = Comment.objects.filter(
                 owner=self.request.user).get(sets=pk)
         except ObjectDoesNotExist:
-            HttpResponse(status=status.HTTP_404_NOT_FOUND)
-            return Response(content)
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
         serializer = CommentSerializer(getComment, many=True)
         return JsonResponse(serializer.data, safe=False)
 

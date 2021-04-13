@@ -17,10 +17,7 @@ const useStyles = makeStyles({
 });
 
 const FinishedSet = ({ totalScore, id, totalExercises, completed }) => {
-  // eslint-disable-next-line no-unused-vars
   const [rating, setRating] = useState({ rating: null });
-  const [completedSet, setCompletedSet] = useState(completed.completed);
-  // eslint-disable-next-line no-unused-vars
   const [saved, setSaved] = useState(false);
 
   const classes = useStyles();
@@ -44,22 +41,15 @@ const FinishedSet = ({ totalScore, id, totalExercises, completed }) => {
   function postCompleted() {
     axiosInstance()
       .post(`/completed/`, { sets: id, score: totalScore })
-      .then(() => {
-        setCompletedSet(true);
-      })
       .catch((e) => {
         return e;
       });
   }
   function putCompleted() {
-    console.log(completed.sets);
     axiosInstance()
       .put(`/completed/${completed.id}`, {
         score: totalScore,
         sets: id,
-      })
-      .then(() => {
-        setCompletedSet(true);
       })
       .catch((e) => {
         return e;
@@ -86,7 +76,6 @@ const FinishedSet = ({ totalScore, id, totalExercises, completed }) => {
         getContent();
       })
       .catch((e) => {
-        console.log(e.response.data);
         return e;
       });
   }
@@ -120,7 +109,6 @@ const FinishedSet = ({ totalScore, id, totalExercises, completed }) => {
         Din totale poengsum er:
         {`${totalScore} av ${totalExercises}`}
       </h1>
-      <p>{completedSet ? 'Du har fullført dette settet' : 'Prøv igjen'}</p>
       <h3>Hvis du likte settet kan du gi det tommel opp</h3>
       <Grid container spacing={1}>
         <IconButton onClick={() => onClickRating(true)}>

@@ -17,7 +17,6 @@ const PlaySets = () => {
   const [totalScore, setTotalScore] = useState(0);
   const [exerciseProgress, setExerciseProgress] = useState(0);
   const [completed, setCompleted] = useState({ completed: false, score: 0 });
-  // eslint-disable-next-line no-unused-vars
   const [totalExercises, setTotalExercises] = useState(0);
   const [redirected, setRedirected] = useState(false);
   const [title, setTitle] = useState('');
@@ -99,11 +98,9 @@ const PlaySets = () => {
     axiosInstance()
       .get(`/completed/${id}`)
       .then((res) => {
-        console.log(res.data);
         setCompleted(res.data);
       })
       .catch((e) => {
-        console.log(e.response.data);
         return e;
       });
   }
