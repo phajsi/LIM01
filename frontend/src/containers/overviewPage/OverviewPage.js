@@ -32,14 +32,24 @@ const OverviewPage = ({
   isAuthenticated,
   user,
 }) => {
+  // object which contains all the comments related to an exercise set with a specific ID
   const [exerciseFeedback] = useState([]);
+  // object which contains a set ID, comment and username for creating a new comment
   const [formDataComment, setFormDataComment] = useState({ sets: id });
+  // bool used to check whether a user has clicked on a comment to delete it
   const [open, setOpen] = useState(false);
+  // stores the ID of a comment the user is attempting to delete
   const [deleteId, setDeleteId] = useState(null);
   const [ratings, setRatings] = useState({ upvote: 0, downvote: 0 });
 
   const classes = useStyles();
 
+  /**
+   * this function updates exerciseFeedback when a user enters
+   * the overviewpage of an exercise set with a given ID.
+   * only comments related to that set ID are added to exerciseFeedback.
+   * @param {*} feedbacks an object containing comments from backend as input.
+   */
   function createFeedbackList(feedbacks) {
     Object.entries(feedbacks).forEach(([comment]) => {
       exerciseFeedback.push(feedbacks[comment]);
@@ -62,7 +72,9 @@ const OverviewPage = ({
       });
   }
 
+  // post request to the backend for the comment being created.
   function onsubmitPostComment() {
+    // this line adds the name of the user creating the comment to formDataComment
     formDataComment.name = user.name;
     axiosInstance()
       .post(`/usercomment/`, formDataComment)
@@ -75,6 +87,13 @@ const OverviewPage = ({
       });
   }
 
+  /**
+   * this function deletes a comment with a specific ID from backend.
+   * setOpen is set to false so the delete dialog is closed
+   * length of exerciseFeedback is set to 0 to empty the variable before
+   * requesting the object list of updated comments from backend.
+   * @param {*} id ID of a specific comment as input.
+   */
   function onDelete(id) {
     axiosInstanceDelete()
       .delete(`/usercomment/${id}`)
@@ -88,6 +107,7 @@ const OverviewPage = ({
       });
   }
 
+  // post request to the backend for saving an exercise set with a specific ID.
   function saveExercise() {
     axiosInstance()
       .post('/saved/', { sets: id })
