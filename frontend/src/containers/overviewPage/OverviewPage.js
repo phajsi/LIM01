@@ -31,6 +31,7 @@ const OverviewPage = ({
   nextExercise,
   isAuthenticated,
   user,
+  completed,
 }) => {
   // object which contains all the comments related to an exercise set with a specific ID
   const [exerciseFeedback] = useState([]);
@@ -129,6 +130,7 @@ const OverviewPage = ({
         <Grid item xs={12} className={classes.infobox}>
           <h1>{title}</h1>
           <p>{description}</p>
+          {completed && <p>Du har fullført dette settet</p>}
           <div>
             <p>
               <ThumbUpIcon />

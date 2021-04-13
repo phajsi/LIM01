@@ -6,7 +6,7 @@ import Chat from './Chat/Chat';
 import RyddeSetninger from './RyddeSetninger/RyddeSetninger';
 import FinishedSet from './FinishedSet';
 import OverviewPage from './overviewPage/OverviewPage';
-import { axiosInstanceGet } from '../helpers/ApiFunctions';
+import { axiosInstanceGet, axiosInstance } from '../helpers/ApiFunctions';
 
 const PlaySets = () => {
   const location = useLocation();
@@ -16,6 +16,7 @@ const PlaySets = () => {
   const [feedbackScore, setFeedBackScore] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
   const [exerciseProgress, setExerciseProgress] = useState(0);
+  const [completed, setCompleted] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [totalExercises, setTotalExercises] = useState(0);
   const [redirected, setRedirected] = useState(false);
@@ -94,6 +95,18 @@ const PlaySets = () => {
       });
   }
 
+  function getCompleted(id) {
+    axiosInstance()
+      .get(`/completed/${id}`)
+      .then((res) => {
+        setCompleted(res.data.completed);
+      })
+      .catch((e) => {
+        console.log(e.response.data);
+        return e;
+      });
+  }
+
   function showFeedback(score) {
     setFeedBackScore(score);
     setTotalScore(totalScore + score);
@@ -103,6 +116,7 @@ const PlaySets = () => {
   // only runs if an id is passed as state/props while redirected to this page. i.e search bar on front page
   useEffect(() => {
     if (location.state?.id && !redirected) {
+      getCompleted(location.state?.id);
       getContent(location.state?.id);
       setRedirected(true);
       setId(location.state?.id);
@@ -118,6 +132,7 @@ const PlaySets = () => {
             description={description}
             id={id}
             nextExercise={nextExercise}
+            completed={completed}
           />
         </div>
       );
@@ -168,7 +183,14 @@ const PlaySets = () => {
         </div>
       );
     case 'finish':
-      return <FinishedSet totalScore={totalScore} id={id} />;
+      return (
+        <FinishedSet
+          totalScore={totalScore}
+          id={id}
+          totalExercises={totalExercises}
+          completed={completed}
+        />
+      );
     default:
       return <p>default</p>;
   }

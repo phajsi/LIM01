@@ -67,3 +67,11 @@ class Rating(models.Model):
 
     class Meta:
         unique_together = ('owner', 'sets',)
+
+
+class Completed(models.Model):
+    owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    sets = models.ForeignKey(Sets, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('owner', 'sets',)
