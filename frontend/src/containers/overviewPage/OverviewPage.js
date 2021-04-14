@@ -16,13 +16,13 @@ import {
 } from '@material-ui/core';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import { connect } from 'react-redux';
 import {
   axiosInstanceGet,
   axiosInstance,
   axiosInstanceDelete,
 } from '../../helpers/ApiFunctions';
 import useStyles from './style';
+import SaveIcon from '../../components/SaveIcon';
 
 const OverviewPage = ({
   title,
@@ -108,18 +108,6 @@ const OverviewPage = ({
       });
   }
 
-  // post request to the backend for saving an exercise set with a specific ID.
-  function saveExercise() {
-    axiosInstance()
-      .post('/saved/', { sets: id })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((e) => {
-        return e;
-      });
-  }
-
   useEffect(() => {
     getContent();
   }, []);
@@ -143,12 +131,8 @@ const OverviewPage = ({
               <ThumbDownIcon />
               {ratings.downvotes}
             </p>
+            <SaveIcon id={id} />
           </div>
-        </Grid>
-        <Grid item xs={6} className={classes.buttons}>
-          <Button variant="contained" onClick={() => saveExercise()} fullWidth>
-            Lagre
-          </Button>
         </Grid>
         <Grid item xs={6} className={classes.buttons}>
           <Button
@@ -164,7 +148,7 @@ const OverviewPage = ({
           <Grid item xs={12} className={classes.makecomment}>
             <h2>Legg igjen en kommentar!</h2>
             <Grid item xs={12} className={classes.form}>
-              <p>{user ? user.name : 'Test'}</p>
+              <p>{user && user.name}</p>
               <TextField
                 className={classes.formfields}
                 name="comment"
@@ -263,9 +247,4 @@ const OverviewPage = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  user: state.auth.user,
-});
-
-export default connect(mapStateToProps)(OverviewPage);
+export default OverviewPage;

@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Paper, Grid, Typography } from '@material-ui/core';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
+import { axiosInstance } from '../helpers/ApiFunctions';
+import SaveIcon from '../components/SaveIcon';
 import happyPickle from '../assets/images/happyPickle.png';
-import { axiosInstance, axiosInstanceDelete } from '../helpers/ApiFunctions';
 
 const useStyles = makeStyles({
   root: {
@@ -31,22 +29,16 @@ const FinishedSet = ({
   isAuthenticated,
 }) => {
   const [rating, setRating] = useState({ rating: null });
-  const [saved, setSaved] = useState(false);
   const [step, setStep] = useState('');
 
   const classes = useStyles();
 
   function getContent() {
-    const requestOne = axiosInstance().get(`/rating/${id}`);
-    const requestTwo = axiosInstance().get(`/usersaved/${id}`);
-    axios
-      .all([requestOne, requestTwo])
-      .then(
-        axios.spread((...res) => {
-          setRating(res[0].data);
-          setSaved(res[1].data.saved);
-        })
-      )
+    axiosInstance()
+      .get(`/rating/${id}`)
+      .then((res) => {
+        setRating(res.data);
+      })
       .catch((e) => {
         return e;
       });
@@ -126,28 +118,6 @@ const FinishedSet = ({
       });
   }
 
-  function onClickSave() {
-    if (!saved) {
-      axiosInstance()
-        .post('/saved/', { sets: id })
-        .then(() => {
-          getContent();
-        })
-        .catch((e) => {
-          return e;
-        });
-    } else if (saved) {
-      axiosInstanceDelete()
-        .delete(`/saved/${id}`)
-        .then(() => {
-          getContent();
-        })
-        .catch((e) => {
-          return e;
-        });
-    }
-  }
-
   return (
     <Paper elevation={0} className={classes.root}>
       {switchStep()}
@@ -177,16 +147,7 @@ const FinishedSet = ({
             <ThumbDownIcon />
           )}
         </IconButton>
-        <IconButton
-          className={saved ? classes.saved : classes.notSaved}
-          onClick={() => onClickSave()}
-        >
-          {saved ? (
-            <FavoriteIcon style={{ color: 'red' }} />
-          ) : (
-            <FavoriteBorderIcon />
-          )}
-        </IconButton>
+        <SaveIcon id={id} />
       </Grid>
     </Paper>
   );
