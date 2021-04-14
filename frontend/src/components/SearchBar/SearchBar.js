@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Grid, TextField, Button, CardHeader } from '@material-ui/core';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import { Grid, TextField, Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
-import Card from '@material-ui/core/Card';
 import useStyles from './styles';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
+import ErrorMessage from '../ErrorMessage';
 
 const SearchBar = () => {
   const classes = useStyles();
@@ -71,15 +70,7 @@ const SearchBar = () => {
           {notExistError && (
             <>
               <Grid item xs={10}>
-                <Card className={classes.card}>
-                  <CardHeader
-                    className={classes.cardHeader}
-                    avatar={
-                      <InfoOutlinedIcon style={{ color: 'lightcoral' }} />
-                    }
-                    title="Settet finnes ikke"
-                  />
-                </Card>
+                <ErrorMessage message="Settet finnes ikke." />
               </Grid>
               <Grid item xs={2} />
             </>
