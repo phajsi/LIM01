@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
     backgroundColor: 'inherit',
     alignItems: 'center',
-    paddingTop: theme.spacing(3),
+    paddingTop: theme.spacing(10),
     display: 'inline',
   },
   content: {
