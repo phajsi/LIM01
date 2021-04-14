@@ -37,6 +37,7 @@ const Chat = ({ id, showFeedback, progress, possible }) => {
   const [taskStep, setTaskStep] = useState(1);
   const [select, setSelect] = useState(false);
   const [score, setScore] = useState(0);
+  const [totalPossibleScore, setTotalPossibeScore] = useState(0);
 
   const classes = useStyles();
 
@@ -96,8 +97,10 @@ const Chat = ({ id, showFeedback, progress, possible }) => {
       if (answerchoice === correctanswer) {
         setAnswerstate('correct');
         setScore(score + 1);
+        setTotalPossibeScore(totalPossibleScore + 1);
       } else {
         setAnswerstate('incorrect');
+        setTotalPossibeScore(totalPossibleScore + 1);
       }
     }
     // eslint-disable-next-line no-restricted-globals
@@ -117,7 +120,7 @@ const Chat = ({ id, showFeedback, progress, possible }) => {
       setAnswer2(formData.answer32);
       setCorrectanswer(formData.correctanswer3);
     } else {
-      showFeedback(score);
+      showFeedback(score, totalPossibleScore);
     }
     setSelect(false);
   };
@@ -201,7 +204,6 @@ const Chat = ({ id, showFeedback, progress, possible }) => {
               answerState={answerstate}
               handleNextTask={handleNextTask}
             />
-            {taskStep > 3 && <p>You have finished this set</p>}
           </Grid>
         </Grid>
       </Paper>

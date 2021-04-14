@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import Forstaelse from './Forstaelse/Forstaelse';
 import Chat from './Chat/Chat';
 import RyddeSetninger from './RyddeSetninger/RyddeSetninger';
+import Feedback from '../components/Feedback';
 import FinishedSet from './FinishedSet';
 import OverviewPage from './overviewPage/OverviewPage';
 import { axiosInstanceGet, axiosInstance } from '../helpers/ApiFunctions';
@@ -14,11 +15,11 @@ const PlaySets = () => {
   const [step, setStep] = useState('menu');
   const [exerciseId, setExerciseId] = useState(0);
   const [id, setId] = useState(null);
-  const [feedbackScore, setFeedBackScore] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
   const [exerciseProgress, setExerciseProgress] = useState(0);
   const [completed, setCompleted] = useState({ completed: false, score: 0 });
   const [totalExercises, setTotalExercises] = useState(0);
+  const [feedbackState, setFeedbackState] = useState(false);
   const [redirected, setRedirected] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -92,9 +93,18 @@ const PlaySets = () => {
         setStep('overview');
       })
       .catch((e) => {
-        console.log(e.response.data);
         return e;
       });
+  }
+
+  function showFeedback(score, totalPossibleScore) {
+    if (score === totalPossibleScore) {
+      setTotalScore(totalScore + 1);
+      setFeedbackState(true);
+    } else {
+      setFeedbackState(false);
+    }
+    setStep('feedback');
   }
 
   function getCompleted(id) {
@@ -106,12 +116,6 @@ const PlaySets = () => {
       .catch((e) => {
         return e;
       });
-  }
-
-  function showFeedback(score) {
-    setFeedBackScore(score);
-    setTotalScore(totalScore + score);
-    setStep('feedback');
   }
 
   // only runs if an id is passed as state/props while redirected to this page. i.e search bar on front page
@@ -167,12 +171,11 @@ const PlaySets = () => {
     case 'feedback':
       return (
         <div>
-          <h1>
-            Bra jobba, poengsummen din er:
-            {feedbackScore}
-            Din sammenlagte score er:
-            {totalScore}
-          </h1>
+          <Feedback
+            totalScore={totalScore}
+            totalExercises={totalExercises}
+            feedbackState={feedbackState}
+          />
           <Button
             variant="contained"
             color="secondary"
@@ -187,8 +190,9 @@ const PlaySets = () => {
       return (
         <FinishedSet
           totalScore={totalScore}
-          id={id}
           totalExercises={totalExercises}
+          percentage={totalScore / totalExercises}
+          id={id}
           completed={completed}
           isAuthenticated={isAuthenticated}
         />

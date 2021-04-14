@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Paper, Grid } from '@material-ui/core';
+import { Paper, Grid, Typography } from '@material-ui/core';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
+import happyPickle from '../assets/images/happyPickle.png';
 import { axiosInstance, axiosInstanceDelete } from '../helpers/ApiFunctions';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 1200,
+    maxWidth: 800,
     margin: 'auto',
+    background: 'transparent',
+  },
+  image: {
+    maxWidth: 300,
+    float: 'right',
   },
 });
 
@@ -20,11 +26,13 @@ const FinishedSet = ({
   totalScore,
   id,
   totalExercises,
+  percentage,
   completed,
   isAuthenticated,
 }) => {
   const [rating, setRating] = useState({ rating: null });
   const [saved, setSaved] = useState(false);
+  const [step, setStep] = useState('');
 
   const classes = useStyles();
 
@@ -42,6 +50,35 @@ const FinishedSet = ({
       .catch((e) => {
         return e;
       });
+  }
+
+  /** The const will display different responces to different results from playing a set */
+  const switchStep = () => {
+    switch (step) {
+      case 'over':
+        return (
+          <div>
+            <Typography variant="h3">Bra jobba!</Typography>
+            <img
+              src={happyPickle}
+              alt="happy pickle"
+              className={classes.image}
+            />
+          </div>
+        );
+      case 'under':
+        return <Typography variant="h3">Ikke værst!</Typography>;
+      default:
+        return <p>default</p>;
+    }
+  };
+
+  function scoreState() {
+    if (percentage < 0.75) {
+      setStep('under');
+    } else {
+      setStep('over');
+    }
   }
 
   function postCompleted() {
@@ -71,6 +108,7 @@ const FinishedSet = ({
         putCompleted();
       }
     }
+    scoreState();
   }, []);
 
   function onClickRating(rated) {
@@ -111,13 +149,19 @@ const FinishedSet = ({
   }
 
   return (
-    <Paper className={classes.root}>
-      <h1>Du har spilt ferdig settet</h1>
-      <h1>
-        Din totale poengsum er:
-        {`${totalScore} av ${totalExercises}`}
-      </h1>
-      <h3>Hvis du likte settet kan du gi det tommel opp</h3>
+    <Paper elevation={0} className={classes.root}>
+      {switchStep()}
+      <Typography variant="h3">
+        Din totale poengsum ble
+        {` ${totalScore} `}
+        av totalt
+        {` ${totalExercises} `}
+        mulige!
+      </Typography>
+      <Typography variant="h4">
+        <br />
+        Hvis du likte settet kan du gi det tommel opp
+      </Typography>
       <Grid container spacing={1}>
         <IconButton onClick={() => onClickRating(true)}>
           {rating.rating ? (

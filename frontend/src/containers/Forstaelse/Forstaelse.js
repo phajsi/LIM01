@@ -43,6 +43,7 @@ const Forstaelse = ({ id, showFeedback, progress, possible }) => {
   const [explanation, setExplanation] = useState('');
   const [taskStep, setTaskStep] = useState(1);
   const [score, setScore] = useState(0);
+  const [totalPossibleScore, setTotalPossibeScore] = useState(0);
 
   const classes = useStyles();
 
@@ -66,8 +67,10 @@ const Forstaelse = ({ id, showFeedback, progress, possible }) => {
     if (answer === 'true') {
       setAnswerState('correct');
       setScore(score + 1);
+      setTotalPossibeScore(totalPossibleScore + 1);
     } else {
       setAnswerState('incorrect');
+      setTotalPossibeScore(totalPossibleScore + 1);
     }
   }
 
@@ -76,8 +79,10 @@ const Forstaelse = ({ id, showFeedback, progress, possible }) => {
     if (answer === 'false') {
       setAnswerState('correct');
       setScore(score + 1);
+      setTotalPossibeScore(totalPossibleScore + 1);
     } else {
       setAnswerState('incorrect');
+      setTotalPossibeScore(totalPossibleScore + 1);
     }
   }
 
@@ -94,7 +99,7 @@ const Forstaelse = ({ id, showFeedback, progress, possible }) => {
       setAnswer(formData.answer3);
       setExplanation(formData.explanation3);
     } else {
-      showFeedback(score);
+      showFeedback(score, totalPossibleScore);
     }
   };
 
