@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Toolbar, Typography } from '@material-ui/core';
 import Appbar from '@material-ui/core/AppBar';
 import pickleLogo from '../../assets/images/pickleLogo.png';
@@ -13,18 +13,6 @@ const StartPage = () => {
   const classes = useStyles();
   // eslint-disable-next-line no-unused-vars
   const [id, setId] = useState(null);
-  const [redirect, setRedirect] = useState(false);
-  const [error, setError] = useState(false);
-
-  const onChange = (e) => setId(e.target.value);
-
-  function playSet() {
-    if (!id) {
-      setError(true);
-    } else {
-      setRedirect(true);
-    }
-  }
 
   return (
     <div className={classes.root}>
@@ -47,19 +35,9 @@ const StartPage = () => {
           DiPICKLE
         </Typography>
       </div>
-      <SearchBar onChange={onChange} playSet={playSet} error={error} />
+      <SearchBar />
       <img src={forest} alt="forest" className={classes.forest} />
       <img src={tree} alt="tree" className={classes.tree} />
-      {redirect ? (
-        <Redirect
-          to={{
-            pathname: '/sets',
-            state: { id },
-          }}
-        />
-      ) : (
-        <> </>
-      )}
     </div>
   );
 };

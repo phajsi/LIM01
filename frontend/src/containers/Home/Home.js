@@ -22,15 +22,14 @@ const Home = () => {
   const [savedList, setSavedList] = useState([]);
   const [completedList, setCompletedList] = useState([]);
 
+  const [redirectPlay, setRedirectPlay] = useState(false);
+  const [playId, setPlayId] = useState(null);
+
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
-  const [playId, setPlayId] = useState(null);
   const [formDataEdit, setFormDataEdit] = useState(null);
   const [redirectEdit, setRedirectEdit] = useState(false);
-  const [redirectPlay, setRedirectPlay] = useState(false);
-
-  const [error, setError] = useState(false);
 
   function getContent() {
     const requestOne = axiosInstance().get(`/usersets/`);
@@ -77,21 +76,11 @@ const Home = () => {
       });
   }
 
-  const onChange = (e) => setPlayId(e.target.value);
-
-  function playSet() {
-    if (!playId) {
-      setError(true);
-    } else {
-      setRedirectPlay(true);
-    }
-  }
-
   return (
     <div className={classes.root}>
       <div className={classes.infoBox}>
         <h3 className={classes.searchTitle}> Søk med sett ID </h3>
-        <SearchBar onChange={onChange} playSet={playSet} error={error} />
+        <SearchBar />
         <h3>Mine oppgavesett</h3>
         {ExerciseSetList.map((set) => {
           return (
@@ -163,25 +152,21 @@ const Home = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      {redirectEdit ? (
+      {redirectEdit && (
         <Redirect
           to={{
             pathname: '/createexercise',
             state: { formSets: formDataEdit, editSet: true },
           }}
         />
-      ) : (
-        <> </>
       )}
-      {redirectPlay ? (
+      {redirectPlay && (
         <Redirect
           to={{
             pathname: '/sets',
             state: { id: playId },
           }}
         />
-      ) : (
-        <> </>
       )}
     </div>
   );
