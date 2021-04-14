@@ -4,6 +4,7 @@ import { Button } from '@material-ui/core';
 import Forstaelse from './Forstaelse/Forstaelse';
 import Chat from './Chat/Chat';
 import RyddeSetninger from './RyddeSetninger/RyddeSetninger';
+import Feedback from '../components/Feedback';
 import FinishedSet from './FinishedSet';
 import OverviewPage from './overviewPage/OverviewPage';
 import { axiosInstanceGet } from '../helpers/ApiFunctions';
@@ -18,6 +19,7 @@ const PlaySets = () => {
   const [exerciseProgress, setExerciseProgress] = useState(0);
   // eslint-disable-next-line no-unused-vars
   const [totalExercises, setTotalExercises] = useState(0);
+  const [feedbackState, setFeedbackState] = useState(false);
   const [redirected, setRedirected] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -97,6 +99,9 @@ const PlaySets = () => {
   function showFeedback(score, totalPossibleScore) {
     if (score === totalPossibleScore) {
       setTotalScore(totalScore + 1);
+      setFeedbackState(true);
+    } else {
+      setFeedbackState(false);
     }
     setStep('feedback');
   }
@@ -152,12 +157,11 @@ const PlaySets = () => {
     case 'feedback':
       return (
         <div>
-          <h1>
-            Poengsummen din er:
-            {totalScore}
-            Av antall mulige totalt:
-            {totalExercises}
-          </h1>
+          <Feedback
+            totalScore={totalScore}
+            totalExercises={totalExercises}
+            feedbackState={feedbackState}
+          />
           <Button
             variant="contained"
             color="secondary"
