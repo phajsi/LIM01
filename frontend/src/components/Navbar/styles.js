@@ -1,11 +1,16 @@
 import { makeStyles } from '@material-ui/core/styles';
 
+const drawerWidth = 240;
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: 'linear-gradient(90deg, #53A77A 1.46%, #80D197 100%)',
+    zIndex: theme.zIndex.drawer + 1,
   },
   menuButton: {
     marginRight: theme.spacing(2),
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
   },
   title: {
     flexGrow: 1,
@@ -17,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
   },
   right: {
     flex: 1,
+  },
+  appBar: {
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
   },
 }));
 
