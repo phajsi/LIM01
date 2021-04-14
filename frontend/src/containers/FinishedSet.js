@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Paper, Grid } from '@material-ui/core';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import { axiosInstance, axiosInstanceDelete } from '../helpers/ApiFunctions';
+import { axiosInstance } from '../helpers/ApiFunctions';
+import SaveIcon from '../components/SaveIcon';
 
 const useStyles = makeStyles({
   root: {
@@ -24,21 +22,15 @@ const FinishedSet = ({
   isAuthenticated,
 }) => {
   const [rating, setRating] = useState({ rating: null });
-  const [saved, setSaved] = useState(false);
 
   const classes = useStyles();
 
   function getContent() {
-    const requestOne = axiosInstance().get(`/rating/${id}`);
-    const requestTwo = axiosInstance().get(`/usersaved/${id}`);
-    axios
-      .all([requestOne, requestTwo])
-      .then(
-        axios.spread((...res) => {
-          setRating(res[0].data);
-          setSaved(res[1].data.saved);
-        })
-      )
+    axiosInstance()
+      .get(`/rating/${id}`)
+      .then((res) => {
+        setRating(res.data);
+      })
       .catch((e) => {
         return e;
       });
@@ -88,28 +80,6 @@ const FinishedSet = ({
       });
   }
 
-  function onClickSave() {
-    if (!saved) {
-      axiosInstance()
-        .post('/saved/', { sets: id })
-        .then(() => {
-          getContent();
-        })
-        .catch((e) => {
-          return e;
-        });
-    } else if (saved) {
-      axiosInstanceDelete()
-        .delete(`/saved/${id}`)
-        .then(() => {
-          getContent();
-        })
-        .catch((e) => {
-          return e;
-        });
-    }
-  }
-
   return (
     <Paper className={classes.root}>
       <h1>Du har spilt ferdig settet</h1>
@@ -133,16 +103,7 @@ const FinishedSet = ({
             <ThumbDownIcon />
           )}
         </IconButton>
-        <IconButton
-          className={saved ? classes.saved : classes.notSaved}
-          onClick={() => onClickSave()}
-        >
-          {saved ? (
-            <FavoriteIcon style={{ color: 'red' }} />
-          ) : (
-            <FavoriteBorderIcon />
-          )}
-        </IconButton>
+        <SaveIcon id={id} />
       </Grid>
     </Paper>
   );

@@ -11,7 +11,7 @@ import { axiosInstanceGet, axiosInstance } from '../helpers/ApiFunctions';
 
 const PlaySets = () => {
   const location = useLocation();
-  const [step, setStep] = useState('menu');
+  const [step, setStep] = useState('overview');
   const [exerciseId, setExerciseId] = useState(0);
   const [id, setId] = useState(null);
   const [feedbackScore, setFeedBackScore] = useState(0);
@@ -28,6 +28,7 @@ const PlaySets = () => {
     ryddeSetninger: [],
   });
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const user = useSelector((state) => state.auth.user);
 
   // const onChange = (e) => setId(e.target.value);
 
@@ -82,7 +83,6 @@ const PlaySets = () => {
   }
 
   function getContent(id) {
-    console.log(isAuthenticated);
     axiosInstanceGet()
       .get(`/sets/${id}`)
       .then((res) => {
@@ -134,6 +134,8 @@ const PlaySets = () => {
             id={id}
             nextExercise={nextExercise}
             completed={completed}
+            isAuthenticated={isAuthenticated}
+            user={user}
           />
         </div>
       );
