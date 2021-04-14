@@ -1,6 +1,6 @@
 from rest_framework import status, permissions
-from .serializers import SetsSerializer, SavedSerializer, CommentSerializer, RatingSerializer
-from .models import Sets, Saved, Comment, Rating
+from .serializers import SetsSerializer, SavedSerializer, CommentSerializer, RatingSerializer, CompletedSerializer
+from .models import Sets, Saved, Comment, Rating, Completed
 from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
@@ -101,13 +101,14 @@ class CommentView(APIView):
         serializer = CommentSerializer(getComment, many=True)
         return JsonResponse(serializer.data, safe=False)
 
+
 class UserCommentView(APIView):
     def get(self, request, pk):
         try:
-            getComment = Comment.objects.filter(owner=self.request.user).get(sets=pk)
+            getComment = Comment.objects.filter(
+                owner=self.request.user).get(sets=pk)
         except ObjectDoesNotExist:
-            HttpResponse(status=status.HTTP_404_NOT_FOUND)
-            return Response(content)
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
         serializer = CommentSerializer(getComment, many=True)
         return JsonResponse(serializer.data, safe=False)
 
@@ -121,15 +122,17 @@ class UserCommentView(APIView):
 
     def delete(self, request, pk):
         try:
-            getComment = Comment.objects.filter(owner=self.request.user).get(pk=pk)
+            getComment = Comment.objects.filter(
+                owner=self.request.user).get(pk=pk)
         except ObjectDoesNotExist:
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)
         getComment.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
+
 class getRatingView(APIView):
     permission_classes = []
-    
+
     def get(self, request, pk):
         getRatings = Rating.objects.filter(sets=pk)
         ratingCount = getRatings.count()
@@ -138,6 +141,7 @@ class getRatingView(APIView):
         content = {'ratings': ratingCount,
                    'upvotes': upvotes, 'downvotes': downvotes}
         return Response(content)
+
 
 class RatingView(APIView):
     def get(self, request, pk):
@@ -177,4 +181,44 @@ class RatingView(APIView):
                 serializer.save()
                 return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
-    
+
+
+class CompletedView(APIView):
+    def get(self, request, pk):
+        try:
+            getCompleted = Completed.objects.filter(
+                owner=self.request.user).get(sets=pk)
+        except ObjectDoesNotExist:
+            content = {'completed': False, 'score': '0'}
+            return Response(content)
+        content = {'completed': True,
+                   'score': getCompleted.score, 'id': getCompleted.id}
+        return Response(content)
+
+    def post(self, request):
+        data = JSONParser().parse(request)
+        serializer = CompletedSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save(owner=self.request.user)
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+    def put(self, request, pk):
+        try:
+            getCompleted = Completed.objects.filter(
+                owner=self.request.user).get(pk=pk)
+        except ObjectDoesNotExist:
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+        data = JSONParser().parse(request)
+        serializer = CompletedSerializer(getCompleted, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+
+class UserCompletedView(APIView):
+    def get(self, request):
+        getCompleted = Completed.objects.filter(owner=self.request.user)
+        serializer = CompletedSerializer(getCompleted, many=True)
+        return JsonResponse(serializer.data, safe=False)

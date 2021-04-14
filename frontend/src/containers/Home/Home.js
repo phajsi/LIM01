@@ -20,6 +20,7 @@ const Home = () => {
 
   const [ExerciseSetList, setExerciseSetList] = useState([]);
   const [savedList, setSavedList] = useState([]);
+  const [completedList, setCompletedList] = useState([]);
 
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
@@ -34,12 +35,14 @@ const Home = () => {
   function getContent() {
     const requestOne = axiosInstance().get(`/usersets/`);
     const requestTwo = axiosInstance().get(`/saved/`);
+    const requestThree = axiosInstance().get(`/usercompleted/`);
     axios
-      .all([requestOne, requestTwo])
+      .all([requestOne, requestTwo, requestThree])
       .then(
         axios.spread((...res) => {
           setExerciseSetList(res[0].data);
           setSavedList(res[1].data);
+          setCompletedList(res[2].data);
         })
       )
       .catch((e) => {
@@ -119,6 +122,19 @@ const Home = () => {
               }}
               onClick={() => {
                 setPlayId(saved.sets);
+                setRedirectPlay(true);
+              }}
+            />
+          );
+        })}
+        <h3>Fullførte sett</h3>
+        {completedList.map((completed) => {
+          return (
+            <Chip
+              avatar={<Avatar>{completed.sets}</Avatar>}
+              label="Fullført Sett"
+              onClick={() => {
+                setPlayId(completed.sets);
                 setRedirectPlay(true);
               }}
             />

@@ -16,10 +16,14 @@ const useStyles = makeStyles({
   },
 });
 
-const FinishedSet = ({ totalScore, id }) => {
-  // eslint-disable-next-line no-unused-vars
+const FinishedSet = ({
+  totalScore,
+  id,
+  totalExercises,
+  completed,
+  isAuthenticated,
+}) => {
   const [rating, setRating] = useState({ rating: null });
-  // eslint-disable-next-line no-unused-vars
   const [saved, setSaved] = useState(false);
 
   const classes = useStyles();
@@ -40,8 +44,33 @@ const FinishedSet = ({ totalScore, id }) => {
       });
   }
 
+  function postCompleted() {
+    axiosInstance()
+      .post(`/completed/`, { sets: id, score: totalScore })
+      .catch((e) => {
+        return e;
+      });
+  }
+  function putCompleted() {
+    axiosInstance()
+      .put(`/completed/${completed.id}`, {
+        score: totalScore,
+        sets: id,
+      })
+      .catch((e) => {
+        return e;
+      });
+  }
+
   useEffect(() => {
-    getContent();
+    if (isAuthenticated) {
+      getContent();
+      if (!completed.completed) {
+        postCompleted();
+      } else if (completed.completed && totalScore > completed.score) {
+        putCompleted();
+      }
+    }
   }, []);
 
   function onClickRating(rated) {
@@ -55,7 +84,6 @@ const FinishedSet = ({ totalScore, id }) => {
         getContent();
       })
       .catch((e) => {
-        console.log(e.response.data);
         return e;
       });
   }
@@ -87,7 +115,7 @@ const FinishedSet = ({ totalScore, id }) => {
       <h1>Du har spilt ferdig settet</h1>
       <h1>
         Din totale poengsum er:
-        {totalScore}
+        {`${totalScore} av ${totalExercises}`}
       </h1>
       <h3>Hvis du likte settet kan du gi det tommel opp</h3>
       <Grid container spacing={1}>
