@@ -14,7 +14,6 @@ const PlaySets = () => {
   const [step, setStep] = useState('menu');
   const [exerciseId, setExerciseId] = useState(0);
   const [id, setId] = useState(null);
-  // const [feedbackScore, setFeedBackScore] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
   const [exerciseProgress, setExerciseProgress] = useState(0);
   // eslint-disable-next-line no-unused-vars
@@ -91,7 +90,6 @@ const PlaySets = () => {
         setStep('overview');
       })
       .catch((e) => {
-        console.log(e.response.data);
         return e;
       });
   }
@@ -173,7 +171,14 @@ const PlaySets = () => {
         </div>
       );
     case 'finish':
-      return <FinishedSet totalScore={totalScore} id={id} />;
+      return (
+        <FinishedSet
+          totalScore={totalScore}
+          totalExercises={totalExercises}
+          percentage={totalScore / totalExercises}
+          id={id}
+        />
+      );
     default:
       return <p>default</p>;
   }
