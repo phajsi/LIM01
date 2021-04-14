@@ -28,15 +28,14 @@ const Home = () => {
   const [completedList, setCompletedList] = useState([]);
   const [showSetType, setShowSetType] = useState(0);
 
+  const [redirectPlay, setRedirectPlay] = useState(false);
+  const [playId, setPlayId] = useState(null);
+
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
-  const [playId, setPlayId] = useState(null);
   const [formDataEdit, setFormDataEdit] = useState(null);
   const [redirectEdit, setRedirectEdit] = useState(false);
-  const [redirectPlay, setRedirectPlay] = useState(false);
-
-  const [error, setError] = useState(false);
 
   function getContent() {
     const requestOne = axiosInstance().get(`/usersets/`);
@@ -83,15 +82,6 @@ const Home = () => {
       });
   }
 
-  const onChange = (e) => setPlayId(e.target.value);
-
-  function playSet() {
-    if (!playId) {
-      setError(true);
-    } else {
-      setRedirectPlay(true);
-    }
-  }
   const renderSwitch = (param) => {
     switch (param) {
       case 0:
@@ -193,7 +183,7 @@ const Home = () => {
         </Hidden>
       </nav>
       <div className={classes.content}>
-        <SearchBar onChange={onChange} playSet={playSet} error={error} />
+        <SearchBar />
         <Hidden smUp implementation="css">
           <div className={classes.buttonList}>
             {['Mine sett', 'Lagrede sett', 'Fullførte sett'].map(
@@ -236,7 +226,6 @@ const Home = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
       {redirectEdit && (
         <Redirect
           to={{
@@ -245,7 +234,6 @@ const Home = () => {
           }}
         />
       )}
-
       {redirectPlay && (
         <Redirect
           to={{

@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
-import { AppBar, IconButton, Typography, Toolbar } from '@material-ui/core';
+import {
+  AppBar,
+  Button,
+  IconButton,
+  Typography,
+  Toolbar,
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
@@ -73,13 +79,13 @@ const Navbar = ({ logout, isAuthenticated }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Link to="/home">
+          <Button component={Link} to={isAuthenticated ? '/home' : '/'}>
             <img src={logo} alt="logo" />
-          </Link>
+          </Button>
           {isAuthenticated ? authLinks() : guestLinks()}
         </Toolbar>
       </AppBar>
-      {redirect ? <Redirect to="/" /> : <> </>}
+      {redirect && <Redirect to="/" />}
     </div>
   );
 };

@@ -18,5 +18,13 @@ const useStyles = makeStyles(() => ({
     fontWeight: 'bold',
     filter: 'drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.15))',
   },
+  card: {
+    border: '3px solid lightcoral',
+    textAlign: 'left',
+  },
+  cardHeader: {
+    padding: '3px',
+    textAlign: 'left',
+  },
 }));
 export default useStyles;
