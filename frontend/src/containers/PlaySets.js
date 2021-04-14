@@ -12,7 +12,7 @@ import { axiosInstanceGet, axiosInstance } from '../helpers/ApiFunctions';
 
 const PlaySets = () => {
   const location = useLocation();
-  const [step, setStep] = useState('overview');
+  const [step, setStep] = useState('menu');
   const [exerciseId, setExerciseId] = useState(0);
   const [id, setId] = useState(null);
   const [totalScore, setTotalScore] = useState(0);
