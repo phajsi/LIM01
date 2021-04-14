@@ -14,7 +14,7 @@ import { logout } from '../../actions/auth';
 import logo from '../../assets/images/logoWithText.png';
 import useStyles from './styles';
 
-const Navbar = ({ logout, isAuthenticated }) => {
+const Navbar = ({ logout, isAuthenticated, user }) => {
   const [redirect, setRedirect] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -43,16 +43,21 @@ const Navbar = ({ logout, isAuthenticated }) => {
           Opprett oppgavesett
         </Link>
       </Typography>
-      <Typography
-        variant="h6"
-        className={classes.right}
-        href="#!"
-        onClick={logoutUser}
-      >
-        <Link to="/" className={classes.title}>
-          Logg ut
-        </Link>
-      </Typography>
+      <div className={classes.container}>
+        <Typography
+          variant="h6"
+          className={classes.title}
+          style={{ textAlign: 'end' }}
+        >
+          Hei,
+          {user && ` ${user.name}! `}
+        </Typography>
+        <Typography variant="h6" href="#!" onClick={logoutUser}>
+          <Link to="/" className={classes.title}>
+            Logg ut
+          </Link>
+        </Typography>
+      </div>
     </>
   );
 
@@ -69,7 +74,7 @@ const Navbar = ({ logout, isAuthenticated }) => {
           background: 'linear-gradient(90deg, #53A77A 1.46%, #80D197 100%)',
         }}
       >
-        <Toolbar>
+        <Toolbar style={{ justifyContent: 'space-between' }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -92,6 +97,7 @@ const Navbar = ({ logout, isAuthenticated }) => {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps, { logout })(Navbar);

@@ -20,8 +20,19 @@ const useStyles = makeStyles((theme) => ({
     float: 'right',
     textDecoration: 'none',
   },
+  userName: {
+    flexGrow: 1,
+    color: '#367051',
+    fontWeight: '600',
+    margin: theme.spacing(1),
+    textDecoration: 'none',
+  },
   right: {
-    flex: 1,
+    flexGrow: 1,
+  },
+  container: {
+    display: 'flex',
+    flexGrow: 1,
   },
   appBar: {
     [theme.breakpoints.up('sm')]: {
