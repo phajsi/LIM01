@@ -104,6 +104,7 @@ export const signup = (name, email, password, re_password) => async (
   } catch (err) {
     dispatch({
       type: SIGNUP_FAIL,
+      payload: err.response.status,
     });
   }
 };
