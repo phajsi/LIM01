@@ -22,10 +22,16 @@ const useStyles = makeStyles({
   },
 });
 
-const FinishedSet = ({ totalScore, totalExercises, percentage, id }) => {
-  // eslint-disable-next-line no-unused-vars
+const FinishedSet = ({
+  totalScore,
+  id,
+  totalExercises,
+  percentage,
+  completed,
+  isAuthenticated,
+}) => {
+
   const [rating, setRating] = useState({ rating: null });
-  // eslint-disable-next-line no-unused-vars
   const [saved, setSaved] = useState(false);
   const [step, setStep] = useState('');
 
@@ -76,9 +82,34 @@ const FinishedSet = ({ totalScore, totalExercises, percentage, id }) => {
     }
   }
 
+  function postCompleted() {
+    axiosInstance()
+      .post(`/completed/`, { sets: id, score: totalScore })
+      .catch((e) => {
+        return e;
+      });
+  }
+  function putCompleted() {
+    axiosInstance()
+      .put(`/completed/${completed.id}`, {
+        score: totalScore,
+        sets: id,
+      })
+      .catch((e) => {
+        return e;
+      });
+  }
+
   useEffect(() => {
-    getContent();
-    scoreState();
+    if (isAuthenticated) {
+      getContent();
+      if (!completed.completed) {
+        postCompleted();
+      } else if (completed.completed && totalScore > completed.score) {
+        putCompleted();
+      }
+     scoreState();
+    }
   }, []);
 
   function onClickRating(rated) {
@@ -119,6 +150,7 @@ const FinishedSet = ({ totalScore, totalExercises, percentage, id }) => {
   }
 
   return (
+
     <Paper elevation={0} className={classes.root}>
       {switchStep()}
       <Typography variant="h3">

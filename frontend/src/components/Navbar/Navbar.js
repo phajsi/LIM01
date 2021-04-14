@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
-import { AppBar, Typography, Toolbar, Button } from '@material-ui/core';
+import {
+  AppBar,
+  Button,
+  IconButton,
+  Typography,
+  Toolbar,
+} from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
 import logo from '../../assets/images/logoWithText.png';
@@ -9,6 +16,7 @@ import useStyles from './styles';
 
 const Navbar = ({ logout, isAuthenticated }) => {
   const [redirect, setRedirect] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const logoutUser = () => {
     logout();
@@ -48,10 +56,29 @@ const Navbar = ({ logout, isAuthenticated }) => {
     </>
   );
 
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   return (
-    <div>
-      <AppBar position="relative" className={classes.root}>
+    <div className={classes.root}>
+      <AppBar
+        position="relative"
+        className={classes.appbar}
+        style={{
+          background: 'linear-gradient(90deg, #53A77A 1.46%, #80D197 100%)',
+        }}
+      >
         <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
+          >
+            <MenuIcon />
+          </IconButton>
           <Button component={Link} to={isAuthenticated ? '/home' : '/'}>
             <img src={logo} alt="logo" />
           </Button>

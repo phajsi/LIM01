@@ -1,12 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
-  infoBox: {
-    padding: theme.spacing(2),
-  },
+const useStyles = makeStyles(() => ({
   searchBox: {
     margin: 'auto',
-    color: '#FFFAF0',
     width: '40vw',
   },
   search: {
@@ -21,6 +17,14 @@ const useStyles = makeStyles((theme) => ({
     color: 'black',
     fontWeight: 'bold',
     filter: 'drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.15))',
+  },
+  card: {
+    border: '3px solid lightcoral',
+    textAlign: 'left',
+  },
+  cardHeader: {
+    padding: '3px',
+    textAlign: 'left',
   },
 }));
 export default useStyles;

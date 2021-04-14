@@ -3,7 +3,7 @@ from .models import UserAccount
 from forstaelse.models import Forstaelse
 from chat.models import Chat
 from rydde_setninger.models import RyddeSetninger
-from sets.models import Sets, Saved, Comment, Rating
+from sets.models import Sets, Saved, Comment, Rating, Completed
 
 
 class AccountAdmin(admin.ModelAdmin):
@@ -46,6 +46,10 @@ class RatingAdmin(admin.ModelAdmin):
     list_display = ('id', 'owner', 'sets', 'rating')
 
 
+class CompletedAdmin(admin.ModelAdmin):
+    list_display = ('id', 'owner', 'sets')
+
+
 admin.site.register(UserAccount, AccountAdmin)
 admin.site.register(Forstaelse, ForstaelseAdmin)
 admin.site.register(Chat, ChatAdmin)
@@ -54,3 +58,4 @@ admin.site.register(Sets, SetsAdmin)
 admin.site.register(Saved, SavedAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Rating, RatingAdmin)
+admin.site.register(Completed, CompletedAdmin)

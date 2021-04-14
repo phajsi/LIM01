@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 import Forstaelse from './Forstaelse/Forstaelse';
 import Chat from './Chat/Chat';
 import RyddeSetninger from './RyddeSetninger/RyddeSetninger';
 import Feedback from '../components/Feedback';
 import FinishedSet from './FinishedSet';
 import OverviewPage from './overviewPage/OverviewPage';
-import { axiosInstanceGet } from '../helpers/ApiFunctions';
+import { axiosInstanceGet, axiosInstance } from '../helpers/ApiFunctions';
 
 const PlaySets = () => {
   const location = useLocation();
@@ -16,7 +17,7 @@ const PlaySets = () => {
   const [id, setId] = useState(null);
   const [totalScore, setTotalScore] = useState(0);
   const [exerciseProgress, setExerciseProgress] = useState(0);
-  // eslint-disable-next-line no-unused-vars
+  const [completed, setCompleted] = useState({ completed: false, score: 0 });
   const [totalExercises, setTotalExercises] = useState(0);
   const [feedbackState, setFeedbackState] = useState(false);
   const [redirected, setRedirected] = useState(false);
@@ -27,6 +28,7 @@ const PlaySets = () => {
     forstaelse: [],
     ryddeSetninger: [],
   });
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   // const onChange = (e) => setId(e.target.value);
 
@@ -81,6 +83,7 @@ const PlaySets = () => {
   }
 
   function getContent(id) {
+    console.log(isAuthenticated);
     axiosInstanceGet()
       .get(`/sets/${id}`)
       .then((res) => {
@@ -101,17 +104,29 @@ const PlaySets = () => {
     } else {
       setFeedbackState(false);
     }
+
+  function getCompleted(id) {
+    axiosInstance()
+      .get(`/completed/${id}`)
+      .then((res) => {
+        setCompleted(res.data);
+      })
+      .catch((e) => {
+        return e;
+      });
+  }
     setStep('feedback');
   }
 
   // only runs if an id is passed as state/props while redirected to this page. i.e search bar on front page
   useEffect(() => {
     if (location.state?.id && !redirected) {
+      getCompleted(location.state?.id);
       getContent(location.state?.id);
       setRedirected(true);
       setId(location.state?.id);
     }
-  });
+  }, []);
 
   switch (step) {
     case 'overview':
@@ -122,6 +137,7 @@ const PlaySets = () => {
             description={description}
             id={id}
             nextExercise={nextExercise}
+            completed={completed}
           />
         </div>
       );
@@ -177,6 +193,8 @@ const PlaySets = () => {
           totalExercises={totalExercises}
           percentage={totalScore / totalExercises}
           id={id}
+          completed={completed}
+          isAuthenticated={isAuthenticated}
         />
       );
     default:
