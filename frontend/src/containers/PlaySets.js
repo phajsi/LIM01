@@ -13,7 +13,7 @@ const PlaySets = () => {
   const [step, setStep] = useState('menu');
   const [exerciseId, setExerciseId] = useState(0);
   const [id, setId] = useState(null);
-  const [feedbackScore, setFeedBackScore] = useState(0);
+  // const [feedbackScore, setFeedBackScore] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
   const [exerciseProgress, setExerciseProgress] = useState(0);
   // eslint-disable-next-line no-unused-vars
@@ -94,9 +94,10 @@ const PlaySets = () => {
       });
   }
 
-  function showFeedback(score) {
-    setFeedBackScore(score);
-    setTotalScore(totalScore + score);
+  function showFeedback(score, totalPossibleScore) {
+    if (score === totalPossibleScore) {
+      setTotalScore(totalScore + 1);
+    }
     setStep('feedback');
   }
 
@@ -152,10 +153,10 @@ const PlaySets = () => {
       return (
         <div>
           <h1>
-            Bra jobba, poengsummen din er:
-            {feedbackScore}
-            Din sammenlagte score er:
+            Poengsummen din er:
             {totalScore}
+            Av antall mulige totalt:
+            {totalExercises}
           </h1>
           <Button
             variant="contained"
