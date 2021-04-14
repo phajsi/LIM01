@@ -31,6 +31,7 @@ const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
   const [answerState, setAnswerState] = useState();
   const [disableButton, setDisableButton] = useState(false);
   const [score, setScore] = useState(0);
+  const [totalPossibleScore, setTotalPossibeScore] = useState(0);
 
   let concatenatedWords = [];
   let counter = 0;
@@ -124,14 +125,16 @@ const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
     if (JSON.stringify(finalSentence) === JSON.stringify(rightAnswer)) {
       setAnswerState('correct');
       setScore(1);
+      setTotalPossibeScore(totalPossibleScore + 1);
     } else {
       setAnswerState('incorrect');
       setScore(0);
+      setTotalPossibeScore(totalPossibleScore + 1);
     }
   };
 
   const nextExercise = () => {
-    showFeedback(score);
+    showFeedback(score, totalPossibleScore);
   };
 
   useEffect(() => {
