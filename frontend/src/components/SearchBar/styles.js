@@ -1,12 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
-  infoBox: {
-    padding: theme.spacing(2),
-  },
+const useStyles = makeStyles(() => ({
   searchBox: {
     margin: 'auto',
-    color: '#FFFAF0',
     width: '40vw',
   },
   search: {

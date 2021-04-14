@@ -9,6 +9,11 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Drawer,
+  Hidden,
+  List,
+  ListItem,
+  ListItemText,
 } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import { axiosInstanceDelete, axiosInstance } from '../../helpers/ApiFunctions';
@@ -21,6 +26,7 @@ const Home = () => {
   const [ExerciseSetList, setExerciseSetList] = useState([]);
   const [savedList, setSavedList] = useState([]);
   const [completedList, setCompletedList] = useState([]);
+  const [showSetType, setShowSetType] = useState(0);
 
   const [redirectPlay, setRedirectPlay] = useState(false);
   const [playId, setPlayId] = useState(null);
@@ -76,60 +82,128 @@ const Home = () => {
       });
   }
 
+  const renderSwitch = (param) => {
+    switch (param) {
+      case 0:
+        return (
+          <>
+            <h3>Mine oppgavesett</h3>
+            {ExerciseSetList.map((set) => {
+              return (
+                <Chip
+                  avatar={<Avatar>{set.id}</Avatar>}
+                  label="sett"
+                  onDelete={() => {
+                    setDeleteId(set.id);
+                    setOpen(true);
+                  }}
+                  onClick={() => {
+                    setFormDataEdit(set);
+                    setRedirectEdit(true);
+                  }}
+                />
+              );
+            })}
+          </>
+        );
+      case 1:
+        return (
+          <>
+            <h3>Lagrede sett</h3>
+            {savedList.map((saved) => {
+              return (
+                <Chip
+                  avatar={<Avatar>{saved.sets}</Avatar>}
+                  label="Lagret Sett"
+                  onDelete={() => {
+                    removeSaved(saved.sets);
+                  }}
+                  onClick={() => {
+                    setPlayId(saved.sets);
+                    setRedirectPlay(true);
+                  }}
+                />
+              );
+            })}
+          </>
+        );
+      case 2:
+        return (
+          <>
+            <h3>Fullførte sett</h3>
+            {completedList.map((completed) => {
+              return (
+                <Chip
+                  avatar={<Avatar>{completed.sets}</Avatar>}
+                  label="Fullført Sett"
+                  onClick={() => {
+                    setPlayId(completed.sets);
+                    setRedirectPlay(true);
+                  }}
+                />
+              );
+            })}
+          </>
+        );
+      default:
+        return <> </>;
+    }
+  };
+
   return (
     <div className={classes.root}>
-      <div className={classes.infoBox}>
-        <h3 className={classes.searchTitle}> Søk med sett ID </h3>
+      <nav className={classes.drawer} aria-label="mailbox folders">
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        <Hidden xsDown implementation="css">
+          <Drawer
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            variant="permanent"
+            open
+          >
+            <div>
+              <div className={classes.toolbar} />
+              <List>
+                {['Mine sett', 'Lagrede sett', 'Fullførte sett'].map(
+                  (text, index) => (
+                    <ListItem
+                      button
+                      style={{ textAlign: 'center' }}
+                      key={text}
+                      onClick={() => setShowSetType(index)}
+                    >
+                      <ListItemText primary={text} />
+                    </ListItem>
+                  )
+                )}
+              </List>
+            </div>
+          </Drawer>
+        </Hidden>
+      </nav>
+      <div className={classes.content}>
         <SearchBar />
-        <h3>Mine oppgavesett</h3>
-        {ExerciseSetList.map((set) => {
-          return (
-            <Chip
-              avatar={<Avatar>{set.id}</Avatar>}
-              label="sett"
-              onDelete={() => {
-                setDeleteId(set.id);
-                setOpen(true);
-              }}
-              onClick={() => {
-                setFormDataEdit(set);
-                setRedirectEdit(true);
-              }}
-            />
-          );
-        })}
+        <Hidden smUp implementation="css">
+          <div className={classes.buttonList}>
+            {['Mine sett', 'Lagrede sett', 'Fullførte sett'].map(
+              (text, index) => (
+                <Button
+                  key={text}
+                  onClick={() => setShowSetType(index)}
+                  variant="outlined"
+                  size="small"
+                  style={{ textTransform: 'none' }}
+                >
+                  {text}
+                </Button>
+              )
+            )}
+          </div>
+        </Hidden>
+        {renderSwitch(showSetType)}
       </div>
-      <div className={classes.infoBox}>
-        <h3>Lagrede sett</h3>
-        {savedList.map((saved) => {
-          return (
-            <Chip
-              avatar={<Avatar>{saved.sets}</Avatar>}
-              label="Lagret Sett"
-              onDelete={() => {
-                removeSaved(saved.sets);
-              }}
-              onClick={() => {
-                setPlayId(saved.sets);
-                setRedirectPlay(true);
-              }}
-            />
-          );
-        })}
-        <h3>Fullførte sett</h3>
-        {completedList.map((completed) => {
-          return (
-            <Chip
-              avatar={<Avatar>{completed.sets}</Avatar>}
-              label="Fullført Sett"
-              onClick={() => {
-                setPlayId(completed.sets);
-                setRedirectPlay(true);
-              }}
-            />
-          );
-        })}
-      </div>
+
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
