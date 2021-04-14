@@ -30,7 +30,6 @@ const FinishedSet = ({
   completed,
   isAuthenticated,
 }) => {
-
   const [rating, setRating] = useState({ rating: null });
   const [saved, setSaved] = useState(false);
   const [step, setStep] = useState('');
@@ -108,8 +107,8 @@ const FinishedSet = ({
       } else if (completed.completed && totalScore > completed.score) {
         putCompleted();
       }
-     scoreState();
     }
+    scoreState();
   }, []);
 
   function onClickRating(rated) {
@@ -150,7 +149,6 @@ const FinishedSet = ({
   }
 
   return (
-
     <Paper elevation={0} className={classes.root}>
       {switchStep()}
       <Typography variant="h3">

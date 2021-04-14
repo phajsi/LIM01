@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-newline */
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
@@ -273,7 +274,8 @@ const CreateExercises = () => {
                     label="Forstaelse"
                     onDelete={() =>
                       // eslint-disable-next-line prettier/prettier
-                      onDeleteExercise(type, `/deleteforstaelse/${id}`)}
+                      onDeleteExercise(type, `/deleteforstaelse/${id}`)
+                    }
                     onClick={() => editExercise(id, 'forstaelse')}
                   />
                 );
@@ -284,7 +286,8 @@ const CreateExercises = () => {
                     label="Rydde Setninger"
                     onDelete={() =>
                       // eslint-disable-next-line prettier/prettier
-                      onDeleteExercise(type, `/delete_rydde_setninger/${id}`)}
+                      onDeleteExercise(type, `/delete_rydde_setninger/${id}`)
+                    }
                     onClick={() => editExercise(id, 'rydde_setninger')}
                   />
                 );

@@ -104,6 +104,8 @@ const PlaySets = () => {
     } else {
       setFeedbackState(false);
     }
+    setStep('feedback');
+  }
 
   function getCompleted(id) {
     axiosInstance()
@@ -114,8 +116,6 @@ const PlaySets = () => {
       .catch((e) => {
         return e;
       });
-  }
-    setStep('feedback');
   }
 
   // only runs if an id is passed as state/props while redirected to this page. i.e search bar on front page
