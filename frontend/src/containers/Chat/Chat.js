@@ -169,11 +169,11 @@ const Chat = ({ id, showFeedback, progress, possible }) => {
                 </ButtonGroup>
               </>
             )}
-            <NextExerciseBtn
-              answerState={answerstate}
-              handleNextTask={handleNextTask}
-            />
           </Grid>
+          <NextExerciseBtn
+            answerState={answerstate}
+            handleNextTask={handleNextTask}
+          />
         </Grid>
       </Paper>
     </Paper>

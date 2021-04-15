@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     float: 'left',
   },
   parent: {
-    display: 'block',
+    display: 'flex-end',
   },
   floatRight: {
     float: 'right',
