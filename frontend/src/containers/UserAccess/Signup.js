@@ -56,10 +56,8 @@ const Signup = ({
   });
 
   const onSubmit = (values) => {
-    if (values.password === values.re_password) {
-      signup(values.name, values.email, values.password, values.re_password);
-      setSignUp(true);
-    }
+    signup(values.name, values.email, values.password, values.re_password);
+    setSignUp(true);
   };
   if (isAuthenticated) {
     return <Redirect to="/" />;
@@ -73,13 +71,11 @@ const Signup = ({
     if (signUpSuccess) {
       setSignUp(false);
     }
-    if (signUpSuccess === 400) {
-      return (
-        <ErrorMessage message="Benytt en annen E-post og/eller navn og sjekk at alle felter er riktg utfylt" />
-      );
+    if (signUpSuccess.email) {
+      return <ErrorMessage message="Denne E-post addressen er ikke gyldig." />;
     }
-    if (typeof signUpSuccess === 'number') {
-      return <ErrorMessage message="Noe gikk galt! Prøv igjen senere" />;
+    if (signUpSuccess.password) {
+      return <ErrorMessage message="Passordet er ikke godt nok." />;
     }
     if (signUpSuccess === true) {
       return (
@@ -94,6 +90,9 @@ const Signup = ({
           />
         </Card>
       );
+    }
+    if (signUpSuccess) {
+      return <ErrorMessage message="Noe gikk galt! Prøv igjen senere" />;
     }
     return <></>;
   }

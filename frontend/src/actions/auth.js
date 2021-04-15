@@ -75,6 +75,7 @@ export const login = (email, password) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: LOGIN_FAIL,
+      payload: err.response.status,
     });
   }
 };
@@ -104,7 +105,7 @@ export const signup = (name, email, password, re_password) => async (
   } catch (err) {
     dispatch({
       type: SIGNUP_FAIL,
-      payload: err.response.status,
+      payload: err.response.data,
     });
   }
 };
