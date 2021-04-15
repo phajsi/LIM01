@@ -64,7 +64,7 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
         <h1 className={classes.headline}>Logg inn</h1>
         <form onSubmit={(e) => onSubmit(e)}>
           <TextField
-            type="email"
+            type="text"
             placeholder="Epost"
             name="email"
             variant="outlined"
