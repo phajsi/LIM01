@@ -25,13 +25,13 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(4),
   },
   text: {
-    margin: '3px 0px 3px 0px',
+    margin: '6px 0px 6px 0px',
   },
   floatLeft: {
     float: 'left',
   },
   parent: {
-    display: 'flex',
+    display: 'block',
   },
   floatRight: {
     float: 'right',

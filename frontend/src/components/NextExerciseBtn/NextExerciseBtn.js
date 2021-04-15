@@ -37,14 +37,16 @@ function NextExerciseBtn({ handleNextTask, answerState }) {
               avatar={<CheckCircleIcon style={{ color: 'white' }} />}
               title="Riktig!"
             />
-            <Button
-              onClick={handleNextTask}
-              className={classes.answerBtn}
-              fullWidth
-              size="small"
-            >
-              <TrendingFlatIcon fontSize="large" />
-            </Button>
+            <div className={classes.btnParent}>
+              <Button
+                onClick={handleNextTask}
+                className={classes.answerBtn}
+                fullWidth
+                size="small"
+              >
+                <TrendingFlatIcon fontSize="large" />
+              </Button>
+            </div>
           </Card>
         </Grid>
       );

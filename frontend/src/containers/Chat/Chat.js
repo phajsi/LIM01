@@ -32,7 +32,7 @@ const Chat = ({ id, showFeedback, progress, possible }) => {
   const [taskStep, setTaskStep] = useState(1);
   const [score, setScore] = useState(0);
   const [totalPossibleScore, setTotalPossibeScore] = useState(0);
-  const [chatHistory] = useState([]);
+  const [chatHistory, setChatHistory] = useState([]);
 
   const classes = useStyles();
 
@@ -72,6 +72,7 @@ const Chat = ({ id, showFeedback, progress, possible }) => {
 
   const handleNextTask = () => {
     setAnswerstate(null);
+    setChatHistory([formData[`chatquestion${taskStep}`]]);
     if (!formData[`chatquestion${taskStep}`]) {
       showFeedback(score, totalPossibleScore);
     } else {
