@@ -4,13 +4,20 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    zIndex: theme.zIndex.drawer + 1,
+    zIndex: 1400,
   },
   menuButton: {
-    marginRight: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
+    position: 'fixed',
+    right: 0,
+  },
+  list: {
+    background: 'linear-gradient(90deg, #53A77A 1.46%, #80D197 100%)',
+  },
+  listItem: {
+    color: '#14423b',
   },
   title: {
     flexGrow: 1,
@@ -20,13 +27,34 @@ const useStyles = makeStyles((theme) => ({
     float: 'right',
     textDecoration: 'none',
   },
-  right: {
-    flex: 1,
+  userName: {
+    flexGrow: 1,
+    fontWeight: '100',
+    margin: theme.spacing(1),
+    textDecoration: 'none',
+    textAlign: 'end',
+    color: 'antiquewhite',
   },
+  right: {
+    flexGrow: 1,
+  },
+  loginContainer: {
+    display: 'flex',
+  },
+  container: {
+    display: 'flex',
+    flexGrow: 1,
+  },
+  toolbar: theme.mixins.toolbar,
   appBar: {
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
+    },
+  },
+  img: {
+    [theme.breakpoints.down('xs')]: {
+      margin: 'auto',
     },
   },
 }));

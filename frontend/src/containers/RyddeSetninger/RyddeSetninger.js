@@ -163,7 +163,7 @@ const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
               <CardHeader
                 avatar={<VolumeUpIcon />}
                 title="Trykk på ordene sånn at de kommer i
-                 riktig rekkefølge. Husk å se på tegnsetting!"
+                 riktig rekkefølge. Husk å sjeekke tegnsettingen!"
               />
             </Card>
           </Grid>

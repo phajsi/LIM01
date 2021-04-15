@@ -128,7 +128,7 @@ const Forstaelse = ({ id, showFeedback, progress, possible }) => {
             <Card className={classes.header}>
               <CardHeader
                 avatar={<VolumeUpIcon />}
-                title="Les hva Sarmi sier. Svar på spørsmålet"
+                title="Les hva meldingen sier. Svar på spørsmålet"
               />
             </Card>
           </Grid>
