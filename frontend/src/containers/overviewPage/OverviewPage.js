@@ -131,7 +131,7 @@ const OverviewPage = ({
               <ThumbDownIcon />
               {ratings.downvotes}
             </p>
-            <SaveIcon id={id} />
+            {isAuthenticated && <SaveIcon id={id} />}
           </div>
         </Grid>
         <Grid item xs={6} className={classes.buttons}>
