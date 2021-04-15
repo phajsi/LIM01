@@ -38,3 +38,11 @@ class CompletedSerializer(serializers.ModelSerializer):
         model = Completed
         fields = ('id', 'sets', 'score')
         owner = serializers.ReadOnlyField(source='owner.email')
+        title = serializers.CharField(source='title')
+
+
+class GetCompletedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Completed
+        fields = ('id', 'sets', 'score', 'title')
+        owner = serializers.ReadOnlyField(source='owner.email')

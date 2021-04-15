@@ -73,6 +73,7 @@ class Completed(models.Model):
     owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     sets = models.ForeignKey(Sets, on_delete=models.CASCADE)
     score = models.CharField(max_length=3)
+    title = models.CharField(max_length=50)
 
     class Meta:
         unique_together = ('owner', 'sets',)
