@@ -15,6 +15,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import CreateForstaelse from '../../components/CreateExerciseForms/CreateForstaelse';
 import CreateChat from '../../components/CreateExerciseForms/CreateChat';
 import CreateRyddeSetninger from '../../components/CreateExerciseForms/CreateRyddeSetninger';
+import InfoModal from '../../components/InfoModal/InfoModal';
 import useStyles from './styles';
 import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
 
@@ -32,6 +33,7 @@ const CreateExercises = () => {
   // keeps track of count to make sure no more than 5 of each are added.
   const [exerciseCounts, setExerciseCounts] = useState({ c: 0, f: 0, r: 0 });
   const [redirectHome, setRedirectHome] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   /**
    * This function updates the formData for the current exercise set being made.
@@ -258,7 +260,7 @@ const CreateExercises = () => {
                   >
                     Chat
                   </MenuItem>
-                  <IconButton>
+                  <IconButton onClick={() => setShowModal('chat')}>
                     <InfoIcon className={classes.icons} />
                   </IconButton>
                 </Grid>
@@ -270,7 +272,7 @@ const CreateExercises = () => {
                   >
                     Forståelse
                   </MenuItem>
-                  <IconButton>
+                  <IconButton onClick={() => setShowModal('forstaelse')}>
                     <InfoIcon className={classes.icons} />
                   </IconButton>
                 </Grid>
@@ -282,7 +284,7 @@ const CreateExercises = () => {
                   >
                     Rydde Setninger
                   </MenuItem>
-                  <IconButton>
+                  <IconButton onClick={() => setShowModal('rydde_setninger')}>
                     <InfoIcon className={classes.icons} />
                   </IconButton>
                 </Grid>
@@ -369,6 +371,9 @@ const CreateExercises = () => {
               </Grid>
             </Grid>
           </Grid>
+          {showModal && (
+            <InfoModal showModal={showModal} setShowModal={setShowModal} />
+          )}
           {redirectHome && (
             <Redirect
               to={{

@@ -78,6 +78,14 @@ const useStyles = makeStyles((theme) => ({
   innerMargin: {
     margin: theme.spacing(1),
   },
+  icons: {
+    fontSize: '1.5em',
+    justifyContent: 'flex-end',
+  },
+  headergroup: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
 }));
 
 export default useStyles;
