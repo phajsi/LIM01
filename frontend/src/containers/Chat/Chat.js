@@ -26,35 +26,17 @@ import ProgressBar from '../../components/ProgressBar';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
 const Chat = ({ id, showFeedback, progress, possible }) => {
-  const [chatquestion, setChatquestion] = useState(null);
-  const [answer1, setAnswer1] = useState(null);
-  const [answer2, setAnswer2] = useState(null);
   const [sendericon, setSendericon] = useState();
   const [receivericon, setReceivericon] = useState();
-  const [correctanswer, setCorrectanswer] = useState(null);
-  const [answerchoice, setAnswerchoice] = useState(null);
   const [answerstate, setAnswerstate] = useState(null);
   const [taskStep, setTaskStep] = useState(1);
-  const [select, setSelect] = useState(false);
   const [score, setScore] = useState(0);
   const [totalPossibleScore, setTotalPossibeScore] = useState(0);
+  const [chatHistory, setChatHistory] = useState([]);
 
   const classes = useStyles();
 
-  const [formData, setFormData] = useState({
-    chatquestion1: '',
-    answer11: '',
-    answer12: '',
-    correctanswer1: '',
-    chatquestion2: '',
-    answer21: '',
-    answer22: '',
-    correctanswer2: '',
-    chatquestion3: '',
-    answer31: '',
-    answer32: '',
-    correctanswer3: '',
-  });
+  const [formData, setFormData] = useState({});
 
   const transformIcon = (iconName) => {
     switch (iconName) {
@@ -79,65 +61,41 @@ const Chat = ({ id, showFeedback, progress, possible }) => {
     axiosInstanceGet()
       .get(`/chat/${id}`)
       .then((res) => {
+        chatHistory.push(res.data.chatquestion1);
         setFormData(res.data);
-        setChatquestion(res.data.chatquestion1);
-        setAnswer1(res.data.answer11);
-        setAnswer2(res.data.answer12);
         const avatarS = transformIcon(res.data.sendericon);
         setSendericon(avatarS);
         const avatarR = transformIcon(res.data.receivericon);
         setReceivericon(avatarR);
-        setCorrectanswer(res.data.correctanswer1);
       });
-  }
-
-  function isTrue() {
-    if (taskStep < 4) {
-      setTaskStep(taskStep + 1);
-      if (answerchoice === correctanswer) {
-        setAnswerstate('correct');
-        setScore(score + 1);
-        setTotalPossibeScore(totalPossibleScore + 1);
-      } else {
-        setAnswerstate('incorrect');
-        setTotalPossibeScore(totalPossibleScore + 1);
-      }
-    }
-    // eslint-disable-next-line no-restricted-globals
-    return null;
   }
 
   const handleNextTask = () => {
     setAnswerstate(null);
-    if (taskStep === 2 && formData.chatquestion2 !== '') {
-      setChatquestion(formData.chatquestion2);
-      setAnswer1(formData.answer21);
-      setAnswer2(formData.answer22);
-      setCorrectanswer(formData.correctanswer2);
-    } else if (taskStep === 3 && formData.chatquestion3 !== '') {
-      setChatquestion(formData.chatquestion3);
-      setAnswer1(formData.answer31);
-      setAnswer2(formData.answer32);
-      setCorrectanswer(formData.correctanswer3);
-    } else {
+    setChatHistory([formData[`chatquestion${taskStep}`]]);
+    if (!formData[`chatquestion${taskStep}`]) {
       showFeedback(score, totalPossibleScore);
+    } else {
+      chatHistory.push(formData[`chatquestion${taskStep}`]);
     }
-    setSelect(false);
   };
 
-  function validateChoice() {
-    if (answerchoice != null) {
-      isTrue();
-      setSelect(true);
+  function handleAnswer(answer) {
+    if (answer === formData[`correctanswer${taskStep}`]) {
+      setAnswerstate('correct');
+      setScore(score + 1);
+      setTotalPossibeScore(totalPossibleScore + 1);
+    } else {
+      setAnswerstate('incorrect');
+      setTotalPossibeScore(totalPossibleScore + 1);
     }
+    setTaskStep(taskStep + 1);
+    chatHistory.push(answer);
   }
 
   useEffect(() => {
-    if (chatquestion === null) {
-      getContent();
-    }
-    validateChoice();
-  }, [answerchoice]);
+    getContent();
+  }, []);
 
   return (
     <Paper className={classes.root}>
@@ -164,10 +122,12 @@ const Chat = ({ id, showFeedback, progress, possible }) => {
               />
             </Card>
           </Grid>
-          <ChatBubble chat={chatquestion} icon={sendericon} />
-          {select === true && (
-            <ChatBubble chat={answerchoice} icon={receivericon} />
-          )}
+          {chatHistory.map((chat, i) => {
+            if (i % 2 === 0) {
+              return <ChatBubble chat={chat} icon={sendericon} />;
+            }
+            return <ChatBubble chat={chat} icon={receivericon} right />;
+          })}
           <Grid
             container
             direction="column"
@@ -182,29 +142,38 @@ const Chat = ({ id, showFeedback, progress, possible }) => {
                   aria-label="vertical contained primary button group"
                   variant="contained"
                 >
-                  <Button id={1} onClick={() => setAnswerchoice(answer1)}>
-                    {answer1}
+                  <Button
+                    id={1}
+                    onClick={() =>
+                      // eslint-disable-next-line prettier/prettier
+                      handleAnswer(formData[`answer${taskStep}1`])}
+                  >
+                    {formData[`answer${taskStep}1`]}
                   </Button>
                   <Button
-                    onClick={() => setAnswerchoice(answer2)}
+                    onClick={() =>
+                      // eslint-disable-next-line prettier/prettier
+                      handleAnswer(formData[`answer${taskStep}2`])}
                     style={{ marginTop: 3 }}
                   >
-                    {answer2}
+                    {formData[`answer${taskStep}2`]}
                   </Button>
                   <Button
-                    onClick={() => setAnswerchoice(correctanswer)}
+                    onClick={() =>
+                      // eslint-disable-next-line prettier/prettier
+                      handleAnswer(formData[`correctanswer${taskStep}`])}
                     style={{ marginTop: 3 }}
                   >
-                    {correctanswer}
+                    {formData[`correctanswer${taskStep}`]}
                   </Button>
                 </ButtonGroup>
               </>
             )}
-            <NextExerciseBtn
-              answerState={answerstate}
-              handleNextTask={handleNextTask}
-            />
           </Grid>
+          <NextExerciseBtn
+            answerState={answerstate}
+            handleNextTask={handleNextTask}
+          />
         </Grid>
       </Paper>
     </Paper>
