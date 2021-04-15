@@ -128,27 +128,31 @@ const FinishedSet = ({
         {` ${totalExercises} `}
         mulige!
       </Typography>
-      <Typography variant="h4">
-        <br />
-        Hvis du likte settet kan du gi det tommel opp
-      </Typography>
-      <Grid container spacing={1}>
-        <IconButton onClick={() => onClickRating(true)}>
-          {rating.rating ? (
-            <ThumbUpIcon style={{ color: 'orange' }} />
-          ) : (
-            <ThumbUpIcon />
-          )}
-        </IconButton>
-        <IconButton onClick={() => onClickRating(false)}>
-          {rating.rating === false ? (
-            <ThumbDownIcon style={{ color: 'blue' }} />
-          ) : (
-            <ThumbDownIcon />
-          )}
-        </IconButton>
-        <SaveIcon id={id} />
-      </Grid>
+      {isAuthenticated && (
+        <>
+          <Typography variant="h4">
+            <br />
+            Hvis du likte settet kan du gi det tommel opp
+          </Typography>
+          <Grid container spacing={1}>
+            <IconButton onClick={() => onClickRating(true)}>
+              {rating.rating ? (
+                <ThumbUpIcon style={{ color: 'orange' }} />
+              ) : (
+                <ThumbUpIcon />
+              )}
+            </IconButton>
+            <IconButton onClick={() => onClickRating(false)}>
+              {rating.rating === false ? (
+                <ThumbDownIcon style={{ color: 'blue' }} />
+              ) : (
+                <ThumbDownIcon />
+              )}
+            </IconButton>
+            <SaveIcon id={id} />
+          </Grid>
+        </>
+      )}
     </Paper>
   );
 };
