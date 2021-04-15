@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import {
   Button,
   Grid,
@@ -19,6 +19,8 @@ import ErrorMessage from '../../components/ErrorMessage';
 
 const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
   const classes = useStyles();
+  const location = useLocation();
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -54,14 +56,33 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
     return <></>;
   }
 
+  function unauthorizedError() {
+    if (location.state?.prevLocation === '/createexercise') {
+      return (
+        <ErrorMessage message="Du må logge inn for å kunne opprette oppgavesett." />
+      );
+    }
+    if (location.state?.prevLocation === '/home') {
+      return (
+        <ErrorMessage message="Du må logge inn for å få tilgang til hjemmesiden din." />
+      );
+    }
+    return <></>;
+  }
+
   if (isAuthenticated) {
-    return <Redirect to="/home" />;
+    return location.state?.prevLocation ? (
+      <Redirect to={location.state?.prevLocation} />
+    ) : (
+      <Redirect to="/home" />
+    );
   }
 
   return (
     <div className={classes.root}>
       <Paper className={classes.infoBox}>
         <h1 className={classes.headline}>Logg inn</h1>
+        {unauthorizedError()}
         <form onSubmit={(e) => onSubmit(e)}>
           <TextField
             type="text"
