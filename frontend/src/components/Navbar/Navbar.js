@@ -4,7 +4,13 @@ import { Redirect, Link } from 'react-router-dom';
 import {
   AppBar,
   Button,
+  Divider,
+  Drawer,
+  Hidden,
   IconButton,
+  List,
+  ListItem,
+  ListItemText,
   Typography,
   Toolbar,
 } from '@material-ui/core';
@@ -15,6 +21,8 @@ import logo from '../../assets/images/logoWithText.png';
 import useStyles from './styles';
 
 const Navbar = ({ logout, isAuthenticated, user }) => {
+  const classes = useStyles();
+
   const [redirect, setRedirect] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -23,17 +31,38 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
     setRedirect(true);
   };
 
-  const classes = useStyles();
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
   const guestLinks = () => (
-    <Typography variant="h6" className={classes.right}>
-      <Link to="/login" className={classes.title}>
-        Logg inn
-      </Link>
-      <Link to="/signup" className={classes.title}>
-        Registrering
-      </Link>
-    </Typography>
+    <>
+      <Hidden xsDown implementation="css">
+        <Typography variant="h6" className={classes.right}>
+          <Link to="/login" className={classes.title}>
+            Logg inn
+          </Link>
+          <Link to="/signup" className={classes.title}>
+            Registrering
+          </Link>
+        </Typography>
+      </Hidden>
+
+      <Drawer anchor="top" open={mobileOpen} onClose={handleDrawerToggle}>
+        <div className={classes.toolbar} />
+        <List component="nav" className={classes.list}>
+          <ListItem button component={Link} to="/login">
+            <ListItemText className={classes.listItem}>Logg inn</ListItemText>
+          </ListItem>
+          <Divider />
+          <ListItem button component={Link} to="/signup">
+            <ListItemText className={classes.listItem}>
+              Registrering
+            </ListItemText>
+          </ListItem>
+        </List>
+      </Drawer>
+    </>
   );
 
   const authLinks = () => (
@@ -61,32 +90,30 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
     </>
   );
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
   return (
     <div className={classes.root}>
-      <AppBar
-        position="relative"
-        className={classes.appbar}
-        style={{
-          background: 'linear-gradient(90deg, #53A77A 1.46%, #80D197 100%)',
-        }}
-      >
-        <Toolbar style={{ justifyContent: 'space-between' }}>
+      <AppBar position="relative" className={classes.appbar}>
+        <Toolbar
+          style={{
+            justifyContent: 'space-between',
+            background: 'linear-gradient(90deg, #53A77A 1.46%, #80D197 100%)',
+          }}
+        >
+          <Button
+            component={Link}
+            to={isAuthenticated ? '/home' : '/'}
+            className={classes.img}
+          >
+            <img src={logo} alt="logo" />
+          </Button>
           <IconButton
             color="inherit"
-            aria-label="open drawer"
-            edge="start"
+            aria-label="open drawer"
             onClick={handleDrawerToggle}
             className={classes.menuButton}
           >
             <MenuIcon />
           </IconButton>
-          <Button component={Link} to={isAuthenticated ? '/home' : '/'}>
-            <img src={logo} alt="logo" />
-          </Button>
           {isAuthenticated ? authLinks() : guestLinks()}
         </Toolbar>
       </AppBar>
