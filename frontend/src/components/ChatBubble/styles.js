@@ -30,11 +30,14 @@ const useStyles = makeStyles((theme) => ({
   floatLeft: {
     float: 'left',
   },
-  parent: {
-    display: 'flex-end',
-  },
   floatRight: {
     float: 'right',
+  },
+  parentLeft: {
+    display: 'flex',
+  },
+  parentRight: {
+    display: 'flex-end',
   },
 }));
 
