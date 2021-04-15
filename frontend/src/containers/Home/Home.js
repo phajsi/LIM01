@@ -14,8 +14,9 @@ import {
   List,
   ListItem,
   ListItemText,
+  Divider,
 } from '@material-ui/core';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { axiosInstanceDelete, axiosInstance } from '../../helpers/ApiFunctions';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import useStyles from './styles';
@@ -164,6 +165,17 @@ const Home = () => {
           >
             <div>
               <div className={classes.toolbar} />
+              <List>
+                <ListItem
+                  button
+                  component={Link}
+                  to="/createexercise"
+                  style={{ textAlign: 'center' }}
+                >
+                  <ListItemText>Opprett oppgavesett</ListItemText>
+                </ListItem>
+              </List>
+              <Divider />
               <List>
                 {['Mine sett', 'Lagrede sett', 'Fullførte sett'].map(
                   (text, index) => (

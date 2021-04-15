@@ -68,23 +68,16 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
   const authLinks = () => (
     <>
       <Hidden xsDown implementation="css">
-        <div className={classes.loginContainer}>
-          <Typography variant="h6" className={classes.right}>
-            <Link to="/createexercise" className={classes.title}>
-              Opprett oppgavesett
+        <div className={classes.container}>
+          <Typography variant="h6" className={classes.userName}>
+            Hei,
+            {user && ` ${user.name}! `}
+          </Typography>
+          <Typography variant="h6" href="#!" onClick={logoutUser}>
+            <Link to="/" className={classes.title}>
+              Logg ut
             </Link>
           </Typography>
-          <div className={classes.container}>
-            <Typography variant="h6" className={classes.userName}>
-              Hei,
-              {user && ` ${user.name}! `}
-            </Typography>
-            <Typography variant="h6" href="#!" onClick={logoutUser}>
-              <Link to="/" className={classes.title}>
-                Logg ut
-              </Link>
-            </Typography>
-          </div>
         </div>
       </Hidden>
       <Drawer anchor="top" open={mobileOpen} onClose={handleDrawerToggle}>
