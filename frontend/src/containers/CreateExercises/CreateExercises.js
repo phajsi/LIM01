@@ -9,7 +9,9 @@ import {
   Button,
   TextField,
   Grid,
+  IconButton,
 } from '@material-ui/core';
+import InfoIcon from '@material-ui/icons/Info';
 import CreateForstaelse from '../../components/CreateExerciseForms/CreateForstaelse';
 import CreateChat from '../../components/CreateExerciseForms/CreateChat';
 import CreateRyddeSetninger from '../../components/CreateExerciseForms/CreateRyddeSetninger';
@@ -195,39 +197,19 @@ const CreateExercises = () => {
   switch (step) {
     case 'Menu':
       return (
-        <div className={classes.root}>
-          <Paper className={classes.menu}>
-            <h1>Velg oppgavetype</h1>
-            <MenuList>
-              <MenuItem
-                disabled={exerciseCounts.c > 4}
-                onClick={() => setStep('chat')}
-              >
-                Chat
-              </MenuItem>
-              <MenuItem
-                disabled={exerciseCounts.f > 4}
-                onClick={() => setStep('forstaelse')}
-              >
-                Forståelse
-              </MenuItem>
-              <MenuItem
-                disabled={exerciseCounts.r > 4}
-                onClick={() => setStep('rydde_setninger')}
-              >
-                Rydde Setninger
-              </MenuItem>
-            </MenuList>
-          </Paper>
-          <Paper className={classes.menu}>
-            <h1>Ditt sett</h1>
-            <div>
-              <p>Gi settet ditt et navn</p>
+        <Paper className={classes.root}>
+          <h1>Nytt sett</h1>
+          <Grid container className={classes.gridcontainer}>
+            <Grid item xs={12} className={classes.form}>
               <TextField
                 name="title"
                 multiline
                 fullWidth
                 rowsMax={1}
+                label="Tittel på sett"
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 required
                 variant="outlined"
                 defaultValue={formDataSet.title}
@@ -240,13 +222,18 @@ const CreateExercises = () => {
                   // eslint-disable-next-line react/jsx-curly-newline
                 }
               />
-              <p>Gi settet ditt en beskrivelse</p>
+            </Grid>
+            <Grid item xs={12} className={classes.form}>
               <TextField
                 name="description"
                 multiline="true"
                 fullWidth
                 rows={3}
                 rowsMax={10}
+                label="Beskrivelse"
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 required
                 variant="outlined"
                 defaultValue={formDataSet.description}
@@ -259,46 +246,102 @@ const CreateExercises = () => {
                   // eslint-disable-next-line react/jsx-curly-newline
                 }
               />
-            </div>
-            <h4>Øvelser:</h4>
-            {Object.entries(formDataSet).map(([type, id]) => {
-              if (type.substring(0, 4) === 'chat') {
-                return (
-                  <Chip
-                    label="Chat"
-                    onDelete={() => onDeleteExercise(type, `/deletechat/${id}`)}
-                    onClick={() => editExercise(id, 'chat')}
-                  />
-                );
-              }
-              if (type.substring(0, 4) === 'fors') {
-                return (
-                  <Chip
-                    label="Forstaelse"
-                    onDelete={() =>
-                      // eslint-disable-next-line prettier/prettier
+            </Grid>
+            <Grid item sm={6} xs={12} className={classes.menu}>
+              <h2>Legg til oppgavetyper</h2>
+              <MenuList>
+                <Grid className={classes.menugroup}>
+                  <MenuItem
+                    className={classes.menuitem}
+                    disabled={exerciseCounts.c > 4}
+                    onClick={() => setStep('chat')}
+                  >
+                    Chat
+                  </MenuItem>
+                  <IconButton>
+                    <InfoIcon className={classes.icons} />
+                  </IconButton>
+                </Grid>
+                <Grid className={classes.menugroup}>
+                  <MenuItem
+                    className={classes.menuitem}
+                    disabled={exerciseCounts.f > 4}
+                    onClick={() => setStep('forstaelse')}
+                  >
+                    Forståelse
+                  </MenuItem>
+                  <IconButton>
+                    <InfoIcon className={classes.icons} />
+                  </IconButton>
+                </Grid>
+                <Grid className={classes.menugroup}>
+                  <MenuItem
+                    className={classes.menuitem}
+                    disabled={exerciseCounts.r > 4}
+                    onClick={() => setStep('rydde_setninger')}
+                  >
+                    Rydde Setninger
+                  </MenuItem>
+                  <IconButton>
+                    <InfoIcon className={classes.icons} />
+                  </IconButton>
+                </Grid>
+              </MenuList>
+            </Grid>
+            <Grid item sm={6} xs={12} className={classes.menu}>
+              <h4>Oppgaver:</h4>
+              <Grid container>
+                {Object.entries(formDataSet).map(([type, id]) => {
+                  if (type.substring(0, 4) === 'chat') {
+                    return (
+                      <Grid item xs={6}>
+                        <Chip
+                          className={classes.chip}
+                          label="Chat"
+                          onDelete={() =>
+                            onDeleteExercise(type, `/deletechat/${id}`)
+                          }
+                          onClick={() => editExercise(id, 'chat')}
+                        />
+                      </Grid>
+                    );
+                  }
+                  if (type.substring(0, 4) === 'fors') {
+                    return (
+                      <Grid item xs={6}>
+                        <Chip
+                          className={classes.chip}
+                          label="Forstaelse"
+                          onDelete={() =>
+                            // eslint-disable-next-line prettier/prettier
                       onDeleteExercise(type, `/deleteforstaelse/${id}`)
-                    }
-                    onClick={() => editExercise(id, 'forstaelse')}
-                  />
-                );
-              }
-              if (type.substring(0, 4) === 'rydd') {
-                return (
-                  <Chip
-                    label="Rydde Setninger"
-                    onDelete={() =>
-                      // eslint-disable-next-line prettier/prettier
+                          }
+                          onClick={() => editExercise(id, 'forstaelse')}
+                        />
+                      </Grid>
+                    );
+                  }
+                  if (type.substring(0, 4) === 'rydd') {
+                    return (
+                      <Grid item xs={6}>
+                        <Chip
+                          className={classes.chip}
+                          label="Rydde Setninger"
+                          onDelete={() =>
+                            // eslint-disable-next-line prettier/prettier
                       onDeleteExercise(type, `/delete_rydde_setninger/${id}`)
-                    }
-                    onClick={() => editExercise(id, 'rydde_setninger')}
-                  />
-                );
-              }
-              return <></>;
-            })}
-            {emptySetError && <h4>{emptySetError}</h4>}
-            <Grid className={classes.buttoncontainer}>
+                          }
+                          onClick={() => editExercise(id, 'rydde_setninger')}
+                        />
+                      </Grid>
+                    );
+                  }
+                  return <></>;
+                })}
+                {emptySetError && <h4>{emptySetError}</h4>}
+              </Grid>
+            </Grid>
+            <Grid item xs={12} className={classes.buttoncontainer}>
               <Grid>
                 <Button
                   className={classes.buttons}
@@ -325,7 +368,7 @@ const CreateExercises = () => {
                 </Button>
               </Grid>
             </Grid>
-          </Paper>
+          </Grid>
           {redirectHome && (
             <Redirect
               to={{
@@ -333,7 +376,7 @@ const CreateExercises = () => {
               }}
             />
           )}
-        </div>
+        </Paper>
       );
     case 'chat':
       return (
