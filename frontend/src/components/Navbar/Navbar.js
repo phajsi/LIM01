@@ -67,26 +67,40 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
 
   const authLinks = () => (
     <>
-      <Typography variant="h6" className={classes.right}>
-        <Link to="/createexercise" className={classes.title}>
-          Opprett oppgavesett
-        </Link>
-      </Typography>
-      <div className={classes.container}>
-        <Typography
-          variant="h6"
-          className={classes.title}
-          style={{ textAlign: 'end' }}
-        >
-          Hei,
-          {user && ` ${user.name}! `}
-        </Typography>
-        <Typography variant="h6" href="#!" onClick={logoutUser}>
-          <Link to="/" className={classes.title}>
-            Logg ut
-          </Link>
-        </Typography>
-      </div>
+      <Hidden xsDown implementation="css">
+        <div className={classes.loginContainer}>
+          <Typography variant="h6" className={classes.right}>
+            <Link to="/createexercise" className={classes.title}>
+              Opprett oppgavesett
+            </Link>
+          </Typography>
+          <div className={classes.container}>
+            <Typography variant="h6" className={classes.userName}>
+              Hei,
+              {user && ` ${user.name}! `}
+            </Typography>
+            <Typography variant="h6" href="#!" onClick={logoutUser}>
+              <Link to="/" className={classes.title}>
+                Logg ut
+              </Link>
+            </Typography>
+          </div>
+        </div>
+      </Hidden>
+      <Drawer anchor="top" open={mobileOpen} onClose={handleDrawerToggle}>
+        <div className={classes.toolbar} />
+        <List component="nav" className={classes.list}>
+          <ListItem button component={Link} to="/createexercise">
+            <ListItemText className={classes.listItem}>
+              Opprett oppgavesett
+            </ListItemText>
+          </ListItem>
+          <Divider />
+          <ListItem button component={Link} to="/" onClick={logoutUser}>
+            <ListItemText className={classes.listItem}>Logg ut</ListItemText>
+          </ListItem>
+        </List>
+      </Drawer>
     </>
   );
 

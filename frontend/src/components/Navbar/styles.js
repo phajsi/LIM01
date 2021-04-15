@@ -7,12 +7,11 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 1400,
   },
   menuButton: {
-    marginRight: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       display: 'none',
-      position: 'fixed',
-      right: 0,
     },
+    position: 'fixed',
+    right: 0,
   },
   list: {
     background: 'linear-gradient(90deg, #53A77A 1.46%, #80D197 100%)',
@@ -30,13 +29,17 @@ const useStyles = makeStyles((theme) => ({
   },
   userName: {
     flexGrow: 1,
-    color: '#367051',
-    fontWeight: '600',
+    fontWeight: '100',
     margin: theme.spacing(1),
     textDecoration: 'none',
+    textAlign: 'end',
+    color: 'antiquewhite',
   },
   right: {
     flexGrow: 1,
+  },
+  loginContainer: {
+    display: 'flex',
   },
   container: {
     display: 'flex',
