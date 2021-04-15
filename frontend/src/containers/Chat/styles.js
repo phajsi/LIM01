@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: '#F5F5F5',
-    maxWidth: theme.spacing(40),
+    maxWidth: theme.spacing(80),
     marginTop: theme.spacing(3),
     display: 'flex',
     flexDirection: 'column',

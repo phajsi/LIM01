@@ -10,19 +10,31 @@ const useStyles = makeStyles((theme) => ({
   cardLeft: {
     maxWidth: theme.spacing(50),
     display: 'inline-block',
-    marginRight: theme.spacing(4),
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
   },
   cardRight: {
     maxWidth: theme.spacing(50),
-    float: 'right',
     display: 'inline-block',
-    marginLeft: theme.spacing(4),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    backgroundColor: 'lightBlue',
   },
   avatarLarge: {
-    width: theme.spacing(7),
-    height: theme.spacing(7),
+    width: theme.spacing(4),
+    height: theme.spacing(4),
+  },
+  text: {
+    margin: '3px 0px 3px 0px',
+  },
+  floatLeft: {
+    float: 'left',
+  },
+  parent: {
+    display: 'flex',
+  },
+  floatRight: {
+    float: 'right',
   },
 }));
 
