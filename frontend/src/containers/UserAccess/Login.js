@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import {
   Button,
@@ -13,10 +13,11 @@ import LockIcon from '@material-ui/icons/Lock';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { connect } from 'react-redux';
-import { login } from '../../actions/auth';
+import { login, checkAuthenticated } from '../../actions/auth';
 import useStyles from './styles';
+import ErrorMessage from '../../components/ErrorMessage';
 
-const Login = ({ login, isAuthenticated }) => {
+const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
   const classes = useStyles();
   const [formData, setFormData] = useState({
     email: '',
@@ -39,6 +40,20 @@ const Login = ({ login, isAuthenticated }) => {
     setShowPassword(!showPassword);
   };
 
+  useEffect(() => {
+    checkAuthenticated();
+  }, []);
+
+  function errorHandling() {
+    if (loginError === 401) {
+      return <ErrorMessage message="Brukernavn eller passord er feil." />;
+    }
+    if (typeof loginError === 'number') {
+      return <ErrorMessage message="Noe gikk galt! Prøv igjen senere." />;
+    }
+    return <></>;
+  }
+
   if (isAuthenticated) {
     return <Redirect to="/home" />;
   }
@@ -49,7 +64,7 @@ const Login = ({ login, isAuthenticated }) => {
         <h1 className={classes.headline}>Logg inn</h1>
         <form onSubmit={(e) => onSubmit(e)}>
           <TextField
-            type="email"
+            type="text"
             placeholder="Epost"
             name="email"
             variant="outlined"
@@ -100,6 +115,7 @@ const Login = ({ login, isAuthenticated }) => {
           >
             Logg inn
           </Button>
+          {errorHandling()}
         </form>
         <hr className={classes.divider} />
         <Grid container>
@@ -143,6 +159,7 @@ const Login = ({ login, isAuthenticated }) => {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  loginError: state.auth.loginError,
 });
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { login, checkAuthenticated })(Login);

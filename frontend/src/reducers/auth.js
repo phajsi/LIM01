@@ -22,6 +22,7 @@ const initialState = {
   isAuthenticated: null,
   user: null,
   signUpSuccess: false,
+  loginError: null,
 };
 
 export default function (state = initialState, action) {
@@ -33,6 +34,7 @@ export default function (state = initialState, action) {
         ...state,
         isAuthenticated: true,
         signUpSuccess: false,
+        loginError: null,
       };
     case LOGIN_SUCCESS:
       localStorage.setItem('access', payload.access);
@@ -41,18 +43,21 @@ export default function (state = initialState, action) {
         isAuthenticated: true,
         access: payload.access,
         refresh: payload.refresh,
+        loginError: null,
       };
     case SIGNUP_SUCCESS:
       return {
         ...state,
         isAuthenticated: false,
         signUpSuccess: true,
+        loginError: null,
       };
     case AUTHENTICATED_FAIL:
       return {
         ...state,
         isAuthenticated: false,
         signUpSuccess: false,
+        loginError: null,
       };
     case LOGIN_FAIL:
       localStorage.removeItem('access');
@@ -64,6 +69,7 @@ export default function (state = initialState, action) {
         refresh: null,
         user: null,
         signUpSuccess: false,
+        loginError: payload,
       };
     case SIGNUP_FAIL:
       return {
@@ -73,6 +79,7 @@ export default function (state = initialState, action) {
         isAuthenticated: false,
         user: null,
         signUpSuccess: payload,
+        loginError: null,
       };
     case LOGOUT:
       localStorage.removeItem('access');
@@ -84,6 +91,7 @@ export default function (state = initialState, action) {
         isAuthenticated: false,
         user: null,
         signUpSuccess: false,
+        loginError: null,
       };
     case USER_LOADED_SUCCESS:
       return {
