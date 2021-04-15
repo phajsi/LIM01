@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-curly-newline */
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, Redirect } from 'react-router-dom';
 import {
   Chip,
   Paper,
@@ -8,6 +8,7 @@ import {
   MenuItem,
   Button,
   TextField,
+  Grid,
 } from '@material-ui/core';
 import CreateForstaelse from '../../components/CreateExerciseForms/CreateForstaelse';
 import CreateChat from '../../components/CreateExerciseForms/CreateChat';
@@ -28,6 +29,7 @@ const CreateExercises = () => {
   const [playId, setPlayId] = useState(0);
   // keeps track of count to make sure no more than 5 of each are added.
   const [exerciseCounts, setExerciseCounts] = useState({ c: 0, f: 0, r: 0 });
+  const [redirectHome, setRedirectHome] = useState(false);
 
   /**
    * This function updates the formData for the current exercise set being made.
@@ -241,9 +243,10 @@ const CreateExercises = () => {
               <p>Gi settet ditt en beskrivelse</p>
               <TextField
                 name="description"
-                multiline
+                multiline="true"
                 fullWidth
-                rowsMax={1}
+                rows={3}
+                rowsMax={10}
                 required
                 variant="outlined"
                 defaultValue={formDataSet.description}
@@ -295,21 +298,41 @@ const CreateExercises = () => {
               return <></>;
             })}
             {emptySetError && <h4>{emptySetError}</h4>}
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => {
-                if (location.state?.editSet) {
-                  onSubmitPutSet();
-                } else {
-                  onSubmitPostSet();
-                }
-              }}
-              fullWidth
-            >
-              {location.state?.editSet ? 'Endre' : 'Opprett'}
-            </Button>
+            <Grid className={classes.buttoncontainer}>
+              <Grid>
+                <Button
+                  className={classes.buttons}
+                  variant="contained"
+                  onClick={() => setRedirectHome(true)}
+                >
+                  Kanseller
+                </Button>
+              </Grid>
+              <Grid>
+                <Button
+                  className={classes.buttons}
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => {
+                    if (location.state?.editSet) {
+                      onSubmitPutSet();
+                    } else {
+                      onSubmitPostSet();
+                    }
+                  }}
+                >
+                  {location.state?.editSet ? 'Endre' : 'Opprett'}
+                </Button>
+              </Grid>
+            </Grid>
           </Paper>
+          {redirectHome && (
+            <Redirect
+              to={{
+                pathname: '/home',
+              }}
+            />
+          )}
         </div>
       );
     case 'chat':

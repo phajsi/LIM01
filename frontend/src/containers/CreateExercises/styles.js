@@ -13,6 +13,15 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     margin: 'auto',
   },
+  buttoncontainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttons: {
+    width: theme.spacing(15),
+  },
 }));
 
 export default useStyles;
