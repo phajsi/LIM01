@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-curly-newline */
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, Redirect } from 'react-router-dom';
 import {
   Chip,
   Paper,
@@ -8,10 +8,16 @@ import {
   MenuItem,
   Button,
   TextField,
+  Grid,
+  IconButton,
 } from '@material-ui/core';
+import InfoIcon from '@material-ui/icons/Info';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CreateForstaelse from '../../components/CreateExerciseForms/CreateForstaelse';
 import CreateChat from '../../components/CreateExerciseForms/CreateChat';
 import CreateRyddeSetninger from '../../components/CreateExerciseForms/CreateRyddeSetninger';
+import InfoModal from '../../components/InfoModal/InfoModal';
+import ErrorMessage from '../../components/ErrorMessage';
 import useStyles from './styles';
 import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
 
@@ -21,13 +27,19 @@ const CreateExercises = () => {
 
   const [step, setStep] = useState('Menu');
   const [emptySetError, setEmptySetError] = useState(null);
+  const [emptyFormError, setEmptyFormError] = useState(null);
   // object which contains formData from the exercise the user wants to edit
   const [formDataEdit, setFormDataEdit] = useState(null);
   // object which contains all the IDs for the exercises added to the set.
-  const [formDataSet, setFormDataSet] = useState({});
+  const [formDataSet, setFormDataSet] = useState({
+    title: '',
+    description: '',
+  });
   const [playId, setPlayId] = useState(0);
   // keeps track of count to make sure no more than 5 of each are added.
   const [exerciseCounts, setExerciseCounts] = useState({ c: 0, f: 0, r: 0 });
+  const [redirectHome, setRedirectHome] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   /**
    * This function updates the formData for the current exercise set being made.
@@ -159,6 +171,11 @@ const CreateExercises = () => {
       setEmptySetError(
         'Du må legge til minst en oppgave for å opprette et sett.'
       );
+      if (formDataSet.title === '' || formDataSet.description === '') {
+        setEmptyFormError(
+          'Du må legge inn et navn og en beskrivelse av settet ditt'
+        );
+      }
     } else {
       axiosInstance()
         .post('/createsets/', formDataSet)
@@ -173,6 +190,9 @@ const CreateExercises = () => {
   }
 
   function onSubmitPutSet() {
+    if (formDataSet.title === '' || formDataSet.description === '') {
+      setEmptyFormError('Settet ditt må ha et navn og en beskrivelse');
+    }
     axiosInstance()
       .put(`/createsets/${formDataSet.id}`, formDataSet)
       .then((response) => {
@@ -190,37 +210,22 @@ const CreateExercises = () => {
     setStep('Menu');
   }
 
+  function handleFormChange(input) {
+    setFormDataSet({
+      ...formDataSet,
+      [input.target.name]: input.target.value,
+    });
+    setEmptyFormError(null);
+  }
+
   switch (step) {
     case 'Menu':
       return (
-        <div className={classes.root}>
-          <Paper className={classes.menu}>
-            <h1>Velg oppgavetype</h1>
-            <MenuList>
-              <MenuItem
-                disabled={exerciseCounts.c > 4}
-                onClick={() => setStep('chat')}
-              >
-                Chat
-              </MenuItem>
-              <MenuItem
-                disabled={exerciseCounts.f > 4}
-                onClick={() => setStep('forstaelse')}
-              >
-                Forståelse
-              </MenuItem>
-              <MenuItem
-                disabled={exerciseCounts.r > 4}
-                onClick={() => setStep('rydde_setninger')}
-              >
-                Rydde Setninger
-              </MenuItem>
-            </MenuList>
-          </Paper>
-          <Paper className={classes.menu}>
-            <h1>Ditt sett</h1>
-            <div>
-              <p>Gi settet ditt et navn</p>
+        <Paper className={classes.root}>
+          <h1>Nytt sett</h1>
+          <Grid container className={classes.gridcontainer}>
+            <Grid item xs={12} className={classes.form}>
+              <p className={classes.formfieldname}>Tittel: </p>
               <TextField
                 name="title"
                 multiline
@@ -229,88 +234,177 @@ const CreateExercises = () => {
                 required
                 variant="outlined"
                 defaultValue={formDataSet.title}
-                onChange={
-                  (e) =>
-                    setFormDataSet({
-                      ...formDataSet,
-                      title: e.target.value,
-                    })
-                  // eslint-disable-next-line react/jsx-curly-newline
-                }
+                onChange={(e) => handleFormChange(e)}
               />
-              <p>Gi settet ditt en beskrivelse</p>
+            </Grid>
+            <Grid item xs={12} className={classes.form}>
+              <p className={classes.formfieldname}>Beskrivelse: </p>
               <TextField
                 name="description"
-                multiline
+                multiline="true"
                 fullWidth
-                rowsMax={1}
+                rows={3}
+                rowsMax={10}
                 required
                 variant="outlined"
                 defaultValue={formDataSet.description}
-                onChange={
-                  (e) =>
-                    setFormDataSet({
-                      ...formDataSet,
-                      description: e.target.value,
-                    })
-                  // eslint-disable-next-line react/jsx-curly-newline
-                }
+                onChange={(e) => handleFormChange(e)}
               />
-            </div>
-            <h4>Øvelser:</h4>
-            {Object.entries(formDataSet).map(([type, id]) => {
-              if (type.substring(0, 4) === 'chat') {
-                return (
-                  <Chip
-                    label="Chat"
-                    onDelete={() => onDeleteExercise(type, `/deletechat/${id}`)}
-                    onClick={() => editExercise(id, 'chat')}
-                  />
-                );
-              }
-              if (type.substring(0, 4) === 'fors') {
-                return (
-                  <Chip
-                    label="Forstaelse"
-                    onDelete={() =>
-                      // eslint-disable-next-line prettier/prettier
-                      onDeleteExercise(type, `/deleteforstaelse/${id}`)
+            </Grid>
+            <Grid item md={5} xs={12} className={classes.menu}>
+              <h2>Legg til oppgavetyper</h2>
+              <MenuList>
+                <Grid className={classes.menugroup}>
+                  <MenuItem
+                    className={classes.menuitemchat}
+                    disabled={exerciseCounts.c > 4}
+                    onClick={() => setStep('chat')}
+                  >
+                    Chat
+                  </MenuItem>
+                  <IconButton onClick={() => setShowModal('chat')}>
+                    <InfoIcon className={classes.infoicon} />
+                  </IconButton>
+                </Grid>
+                <Grid className={classes.menugroup}>
+                  <MenuItem
+                    className={classes.menuitemfors}
+                    disabled={exerciseCounts.f > 4}
+                    onClick={() => setStep('forstaelse')}
+                  >
+                    Forståelse
+                  </MenuItem>
+                  <IconButton onClick={() => setShowModal('forstaelse')}>
+                    <InfoIcon className={classes.infoicon} />
+                  </IconButton>
+                </Grid>
+                <Grid className={classes.menugroup}>
+                  <MenuItem
+                    className={classes.menuitemrydd}
+                    disabled={exerciseCounts.r > 4}
+                    onClick={() => setStep('rydde_setninger')}
+                  >
+                    Rydde Setninger
+                  </MenuItem>
+                  <IconButton onClick={() => setShowModal('rydde_setninger')}>
+                    <InfoIcon className={classes.infoicon} />
+                  </IconButton>
+                </Grid>
+              </MenuList>
+            </Grid>
+            <Grid item md={7} xs={12} className={classes.menu}>
+              <h4>Oppgaver:</h4>
+              <Grid container>
+                {Object.entries(formDataSet).map(([type, id]) => {
+                  if (type.substring(0, 4) === 'chat') {
+                    return (
+                      <Grid item xs={6} className={classes.chipgrid}>
+                        <Chip
+                          className={classes.chatchip}
+                          label="Chat"
+                          onClick={() => editExercise(id, 'chat')}
+                        />
+                        <IconButton
+                          className={classes.deletebutton}
+                          onClick={() =>
+                            onDeleteExercise(type, `/deletechat/${id}`)
+                          }
+                        >
+                          <HighlightOffIcon />
+                        </IconButton>
+                      </Grid>
+                    );
+                  }
+                  if (type.substring(0, 4) === 'fors') {
+                    return (
+                      <Grid item xs={6} className={classes.chipgrid}>
+                        <Chip
+                          className={classes.forschip}
+                          label="Forstaelse"
+                          onClick={() => editExercise(id, 'forstaelse')}
+                        />
+                        <IconButton
+                          className={classes.deletebutton}
+                          onClick={() =>
+                            onDeleteExercise(type, `/deleteforstaelse/${id}`)
+                          }
+                        >
+                          <HighlightOffIcon />
+                        </IconButton>
+                      </Grid>
+                    );
+                  }
+                  if (type.substring(0, 4) === 'rydd') {
+                    return (
+                      <Grid item xs={6} className={classes.chipgrid}>
+                        <Chip
+                          className={classes.ryddchip}
+                          label="Rydde Setninger"
+                          onClick={() => editExercise(id, 'rydde_setninger')}
+                        />
+                        <IconButton
+                          className={classes.deletebutton}
+                          onClick={() =>
+                            onDeleteExercise(
+                              type,
+                              `/delete_rydde_setninger/${id}`
+                            )
+                          }
+                        >
+                          <HighlightOffIcon />
+                        </IconButton>
+                      </Grid>
+                    );
+                  }
+                  return <></>;
+                })}
+              </Grid>
+            </Grid>
+            <Grid item sm={12} className={classes.errormessage}>
+              <div>
+                <ErrorMessage message={emptyFormError} />
+                <ErrorMessage message={emptySetError} />
+              </div>
+            </Grid>
+            <Grid item sm={12} className={classes.buttoncontainer}>
+              <Grid>
+                <Button
+                  className={classes.buttons}
+                  variant="contained"
+                  onClick={() => setRedirectHome(true)}
+                >
+                  Kanseller
+                </Button>
+              </Grid>
+              <Grid>
+                <Button
+                  className={classes.buttons}
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => {
+                    if (location.state?.editSet) {
+                      onSubmitPutSet();
+                    } else {
+                      onSubmitPostSet();
                     }
-                    onClick={() => editExercise(id, 'forstaelse')}
-                  />
-                );
-              }
-              if (type.substring(0, 4) === 'rydd') {
-                return (
-                  <Chip
-                    label="Rydde Setninger"
-                    onDelete={() =>
-                      // eslint-disable-next-line prettier/prettier
-                      onDeleteExercise(type, `/delete_rydde_setninger/${id}`)
-                    }
-                    onClick={() => editExercise(id, 'rydde_setninger')}
-                  />
-                );
-              }
-              return <></>;
-            })}
-            {emptySetError && <h4>{emptySetError}</h4>}
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => {
-                if (location.state?.editSet) {
-                  onSubmitPutSet();
-                } else {
-                  onSubmitPostSet();
-                }
+                  }}
+                >
+                  {location.state?.editSet ? 'Endre' : 'Opprett'}
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+          {showModal && (
+            <InfoModal showModal={showModal} setShowModal={setShowModal} />
+          )}
+          {redirectHome && (
+            <Redirect
+              to={{
+                pathname: '/home',
               }}
-              fullWidth
-            >
-              {location.state?.editSet ? 'Endre' : 'Opprett'}
-            </Button>
-          </Paper>
-        </div>
+            />
+          )}
+        </Paper>
       );
     case 'chat':
       return (

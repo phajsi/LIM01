@@ -10,9 +10,12 @@ import {
   TextField,
   Select,
   MenuItem,
+  IconButton,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import InfoIcon from '@material-ui/icons/Info';
 import RemoveIcon from '@material-ui/icons/Remove';
+import InfoModal from '../InfoModal/InfoModal';
 import useStyles from './styles';
 
 const validationSchema = yup.object({
@@ -30,6 +33,7 @@ const CreateRyddeSetninger = ({
   const classes = useStyles();
 
   const [words, addWords] = useState(3);
+  const [showModal, setShowModal] = useState(false);
 
   /**
    * Used to avoid repetition of same code.
@@ -93,7 +97,12 @@ const CreateRyddeSetninger = ({
 
   return (
     <Paper className={classes.root}>
-      <h1>Rydde Setninger</h1>
+      <Grid className={classes.headergroup}>
+        <h1>Rydde Setninger</h1>
+        <IconButton onClick={() => setShowModal('rydde_setninger')}>
+          <InfoIcon className={classes.icons} />
+        </IconButton>
+      </Grid>
       <Formik
         initialValues={
           formDataEdit || {
@@ -187,6 +196,9 @@ const CreateRyddeSetninger = ({
       >
         Tilbake
       </Button>
+      {showModal && (
+        <InfoModal showModal={showModal} setShowModal={setShowModal} />
+      )}
     </Paper>
   );
 };

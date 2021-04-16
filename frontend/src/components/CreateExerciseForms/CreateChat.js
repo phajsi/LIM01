@@ -10,8 +10,10 @@ import {
   MenuItem,
   Select,
   Avatar,
+  IconButton,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import InfoIcon from '@material-ui/icons/Info';
 import RemoveIcon from '@material-ui/icons/Remove';
 import gingerMan from '../../assets/images/gingerMan.png';
 import capsMan from '../../assets/images/capsMan.png';
@@ -19,6 +21,7 @@ import frenchMan from '../../assets/images/frenchMan.png';
 import brunetteWoman from '../../assets/images/brunetteWoman.png';
 import blondeWoman from '../../assets/images/blondeWoman.png';
 import muslimWoman from '../../assets/images/muslimWoman.png';
+import InfoModal from '../InfoModal/InfoModal';
 import useStyles from './styles';
 
 const validationSchema = yup.object({
@@ -31,6 +34,7 @@ const validationSchema = yup.object({
 const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
   const classes = useStyles();
   const [taskAmount, setTaskAmount] = useState(1);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (formDataEdit) {
@@ -91,7 +95,12 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
 
   return (
     <Paper className={classes.root}>
-      <h1>Chat</h1>
+      <Grid className={classes.headergroup}>
+        <h1>Chat</h1>
+        <IconButton onClick={() => setShowModal('chat')}>
+          <InfoIcon className={classes.icons} />
+        </IconButton>
+      </Grid>
       <Formik
         initialValues={
           formDataEdit || {
@@ -208,6 +217,9 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
       >
         Tilbake
       </Button>
+      {showModal && (
+        <InfoModal showModal={showModal} setShowModal={setShowModal} />
+      )}
     </Paper>
   );
 };

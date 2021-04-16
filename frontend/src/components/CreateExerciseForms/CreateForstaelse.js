@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Fab, Paper, Grid, Select, MenuItem } from '@material-ui/core';
+import {
+  Button,
+  Fab,
+  Paper,
+  Grid,
+  Select,
+  MenuItem,
+  IconButton,
+} from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import AddIcon from '@material-ui/icons/Add';
+import InfoIcon from '@material-ui/icons/Info';
 import RemoveIcon from '@material-ui/icons/Remove';
+import InfoModal from '../InfoModal/InfoModal';
 import useStyles from './styles';
 
 const validationSchema = yup.object({
@@ -22,6 +32,7 @@ const CreateForstaelse = ({
 }) => {
   const classes = useStyles();
   const [taskAmount, setTaskAmount] = useState(1);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (formDataEdit) {
@@ -67,7 +78,12 @@ const CreateForstaelse = ({
 
   return (
     <Paper className={classes.root}>
-      <h1>Forståelse</h1>
+      <Grid className={classes.headergroup}>
+        <h1>Forståelse</h1>
+        <IconButton onClick={() => setShowModal('forstaelse')}>
+          <InfoIcon className={classes.icons} />
+        </IconButton>
+      </Grid>
       <Formik
         initialValues={
           formDataEdit || {
@@ -168,6 +184,9 @@ const CreateForstaelse = ({
       >
         Tilbake
       </Button>
+      {showModal && (
+        <InfoModal showModal={showModal} setShowModal={setShowModal} />
+      )}
     </Paper>
   );
 };
