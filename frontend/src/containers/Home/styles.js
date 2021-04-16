@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     textAlign: 'center',
   },
-
   avatar: {
     backgroundColor: 'orange',
   },
@@ -51,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: '500px',
     marginTop: '3px',
-
+  },
   drawerBtn: {
     padding: theme.spacing(1),
     textTransform: 'uppercase',
