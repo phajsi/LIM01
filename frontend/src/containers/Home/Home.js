@@ -2,36 +2,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
-  Avatar,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   Drawer,
   Hidden,
   List,
   ListItem,
   ListItemText,
   Divider,
-  Card,
-  CardHeader,
-  IconButton,
 } from '@material-ui/core';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import DoneIcon from '@material-ui/icons/Done';
 import CollectionsBookmarkIcon from '@material-ui/icons/CollectionsBookmark';
 import { Link, Redirect } from 'react-router-dom';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import PersonIcon from '@material-ui/icons/Person';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import EditIcon from '@material-ui/icons/Edit';
 import { axiosInstanceDelete, axiosInstance } from '../../helpers/ApiFunctions';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import SaveIcon from '../../components/SaveIcon';
+import SetCard from '../../components/SetCard';
+import DeleteModal from '../../components/DeleteModal';
 import useStyles from './styles';
 
 const Home = () => {
@@ -92,42 +79,18 @@ const Home = () => {
           <>
             {ExerciseSetList.map((set) => {
               return (
-                <Card className={classes.card}>
-                  <CardHeader
-                    className={classes.cardHeader}
-                    avatar={
-                      <Avatar className={classes.avatar}>{set.id}</Avatar>
-                    }
-                    title={set.title}
-                    subheader={
-                      <>
-                        <PersonIcon style={{ fontSize: 15 }} />
-                        {` `}
-                        Deg
-                      </>
-                    }
-                    action={
-                      <>
-                        <IconButton
-                          onClick={() => {
-                            setFormDataEdit(set);
-                            setRedirectEdit(true);
-                          }}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => {
-                            setDeleteId(set.id);
-                            setOpen(true);
-                          }}
-                        >
-                          <DeleteOutlineIcon />
-                        </IconButton>
-                      </>
-                    }
-                  />
-                </Card>
+                <SetCard
+                  type="mySet"
+                  formData={set}
+                  onClick1={() => {
+                    setFormDataEdit(set);
+                    setRedirectEdit(true);
+                  }}
+                  onClick2={() => {
+                    setDeleteId(set.id);
+                    setOpen(true);
+                  }}
+                />
               );
             })}
           </>
@@ -137,35 +100,14 @@ const Home = () => {
           <>
             {savedList.map((saved) => {
               return (
-                <Card className={classes.card}>
-                  <CardHeader
-                    className={classes.cardHeader}
-                    avatar={
-                      <Avatar className={classes.avatar}>{saved.sets}</Avatar>
-                    }
-                    title={saved.title}
-                    subheader={
-                      <>
-                        <PersonIcon style={{ fontSize: 15 }} />
-                        {` `}
-                        {saved.setOwner}
-                      </>
-                    }
-                    action={
-                      <>
-                        <SaveIcon id={saved.sets} />
-                        <IconButton
-                          onClick={() => {
-                            setPlayId(saved.sets);
-                            setRedirectPlay(true);
-                          }}
-                        >
-                          <PlayCircleOutlineIcon style={{ fontSize: 30 }} />
-                        </IconButton>
-                      </>
-                    }
-                  />
-                </Card>
+                <SetCard
+                  type="favorite"
+                  formData={saved}
+                  onClick1={() => {
+                    setPlayId(saved.sets);
+                    setRedirectPlay(true);
+                  }}
+                />
               );
             })}
           </>
@@ -175,40 +117,14 @@ const Home = () => {
           <>
             {completedList.map((completed) => {
               return (
-                <Card className={classes.card}>
-                  <CardHeader
-                    className={classes.cardHeader}
-                    avatar={
-                      <Avatar className={classes.avatar}>
-                        {completed.sets}
-                      </Avatar>
-                    }
-                    title={completed.title}
-                    subheader={
-                      <>
-                        <PersonIcon style={{ fontSize: 15 }} />
-                        {` `}
-                        {completed.setOwner}
-                        {`  -  `}
-                        <WhatshotIcon style={{ fontSize: 15 }} />
-                        {`${completed.score}/${completed.score}`}
-                      </>
-                    }
-                    action={
-                      <>
-                        <SaveIcon id={completed.sets} />
-                        <IconButton
-                          onClick={() => {
-                            setPlayId(completed.sets);
-                            setRedirectPlay(true);
-                          }}
-                        >
-                          <PlayCircleOutlineIcon style={{ fontSize: 30 }} />
-                        </IconButton>
-                      </>
-                    }
-                  />
-                </Card>
+                <SetCard
+                  type="completed"
+                  formData={completed}
+                  onClick1={() => {
+                    setPlayId(completed.sets);
+                    setRedirectPlay(true);
+                  }}
+                />
               );
             })}
           </>
@@ -295,29 +211,13 @@ const Home = () => {
         <br />
         {renderSwitch(showSetType)}
       </div>
-
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">Bekreft Sletting</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Er du sikker på at du vil slette hele oppgavesettet? Det vil bli
-            borte for alltid.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)} color="primary">
-            Avbryt
-          </Button>
-          <Button onClick={() => onDelete(deleteId)} color="primary" autoFocus>
-            Slett
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {open && (
+        <DeleteModal
+          onDelete={() => onDelete(deleteId)}
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
       {redirectEdit && (
         <Redirect
           to={{
