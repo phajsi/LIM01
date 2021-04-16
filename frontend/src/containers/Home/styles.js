@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: 'inherit',
+    backgroundColor: '#47956A',
     alignItems: 'center',
     paddingTop: theme.spacing(10),
     display: 'inline',
@@ -39,6 +39,18 @@ const useStyles = makeStyles((theme) => ({
   buttonList: {
     margin: theme.spacing(1),
     textAlign: 'center',
+  },
+  drawerBtn: {
+    textAlign: 'center',
+    border: 'rgba(0, 0, 0, 0.12) 1px black',
+    borderRadius: '11px',
+  },
+  drawerBtnClicked: {
+    textAlign: 'center',
+    backgroundColor: 'black',
+    color: 'white',
+    border: 'rgba(0, 0, 0, 0.12) 1px black',
+    borderRadius: '11px',
   },
 }));
 export default useStyles;

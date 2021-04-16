@@ -170,7 +170,7 @@ const Home = () => {
                   button
                   component={Link}
                   to="/createexercise"
-                  style={{ textAlign: 'center' }}
+                  className={classes.drawerBtn}
                 >
                   <ListItemText>Opprett oppgavesett</ListItemText>
                 </ListItem>
@@ -181,11 +181,13 @@ const Home = () => {
                   (text, index) => (
                     <ListItem
                       button
-                      style={{ textAlign: 'center' }}
+                      selected={showSetType === index}
+                      className={classes.drawerBtn}
                       key={text}
                       onClick={() => setShowSetType(index)}
                     >
                       <ListItemText primary={text} />
+                      {console.log(showSetType)}
                     </ListItem>
                   )
                 )}
@@ -201,6 +203,7 @@ const Home = () => {
             {['Mine sett', 'Lagrede sett', 'Fullførte sett'].map(
               (text, index) => (
                 <Button
+                  id={index}
                   key={text}
                   onClick={() => setShowSetType(index)}
                   variant="outlined"
