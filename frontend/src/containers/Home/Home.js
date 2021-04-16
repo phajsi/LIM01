@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
-  Chip,
   Avatar,
   Button,
   Dialog,
@@ -24,6 +23,8 @@ import { Link, Redirect } from 'react-router-dom';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import PersonIcon from '@material-ui/icons/Person';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import EditIcon from '@material-ui/icons/Edit';
 import { axiosInstanceDelete, axiosInstance } from '../../helpers/ApiFunctions';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import SaveIcon from '../../components/SaveIcon';
@@ -80,37 +81,50 @@ const Home = () => {
       });
   }
 
-  function removeSaved(id) {
-    axiosInstanceDelete()
-      .delete(`/saved/${id}`)
-      .then(() => {
-        getContent();
-      })
-      .catch((e) => {
-        return e;
-      });
-  }
-
   const renderSwitch = (param) => {
     switch (param) {
       case 0:
         return (
           <>
-            <h3>Mine oppgavesett</h3>
+            <h3>Mine sett</h3>
             {ExerciseSetList.map((set) => {
               return (
-                <Chip
-                  avatar={<Avatar>{set.id}</Avatar>}
-                  label="sett"
-                  onDelete={() => {
-                    setDeleteId(set.id);
-                    setOpen(true);
-                  }}
-                  onClick={() => {
-                    setFormDataEdit(set);
-                    setRedirectEdit(true);
-                  }}
-                />
+                <Card className={classes.card}>
+                  <CardHeader
+                    className={classes.cardHeader}
+                    avatar={
+                      <Avatar className={classes.avatar}>{set.id}</Avatar>
+                    }
+                    title={set.title}
+                    subheader={
+                      <>
+                        <PersonIcon style={{ fontSize: 15 }} />
+                        {` `}
+                        Deg
+                      </>
+                    }
+                    action={
+                      <>
+                        <IconButton
+                          onClick={() => {
+                            setFormDataEdit(set);
+                            setRedirectEdit(true);
+                          }}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => {
+                            setDeleteId(set.id);
+                            setOpen(true);
+                          }}
+                        >
+                          <DeleteOutlineIcon />
+                        </IconButton>
+                      </>
+                    }
+                  />
+                </Card>
               );
             })}
           </>
@@ -121,17 +135,35 @@ const Home = () => {
             <h3>Lagrede sett</h3>
             {savedList.map((saved) => {
               return (
-                <Chip
-                  avatar={<Avatar>{saved.sets}</Avatar>}
-                  label="Lagret Sett"
-                  onDelete={() => {
-                    removeSaved(saved.sets);
-                  }}
-                  onClick={() => {
-                    setPlayId(saved.sets);
-                    setRedirectPlay(true);
-                  }}
-                />
+                <Card className={classes.card}>
+                  <CardHeader
+                    className={classes.cardHeader}
+                    avatar={
+                      <Avatar className={classes.avatar}>{saved.sets}</Avatar>
+                    }
+                    title={saved.title}
+                    subheader={
+                      <>
+                        <PersonIcon style={{ fontSize: 15 }} />
+                        {` `}
+                        {saved.setOwner}
+                      </>
+                    }
+                    action={
+                      <>
+                        <SaveIcon id={saved.sets} />
+                        <IconButton
+                          onClick={() => {
+                            setPlayId(saved.sets);
+                            setRedirectPlay(true);
+                          }}
+                        >
+                          <PlayCircleOutlineIcon style={{ fontSize: 30 }} />
+                        </IconButton>
+                      </>
+                    }
+                  />
+                </Card>
               );
             })}
           </>
