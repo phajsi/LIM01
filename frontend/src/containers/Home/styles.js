@@ -20,9 +20,10 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: 'inherit',
+    backgroundColor: '#47956A',
     alignItems: 'center',
     paddingTop: theme.spacing(10),
+    padding: theme.spacing(1),
     display: 'inline',
   },
   content: {
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     textAlign: 'center',
   },
+
   avatar: {
     backgroundColor: 'orange',
   },
@@ -49,6 +51,27 @@ const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: '500px',
     marginTop: '3px',
+
+  drawerBtn: {
+    padding: theme.spacing(1),
+    textTransform: 'uppercase',
+    lineHeight: '2',
+    fontWeight: 500,
+    borderRadius: '11px',
+    '&.MuiListItem-button.Mui-selected': {
+      backgroundColor: '#367051',
+      color: 'antiquewhite',
+      '& > *': {
+        color: 'antiquewhite',
+      },
+    },
+    '&:focus': {
+      backgroundColor: '#367051',
+      color: 'antiquewhite',
+    },
+  },
+  svg: {
+    margin: 'auto',
   },
 }));
 export default useStyles;
