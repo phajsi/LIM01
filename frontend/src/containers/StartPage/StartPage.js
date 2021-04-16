@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Toolbar, Typography } from '@material-ui/core';
 import Appbar from '@material-ui/core/AppBar';
@@ -11,8 +11,6 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 
 const StartPage = () => {
   const classes = useStyles();
-  // eslint-disable-next-line no-unused-vars
-  const [id, setId] = useState(null);
 
   return (
     <div className={classes.root}>
