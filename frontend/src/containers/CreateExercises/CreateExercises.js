@@ -360,7 +360,7 @@ const CreateExercises = () => {
                 })}
               </Grid>
             </Grid>
-            <Grid item xs={12} className={classes.errormessage}>
+            <Grid item sm={12} className={classes.errormessage}>
               <div>
                 <ErrorMessage message={emptyFormError} />
                 <ErrorMessage message={emptySetError} />
