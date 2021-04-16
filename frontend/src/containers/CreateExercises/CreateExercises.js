@@ -12,6 +12,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CreateForstaelse from '../../components/CreateExerciseForms/CreateForstaelse';
 import CreateChat from '../../components/CreateExerciseForms/CreateChat';
 import CreateRyddeSetninger from '../../components/CreateExerciseForms/CreateRyddeSetninger';
@@ -30,7 +31,10 @@ const CreateExercises = () => {
   // object which contains formData from the exercise the user wants to edit
   const [formDataEdit, setFormDataEdit] = useState(null);
   // object which contains all the IDs for the exercises added to the set.
-  const [formDataSet, setFormDataSet] = useState({});
+  const [formDataSet, setFormDataSet] = useState({
+    title: '',
+    description: '',
+  });
   const [playId, setPlayId] = useState(0);
   // keeps track of count to make sure no more than 5 of each are added.
   const [exerciseCounts, setExerciseCounts] = useState({ c: 0, f: 0, r: 0 });
@@ -167,7 +171,7 @@ const CreateExercises = () => {
       setEmptySetError(
         'Du må legge til minst en oppgave for å opprette et sett.'
       );
-      if (!formDataSet.title || !formDataSet.description) {
+      if (formDataSet.title === '' || formDataSet.description === '') {
         setEmptyFormError(
           'Du må legge inn et navn og en beskrivelse av settet ditt'
         );
@@ -186,7 +190,7 @@ const CreateExercises = () => {
   }
 
   function onSubmitPutSet() {
-    if (!formDataSet.title || !formDataSet.description) {
+    if (formDataSet.title === '' || formDataSet.description === '') {
       setEmptyFormError('Settet ditt må ha et navn og en beskrivelse');
     }
     axiosInstance()
@@ -247,48 +251,48 @@ const CreateExercises = () => {
                 onChange={(e) => handleFormChange(e)}
               />
             </Grid>
-            <Grid item sm={6} xs={12} className={classes.menu}>
+            <Grid item md={5} xs={12} className={classes.menu}>
               <h2>Legg til oppgavetyper</h2>
               <MenuList>
                 <Grid className={classes.menugroup}>
                   <MenuItem
-                    className={classes.menuitem}
+                    className={classes.menuitemchat}
                     disabled={exerciseCounts.c > 4}
                     onClick={() => setStep('chat')}
                   >
                     Chat
                   </MenuItem>
                   <IconButton onClick={() => setShowModal('chat')}>
-                    <InfoIcon className={classes.icons} />
+                    <InfoIcon className={classes.infoicon} />
                   </IconButton>
                 </Grid>
                 <Grid className={classes.menugroup}>
                   <MenuItem
-                    className={classes.menuitem}
+                    className={classes.menuitemfors}
                     disabled={exerciseCounts.f > 4}
                     onClick={() => setStep('forstaelse')}
                   >
                     Forståelse
                   </MenuItem>
                   <IconButton onClick={() => setShowModal('forstaelse')}>
-                    <InfoIcon className={classes.icons} />
+                    <InfoIcon className={classes.infoicon} />
                   </IconButton>
                 </Grid>
                 <Grid className={classes.menugroup}>
                   <MenuItem
-                    className={classes.menuitem}
+                    className={classes.menuitemrydd}
                     disabled={exerciseCounts.r > 4}
                     onClick={() => setStep('rydde_setninger')}
                   >
                     Rydde Setninger
                   </MenuItem>
                   <IconButton onClick={() => setShowModal('rydde_setninger')}>
-                    <InfoIcon className={classes.icons} />
+                    <InfoIcon className={classes.infoicon} />
                   </IconButton>
                 </Grid>
               </MenuList>
             </Grid>
-            <Grid item sm={6} xs={12} className={classes.menu}>
+            <Grid item md={7} xs={12} className={classes.menu}>
               <h4>Oppgaver:</h4>
               <Grid container>
                 {Object.entries(formDataSet).map(([type, id]) => {
@@ -296,13 +300,18 @@ const CreateExercises = () => {
                     return (
                       <Grid item xs={6} className={classes.chipgrid}>
                         <Chip
-                          className={classes.chip}
+                          className={classes.chatchip}
                           label="Chat"
-                          onDelete={() =>
-                            onDeleteExercise(type, `/deletechat/${id}`)
-                          }
                           onClick={() => editExercise(id, 'chat')}
                         />
+                        <IconButton
+                          className={classes.deletebutton}
+                          onClick={() =>
+                            onDeleteExercise(type, `/deletechat/${id}`)
+                          }
+                        >
+                          <HighlightOffIcon />
+                        </IconButton>
                       </Grid>
                     );
                   }
@@ -310,14 +319,18 @@ const CreateExercises = () => {
                     return (
                       <Grid item xs={6} className={classes.chipgrid}>
                         <Chip
-                          className={classes.chip}
+                          className={classes.forschip}
                           label="Forstaelse"
-                          onDelete={() =>
-                            // eslint-disable-next-line prettier/prettier
-                      onDeleteExercise(type, `/deleteforstaelse/${id}`)
-                          }
                           onClick={() => editExercise(id, 'forstaelse')}
                         />
+                        <IconButton
+                          className={classes.deletebutton}
+                          onClick={() =>
+                            onDeleteExercise(type, `/deleteforstaelse/${id}`)
+                          }
+                        >
+                          <HighlightOffIcon />
+                        </IconButton>
                       </Grid>
                     );
                   }
@@ -325,14 +338,21 @@ const CreateExercises = () => {
                     return (
                       <Grid item xs={6} className={classes.chipgrid}>
                         <Chip
-                          className={classes.chip}
+                          className={classes.ryddchip}
                           label="Rydde Setninger"
-                          onDelete={() =>
-                            // eslint-disable-next-line prettier/prettier
-                      onDeleteExercise(type, `/delete_rydde_setninger/${id}`)
-                          }
                           onClick={() => editExercise(id, 'rydde_setninger')}
                         />
+                        <IconButton
+                          className={classes.deletebutton}
+                          onClick={() =>
+                            onDeleteExercise(
+                              type,
+                              `/delete_rydde_setninger/${id}`
+                            )
+                          }
+                        >
+                          <HighlightOffIcon />
+                        </IconButton>
                       </Grid>
                     );
                   }

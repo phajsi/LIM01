@@ -2,8 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
-    maxWidth: theme.spacing(150),
+    maxWidth: theme.spacing(100),
     margin: 'auto',
     textAlign: 'center',
     border: '1px solid #000000',
@@ -24,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
   },
-  menuitem: {
+  menuitemchat: {
     maxWidth: theme.spacing(50),
     border: '2px solid #000000',
     borderRadius: 10,
@@ -32,10 +31,34 @@ const useStyles = makeStyles((theme) => ({
     padding: '15px',
     justifyContent: 'center',
     flexGrow: 1,
+    backgroundColor: '#FFD172',
   },
-  icons: {
+  menuitemfors: {
+    maxWidth: theme.spacing(50),
+    border: '2px solid #000000',
+    borderRadius: 10,
+    margin: '5px',
+    padding: '15px',
+    justifyContent: 'center',
+    flexGrow: 1,
+    backgroundColor: '#69C192',
+  },
+  menuitemrydd: {
+    maxWidth: theme.spacing(50),
+    border: '2px solid #000000',
+    borderRadius: 10,
+    margin: '5px',
+    padding: '15px',
+    justifyContent: 'center',
+    flexGrow: 1,
+    backgroundColor: '#F68365',
+  },
+  infoicon: {
     fontSize: '1.5em',
     justifyContent: 'flex-end',
+  },
+  deletebutton: {
+    padding: 0,
   },
   form: {
     margin: 'auto',
@@ -57,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     margin: theme.spacing(16),
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(4),
   },
   buttons: {
     width: theme.spacing(15),
@@ -65,9 +88,20 @@ const useStyles = makeStyles((theme) => ({
   chipgrid: {
     minWidth: theme.spacing(25),
   },
-  chip: {
-    minWidth: theme.spacing(25),
+  chatchip: {
+    minWidth: theme.spacing(18),
     margin: theme.spacing(0.5),
+    backgroundColor: '#FFD172',
+  },
+  forschip: {
+    minWidth: theme.spacing(18),
+    margin: theme.spacing(0.5),
+    backgroundColor: '#69C192',
+  },
+  ryddchip: {
+    minWidth: theme.spacing(18),
+    margin: theme.spacing(0.5),
+    backgroundColor: '#F68365',
   },
 }));
 
