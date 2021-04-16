@@ -1,6 +1,7 @@
 from rest_framework import status, permissions
-from .serializers import SetsSerializer, SavedSerializer, CommentSerializer, RatingSerializer, CompletedSerializer
+from .serializers import SetsSerializer, SavedSerializer, CommentSerializer, RatingSerializer, CompletedSerializer, GetCompletedSerializer, GetSavedSerializer
 from .models import Sets, Saved, Comment, Rating, Completed
+from accounts.models import UserAccount
 from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
@@ -60,14 +61,19 @@ class UserSetsView(APIView):
 class SavedView(APIView):
     def get(self, request):
         getSaved = Saved.objects.filter(owner=self.request.user)
-        serializer = SavedSerializer(getSaved, many=True)
+        serializer = GetSavedSerializer(getSaved, many=True)
         return JsonResponse(serializer.data, safe=False)
 
     def post(self, request):
         data = JSONParser().parse(request)
         serializer = SavedSerializer(data=data)
         if serializer.is_valid():
-            serializer.save(owner=self.request.user)
+            getTitle = Sets.objects.values('title').get(pk=data['sets'])
+            getSetOwner = Sets.objects.values('owner').get(pk=data['sets'])
+            getUserName = UserAccount.objects.values(
+                'name').get(pk=getSetOwner['owner'])
+            serializer.save(owner=self.request.user,
+                            title=getTitle['title'], setOwner=getUserName['name'])
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
@@ -159,7 +165,7 @@ class RatingView(APIView):
 
         If a user has not rated this set, the post request will make a new rating.
         If a user has rated the set before and a new rating is sent it will either
-        be deleted or changed. 
+        be deleted or changed.
         """
         data = JSONParser().parse(request)
         setId = data["sets"]
@@ -199,7 +205,12 @@ class CompletedView(APIView):
         data = JSONParser().parse(request)
         serializer = CompletedSerializer(data=data)
         if serializer.is_valid():
-            serializer.save(owner=self.request.user)
+            getTitle = Sets.objects.values('title').get(pk=data['sets'])
+            getSetOwner = Sets.objects.values('owner').get(pk=data['sets'])
+            getUserName = UserAccount.objects.values(
+                'name').get(pk=getSetOwner['owner'])
+            serializer.save(owner=self.request.user,
+                            title=getTitle['title'], setOwner=getUserName['name'])
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
@@ -220,5 +231,5 @@ class CompletedView(APIView):
 class UserCompletedView(APIView):
     def get(self, request):
         getCompleted = Completed.objects.filter(owner=self.request.user)
-        serializer = CompletedSerializer(getCompleted, many=True)
+        serializer = GetCompletedSerializer(getCompleted, many=True)
         return JsonResponse(serializer.data, safe=False)
