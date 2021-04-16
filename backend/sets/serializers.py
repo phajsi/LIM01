@@ -17,6 +17,15 @@ class SavedSerializer(serializers.ModelSerializer):
         model = Saved
         fields = ('id', 'sets')
         owner = serializers.ReadOnlyField(source='owner.email')
+        title = serializers.CharField(source='title')
+        setOwner = serializers.CharField(source='name')
+
+
+class GetSavedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Completed
+        fields = ('id', 'sets', 'title', 'setOwner')
+        owner = serializers.ReadOnlyField(source='owner.email')
 
 
 class CommentSerializer(serializers.ModelSerializer):
