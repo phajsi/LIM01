@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#47956A',
     alignItems: 'center',
     paddingTop: theme.spacing(10),
+    padding: theme.spacing(1),
     display: 'inline',
   },
   content: {
@@ -41,16 +42,25 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   drawerBtn: {
-    textAlign: 'center',
-    border: 'rgba(0, 0, 0, 0.12) 1px black',
+    padding: theme.spacing(1),
+    textTransform: 'uppercase',
+    lineHeight: '2',
+    fontWeight: 500,
     borderRadius: '11px',
+    '&.MuiListItem-button.Mui-selected': {
+      backgroundColor: '#367051',
+      color: 'antiquewhite',
+      '& > *': {
+        color: 'antiquewhite',
+      },
+    },
+    '&:focus': {
+      backgroundColor: '#367051',
+      color: 'antiquewhite',
+    },
   },
-  drawerBtnClicked: {
-    textAlign: 'center',
-    backgroundColor: 'black',
-    color: 'white',
-    border: 'rgba(0, 0, 0, 0.12) 1px black',
-    borderRadius: '11px',
+  svg: {
+    margin: 'auto',
   },
 }));
 export default useStyles;
