@@ -10,15 +10,19 @@ import {
   Paper,
   Button,
 } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import ProgressBar from '../../components/ProgressBar';
 import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
-const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
+const RyddeSetninger = ({
+  id,
+  showFeedback,
+  progress,
+  possible,
+  restartSet,
+}) => {
   const classes = useStyles();
 
   const [renderPage, setRenderPage] = useState();
@@ -144,19 +148,14 @@ const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
   return (
     <Paper className={classes.root}>
       <AppBar className={classes.navbar} position="static">
-        <ProgressBar progress={progress} possible={possible} />
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
+        <Toolbar component="nav" className={classes.toolbar}>
+          {restartSet()}
         </Toolbar>
       </AppBar>
       <Paper className={classes.layout} elevation={0}>
+        <div className={classes.progresscontainer}>
+          <ProgressBar progress={progress} possible={possible} />
+        </div>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Card>

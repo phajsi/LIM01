@@ -9,8 +9,6 @@ import {
   Toolbar,
   Paper,
 } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
 import useStyles from './styles';
@@ -18,7 +16,7 @@ import ProgressBar from '../../components/ProgressBar';
 import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
-const Forstaelse = ({ id, showFeedback, progress, possible }) => {
+const Forstaelse = ({ id, showFeedback, progress, possible, restartSet }) => {
   // const [forstaelse, setForstaelse] = useState(null);
 
   const [formData, setFormData] = useState({
@@ -110,19 +108,14 @@ const Forstaelse = ({ id, showFeedback, progress, possible }) => {
   return (
     <Paper className={classes.root}>
       <AppBar className={classes.navbar} position="static">
-        <ProgressBar progress={progress} possible={possible} />
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
+        <Toolbar component="nav" className={classes.toolbar}>
+          {restartSet()}
         </Toolbar>
       </AppBar>
       <Paper className={classes.layout} elevation={0}>
+        <div className={classes.progresscontainer}>
+          <ProgressBar progress={progress} possible={possible} />
+        </div>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Card className={classes.header}>
