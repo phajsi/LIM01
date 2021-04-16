@@ -79,8 +79,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    margin: theme.spacing(16),
     marginTop: theme.spacing(4),
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'center',
+    },
   },
   buttons: {
     width: theme.spacing(15),
@@ -102,6 +104,13 @@ const useStyles = makeStyles((theme) => ({
     minWidth: theme.spacing(18),
     margin: theme.spacing(0.5),
     backgroundColor: '#F68365',
+  },
+  errormessage: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    marginTop: theme.spacing(4),
   },
 }));
 

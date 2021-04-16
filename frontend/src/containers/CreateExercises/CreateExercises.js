@@ -358,11 +358,15 @@ const CreateExercises = () => {
                   }
                   return <></>;
                 })}
-                <ErrorMessage message={emptyFormError} />
-                <ErrorMessage message={emptySetError} />
               </Grid>
             </Grid>
-            <Grid item xs={12} className={classes.buttoncontainer}>
+            <Grid item xs={12} className={classes.errormessage}>
+              <div>
+                <ErrorMessage message={emptyFormError} />
+                <ErrorMessage message={emptySetError} />
+              </div>
+            </Grid>
+            <Grid item sm={12} className={classes.buttoncontainer}>
               <Grid>
                 <Button
                   className={classes.buttons}
