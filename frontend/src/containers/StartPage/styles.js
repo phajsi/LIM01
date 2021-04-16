@@ -23,9 +23,17 @@ const useStyles = makeStyles((theme) => ({
   logoBox: {
     lineHeight: '200px',
     justifyContent: 'center',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '15vh',
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2),
+    },
   },
   logoImg: {
     verticalAlign: 'middle',
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '70%',
+    },
   },
   logoText: {
     display: 'inline-block',
@@ -36,26 +44,47 @@ const useStyles = makeStyles((theme) => ({
     color: '#0F6D5F',
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '70%',
+    },
   },
   ellipse: {
-    width: '20vw',
     display: 'block',
     position: 'absolute',
     top: '0',
+    [theme.breakpoints.up('xs')]: {
+      maxWidth: '20vw',
+    },
+    [theme.breakpoints.down('xs')]: {
+      top: '0',
+      maxWidth: '40vw',
+    },
   },
   tree: {
-    width: '16vw',
     display: 'block',
     position: 'absolute',
     bottom: '0',
     right: '10vw',
+    [theme.breakpoints.up('xs')]: {
+      maxWidth: '16vw',
+    },
+    [theme.breakpoints.down('xs')]: {
+      right: '5vw',
+      maxWidth: '30vw',
+    },
   },
   forest: {
-    width: '28vw',
     display: 'block',
     position: 'absolute',
     bottom: '0',
     left: '12vw',
+    [theme.breakpoints.up('xs')]: {
+      maxWidth: '28vw',
+    },
+    [theme.breakpoints.down('xs')]: {
+      left: '5vw',
+      maxWidth: '60vw',
+    },
   },
 }));
 export default useStyles;
