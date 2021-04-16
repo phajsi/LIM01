@@ -1,6 +1,7 @@
 from rest_framework import status, permissions
 from .serializers import SetsSerializer, SavedSerializer, CommentSerializer, RatingSerializer, CompletedSerializer, GetCompletedSerializer
 from .models import Sets, Saved, Comment, Rating, Completed
+from accounts.models import UserAccount
 from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
@@ -200,7 +201,11 @@ class CompletedView(APIView):
         serializer = CompletedSerializer(data=data)
         if serializer.is_valid():
             getTitle = Sets.objects.values('title').get(pk=data['sets'])
-            serializer.save(owner=self.request.user, title=getTitle['title'])
+            getSetOwner = Sets.objects.values('owner').get(pk=data['sets'])
+            getUserName = UserAccount.objects.values(
+                'name').get(pk=getSetOwner['owner'])
+            serializer.save(owner=self.request.user,
+                            title=getTitle['title'], setOwner=getUserName['name'])
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
