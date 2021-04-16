@@ -16,6 +16,10 @@ import {
   ListItemText,
   Divider,
 } from '@material-ui/core';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import DoneIcon from '@material-ui/icons/Done';
+import CollectionsBookmarkIcon from '@material-ui/icons/CollectionsBookmark';
 import { Link, Redirect } from 'react-router-dom';
 import { axiosInstanceDelete, axiosInstance } from '../../helpers/ApiFunctions';
 import SearchBar from '../../components/SearchBar/SearchBar';
@@ -88,7 +92,6 @@ const Home = () => {
       case 0:
         return (
           <>
-            <h3>Mine oppgavesett</h3>
             {ExerciseSetList.map((set) => {
               return (
                 <Chip
@@ -110,7 +113,6 @@ const Home = () => {
       case 1:
         return (
           <>
-            <h3>Lagrede sett</h3>
             {savedList.map((saved) => {
               return (
                 <Chip
@@ -131,7 +133,6 @@ const Home = () => {
       case 2:
         return (
           <>
-            <h3>Fullførte sett</h3>
             {completedList.map((completed) => {
               return (
                 <Chip
@@ -170,6 +171,7 @@ const Home = () => {
                   button
                   component={Link}
                   to="/createexercise"
+                  className={classes.drawerBtn}
                   style={{ textAlign: 'center' }}
                 >
                   <ListItemText>Opprett oppgavesett</ListItemText>
@@ -181,10 +183,20 @@ const Home = () => {
                   (text, index) => (
                     <ListItem
                       button
-                      style={{ textAlign: 'center' }}
+                      selected={showSetType === index}
+                      className={classes.drawerBtn}
                       key={text}
                       onClick={() => setShowSetType(index)}
                     >
+                      <ListItemIcon>
+                        {index === 0 && (
+                          <CollectionsBookmarkIcon className={classes.svg} />
+                        )}
+                        {index === 1 && (
+                          <FavoriteIcon className={classes.svg} />
+                        )}
+                        {index === 2 && <DoneIcon className={classes.svg} />}
+                      </ListItemIcon>
                       <ListItemText primary={text} />
                     </ListItem>
                   )
@@ -201,11 +213,12 @@ const Home = () => {
             {['Mine sett', 'Lagrede sett', 'Fullførte sett'].map(
               (text, index) => (
                 <Button
+                  id={index}
                   key={text}
                   onClick={() => setShowSetType(index)}
                   variant="outlined"
                   size="small"
-                  style={{ textTransform: 'none' }}
+                  className={classes.drawerBtn}
                 >
                   {text}
                 </Button>
@@ -213,6 +226,7 @@ const Home = () => {
             )}
           </div>
         </Hidden>
+        <br />
         {renderSwitch(showSetType)}
       </div>
 
