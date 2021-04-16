@@ -82,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(4),
     [theme.breakpoints.down('sm')]: {
       justifyContent: 'center',
+      margin: 'auto',
     },
   },
   buttons: {
