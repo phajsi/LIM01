@@ -8,11 +8,6 @@ import {
   Card,
   CardContent,
   Typography,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
 } from '@material-ui/core';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
@@ -23,6 +18,7 @@ import {
 } from '../../helpers/ApiFunctions';
 import useStyles from './style';
 import SaveIcon from '../../components/SaveIcon';
+import DeleteModal from '../../components/DeleteModal';
 
 const OverviewPage = ({
   title,
@@ -216,32 +212,13 @@ const OverviewPage = ({
             );
           })}
         </Grid>
-        <Dialog
-          open={open}
-          onClose={() => setOpen(false)}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">Bekreft Sletting</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Er du sikker på at du vil slette kommentaren? Det vil bli borte
-              for alltid.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpen(false)} color="primary">
-              Avbryt
-            </Button>
-            <Button
-              onClick={() => onDelete(deleteId)}
-              color="primary"
-              autoFocus
-            >
-              Slett
-            </Button>
-          </DialogActions>
-        </Dialog>
+        {open && (
+          <DeleteModal
+            onDelete={() => onDelete(deleteId)}
+            open={open}
+            setOpen={setOpen}
+          />
+        )}
       </Grid>
     </Paper>
   );
