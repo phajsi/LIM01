@@ -33,7 +33,9 @@ const StartPage = () => {
           DiPICKLE
         </Typography>
       </div>
-      <SearchBar />
+      <div className={classes.searchBar}>
+        <SearchBar />
+      </div>
       <img src={forest} alt="forest" className={classes.forest} />
       <img src={tree} alt="tree" className={classes.tree} />
     </div>

@@ -9,6 +9,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'transparent',
     elevation: 'none',
   },
+  searchBar: {
+    margin: 'auto',
+    maxWidth: '40vw',
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '60vw',
+    },
+  },
   title: {
     flexGrow: 1,
     color: '#367051',

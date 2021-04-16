@@ -135,106 +135,110 @@ const Home = () => {
   };
 
   return (
-    <div className={classes.root}>
-      <nav className={classes.drawer} aria-label="mailbox folders">
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden xsDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-          >
-            <div>
-              <div className={classes.toolbar} />
-              <List>
-                <ListItem
-                  button
-                  component={Link}
-                  to="/createexercise"
-                  className={classes.drawerBtn}
-                  style={{ textAlign: 'center' }}
-                >
-                  <ListItemText>Opprett oppgavesett</ListItemText>
-                </ListItem>
-              </List>
-              <Divider />
-              <List>
-                {['Mine sett', 'Lagrede sett', 'Fullførte sett'].map(
-                  (text, index) => (
-                    <ListItem
-                      button
-                      selected={showSetType === index}
-                      className={classes.drawerBtn}
-                      key={text}
-                      onClick={() => setShowSetType(index)}
-                    >
-                      <ListItemIcon>
-                        {index === 0 && (
-                          <CollectionsBookmarkIcon className={classes.svg} />
-                        )}
-                        {index === 1 && (
-                          <FavoriteIcon className={classes.svg} />
-                        )}
-                        {index === 2 && <DoneIcon className={classes.svg} />}
-                      </ListItemIcon>
-                      <ListItemText primary={text} />
-                    </ListItem>
-                  )
-                )}
-              </List>
-            </div>
-          </Drawer>
-        </Hidden>
-      </nav>
-      <div className={classes.content}>
+    <>
+      <div className={classes.searchBar}>
         <SearchBar />
-        <Hidden smUp implementation="css">
-          <div className={classes.buttonList}>
-            {['Mine sett', 'Lagrede sett', 'Fullførte sett'].map(
-              (text, index) => (
-                <Button
-                  id={index}
-                  key={text}
-                  onClick={() => setShowSetType(index)}
-                  variant="outlined"
-                  size="small"
-                  className={classes.drawerBtn}
-                >
-                  {text}
-                </Button>
-              )
-            )}
-          </div>
-        </Hidden>
-        <br />
-        {renderSwitch(showSetType)}
       </div>
-      {open && (
-        <DeleteModal
-          onDelete={() => onDelete(deleteId)}
-          open={open}
-          setOpen={setOpen}
-        />
-      )}
-      {redirectEdit && (
-        <Redirect
-          to={{
-            pathname: '/createexercise',
-            state: { formSets: formDataEdit, editSet: true },
-          }}
-        />
-      )}
-      {redirectPlay && (
-        <Redirect
-          to={{
-            pathname: '/sets',
-            state: { id: playId },
-          }}
-        />
-      )}
-    </div>
+      <div className={classes.root}>
+        <nav className={classes.drawer} aria-label="mailbox folders">
+          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+          <Hidden xsDown implementation="css">
+            <Drawer
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              variant="permanent"
+              open
+            >
+              <div>
+                <div className={classes.toolbar} />
+                <List>
+                  <ListItem
+                    button
+                    component={Link}
+                    to="/createexercise"
+                    className={classes.drawerBtn}
+                    style={{ textAlign: 'center' }}
+                  >
+                    <ListItemText>Opprett oppgavesett</ListItemText>
+                  </ListItem>
+                </List>
+                <Divider />
+                <List>
+                  {['Mine sett', 'Lagrede sett', 'Fullførte sett'].map(
+                    (text, index) => (
+                      <ListItem
+                        button
+                        selected={showSetType === index}
+                        className={classes.drawerBtn}
+                        key={text}
+                        onClick={() => setShowSetType(index)}
+                      >
+                        <ListItemIcon>
+                          {index === 0 && (
+                            <CollectionsBookmarkIcon className={classes.svg} />
+                          )}
+                          {index === 1 && (
+                            <FavoriteIcon className={classes.svg} />
+                          )}
+                          {index === 2 && <DoneIcon className={classes.svg} />}
+                        </ListItemIcon>
+                        <ListItemText primary={text} />
+                      </ListItem>
+                    )
+                  )}
+                </List>
+              </div>
+            </Drawer>
+          </Hidden>
+        </nav>
+        <div className={classes.content}>
+          <Hidden smUp implementation="css">
+            <div className={classes.buttonList}>
+              {['Mine sett', 'Lagrede sett', 'Fullførte sett'].map(
+                (text, index) => (
+                  <Button
+                    id={index}
+                    key={text}
+                    onClick={() => setShowSetType(index)}
+                    variant="outlined"
+                    size="small"
+                    className={classes.drawerBtn}
+                  >
+                    {text}
+                  </Button>
+                )
+              )}
+            </div>
+          </Hidden>
+          <br />
+          {renderSwitch(showSetType)}
+        </div>
+        {open && (
+          <DeleteModal
+            onDelete={() => onDelete(deleteId)}
+            open={open}
+            setOpen={setOpen}
+          />
+        )}
+        {redirectEdit && (
+          <Redirect
+            to={{
+              pathname: '/createexercise',
+              state: { formSets: formDataEdit, editSet: true },
+            }}
+          />
+        )}
+        {redirectPlay && (
+          <Redirect
+            to={{
+              pathname: '/sets',
+              state: { id: playId },
+            }}
+          />
+        )}
+      </div>
+    </>
   );
 };
 

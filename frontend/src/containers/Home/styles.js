@@ -9,6 +9,18 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     fontFamily: 'roboto, helvetica, arial, sansSerif',
   },
+  searchBar: {
+    margin: 'auto',
+    width: '50vw',
+    [theme.breakpoints.down('lg')]: {
+      paddingLeft: '240px',
+      width: '50vw',
+    },
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: '0px',
+      width: '60vw',
+    },
+  },
   drawer: {
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
@@ -29,13 +41,6 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(1),
-    '& h3': {
-      width: 'fit-content',
-      margin: 'auto',
-      padding: theme.spacing(1),
-      textTransform: 'uppercase',
-      color: 'mintcream',
-    },
   },
   buttonList: {
     margin: theme.spacing(1),

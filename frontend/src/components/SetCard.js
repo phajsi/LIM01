@@ -14,7 +14,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from './SaveIcon';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: 'orange',
   },
@@ -22,8 +22,12 @@ const useStyles = makeStyles(() => ({
     padding: '12px',
   },
   card: {
-    maxWidth: '500px',
     marginTop: '3px',
+    marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(1),
+    [theme.breakpoints.between('sm', 'xl')]: {
+      width: '60vw',
+    },
   },
 }));
 
@@ -72,7 +76,6 @@ function SetCard({ type, formData, onClick1, onClick2 }) {
         subheader={
           <>
             <PersonIcon style={{ fontSize: 15 }} />
-            {` `}
             {type === 'mySet' ? 'Deg' : formData.setOwner}
             {type === 'completed' && (
               <>
