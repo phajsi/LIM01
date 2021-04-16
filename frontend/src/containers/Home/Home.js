@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -15,10 +16,17 @@ import {
   ListItem,
   ListItemText,
   Divider,
+  Card,
+  CardHeader,
+  IconButton,
 } from '@material-ui/core';
 import { Link, Redirect } from 'react-router-dom';
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import PersonIcon from '@material-ui/icons/Person';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
 import { axiosInstanceDelete, axiosInstance } from '../../helpers/ApiFunctions';
 import SearchBar from '../../components/SearchBar/SearchBar';
+import SaveIcon from '../../components/SaveIcon';
 import useStyles from './styles';
 
 const Home = () => {
@@ -134,14 +142,40 @@ const Home = () => {
             <h3>Fullførte sett</h3>
             {completedList.map((completed) => {
               return (
-                <Chip
-                  avatar={<Avatar>{completed.sets}</Avatar>}
-                  label="Fullført Sett"
-                  onClick={() => {
-                    setPlayId(completed.sets);
-                    setRedirectPlay(true);
-                  }}
-                />
+                <Card className={classes.card}>
+                  <CardHeader
+                    className={classes.cardHeader}
+                    avatar={
+                      <Avatar className={classes.avatar}>
+                        {completed.sets}
+                      </Avatar>
+                    }
+                    title={completed.title}
+                    subheader={
+                      <>
+                        <PersonIcon style={{ fontSize: 15 }} />
+                        {` `}
+                        {completed.setOwner}
+                        {`  -  `}
+                        <WhatshotIcon style={{ fontSize: 15 }} />
+                        {`${completed.score}/${completed.score}`}
+                      </>
+                    }
+                    action={
+                      <>
+                        <SaveIcon id={completed.sets} />
+                        <IconButton
+                          onClick={() => {
+                            setPlayId(completed.sets);
+                            setRedirectPlay(true);
+                          }}
+                        >
+                          <PlayCircleOutlineIcon style={{ fontSize: 30 }} />
+                        </IconButton>
+                      </>
+                    }
+                  />
+                </Card>
               );
             })}
           </>
