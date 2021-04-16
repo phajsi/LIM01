@@ -40,18 +40,30 @@ const useStyles = makeStyles((theme) => ({
   form: {
     margin: 'auto',
     marginBottom: theme.spacing(2),
-    maxWidth: theme.spacing(100),
+    maxWidth: theme.spacing(112),
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  formfieldname: {
+    textAlign: 'left',
+    fontWeight: 'bold',
+    minWidth: theme.spacing(9),
+    paddingRight: theme.spacing(2),
+    justifyContent: 'flex-start',
   },
   buttoncontainer: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    margin: theme.spacing(17),
+    margin: theme.spacing(16),
     marginTop: theme.spacing(2),
   },
   buttons: {
     width: theme.spacing(15),
+  },
+  chipgrid: {
+    minWidth: theme.spacing(25),
   },
   chip: {
     minWidth: theme.spacing(25),

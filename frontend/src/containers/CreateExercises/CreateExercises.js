@@ -16,6 +16,7 @@ import CreateForstaelse from '../../components/CreateExerciseForms/CreateForstae
 import CreateChat from '../../components/CreateExerciseForms/CreateChat';
 import CreateRyddeSetninger from '../../components/CreateExerciseForms/CreateRyddeSetninger';
 import InfoModal from '../../components/InfoModal/InfoModal';
+import ErrorMessage from '../../components/ErrorMessage';
 import useStyles from './styles';
 import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
 
@@ -25,6 +26,7 @@ const CreateExercises = () => {
 
   const [step, setStep] = useState('Menu');
   const [emptySetError, setEmptySetError] = useState(null);
+  const [emptyFormError, setEmptyFormError] = useState(null);
   // object which contains formData from the exercise the user wants to edit
   const [formDataEdit, setFormDataEdit] = useState(null);
   // object which contains all the IDs for the exercises added to the set.
@@ -165,6 +167,11 @@ const CreateExercises = () => {
       setEmptySetError(
         'Du må legge til minst en oppgave for å opprette et sett.'
       );
+      if (!formDataSet.title || !formDataSet.description) {
+        setEmptyFormError(
+          'Du må legge inn et navn og en beskrivelse av settet ditt'
+        );
+      }
     } else {
       axiosInstance()
         .post('/createsets/', formDataSet)
@@ -179,6 +186,9 @@ const CreateExercises = () => {
   }
 
   function onSubmitPutSet() {
+    if (!formDataSet.title || !formDataSet.description) {
+      setEmptyFormError('Settet ditt må ha et navn og en beskrivelse');
+    }
     axiosInstance()
       .put(`/createsets/${formDataSet.id}`, formDataSet)
       .then((response) => {
@@ -196,6 +206,14 @@ const CreateExercises = () => {
     setStep('Menu');
   }
 
+  function handleFormChange(input) {
+    setFormDataSet({
+      ...formDataSet,
+      [input.target.name]: input.target.value,
+    });
+    setEmptyFormError(null);
+  }
+
   switch (step) {
     case 'Menu':
       return (
@@ -203,50 +221,30 @@ const CreateExercises = () => {
           <h1>Nytt sett</h1>
           <Grid container className={classes.gridcontainer}>
             <Grid item xs={12} className={classes.form}>
+              <p className={classes.formfieldname}>Tittel: </p>
               <TextField
                 name="title"
                 multiline
                 fullWidth
                 rowsMax={1}
-                label="Tittel på sett"
-                InputLabelProps={{
-                  shrink: true,
-                }}
                 required
                 variant="outlined"
                 defaultValue={formDataSet.title}
-                onChange={
-                  (e) =>
-                    setFormDataSet({
-                      ...formDataSet,
-                      title: e.target.value,
-                    })
-                  // eslint-disable-next-line react/jsx-curly-newline
-                }
+                onChange={(e) => handleFormChange(e)}
               />
             </Grid>
             <Grid item xs={12} className={classes.form}>
+              <p className={classes.formfieldname}>Beskrivelse: </p>
               <TextField
                 name="description"
                 multiline="true"
                 fullWidth
                 rows={3}
                 rowsMax={10}
-                label="Beskrivelse"
-                InputLabelProps={{
-                  shrink: true,
-                }}
                 required
                 variant="outlined"
                 defaultValue={formDataSet.description}
-                onChange={
-                  (e) =>
-                    setFormDataSet({
-                      ...formDataSet,
-                      description: e.target.value,
-                    })
-                  // eslint-disable-next-line react/jsx-curly-newline
-                }
+                onChange={(e) => handleFormChange(e)}
               />
             </Grid>
             <Grid item sm={6} xs={12} className={classes.menu}>
@@ -296,7 +294,7 @@ const CreateExercises = () => {
                 {Object.entries(formDataSet).map(([type, id]) => {
                   if (type.substring(0, 4) === 'chat') {
                     return (
-                      <Grid item xs={6}>
+                      <Grid item xs={6} className={classes.chipgrid}>
                         <Chip
                           className={classes.chip}
                           label="Chat"
@@ -310,7 +308,7 @@ const CreateExercises = () => {
                   }
                   if (type.substring(0, 4) === 'fors') {
                     return (
-                      <Grid item xs={6}>
+                      <Grid item xs={6} className={classes.chipgrid}>
                         <Chip
                           className={classes.chip}
                           label="Forstaelse"
@@ -325,7 +323,7 @@ const CreateExercises = () => {
                   }
                   if (type.substring(0, 4) === 'rydd') {
                     return (
-                      <Grid item xs={6}>
+                      <Grid item xs={6} className={classes.chipgrid}>
                         <Chip
                           className={classes.chip}
                           label="Rydde Setninger"
@@ -340,7 +338,8 @@ const CreateExercises = () => {
                   }
                   return <></>;
                 })}
-                {emptySetError && <h4>{emptySetError}</h4>}
+                <ErrorMessage message={emptyFormError} />
+                <ErrorMessage message={emptySetError} />
               </Grid>
             </Grid>
             <Grid item xs={12} className={classes.buttoncontainer}>
