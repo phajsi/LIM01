@@ -17,11 +17,18 @@ class SavedSerializer(serializers.ModelSerializer):
         model = Saved
         fields = ('id', 'sets')
         owner = serializers.ReadOnlyField(source='owner.email')
-        title = serializers.CharField(source='title')
-        setOwner = serializers.CharField(source='name')
 
 
 class GetSavedSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+    setOwner = serializers.SerializerMethodField()
+
+    def get_title(self, obj):
+        return obj.sets.title
+
+    def get_setOwner(self, obj):
+        return obj.sets.owner.name
+
     class Meta:
         model = Completed
         fields = ('id', 'sets', 'title', 'setOwner')
@@ -47,11 +54,18 @@ class CompletedSerializer(serializers.ModelSerializer):
         model = Completed
         fields = ('id', 'sets', 'score')
         owner = serializers.ReadOnlyField(source='owner.email')
-        title = serializers.CharField(source='title')
-        setOwner = serializers.CharField(source='name')
 
 
 class GetCompletedSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+    setOwner = serializers.SerializerMethodField()
+
+    def get_title(self, obj):
+        return obj.sets.title
+
+    def get_setOwner(self, obj):
+        return obj.sets.owner.name
+
     class Meta:
         model = Completed
         fields = ('id', 'sets', 'score', 'title', 'setOwner')
