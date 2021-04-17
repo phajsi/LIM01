@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(() => ({
   searchBox: {
     margin: 'auto',
-    width: '40vw',
   },
   search: {
     backgroundColor: 'white',
