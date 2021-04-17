@@ -8,10 +8,8 @@ import {
   Button,
   Paper,
   Toolbar,
-  IconButton,
 } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
-import MenuIcon from '@material-ui/icons/Menu';
 import gingerMan from '../../assets/images/gingerMan.png';
 import capsMan from '../../assets/images/capsMan.png';
 import frenchMan from '../../assets/images/frenchMan.png';
@@ -25,7 +23,7 @@ import useStyles from './styles';
 import ProgressBar from '../../components/ProgressBar';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
-const Chat = ({ id, showFeedback, progress, possible }) => {
+const Chat = ({ id, showFeedback, progress, possible, restartSet }) => {
   const [sendericon, setSendericon] = useState();
   const [receivericon, setReceivericon] = useState();
   const [answerstate, setAnswerstate] = useState(null);
@@ -100,19 +98,14 @@ const Chat = ({ id, showFeedback, progress, possible }) => {
   return (
     <Paper className={classes.root}>
       <AppBar className={classes.navbar} position="static">
-        <ProgressBar progress={progress} possible={possible} />
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
+        <Toolbar component="nav" className={classes.toolbar}>
+          {restartSet()}
         </Toolbar>
       </AppBar>
       <Paper className={classes.layout} elevation={0}>
+        <div className={classes.progresscontainer}>
+          <ProgressBar progress={progress} possible={possible} />
+        </div>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Card className={classes.header}>

@@ -18,6 +18,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     color: 'black',
   },
+  toolbar: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
   chosenWords: {
     padding: theme.spacing(1),
     minHeight: '2.5em',
@@ -27,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
   },
   wordBtn: {
     textTransform: 'none',
+  },
+  progresscontainer: {
+    margin: theme.spacing(1),
   },
 }));
 

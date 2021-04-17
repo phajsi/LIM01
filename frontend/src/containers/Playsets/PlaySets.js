@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import Forstaelse from './Forstaelse/Forstaelse';
-import Chat from './Chat/Chat';
-import RyddeSetninger from './RyddeSetninger/RyddeSetninger';
-import Feedback from '../components/Feedback';
-import FinishedSet from './FinishedSet';
-import OverviewPage from './overviewPage/OverviewPage';
-import { axiosInstanceGet, axiosInstance } from '../helpers/ApiFunctions';
+import ReplayIcon from '@material-ui/icons/Replay';
+import Forstaelse from '../Forstaelse/Forstaelse';
+import Chat from '../Chat/Chat';
+import RyddeSetninger from '../RyddeSetninger/RyddeSetninger';
+import Feedback from '../../components/Feedback';
+import FinishedSet from '../FinishedSet';
+import OverviewPage from '../overviewPage/OverviewPage';
+import { axiosInstanceGet, axiosInstance } from '../../helpers/ApiFunctions';
+import useStyles from './styles';
 
 const PlaySets = () => {
   const location = useLocation();
@@ -31,6 +33,8 @@ const PlaySets = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
 
+  const classes = useStyles();
+
   // const onChange = (e) => setId(e.target.value);
 
   /**
@@ -41,6 +45,9 @@ const PlaySets = () => {
    * @param {*} sets a object containing sets from backend.
    */
   function createPlayList(sets) {
+    formDataExercises.chat.length = 0;
+    formDataExercises.forstaelse.length = 0;
+    formDataExercises.ryddeSetninger.length = 0;
     Object.entries(sets).forEach(([exercise, id]) => {
       if (exercise.substring(0, 4) === 'chat' && id) {
         formDataExercises.chat.push(id);
@@ -90,6 +97,8 @@ const PlaySets = () => {
         createPlayList(res.data);
         setTitle(res.data.title);
         setDescription(res.data.description);
+        setTotalScore(0);
+        setExerciseProgress(0);
         setStep('overview');
       })
       .catch((e) => {
@@ -116,6 +125,23 @@ const PlaySets = () => {
       .catch((e) => {
         return e;
       });
+  }
+
+  function restartSet() {
+    return (
+      <Grid>
+        <Button
+          className={classes.replaybutton}
+          startIcon={<ReplayIcon />}
+          onClick={() => {
+            getContent(id);
+            setStep('overview');
+          }}
+        >
+          Restart
+        </Button>
+      </Grid>
+    );
   }
 
   // only runs if an id is passed as state/props while redirected to this page. i.e search bar on front page
@@ -150,6 +176,7 @@ const PlaySets = () => {
           showFeedback={showFeedback}
           progress={exerciseProgress}
           possible={totalExercises}
+          restartSet={() => restartSet()}
         />
       );
     case 'chat':
@@ -159,6 +186,7 @@ const PlaySets = () => {
           showFeedback={showFeedback}
           progress={exerciseProgress}
           possible={totalExercises}
+          restartSet={() => restartSet()}
         />
       );
     case 'ryddeSetninger':
@@ -168,6 +196,7 @@ const PlaySets = () => {
           showFeedback={showFeedback}
           progress={exerciseProgress}
           possible={totalExercises}
+          restartSet={() => restartSet()}
         />
       );
     case 'feedback':

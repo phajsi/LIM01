@@ -31,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     color: 'black',
   },
+  toolbar: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
   menuButton: {
     marginRight: theme.spacing(2),
     float: 'right',
@@ -57,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
   },
   explanation: {
     margin: 'auto',
+  },
+  progresscontainer: {
+    margin: theme.spacing(1),
   },
 }));
 
