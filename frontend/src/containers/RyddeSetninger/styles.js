@@ -9,14 +9,17 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     margin: 'auto',
+    borderRadius: '15px',
   },
   layout: {
     backgroundColor: '#f5f5f5',
     padding: theme.spacing(2),
+    borderRadius: '15px',
   },
   navbar: {
     backgroundColor: 'white',
     color: 'black',
+    borderRadius: '15px 15px 0 0',
   },
   toolbar: {
     display: 'flex',

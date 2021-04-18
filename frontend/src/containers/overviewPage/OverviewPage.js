@@ -150,8 +150,8 @@ const OverviewPage = ({
         <Grid item xs={12}>
           {completed.completed && (
             <p className={classes.completedtext}>
-              Du har fullført dette settet med score
-              {completed.score}
+              Du har fullført dette settet med score:
+              {` ${completed.score}`}
             </p>
           )}
           <Grid item xs={12} className={classes.commentheader}>
