@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Button, Paper, TextField } from '@material-ui/core';
 import { reset_password } from '../../actions/auth';
 import useStyles from './styles';
 
@@ -29,20 +30,30 @@ const ResetPassword = ({ reset_password }) => {
 
   return (
     <div className={classes.root}>
-      <h1>Request Password Reset:</h1>
-      <form onSubmit={(e) => onSubmit(e)}>
-        <div>
-          <input
+      <Paper className={classes.infoBox}>
+        <h2>Request Password Reset:</h2>
+        <form onSubmit={(e) => onSubmit(e)}>
+          <TextField
             type="email"
             placeholder="Email"
             name="email"
+            variant="outlined"
             value={email}
             onChange={(e) => onChange(e)}
+            fullWidth
             required
           />
-        </div>
-        <button type="submit">Reset Password</button>
-      </form>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            fullWidth
+            className={classes.button}
+          >
+            Reset Password
+          </Button>
+        </form>
+      </Paper>
     </div>
   );
 };
