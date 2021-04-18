@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Button } from '@material-ui/core';
+import { Button, Paper, TextField } from '@material-ui/core';
 import { reset_password_confirm } from '../../actions/auth';
 import useStyles from './styles';
 
@@ -34,33 +34,41 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
 
   return (
     <div className={classes.root}>
-      <form onSubmit={(e) => onSubmit(e)}>
-        <div>
-          <input
+      <Paper className={classes.infoBox}>
+        <form onSubmit={(e) => onSubmit(e)}>
+          <TextField
             type="password"
             placeholder="New Password"
             name="new_password"
+            variant="outlined"
             value={new_password}
             onChange={(e) => onChange(e)}
             minLength="6"
+            fullWidth
             required
           />
-        </div>
-        <div>
-          <input
+          <TextField
             type="password"
             placeholder="Confirm New Password"
             name="re_new_password"
+            variant="outlined"
             value={re_new_password}
             onChange={(e) => onChange(e)}
             minLength="6"
+            fullWidth
             required
           />
-        </div>
-        <Button variant="contained" color="primary" type="submit">
-          Reset Password
-        </Button>
-      </form>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            className={classes.button}
+            fullWidth
+          >
+            Reset Password
+          </Button>
+        </form>
+      </Paper>
     </div>
   );
 };
