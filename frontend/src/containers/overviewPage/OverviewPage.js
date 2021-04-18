@@ -8,14 +8,22 @@ import {
   Card,
   CardContent,
   Typography,
+  IconButton,
+  InputAdornment,
+  Divider,
 } from '@material-ui/core';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import DeleteIcon from '@material-ui/icons/Delete';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import SendIcon from '@material-ui/icons/Send';
 import {
   axiosInstanceGet,
   axiosInstance,
   axiosInstanceDelete,
 } from '../../helpers/ApiFunctions';
+import topTriangle from '../../assets/images/topTriangle.SVG';
+import bottomTriangle from '../../assets/images/bottomTriangle.SVG';
 import useStyles from './style';
 import SaveIcon from '../../components/SaveIcon';
 import DeleteModal from '../../components/DeleteModal';
@@ -78,6 +86,10 @@ const OverviewPage = ({
       .then(() => {
         exerciseFeedback.length = 0;
         getContent();
+        setFormDataComment({
+          ...formDataComment,
+          comment: '',
+        });
       })
       .catch((e) => {
         return e;
@@ -110,48 +122,59 @@ const OverviewPage = ({
 
   return (
     <Paper className={classes.root}>
-      <Grid container spacing={3}>
+      <img src={topTriangle} alt="topTriangle" className={classes.triangle1} />
+      <Grid container>
         <Grid item xs={12} className={classes.infobox}>
-          <h1>{title}</h1>
-          <p>{description}</p>
+          <div className={classes.header}>
+            <h1 className={classes.headertitle}>{title}</h1>
+            {isAuthenticated && <SaveIcon id={id} />}
+          </div>
+          <Divider className={classes.divider} />
+          <Grid container>
+            <Grid item sm={9} xs={12}>
+              <p className={classes.description}>{description}</p>
+            </Grid>
+            <Grid item sm={3} xs={12} className={classes.buttongrid}>
+              <Button
+                className={classes.buttons}
+                variant="contained"
+                color="primary"
+                onClick={() => nextExercise()}
+              >
+                Spill
+                <PlayArrowIcon />
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
           {completed.completed && (
-            <p>
+            <p className={classes.completedtext}>
               Du har fullført dette settet med score
               {completed.score}
             </p>
           )}
-          <div>
-            <p>
-              <ThumbUpIcon />
-              {ratings.upvotes}
-              <ThumbDownIcon />
-              {ratings.downvotes}
-            </p>
-            {isAuthenticated && <SaveIcon id={id} />}
-          </div>
-        </Grid>
-        <Grid item xs={6} className={classes.buttons}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => nextExercise()}
-            fullWidth
-          >
-            Spill
-          </Button>
-        </Grid>
-        {isAuthenticated ? (
-          <Grid item xs={12} className={classes.makecomment}>
-            <h2>Legg igjen en kommentar!</h2>
-            <Grid item xs={12} className={classes.form}>
-              <p>{user && user.name}</p>
+          <Grid item xs={12} className={classes.commentheader}>
+            <h3>Kommentarer</h3>
+            <div className={classes.rating}>
+              <p>
+                <ThumbUpIcon />
+                {ratings.upvotes}
+                <ThumbDownIcon />
+                {ratings.downvotes}
+              </p>
+            </div>
+          </Grid>
+          {isAuthenticated ? (
+            <Grid item xs={12} className={classes.makecomment}>
               <TextField
                 className={classes.formfields}
                 name="comment"
                 multiline="true"
-                rows={5}
+                rows={1}
+                value={formDataComment.comment}
                 required
-                placeholder="Kommentar..."
+                placeholder="Skriv en kommentar..."
                 variant="outlined"
                 onChange={
                   (e) =>
@@ -161,52 +184,61 @@ const OverviewPage = ({
                     })
                   // eslint-disable-next-line react/jsx-curly-newline
                 }
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => onsubmitPostComment()}>
+                        <SendIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </Grid>
-            <Grid>
-              <Button variant="contained" onClick={() => onsubmitPostComment()}>
-                Send inn
-              </Button>
+          ) : (
+            <Grid item xs={12} className={classes.defaulttext}>
+              <p>
+                Du må være innlogget for å kunne kunne legge igen en kommentar
+                til dette settet.
+              </p>
             </Grid>
-          </Grid>
-        ) : (
-          <Grid item xs={12} className={classes.makecomment}>
-            <h2>Kommentarer...</h2>
-            <p>
-              Du må være innlogget for å kunne kunne legge igen en kommentar til
-              dette settet.
-            </p>
-          </Grid>
-        )}
-        <Grid item xs={12} className={classes.commentfield}>
-          {exerciseFeedback.length === 0 && (
-            <p>Det finnes ingen kommentarer for dette settet ennå</p>
           )}
+        </Grid>
+        <Grid item xs={12} className={classes.commentfield}>
+          {exerciseFeedback.length === 0 && <></>}
           {exerciseFeedback.map((comment) => {
             return (
               <Card className={classes.card}>
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {comment.name}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    {comment.comment}
-                  </Typography>
-                  {user && comment.name === user.name.toString() && (
-                    <Button
-                      variant="contained"
-                      onClick={() => {
-                        setDeleteId(comment.id);
-                        setOpen(true);
-                      }}
-                    >
-                      Slett
-                    </Button>
-                  )}
+                <CardContent className={classes.cardcontent}>
+                  <Grid container>
+                    <Grid item xs={2} className={classes.cardauthor}>
+                      <Typography variant="subtitle1">
+                        {comment.name}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={9} className={classes.textgrid}>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        className={classes.cardtext}
+                      >
+                        {comment.comment}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={1}>
+                      {user && comment.name === user.name.toString() && (
+                        <IconButton
+                          className={classes.iconbutton}
+                          onClick={() => {
+                            setDeleteId(comment.id);
+                            setOpen(true);
+                          }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      )}
+                    </Grid>
+                  </Grid>
                 </CardContent>
               </Card>
             );
@@ -220,6 +252,11 @@ const OverviewPage = ({
           />
         )}
       </Grid>
+      <img
+        src={bottomTriangle}
+        alt="bottomTriangle"
+        className={classes.triangle2}
+      />
     </Paper>
   );
 };
