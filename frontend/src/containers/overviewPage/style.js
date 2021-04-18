@@ -8,10 +8,13 @@ const useStyles = makeStyles((theme) => ({
   triangle1: {
     top: 0,
     left: 0,
+    maxWidth: '100vw',
   },
   triangle2: {
     bottom: 0,
     right: 0,
+    display: 'block',
+    maxWidth: '100vw',
   },
   infobox: {
     textlign: 'center',
@@ -31,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   header: {
     display: 'flex',
     flexDirection: 'row',
-    height: '50px',
+    minHeight: '50px',
     margin: 'auto 0 auto 0',
     justifyContent: 'center',
   },
