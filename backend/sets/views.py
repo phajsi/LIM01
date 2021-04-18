@@ -1,5 +1,5 @@
 from rest_framework import status, permissions
-from .serializers import SetsSerializer, SavedSerializer, CommentSerializer, RatingSerializer, CompletedSerializer, GetCompletedSerializer, GetSavedSerializer
+from .serializers import SetsSerializer, SavedSerializer, CommentSerializer, RatingSerializer, CompletedSerializer, GetSavedSerializer, GetCompletedSerializer
 from .models import Sets, Saved, Comment, Rating, Completed
 from accounts.models import UserAccount
 from rest_framework.views import APIView
@@ -68,12 +68,7 @@ class SavedView(APIView):
         data = JSONParser().parse(request)
         serializer = SavedSerializer(data=data)
         if serializer.is_valid():
-            getTitle = Sets.objects.values('title').get(pk=data['sets'])
-            getSetOwner = Sets.objects.values('owner').get(pk=data['sets'])
-            getUserName = UserAccount.objects.values(
-                'name').get(pk=getSetOwner['owner'])
-            serializer.save(owner=self.request.user,
-                            title=getTitle['title'], setOwner=getUserName['name'])
+            serializer.save(owner=self.request.user)
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
@@ -205,12 +200,7 @@ class CompletedView(APIView):
         data = JSONParser().parse(request)
         serializer = CompletedSerializer(data=data)
         if serializer.is_valid():
-            getTitle = Sets.objects.values('title').get(pk=data['sets'])
-            getSetOwner = Sets.objects.values('owner').get(pk=data['sets'])
-            getUserName = UserAccount.objects.values(
-                'name').get(pk=getSetOwner['owner'])
-            serializer.save(owner=self.request.user,
-                            title=getTitle['title'], setOwner=getUserName['name'])
+            serializer.save(owner=self.request.user)
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 

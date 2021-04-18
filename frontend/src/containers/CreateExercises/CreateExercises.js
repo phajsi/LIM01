@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-curly-newline */
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation, Redirect } from 'react-router-dom';
+import { useLocation, Redirect } from 'react-router-dom';
 import {
   Chip,
   Paper,
@@ -35,7 +35,6 @@ const CreateExercises = () => {
     title: '',
     description: '',
   });
-  const [playId, setPlayId] = useState(0);
   // keeps track of count to make sure no more than 5 of each are added.
   const [exerciseCounts, setExerciseCounts] = useState({ c: 0, f: 0, r: 0 });
   const [redirectHome, setRedirectHome] = useState(false);
@@ -179,8 +178,7 @@ const CreateExercises = () => {
     } else {
       axiosInstance()
         .post('/createsets/', formDataSet)
-        .then((response) => {
-          setPlayId(response.data.id);
+        .then(() => {
           setStep('confirmation');
         })
         .catch((e) => {
@@ -195,8 +193,7 @@ const CreateExercises = () => {
     }
     axiosInstance()
       .put(`/createsets/${formDataSet.id}`, formDataSet)
-      .then((response) => {
-        setPlayId(response.data.id);
+      .then(() => {
         setStep('confirmation');
       })
       .catch((e) => {
@@ -225,7 +222,7 @@ const CreateExercises = () => {
           <h1>Nytt sett</h1>
           <Grid container className={classes.gridcontainer}>
             <Grid item xs={12} className={classes.form}>
-              <p className={classes.formfieldname}>Tittel: </p>
+              <p className={classes.formfieldname}>Tittel:* </p>
               <TextField
                 name="title"
                 multiline
@@ -238,7 +235,7 @@ const CreateExercises = () => {
               />
             </Grid>
             <Grid item xs={12} className={classes.form}>
-              <p className={classes.formfieldname}>Beskrivelse: </p>
+              <p className={classes.formfieldname}>Beskrivelse:*</p>
               <TextField
                 name="description"
                 multiline="true"
@@ -252,7 +249,7 @@ const CreateExercises = () => {
               />
             </Grid>
             <Grid item md={5} xs={12} className={classes.menu}>
-              <h2>Legg til oppgavetyper</h2>
+              <h2>Legg til oppgavetyper *</h2>
               <MenuList>
                 <Grid className={classes.menugroup}>
                   <MenuItem
@@ -435,15 +432,11 @@ const CreateExercises = () => {
       );
     case 'confirmation':
       return (
-        <div>
-          <h1>
-            Takk! Settet kan spilles med id:
-            {playId}
-          </h1>
-          <Link to="/home" className={classes.title}>
-            Hjemmeside
-          </Link>
-        </div>
+        <Redirect
+          to={{
+            pathname: '/home',
+          }}
+        />
       );
     default:
       return <> </>;
