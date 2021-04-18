@@ -124,10 +124,10 @@ const CreateRyddeSetninger = ({
           <Form className={classes.form}>
             <Grid container spacing={3}>
               <Grid item xs={6}>
-                <h3>Skriv inn ord i rekkefølge for å lage en setning:</h3>
+                <h3>Skriv inn ord i rekkefølge for å lage en setning: *</h3>
               </Grid>
               <Grid item xs={6}>
-                <h3>Velg tilhørende ordklasse:</h3>
+                <h3>Velg ordklassen ordet tilhører:</h3>
               </Grid>
               {words > 0 &&
                 [...Array(words).keys()].map((el) => {
@@ -148,31 +148,49 @@ const CreateRyddeSetninger = ({
                   );
                 })}
             </Grid>
-            {words < 10 && (
-              <Fab
-                className={classes.innerMargin}
-                size="small"
-                onClick={() => addWords(words + 1)}
+            <Grid />
+            <div className={classes.addIcon}>
+              {words > 3 && (
+                <Fab
+                  className={classes.innerMargin}
+                  size="small"
+                  onClick={() => {
+                    setFieldValue(`word${words}`, '', false);
+                    setFieldValue(`wordClass${words}`, '', false);
+                    addWords(words - 1);
+                  }}
+                  variant="contained"
+                >
+                  <RemoveIcon />
+                </Fab>
+              )}
+              {words < 10 && (
+                <Fab
+                  className={classes.innerMargin}
+                  size="small"
+                  onClick={() => addWords(words + 1)}
+                  variant="contained"
+                >
+                  <AddIcon />
+                </Fab>
+              )}
+            </div>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="flex-start"
+            >
+              <Button
                 variant="contained"
-              >
-                <AddIcon />
-              </Fab>
-            )}
-            {words > 3 && (
-              <Fab
-                className={classes.innerMargin}
-                size="small"
+                color="secondary"
+                className={classes.button}
                 onClick={() => {
-                  setFieldValue(`word${words}`, '', false);
-                  setFieldValue(`wordClass${words}`, '', false);
-                  addWords(words - 1);
+                  onGoBack();
                 }}
-                variant="contained"
               >
-                <RemoveIcon />
-              </Fab>
-            )}
-            <div className={classes.buttons}>
+                Tilbake
+              </Button>
               <Button
                 disabled={isSubmitting}
                 type="submit"
@@ -182,20 +200,10 @@ const CreateRyddeSetninger = ({
               >
                 Opprett
               </Button>
-            </div>
+            </Grid>
           </Form>
         )}
       </Formik>
-      <Button
-        variant="contained"
-        color="secondary"
-        className={classes.button}
-        onClick={() => {
-          onGoBack();
-        }}
-      >
-        Tilbake
-      </Button>
       {showModal && (
         <InfoModal showModal={showModal} setShowModal={setShowModal} />
       )}

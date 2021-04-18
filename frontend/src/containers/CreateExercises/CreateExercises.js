@@ -222,7 +222,7 @@ const CreateExercises = () => {
           <h1>Nytt sett</h1>
           <Grid container className={classes.gridcontainer}>
             <Grid item xs={12} className={classes.form}>
-              <p className={classes.formfieldname}>Tittel: </p>
+              <p className={classes.formfieldname}>Tittel:* </p>
               <TextField
                 name="title"
                 multiline
@@ -235,7 +235,7 @@ const CreateExercises = () => {
               />
             </Grid>
             <Grid item xs={12} className={classes.form}>
-              <p className={classes.formfieldname}>Beskrivelse: </p>
+              <p className={classes.formfieldname}>Beskrivelse:*</p>
               <TextField
                 name="description"
                 multiline="true"
@@ -249,7 +249,7 @@ const CreateExercises = () => {
               />
             </Grid>
             <Grid item md={5} xs={12} className={classes.menu}>
-              <h2>Legg til oppgavetyper</h2>
+              <h2>Legg til oppgavetyper *</h2>
               <MenuList>
                 <Grid className={classes.menugroup}>
                   <MenuItem
