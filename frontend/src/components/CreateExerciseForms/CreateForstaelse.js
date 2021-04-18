@@ -109,7 +109,7 @@ const CreateForstaelse = ({
                 return (
                   <>
                     <h2>
-                      Oppgave
+                      Team
                       {el + 1}
                     </h2>
                     <Grid item xs={12}>
@@ -160,7 +160,22 @@ const CreateForstaelse = ({
                 </Fab>
               )}
             </div>
-            <div className={classes.buttons}>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="flex-start"
+            >
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.button}
+                onClick={() => {
+                  onGoBack();
+                }}
+              >
+                Tilbake
+              </Button>
               <Button
                 disabled={isSubmitting}
                 type="submit"
@@ -168,22 +183,12 @@ const CreateForstaelse = ({
                 color="primary"
                 className={classes.button}
               >
-                Continue
+                Opprett
               </Button>
-            </div>
+            </Grid>
           </Form>
         )}
       </Formik>
-      <Button
-        variant="contained"
-        color="secondary"
-        className={classes.button}
-        onClick={() => {
-          onGoBack();
-        }}
-      >
-        Tilbake
-      </Button>
       {showModal && (
         <InfoModal showModal={showModal} setShowModal={setShowModal} />
       )}
