@@ -194,6 +194,7 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
               {taskAmount > 1 && (
                 <Fab
                   className={classes.innerMargin}
+                  color="secondary"
                   size="small"
                   onClick={() => {
                     setFieldValue(`chatquestion${taskAmount}`, '', false);
@@ -211,6 +212,7 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                 <Fab
                   className={classes.innerMargin}
                   size="small"
+                  color="secondary"
                   onClick={() => setTaskAmount(taskAmount + 1)}
                   variant="contained"
                 >
@@ -226,8 +228,6 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
             >
               <Button
                 variant="outlined"
-                color="secondary"
-                className={classes.button}
                 onClick={() => {
                   onGoBack();
                 }}
@@ -239,7 +239,6 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                 type="submit"
                 variant="contained"
                 color="primary"
-                className={classes.button}
               >
                 Opprett
               </Button>

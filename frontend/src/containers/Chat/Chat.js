@@ -138,7 +138,7 @@ const Chat = ({ id, showFeedback, progress, possible, restartSet }) => {
                   className={classes.btn}
                 >
                   <Button
-                    style={{ borderRadius: '25px', color: 'white' }}
+                    style={{ borderRadius: '25px' }}
                     id={1}
                     onClick={() =>
                       // eslint-disable-next-line prettier/prettier

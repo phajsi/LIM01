@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#367051',
     fontWeight: '600',
     float: 'right',
-    margin: theme.spacing(1),
+    padding: theme.spacing(1),
     textDecoration: 'none',
     '&:hover': {
       backgroundColor: '#47956A',

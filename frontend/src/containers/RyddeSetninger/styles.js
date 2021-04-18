@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
   wordBtn: {
     textTransform: 'none',
     fontWeight: 'normal',
+    '&:hover': {
+      color: 'black',
+    },
   },
   progresscontainer: {
     margin: theme.spacing(1),

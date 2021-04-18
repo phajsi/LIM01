@@ -40,9 +40,6 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
     float: 'right',
   },
-  btn: {
-    color: 'white',
-  },
   progresscontainer: {
     margin: theme.spacing(1),
   },
