@@ -22,6 +22,16 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-end',
   },
+  cardcontent: {
+    display: 'flex',
+    padding: theme.spacing(1),
+    '&:last-child': {
+      paddingBottom: theme.spacing(1),
+    },
+  },
+  audiotext: {
+    margin: 'auto 0 auto 0',
+  },
   chosenWords: {
     padding: theme.spacing(1),
     minHeight: '2.5em',
