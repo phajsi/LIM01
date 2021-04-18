@@ -5,18 +5,28 @@ import {
   Button,
   Card,
   Grid,
-  CardHeader,
+  CardContent,
+  Typography,
   Toolbar,
   Paper,
+  IconButton,
 } from '@material-ui/core';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
+import forsaudio from '../../assets/audiofiles/forstaelseVoice.mp3';
 import useStyles from './styles';
 import ProgressBar from '../../components/ProgressBar';
 import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
-const Forstaelse = ({ id, showFeedback, progress, possible, restartSet }) => {
+const Forstaelse = ({
+  id,
+  showFeedback,
+  progress,
+  possible,
+  restartSet,
+  playAudio,
+}) => {
   const classes = useStyles();
 
   const [formData, setFormData] = useState({});
@@ -24,6 +34,8 @@ const Forstaelse = ({ id, showFeedback, progress, possible, restartSet }) => {
   const [taskStep, setTaskStep] = useState(1);
   const [score, setScore] = useState(0);
   const [totalPossibleScore, setTotalPossibeScore] = useState(0);
+
+  const [disabled, setDisabled] = useState(false);
 
   function getContent() {
     axiosInstanceGet()
@@ -56,6 +68,14 @@ const Forstaelse = ({ id, showFeedback, progress, possible, restartSet }) => {
     }
   };
 
+  function fireAudio() {
+    setDisabled(true);
+    playAudio(forsaudio);
+    setTimeout(() => {
+      setDisabled(false);
+    }, 4000);
+  }
+
   useEffect(() => {
     getContent();
   }, []);
@@ -74,10 +94,18 @@ const Forstaelse = ({ id, showFeedback, progress, possible, restartSet }) => {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Card className={classes.header}>
-              <CardHeader
-                avatar={<VolumeUpIcon />}
-                title="Les hva meldingen sier. Svar på spørsmålet"
-              />
+              <CardContent className={classes.cardcontent}>
+                <IconButton onClick={() => fireAudio()} disabled={disabled}>
+                  <VolumeUpIcon />
+                </IconButton>
+                <Typography
+                  variant="body2"
+                  component="p"
+                  className={classes.audiotext}
+                >
+                  Les hva meldingen sier. Svar på spørsmålet.
+                </Typography>
+              </CardContent>
             </Card>
           </Grid>
           <ChatBubble chat={formData[`chat${taskStep}`]} />

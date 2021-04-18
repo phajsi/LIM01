@@ -34,6 +34,16 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-end',
   },
+  cardcontent: {
+    display: 'flex',
+    padding: theme.spacing(1),
+    '&:last-child': {
+      paddingBottom: theme.spacing(1),
+    },
+  },
+  audiotext: {
+    margin: 'auto 0 auto 0',
+  },
   menuButton: {
     marginRight: theme.spacing(2),
     float: 'right',

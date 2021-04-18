@@ -4,13 +4,16 @@ import React, { useState, useEffect } from 'react';
 import {
   AppBar,
   Card,
-  CardHeader,
+  CardContent,
+  Typography,
   Grid,
   Toolbar,
   Paper,
   Button,
+  IconButton,
 } from '@material-ui/core';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import ryddaudio from '../../assets/audiofiles/ryddeSetningerVoice.mp3';
 import ProgressBar from '../../components/ProgressBar';
 import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
@@ -22,6 +25,7 @@ const RyddeSetninger = ({
   progress,
   possible,
   restartSet,
+  playAudio,
 }) => {
   const classes = useStyles();
 
@@ -36,6 +40,8 @@ const RyddeSetninger = ({
   const [disableButton, setDisableButton] = useState(false);
   const [score, setScore] = useState(0);
   const [totalPossibleScore, setTotalPossibeScore] = useState(0);
+
+  const [disabled, setDisabled] = useState(false);
 
   let concatenatedWords = [];
   let counter = 0;
@@ -141,6 +147,14 @@ const RyddeSetninger = ({
     showFeedback(score, totalPossibleScore);
   };
 
+  function fireAudio() {
+    setDisabled(true);
+    playAudio(ryddaudio);
+    setTimeout(() => {
+      setDisabled(false);
+    }, 6000);
+  }
+
   useEffect(() => {
     getContent();
   }, []);
@@ -159,11 +173,19 @@ const RyddeSetninger = ({
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Card>
-              <CardHeader
-                avatar={<VolumeUpIcon />}
-                title="Trykk på ordene sånn at de kommer i
-                 riktig rekkefølge. Husk å sjeekke tegnsettingen!"
-              />
+              <CardContent className={classes.cardcontent}>
+                <IconButton onClick={() => fireAudio()} disabled={disabled}>
+                  <VolumeUpIcon />
+                </IconButton>
+                <Typography
+                  variant="body2"
+                  component="p"
+                  className={classes.audiotext}
+                >
+                  Trykk på ordene sånn at de kommer i riktig rekkefølge. Husk å
+                  sjekke tegnsettingen!
+                </Typography>
+              </CardContent>
             </Card>
           </Grid>
           <Grid item xs={12}>
