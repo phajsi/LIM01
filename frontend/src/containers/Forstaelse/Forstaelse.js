@@ -27,7 +27,6 @@ const Forstaelse = ({
   restartSet,
   playAudio,
 }) => {
-  
   const classes = useStyles();
 
   const [formData, setFormData] = useState({});
@@ -36,10 +35,7 @@ const Forstaelse = ({
   const [score, setScore] = useState(0);
   const [totalPossibleScore, setTotalPossibeScore] = useState(0);
 
-
   const [disabled, setDisabled] = useState(false);
-
-  const classes = useStyles();
 
   function getContent() {
     axiosInstanceGet()
