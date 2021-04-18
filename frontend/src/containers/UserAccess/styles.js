@@ -18,12 +18,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     marginLeft: 0,
   },
-  secondaryButton: {
-    margin: theme.spacing(1),
-    marginLeft: 0,
-    backgroundColor: 'gray',
-    color: 'white',
-  },
   headline: {
     textAlign: 'center',
   },

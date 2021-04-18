@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   wordBtn: {
     textTransform: 'none',
+    fontWeight: 'normal',
   },
   progresscontainer: {
     margin: theme.spacing(1),

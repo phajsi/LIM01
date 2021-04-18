@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Button } from '@material-ui/core';
 import { reset_password_confirm } from '../../actions/auth';
 import useStyles from './styles';
 
@@ -56,7 +57,9 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
             required
           />
         </div>
-        <button type="submit">Reset Password</button>
+        <Button variant="contained" color="primary" type="submit">
+          Reset Password
+        </Button>
       </form>
     </div>
   );

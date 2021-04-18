@@ -114,7 +114,7 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
           />
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             type="submit"
             fullWidth
             className={classes.button}
@@ -132,10 +132,10 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
             <Button
               component={Link}
               to="/signup"
-              variant="contained"
+              variant="outlined"
               fullWidth
               size="small"
-              className={classes.secondaryButton}
+              className={classes.button}
             >
               Registrering
             </Button>
@@ -149,10 +149,10 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
             <Button
               component={Link}
               to="/reset-password"
-              variant="contained"
+              variant="outlined"
               fullWidth
               size="small"
-              className={classes.secondaryButton}
+              className={classes.button}
             >
               Bytt passord
             </Button>

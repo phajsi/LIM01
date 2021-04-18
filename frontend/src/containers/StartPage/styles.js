@@ -23,6 +23,11 @@ const useStyles = makeStyles((theme) => ({
     float: 'right',
     margin: theme.spacing(1),
     textDecoration: 'none',
+    '&:hover': {
+      backgroundColor: '#47956A',
+      color: 'white',
+      borderRadius: '15px',
+    },
   },
   right: {
     flex: 1,

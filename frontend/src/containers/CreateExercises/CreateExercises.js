@@ -377,7 +377,7 @@ const CreateExercises = () => {
                 <Button
                   className={classes.buttons}
                   variant="contained"
-                  color="secondary"
+                  color="primary"
                   onClick={() => {
                     if (location.state?.editSet) {
                       onSubmitPutSet();

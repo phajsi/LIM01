@@ -133,7 +133,7 @@ const OverviewPage = ({
         <Grid item xs={6} className={classes.buttons}>
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             onClick={() => nextExercise()}
             fullWidth
           >

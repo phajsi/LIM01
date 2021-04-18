@@ -132,6 +132,8 @@ const PlaySets = () => {
       <Grid>
         <Button
           className={classes.replaybutton}
+          variant="outlined"
+          color="secondary"
           startIcon={<ReplayIcon />}
           onClick={() => {
             getContent(id);
@@ -209,7 +211,7 @@ const PlaySets = () => {
           />
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             onClick={() => nextExercise()}
             fullWidth
           >

@@ -182,7 +182,7 @@ const CreateRyddeSetninger = ({
               alignItems="flex-start"
             >
               <Button
-                variant="contained"
+                variant="outlined"
                 color="secondary"
                 className={classes.button}
                 onClick={() => {

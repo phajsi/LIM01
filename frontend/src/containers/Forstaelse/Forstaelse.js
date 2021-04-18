@@ -91,8 +91,8 @@ const Forstaelse = ({ id, showFeedback, progress, possible, restartSet }) => {
               <Grid item xs={6}>
                 <Button
                   onClick={() => onClickAnswer('true')}
-                  variant="contained"
-                  color="primary"
+                  variant="outlined"
+                  color="secondary"
                   fullWidth
                 >
                   JA
@@ -101,8 +101,8 @@ const Forstaelse = ({ id, showFeedback, progress, possible, restartSet }) => {
               <Grid item xs={6}>
                 <Button
                   onClick={() => onClickAnswer('false')}
-                  variant="contained"
-                  color="primary"
+                  variant="outlined"
+                  color="secondary"
                   fullWidth
                 >
                   NEI
