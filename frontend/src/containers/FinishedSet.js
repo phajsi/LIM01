@@ -7,16 +7,25 @@ import IconButton from '@material-ui/core/IconButton';
 import { axiosInstance } from '../helpers/ApiFunctions';
 import SaveIcon from '../components/SaveIcon';
 import happyPickle from '../assets/images/happyPickle.png';
+import mariusPickle from '../assets/images/mariusPickle.png';
 
 const useStyles = makeStyles({
   root: {
     maxWidth: 800,
     margin: 'auto',
-    background: 'transparent',
+    marginTop: 30,
+    background: 'antiquewhite',
+    padding: 30,
   },
   image: {
     maxWidth: 300,
     float: 'right',
+  },
+  text: {
+    maxWidth: 600,
+    marginBottom: 10,
+    float: 'center',
+    display: 'inline-block',
   },
 });
 
@@ -50,16 +59,34 @@ const FinishedSet = ({
       case 'over':
         return (
           <div>
-            <Typography variant="h3">Bra jobba!</Typography>
+            <div>
+              <Typography variant="h3" className={classes.text}>
+                Bra jobba!
+              </Typography>
+            </div>
+            <div>
+              <img
+                src={happyPickle}
+                alt="happy pickle"
+                className={classes.image}
+              />
+            </div>
+          </div>
+        );
+      case 'under':
+        return (
+          <div>
+            <Typography variant="h3" className={classes.text}>
+              Ikke værst!
+            </Typography>
             <img
-              src={happyPickle}
-              alt="happy pickle"
+              src={mariusPickle}
+              alt="Marius pickle"
+              width="100"
               className={classes.image}
             />
           </div>
         );
-      case 'under':
-        return <Typography variant="h3">Ikke værst!</Typography>;
       default:
         return <p>default</p>;
     }

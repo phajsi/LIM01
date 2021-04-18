@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import ReplayIcon from '@material-ui/icons/Replay';
@@ -206,27 +206,42 @@ const PlaySets = () => {
             totalScore={totalScore}
             totalExercises={totalExercises}
             feedbackState={feedbackState}
+            nextExercise={nextExercise}
           />
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => nextExercise()}
-            fullWidth
-          >
-            neste
-          </Button>
         </div>
       );
     case 'finish':
       return (
-        <FinishedSet
-          totalScore={totalScore}
-          totalExercises={totalExercises}
-          percentage={totalScore / totalExercises}
-          id={id}
-          completed={completed}
-          isAuthenticated={isAuthenticated}
-        />
+        <div>
+          <Grid container justify="center">
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => {
+                getContent(id);
+                setStep('overview');
+              }}
+            >
+              Til oversikten
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              component={Link}
+              to={isAuthenticated ? '/home' : '/'}
+            >
+              Hjem
+            </Button>
+          </Grid>
+          <FinishedSet
+            totalScore={totalScore}
+            totalExercises={totalExercises}
+            percentage={totalScore / totalExercises}
+            id={id}
+            completed={completed}
+            isAuthenticated={isAuthenticated}
+          />
+        </div>
       );
     default:
       return <p>default</p>;
