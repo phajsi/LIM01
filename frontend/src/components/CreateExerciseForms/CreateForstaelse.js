@@ -109,23 +109,26 @@ const CreateForstaelse = ({
                 return (
                   <>
                     <h2>
-                      Team
-                      {el + 1}
+                      Tema
+                      {` ${el + 1} `}
                     </h2>
                     <Grid item xs={12}>
-                      <p>Skriv chat meldingen her:</p>
+                      <p>
+                        Du skal sende en melding til en venn. Skriv meldingen
+                        her: *
+                      </p>
                       {formTextField(`chat${el + 1}`, touched, errors)}
                     </Grid>
                     <Grid item xs={12}>
-                      <p>Skriv et ja/nei spørsmål til chat meldingen:</p>
+                      <p>Skriv et ja/nei spørsmål med tanke på meldingen: *</p>
                       {formTextField(`question${el + 1}`, touched, errors)}
                     </Grid>
                     <Grid item xs={12}>
-                      <p>Velg om svaret er ja eller nei</p>
+                      <p>Velg om svaret på spørsmålet over er ja eller nei</p>
                       {formSelectField(`answer${el + 1}`, touched, errors)}
                     </Grid>
                     <Grid item xs={12}>
-                      <p>Skriv en forklaring til riktig svar</p>
+                      <p>Forklar hvorfor svaret er ja/nei: *</p>
                       {formTextField(`explanation${el + 1}`, touched, errors)}
                     </Grid>
                   </>

@@ -124,10 +124,10 @@ const CreateRyddeSetninger = ({
           <Form className={classes.form}>
             <Grid container spacing={3}>
               <Grid item xs={6}>
-                <h3>Skriv inn ord i rekkefølge for å lage en setning:</h3>
+                <h3>Skriv inn ord i rekkefølge for å lage en setning: *</h3>
               </Grid>
               <Grid item xs={6}>
-                <h3>Velg tilhørende ordklasse:</h3>
+                <h3>Velg ordklassen ordet tilhører:</h3>
               </Grid>
               {words > 0 &&
                 [...Array(words).keys()].map((el) => {
