@@ -12,28 +12,24 @@ const ProtectedRoute = ({
   ...rest
 }) => {
   checkAuthenticated();
-  let loggedIn = isAuthenticated;
-  if (localStorage.getItem('access')) {
-    loggedIn = true;
-  }
+  const loggedIn = isAuthenticated;
 
   return (
     <Route
       path={path}
       {...rest}
       render={(props) => {
-        return loggedIn ? (
-          <Comp {...props} />
-        ) : (
+        return loggedIn === false ? (
           <Redirect
             to={{
               pathname: '/login',
               state: {
                 prevLocation: path,
-                error: 'Du må logge inn for å få tilgang til den siden.',
               },
             }}
           />
+        ) : (
+          <Comp {...props} />
         );
       }}
     />

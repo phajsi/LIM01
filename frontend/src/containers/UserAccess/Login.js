@@ -56,20 +56,6 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
     return <></>;
   }
 
-  function unauthorizedError() {
-    if (location.state?.prevLocation === '/createexercise') {
-      return (
-        <ErrorMessage message="Du må logge inn for å kunne opprette oppgavesett." />
-      );
-    }
-    if (location.state?.prevLocation === '/home') {
-      return (
-        <ErrorMessage message="Du må logge inn for å få tilgang til hjemmesiden din." />
-      );
-    }
-    return <></>;
-  }
-
   if (isAuthenticated) {
     return location.state?.prevLocation ? (
       <Redirect to={location.state?.prevLocation} />
@@ -82,7 +68,6 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
     <div className={classes.root}>
       <Paper className={classes.infoBox}>
         <h1 className={classes.headline}>Logg inn</h1>
-        {unauthorizedError()}
         <form onSubmit={(e) => onSubmit(e)}>
           <TextField
             type="text"

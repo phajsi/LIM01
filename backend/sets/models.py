@@ -47,8 +47,6 @@ class Sets(models.Model):
 class Saved(models.Model):
     owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     sets = models.ForeignKey(Sets, on_delete=models.CASCADE)
-    title = models.CharField(max_length=50)
-    setOwner = models.CharField(max_length=30)
 
     class Meta:
         unique_together = ('owner', 'sets',)
@@ -75,8 +73,6 @@ class Completed(models.Model):
     owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     sets = models.ForeignKey(Sets, on_delete=models.CASCADE)
     score = models.CharField(max_length=3)
-    title = models.CharField(max_length=50)
-    setOwner = models.CharField(max_length=30)
 
     class Meta:
         unique_together = ('owner', 'sets',)
