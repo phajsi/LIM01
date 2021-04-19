@@ -1,5 +1,5 @@
 from rest_framework import status, permissions
-from .serializers import SetsSerializer, SavedSerializer, CommentSerializer, RatingSerializer, CompletedSerializer, GetSavedSerializer, GetCompletedSerializer
+from .serializers import SetsSerializer, GetSetsSerializer, SavedSerializer, CommentSerializer, RatingSerializer, CompletedSerializer, GetSavedSerializer, GetCompletedSerializer
 from .models import Sets, Saved, Comment, Rating, Completed
 from accounts.models import UserAccount
 from rest_framework.views import APIView
@@ -54,7 +54,7 @@ class ProtectedSetsView(APIView):
 class UserSetsView(APIView):
     def get(self, request):
         getSet = Sets.objects.filter(owner=self.request.user)
-        serializer = SetsSerializer(getSet, many=True)
+        serializer = GetSetsSerializer(getSet, many=True)
         return JsonResponse(serializer.data, safe=False)
 
 
