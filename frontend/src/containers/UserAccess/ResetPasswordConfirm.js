@@ -36,19 +36,18 @@ const ResetPasswordConfirm = ({
   };
 
   function errorHandling() {
-    if (passwordReset === 400) {
+    if (passwordReset === true && submit) {
+      return <Redirect to="/login" />;
+    }
+    if (passwordReset === 400 && submit) {
       return (
-        <ErrorMessage message="Noe gikk galt! Pass på at passordet har 8 tegn, en stor og liten bokstav samt et tall. Passordfeltene må være lik hverandre og du kan ikke velge et passord som er for vanlig eller ligner på brukernavnet ditt." />
+        <ErrorMessage message="Passordet ble ikke godkjent! Pass på at passordet møter kravene: minst 8 tegn, minst en stor og liten bokstav, minst et tall, passordet kan ikke være for vanlig eller for likt brukernavnet ditt." />
       );
     }
-    if (typeof passwordReset === 'number' && passwordReset === 400) {
+    if (typeof passwordReset === 'number' && passwordReset !== 400 && submit) {
       return <ErrorMessage message="Noe gikk galt! Prøv igjen senere." />;
     }
     return <></>;
-  }
-
-  if (passwordReset === true && submit) {
-    return <Redirect to="/login" />;
   }
 
   return (
