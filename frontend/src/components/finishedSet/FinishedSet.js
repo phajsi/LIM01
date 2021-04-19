@@ -1,24 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Paper, Grid, Typography } from '@material-ui/core';
+import { Paper, Grid, Typography, Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import { axiosInstance } from '../helpers/ApiFunctions';
-import SaveIcon from '../components/SaveIcon';
-import happyPickle from '../assets/images/happyPickle.png';
-
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 800,
-    margin: 'auto',
-    background: 'transparent',
-  },
-  image: {
-    maxWidth: 300,
-    float: 'right',
-  },
-});
+import { axiosInstance } from '../../helpers/ApiFunctions';
+import SaveIcon from '../SaveIcon';
+import happyPickle from '../../assets/images/happyPickle.png';
+import finalSad from '../../assets/images/finalSad.png';
+import useStyles from './styles';
 
 const FinishedSet = ({
   totalScore,
@@ -27,11 +17,13 @@ const FinishedSet = ({
   percentage,
   completed,
   isAuthenticated,
+  setSteps,
+  getContents,
 }) => {
+  const classes = useStyles();
+
   const [rating, setRating] = useState({ rating: null });
   const [step, setStep] = useState('');
-
-  const classes = useStyles();
 
   function getContent() {
     axiosInstance()
@@ -50,16 +42,34 @@ const FinishedSet = ({
       case 'over':
         return (
           <div>
-            <Typography variant="h3">Bra jobba!</Typography>
+            <div>
+              <Typography variant="h3" className={classes.text}>
+                Bra jobba!
+              </Typography>
+            </div>
+            <div>
+              <img
+                src={happyPickle}
+                alt="happy pickle"
+                className={classes.image}
+              />
+            </div>
+          </div>
+        );
+      case 'under':
+        return (
+          <div>
+            <Typography variant="h3" className={classes.text}>
+              Ikke værst!
+            </Typography>
             <img
-              src={happyPickle}
-              alt="happy pickle"
+              src={finalSad}
+              alt="Final sad pickle"
+              width="100"
               className={classes.image}
             />
           </div>
         );
-      case 'under':
-        return <Typography variant="h3">Ikke værst!</Typography>;
       default:
         return <p>default</p>;
     }
@@ -118,6 +128,23 @@ const FinishedSet = ({
       });
   }
 
+  function restartSet() {
+    return (
+      <Grid>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            getContents(id);
+            setSteps('overview');
+          }}
+        >
+          Til oversikten
+        </Button>
+      </Grid>
+    );
+  }
+
   return (
     <Paper elevation={0} className={classes.root}>
       {switchStep()}
@@ -153,6 +180,16 @@ const FinishedSet = ({
           </Grid>
         </>
       )}
+      <Grid container justify="center">
+        {restartSet()}
+        <Button
+          variant="outlined"
+          component={Link}
+          to={isAuthenticated ? '/home' : '/'}
+        >
+          Hjem
+        </Button>
+      </Grid>
     </Paper>
   );
 };

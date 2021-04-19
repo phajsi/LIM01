@@ -1,27 +1,15 @@
 import React from 'react';
-import { Paper, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import happyPickle from '../assets/images/happyPickle.png';
+import { Paper, Typography, Button, Grid } from '@material-ui/core';
+import useStyles from './styles';
+import sadPickle from '../../assets/images/sadPickle.png';
+import mariusPickle from '../../assets/images/mariusPickle.png';
 
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 900,
-    margin: 'auto',
-    float: 'center',
-    backgroundColor: 'transparent',
-  },
-  image: {
-    maxWidth: 300,
-    float: 'right',
-  },
-  text: {
-    maxWidth: 700,
-    float: 'center',
-    display: 'inline-block',
-  },
-});
-
-const Feedback = ({ totalScore, totalExercises, feedbackState }) => {
+const Feedback = ({
+  totalScore,
+  totalExercises,
+  feedbackState,
+  nextExercise,
+}) => {
   const classes = useStyles();
 
   switch (feedbackState) {
@@ -30,8 +18,8 @@ const Feedback = ({ totalScore, totalExercises, feedbackState }) => {
         <Paper elevation={0} className={classes.root}>
           <div>
             <img
-              src={happyPickle}
-              alt="happy pickle"
+              src={mariusPickle}
+              alt="Marius pickle"
               className={classes.image}
             />
             <Typography variant="h2" className={classes.text}>
@@ -45,13 +33,22 @@ const Feedback = ({ totalScore, totalExercises, feedbackState }) => {
               {` ${totalExercises} `}
               mulige!
             </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => nextExercise()}
+              fullWidth
+            >
+              Spill neste øvelse
+            </Button>
           </div>
         </Paper>
       );
     case false:
       return (
         <Paper elevation={0} className={classes.root}>
-          <div>
+          <Grid>
+            <img src={sadPickle} alt="sad pickle" className={classes.image} />
             <Typography variant="h2" className={classes.text}>
               Bedre lykke neste gang!
             </Typography>
@@ -63,7 +60,15 @@ const Feedback = ({ totalScore, totalExercises, feedbackState }) => {
               {` ${totalExercises} `}
               mulige!
             </Typography>
-          </div>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => nextExercise()}
+              fullWidth
+            >
+              Spill neste øvelse
+            </Button>
+          </Grid>
         </Paper>
       );
     default:
@@ -71,13 +76,7 @@ const Feedback = ({ totalScore, totalExercises, feedbackState }) => {
         <Paper className={classes.root}>
           <div>
             <Typography variant="h4" className={classes.text}>
-              <br />
-              Poengsummen din er
-              {` ${totalScore} `}
-              <br />
-              Av totalt
-              {` ${totalExercises} `}
-              mulige!
+              Noe gikk galt
             </Typography>
           </div>
         </Paper>
