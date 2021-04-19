@@ -6,19 +6,23 @@ const exerciseStyles = makeStyles((theme) => ({
     maxWidth: theme.spacing(62),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
     margin: 'auto',
     marginTop: 0,
     borderRadius: '15px',
-    maxHeight: '600px',
+    maxHeight: '80vh',
+    [theme.breakpoints.down('xs')]: {
+      maxHeight: '90vh',
+    },
+  },
+  topContent: {
+    padding: theme.spacing(2),
   },
   layout: {
     backgroundColor: '#F5F5F5',
-    marginBottom: theme.spacing(1),
+    margin: theme.spacing(1),
     padding: theme.spacing(2),
-  },
-  header: {
-    marginBottom: theme.spacing(3),
+    overflow: 'hidden',
+    overflowY: 'scroll',
   },
   navbar: {
     margin: 0,
@@ -33,10 +37,6 @@ const exerciseStyles = makeStyles((theme) => ({
   },
   cardcontent: {
     display: 'flex',
-    padding: theme.spacing(1),
-    '&:last-child': {
-      paddingBottom: theme.spacing(1),
-    },
   },
   audiotext: {
     margin: 'auto 0 auto 0',

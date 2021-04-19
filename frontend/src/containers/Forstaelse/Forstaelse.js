@@ -90,33 +90,32 @@ const Forstaelse = ({
           {restartSet()}
         </Toolbar>
       </AppBar>
-      <Paper className={classes.layout} elevation={0}>
+      <div className={classes.topContent}>
         <div className={classes.progresscontainer}>
           <ProgressBar progress={progress} possible={possible} />
         </div>
+        <Card>
+          <CardContent className={classes.cardcontent}>
+            <IconButton onClick={() => fireAudio()} disabled={disabled}>
+              <VolumeUpIcon />
+            </IconButton>
+            <Typography
+              variant="body2"
+              component="p"
+              className={classes.audiotext}
+            >
+              Les hva meldingen sier. Svar på spørsmålet.
+            </Typography>
+          </CardContent>
+        </Card>
+      </div>
+      <Paper className={classes.layout} elevation={0}>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Card className={classes.header}>
-              <CardContent className={classes.cardcontent}>
-                <IconButton onClick={() => fireAudio()} disabled={disabled}>
-                  <VolumeUpIcon />
-                </IconButton>
-                <Typography
-                  variant="body2"
-                  component="p"
-                  className={classes.audiotext}
-                >
-                  Les hva meldingen sier. Svar på spørsmålet.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
           <ChatBubble chat={formData[`chat${taskStep}`]} />
           <Grid className={classes.gridText} item xs={12}>
             <hr />
             <p className={classes.text}>{formData[`question${taskStep}`]}</p>
           </Grid>
-
           {answerState === null && (
             <>
               <Grid item xs={6}>

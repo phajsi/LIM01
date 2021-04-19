@@ -169,30 +169,30 @@ const RyddeSetninger = ({
           {restartSet()}
         </Toolbar>
       </AppBar>
-      <Paper className={classes.layout} elevation={0}>
+      <div className={classes.topContent}>
         <div className={classes.progresscontainer}>
           <ProgressBar progress={progress} possible={possible} />
         </div>
+        <Card>
+          <CardContent className={classes.cardcontent}>
+            <IconButton onClick={() => fireAudio()} disabled={disabled}>
+              <VolumeUpIcon />
+            </IconButton>
+            <Typography
+              variant="body2"
+              component="p"
+              className={classes.audiotext}
+            >
+              Trykk på ordene sånn at de kommer i riktig rekkefølge. Husk å
+              sjekke tegnsettingen!
+            </Typography>
+          </CardContent>
+        </Card>
+      </div>
+      <Paper className={classes.layout} elevation={0}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Card>
-              <CardContent className={classes.cardcontent}>
-                <IconButton onClick={() => fireAudio()} disabled={disabled}>
-                  <VolumeUpIcon />
-                </IconButton>
-                <Typography
-                  variant="body2"
-                  component="p"
-                  className={classes.audiotext}
-                >
-                  Trykk på ordene sånn at de kommer i riktig rekkefølge. Husk å
-                  sjekke tegnsettingen!
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12}>
-            <div>
+            <div style={{ alignSelf: 'center' }}>
               {wordWithColorCode.map((el, index) => (
                 <Button
                   id={index}
