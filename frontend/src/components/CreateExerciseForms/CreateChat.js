@@ -15,6 +15,8 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import InfoIcon from '@material-ui/icons/Info';
 import RemoveIcon from '@material-ui/icons/Remove';
+import ClearIcon from '@material-ui/icons/Clear';
+import CheckIcon from '@material-ui/icons/Check';
 import gingerMan from '../../assets/images/gingerMan.png';
 import capsMan from '../../assets/images/capsMan.png';
 import frenchMan from '../../assets/images/frenchMan.png';
@@ -121,7 +123,6 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
       >
         {({ errors, touched, setFieldValue, isSubmitting }) => (
           <Form className={classes.form}>
-            <h2> Tema 1 </h2>
             <Grid container spacing={3}>
               <Grid item xs={6}>
                 <p>Hvem sender meldingen? </p>
@@ -145,21 +146,45 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                       Tema
                       {el + 1}
                     </h2>
-                    <Grid item xs={12}>
-                      <p>Skriv spørsmålet her: </p>
-                      {formTextField(`chatquestion${el + 1}`, touched, errors)}
-                    </Grid>
-                    <Grid item xs={12}>
-                      <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
-                      {formTextField(`answer${el + 1}1`, touched, errors)}
-                    </Grid>
-                    <Grid item xs={12}>
-                      <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
-                      {formTextField(`answer${el + 1}2`, touched, errors)}
-                    </Grid>
-                    <Grid item xs={12}>
-                      <p>Skriv svaralternativ 3 her (Korrekt alternativ): </p>
-                      {formTextField(`correctanswer${el + 1}`, touched, errors)}
+                    <Grid
+                      container
+                      direction="row"
+                      justify="space-between"
+                      alignItems="center"
+                    >
+                      <p>Skriv en melding i form av et spørsmål her: *</p>
+                      <Grid item xs={11}>
+                        {formTextField(
+                          `chatquestion${el + 1}`,
+                          touched,
+                          errors
+                        )}
+                      </Grid>
+                      <p>Skriv et FEIL svaralternativ til meldingen her: *</p>
+                      <Grid item xs={11}>
+                        {formTextField(`answer${el + 1}1`, touched, errors)}
+                      </Grid>
+                      <Grid>
+                        <ClearIcon />
+                      </Grid>
+                      <p>Skriv et FEIL svaralternativ til meldingen her: *</p>
+                      <Grid item xs={11}>
+                        {formTextField(`answer${el + 1}2`, touched, errors)}
+                      </Grid>
+                      <Grid>
+                        <ClearIcon />
+                      </Grid>
+                      <p>Skriv det RIKTIGE svaret til meldingen her: *</p>
+                      <Grid item xs={11}>
+                        {formTextField(
+                          `correctanswer${el + 1}`,
+                          touched,
+                          errors
+                        )}
+                      </Grid>
+                      <Grid>
+                        <CheckIcon />
+                      </Grid>
                     </Grid>
                   </>
                 );
@@ -193,7 +218,22 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                 </Fab>
               )}
             </div>
-            <div className={classes.buttons}>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="flex-start"
+            >
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.button}
+                onClick={() => {
+                  onGoBack();
+                }}
+              >
+                Tilbake
+              </Button>
               <Button
                 disabled={isSubmitting}
                 type="submit"
@@ -201,22 +241,12 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                 color="primary"
                 className={classes.button}
               >
-                Continue
+                Opprett
               </Button>
-            </div>
+            </Grid>
           </Form>
         )}
       </Formik>
-      <Button
-        variant="contained"
-        color="secondary"
-        className={classes.button}
-        onClick={() => {
-          onGoBack();
-        }}
-      >
-        Tilbake
-      </Button>
       {showModal && (
         <InfoModal showModal={showModal} setShowModal={setShowModal} />
       )}

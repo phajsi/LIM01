@@ -2,14 +2,17 @@ import React, { useEffect, useState } from 'react';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import {
   Card,
-  CardHeader,
+  CardContent,
+  Typography,
   Grid,
   ButtonGroup,
   Button,
   Paper,
   Toolbar,
+  IconButton,
 } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
+import chataudio from '../../assets/audiofiles/chatVoice.mp3';
 import gingerMan from '../../assets/images/gingerMan.png';
 import capsMan from '../../assets/images/capsMan.png';
 import frenchMan from '../../assets/images/frenchMan.png';
@@ -23,7 +26,14 @@ import useStyles from './styles';
 import ProgressBar from '../../components/ProgressBar';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
-const Chat = ({ id, showFeedback, progress, possible, restartSet }) => {
+const Chat = ({
+  id,
+  showFeedback,
+  progress,
+  possible,
+  restartSet,
+  playAudio,
+}) => {
   const [sendericon, setSendericon] = useState();
   const [receivericon, setReceivericon] = useState();
   const [answerstate, setAnswerstate] = useState(null);
@@ -31,6 +41,8 @@ const Chat = ({ id, showFeedback, progress, possible, restartSet }) => {
   const [score, setScore] = useState(0);
   const [totalPossibleScore, setTotalPossibeScore] = useState(0);
   const [chatHistory, setChatHistory] = useState([]);
+
+  const [disabled, setDisabled] = useState(false);
 
   const classes = useStyles();
 
@@ -91,6 +103,14 @@ const Chat = ({ id, showFeedback, progress, possible, restartSet }) => {
     chatHistory.push(answer);
   }
 
+  function fireAudio() {
+    setDisabled(true);
+    playAudio(chataudio);
+    setTimeout(() => {
+      setDisabled(false);
+    }, 6000);
+  }
+
   useEffect(() => {
     getContent();
   }, []);
@@ -109,10 +129,18 @@ const Chat = ({ id, showFeedback, progress, possible, restartSet }) => {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Card className={classes.header}>
-              <CardHeader
-                avatar={<VolumeUpIcon />}
-                title="Du har fått en melding! Trykk på det svaret som er riktig."
-              />
+              <CardContent className={classes.cardcontent}>
+                <IconButton onClick={() => fireAudio()} disabled={disabled}>
+                  <VolumeUpIcon />
+                </IconButton>
+                <Typography
+                  variant="body2"
+                  component="p"
+                  className={classes.audiotext}
+                >
+                  Du har fått en melding! Trykk på det svaret som er riktig.
+                </Typography>
+              </CardContent>
             </Card>
           </Grid>
           {chatHistory.map((chat, i) => {

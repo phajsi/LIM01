@@ -144,6 +144,10 @@ const PlaySets = () => {
     );
   }
 
+  function playAudio(url) {
+    new Audio(url).play();
+  }
+
   // only runs if an id is passed as state/props while redirected to this page. i.e search bar on front page
   useEffect(() => {
     if (location.state?.id && !redirected) {
@@ -177,6 +181,7 @@ const PlaySets = () => {
           progress={exerciseProgress}
           possible={totalExercises}
           restartSet={() => restartSet()}
+          playAudio={(url) => playAudio(url)}
         />
       );
     case 'chat':
@@ -187,6 +192,7 @@ const PlaySets = () => {
           progress={exerciseProgress}
           possible={totalExercises}
           restartSet={() => restartSet()}
+          playAudio={(url) => playAudio(url)}
         />
       );
     case 'ryddeSetninger':
@@ -197,6 +203,7 @@ const PlaySets = () => {
           progress={exerciseProgress}
           possible={totalExercises}
           restartSet={() => restartSet()}
+          playAudio={(url) => playAudio(url)}
         />
       );
     case 'feedback':
