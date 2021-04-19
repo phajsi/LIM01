@@ -9,6 +9,9 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid #000000',
     borderRadius: 5,
   },
+  image: {
+    maxWidth: theme.spacing(75),
+  },
 }));
 
 export default useStyles;
