@@ -1,23 +1,32 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 800,
+    maxWidth: theme.spacing(100),
     margin: 'auto',
-    marginTop: 30,
-    background: 'antiquewhite',
-    padding: 30,
+    marginTop: theme.spacing(3),
+    background: 'white',
+    padding: theme.spacing(2),
   },
-  image: {
-    maxWidth: 300,
+  happyImage: {
+    float: 'right',
+    [theme.breakpoints.up('sm')]: {
+      maxHeight: '50vh',
+    },
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '40vw',
+    },
+  },
+  sadImage: {
+    maxHeight: '50vh',
     float: 'right',
   },
   text: {
-    maxWidth: 600,
-    marginBottom: 10,
+    maxWidth: theme.spacing(78),
+    marginBottom: theme.spacing(1),
     float: 'center',
     display: 'inline-block',
   },
-});
+}));
 
 export default useStyles;

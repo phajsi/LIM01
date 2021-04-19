@@ -36,45 +36,6 @@ const FinishedSet = ({
       });
   }
 
-  /** The const will display different responces to different results from playing a set */
-  const switchStep = () => {
-    switch (step) {
-      case 'over':
-        return (
-          <div>
-            <div>
-              <Typography variant="h3" className={classes.text}>
-                Bra jobba!
-              </Typography>
-            </div>
-            <div>
-              <img
-                src={happyPickle}
-                alt="happy pickle"
-                className={classes.image}
-              />
-            </div>
-          </div>
-        );
-      case 'under':
-        return (
-          <div>
-            <Typography variant="h3" className={classes.text}>
-              Ikke værst!
-            </Typography>
-            <img
-              src={finalSad}
-              alt="Final sad pickle"
-              width="100"
-              className={classes.image}
-            />
-          </div>
-        );
-      default:
-        return <p>default</p>;
-    }
-  };
-
   function scoreState() {
     if (percentage < 0.75) {
       setStep('under');
@@ -145,10 +106,45 @@ const FinishedSet = ({
     );
   }
 
+  /** The const will display different responces to different results from playing a set */
+  const switchStep = () => {
+    switch (step) {
+      case 'over':
+        return (
+          <div>
+            <Typography variant="h3" className={classes.text}>
+              Bra jobba!
+            </Typography>
+            <img
+              src={happyPickle}
+              alt="happy pickle"
+              className={classes.happyImage}
+            />
+          </div>
+        );
+      case 'under':
+        return (
+          <div>
+            <Typography variant="h3" className={classes.text}>
+              Ikke værst!
+            </Typography>
+            <img
+              src={finalSad}
+              alt="Final sad pickle"
+              width="100"
+              className={classes.sadImage}
+            />
+          </div>
+        );
+      default:
+        return <p>default</p>;
+    }
+  };
+
   return (
     <Paper elevation={0} className={classes.root}>
       {switchStep()}
-      <Typography variant="h3">
+      <Typography variant="h4">
         Din totale poengsum ble
         {` ${totalScore} `}
         av totalt
@@ -157,7 +153,7 @@ const FinishedSet = ({
       </Typography>
       {isAuthenticated && (
         <>
-          <Typography variant="h4">
+          <Typography variant="h5">
             <br />
             Hvis du likte settet kan du gi det tommel opp
           </Typography>

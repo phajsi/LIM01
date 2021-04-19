@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Typography, Button, Grid } from '@material-ui/core';
+import { Paper, Typography, Button } from '@material-ui/core';
 import useStyles from './styles';
 import sadPickle from '../../assets/images/sadPickle.png';
 import mariusPickle from '../../assets/images/mariusPickle.png';
@@ -16,42 +16,44 @@ const Feedback = ({
     case true:
       return (
         <Paper elevation={0} className={classes.root}>
-          <div>
-            <img
-              src={mariusPickle}
-              alt="Marius pickle"
-              className={classes.image}
-            />
-            <Typography variant="h2" className={classes.text}>
+          <img
+            src={mariusPickle}
+            alt="Marius pickle"
+            className={classes.image}
+          />
+          <div className={classes.textBox}>
+            <Typography variant="h3" className={classes.text}>
               Hurra, du klarte det!
             </Typography>
+            <br />
             <Typography variant="h4" className={classes.text}>
               Poengsummen din er
               {` ${totalScore} `}
               <br />
-              Av totalt
+              av totalt
               {` ${totalExercises} `}
               mulige!
             </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => nextExercise()}
-              fullWidth
-            >
-              Spill neste øvelse
-            </Button>
           </div>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => nextExercise()}
+            fullWidth
+          >
+            neste oppgave
+          </Button>
         </Paper>
       );
     case false:
       return (
         <Paper elevation={0} className={classes.root}>
-          <Grid>
-            <img src={sadPickle} alt="sad pickle" className={classes.image} />
-            <Typography variant="h2" className={classes.text}>
+          <img src={sadPickle} alt="sad pickle" className={classes.image} />
+          <div className={classes.textBox}>
+            <Typography variant="h3" className={classes.text}>
               Bedre lykke neste gang!
             </Typography>
+            <br />
             <Typography variant="h4" className={classes.text}>
               Poengsummen din er
               {` ${totalScore} `}
@@ -60,15 +62,15 @@ const Feedback = ({
               {` ${totalExercises} `}
               mulige!
             </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => nextExercise()}
-              fullWidth
-            >
-              Spill neste øvelse
-            </Button>
-          </Grid>
+          </div>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => nextExercise()}
+            fullWidth
+          >
+            neste oppgave
+          </Button>
         </Paper>
       );
     default:
