@@ -132,6 +132,8 @@ const PlaySets = () => {
       <Grid>
         <Button
           className={classes.replaybutton}
+          variant="outlined"
+          color="secondary"
           startIcon={<ReplayIcon />}
           onClick={() => {
             getContent(id);
