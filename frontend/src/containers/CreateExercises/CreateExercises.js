@@ -31,7 +31,8 @@ const CreateExercises = () => {
   // object which contains formData from the exercise the user wants to edit
   const [formDataEdit, setFormDataEdit] = useState(null);
   // object which contains all the IDs for the exercises added to the set.
-  const [formDataSet, setFormDataSet] = useState({
+  const [formDataSet, setFormDataSet] = useState({});
+  const [forminput, setForminput] = useState({
     title: '',
     description: '',
   });
@@ -162,6 +163,8 @@ const CreateExercises = () => {
    */
 
   function onSubmitPostSet() {
+    console.log(forminput.title);
+    console.log(forminput.description);
     if (
       !formDataSet.chat1 &&
       !formDataSet.forstaelse1 &&
@@ -170,14 +173,14 @@ const CreateExercises = () => {
       setEmptySetError(
         'Du må legge til minst en oppgave for å opprette et sett.'
       );
-      if (formDataSet.title === '' || formDataSet.description === '') {
-        setEmptyFormError(
-          'Du må legge inn et navn og en beskrivelse av settet ditt'
-        );
-      }
+    } else if (!forminput.title || !forminput.description) {
+      setEmptyFormError(
+        'Du må legge inn et navn og en beskrivelse av settet ditt'
+      );
     } else {
+      const data = { ...formDataSet, ...forminput };
       axiosInstance()
-        .post('/createsets/', formDataSet)
+        .post('/createsets/', data)
         .then(() => {
           setStep('confirmation');
         })
@@ -188,11 +191,14 @@ const CreateExercises = () => {
   }
 
   function onSubmitPutSet() {
-    if (formDataSet.title === '' || formDataSet.description === '') {
-      setEmptyFormError('Settet ditt må ha et navn og en beskrivelse');
+    if (!forminput.title || !forminput.description) {
+      setEmptyFormError(
+        'Du må legge inn et navn og en beskrivelse av settet ditt'
+      );
     }
+    const data = { ...formDataSet, ...forminput };
     axiosInstance()
-      .put(`/createsets/${formDataSet.id}`, formDataSet)
+      .put(`/createsets/${formDataSet.id}`, data)
       .then(() => {
         setStep('confirmation');
       })
@@ -208,8 +214,8 @@ const CreateExercises = () => {
   }
 
   function handleFormChange(input) {
-    setFormDataSet({
-      ...formDataSet,
+    setForminput({
+      ...forminput,
       [input.target.name]: input.target.value,
     });
     setEmptyFormError(null);
@@ -222,7 +228,7 @@ const CreateExercises = () => {
           <h1>Nytt sett</h1>
           <Grid container className={classes.gridcontainer}>
             <Grid item xs={12} className={classes.form}>
-              <p className={classes.formfieldname}>Tittel:* </p>
+              <p className={classes.formfieldname}>Tittel:</p>
               <TextField
                 name="title"
                 multiline
@@ -230,12 +236,12 @@ const CreateExercises = () => {
                 rowsMax={1}
                 required
                 variant="outlined"
-                defaultValue={formDataSet.title}
+                defaultValue={forminput.title || formDataSet.title}
                 onChange={(e) => handleFormChange(e)}
               />
             </Grid>
             <Grid item xs={12} className={classes.form}>
-              <p className={classes.formfieldname}>Beskrivelse:*</p>
+              <p className={classes.formfieldname}>Beskrivelse:</p>
               <TextField
                 name="description"
                 multiline="true"
@@ -244,12 +250,12 @@ const CreateExercises = () => {
                 rowsMax={10}
                 required
                 variant="outlined"
-                defaultValue={formDataSet.description}
+                defaultValue={forminput.description || formDataSet.description}
                 onChange={(e) => handleFormChange(e)}
               />
             </Grid>
             <Grid item md={5} xs={12} className={classes.menu}>
-              <h2>Legg til oppgavetyper *</h2>
+              <h2>Legg til oppgavetyper</h2>
               <MenuList>
                 <Grid className={classes.menugroup}>
                   <MenuItem
