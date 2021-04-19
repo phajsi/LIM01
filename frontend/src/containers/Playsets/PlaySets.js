@@ -215,27 +215,24 @@ const PlaySets = () => {
             totalScore={totalScore}
             totalExercises={totalExercises}
             feedbackState={feedbackState}
+            nextExercise={nextExercise}
           />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => nextExercise()}
-            fullWidth
-          >
-            neste
-          </Button>
         </div>
       );
     case 'finish':
       return (
-        <FinishedSet
-          totalScore={totalScore}
-          totalExercises={totalExercises}
-          percentage={totalScore / totalExercises}
-          id={id}
-          completed={completed}
-          isAuthenticated={isAuthenticated}
-        />
+        <div>
+          <FinishedSet
+            totalScore={totalScore}
+            totalExercises={totalExercises}
+            percentage={totalScore / totalExercises}
+            id={id}
+            completed={completed}
+            isAuthenticated={isAuthenticated}
+            getContents={getContent}
+            setSteps={setStep}
+          />
+        </div>
       );
     default:
       return <p>default</p>;
