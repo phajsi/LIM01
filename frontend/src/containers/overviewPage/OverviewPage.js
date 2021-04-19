@@ -22,8 +22,8 @@ import {
   axiosInstance,
   axiosInstanceDelete,
 } from '../../helpers/ApiFunctions';
-import topTriangle from '../../assets/images/topTriangle.SVG';
-import bottomTriangle from '../../assets/images/bottomTriangle.SVG';
+import topTriangle from '../../assets/images/topTriangle.svg';
+import bottomTriangle from '../../assets/images/bottomTriangle.svg';
 import useStyles from './style';
 import SaveIcon from '../../components/SaveIcon';
 import DeleteModal from '../../components/DeleteModal';
