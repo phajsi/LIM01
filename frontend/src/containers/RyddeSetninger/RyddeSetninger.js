@@ -17,6 +17,7 @@ import ryddaudio from '../../assets/audiofiles/ryddeSetningerVoice.mp3';
 import ProgressBar from '../../components/ProgressBar';
 import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
+import exerciseStyles from '../exerciseStyle';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
 const RyddeSetninger = ({
@@ -27,7 +28,9 @@ const RyddeSetninger = ({
   restartSet,
   playAudio,
 }) => {
-  const classes = useStyles();
+  const className = useStyles();
+  const classesBase = exerciseStyles();
+  const classes = { ...className, ...classesBase };
 
   const [renderPage, setRenderPage] = useState();
   const [words] = useState([]);
@@ -228,6 +231,7 @@ const RyddeSetninger = ({
               variant="contained"
               disabled={disableButton}
               onClick={checkAnswer}
+              className={classes.checkAnswerBtn}
             >
               Sjekk svar
             </Button>

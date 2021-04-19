@@ -23,6 +23,7 @@ import defaultMan from '../../assets/images/defaultMan.png';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
 import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
+import exerciseStyles from '../exerciseStyle';
 import ProgressBar from '../../components/ProgressBar';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
@@ -44,7 +45,9 @@ const Chat = ({
 
   const [disabled, setDisabled] = useState(false);
 
-  const classes = useStyles();
+  const className = useStyles();
+  const classesBase = exerciseStyles();
+  const classes = { ...className, ...classesBase };
 
   const [formData, setFormData] = useState({});
 
@@ -142,59 +145,61 @@ const Chat = ({
               </CardContent>
             </Card>
           </Grid>
-          {chatHistory.map((chat, i) => {
-            if (i % 2 === 0) {
-              return <ChatBubble chat={chat} icon={sendericon} />;
-            }
-            return <ChatBubble chat={chat} icon={receivericon} right />;
-          })}
-          <Grid
-            container
-            direction="column"
-            justify="flex-end"
-            alignItems="flex-end"
-          >
-            {answerstate === null && (
-              <>
-                <ButtonGroup
-                  orientation="vertical"
-                  aria-label="vertical contained secondary button group"
-                  variant="contained"
-                  color="secondary"
-                  disableElevation
-                  className={classes.btn}
-                >
-                  <Button
-                    style={{ borderRadius: '25px' }}
-                    id={1}
-                    onClick={() =>
-                      // eslint-disable-next-line prettier/prettier
-                      handleAnswer(formData[`answer${taskStep}1`])}
-                  >
-                    {formData[`answer${taskStep}1`]}
-                  </Button>
-                  <Button
+          <div className={classes.chatList}>
+            {chatHistory.map((chat, i) => {
+              if (i % 2 === 0) {
+                return <ChatBubble chat={chat} icon={sendericon} />;
+              }
+              return <ChatBubble chat={chat} icon={receivericon} right />;
+            })}
+            <Grid
+              container
+              direction="column"
+              justify="flex-end"
+              alignItems="flex-end"
+            >
+              {answerstate === null && (
+                <>
+                  <ButtonGroup
+                    orientation="vertical"
+                    aria-label="vertical contained secondary button group"
+                    variant="contained"
+                    color="secondary"
+                    disableElevation
                     className={classes.btn}
-                    onClick={() =>
-                      // eslint-disable-next-line prettier/prettier
-                      handleAnswer(formData[`answer${taskStep}2`])}
-                    style={{ marginTop: 3, borderRadius: '25px' }}
                   >
-                    {formData[`answer${taskStep}2`]}
-                  </Button>
-                  <Button
-                    className={classes.btn}
-                    onClick={() =>
-                      // eslint-disable-next-line prettier/prettier
-                      handleAnswer(formData[`correctanswer${taskStep}`])}
-                    style={{ marginTop: 3, borderRadius: '25px' }}
-                  >
-                    {formData[`correctanswer${taskStep}`]}
-                  </Button>
-                </ButtonGroup>
-              </>
-            )}
-          </Grid>
+                    <Button
+                      style={{ borderRadius: '25px' }}
+                      id={1}
+                      onClick={() =>
+                        // eslint-disable-next-line prettier/prettier
+                        handleAnswer(formData[`answer${taskStep}1`])}
+                    >
+                      {formData[`answer${taskStep}1`]}
+                    </Button>
+                    <Button
+                      className={classes.btn}
+                      onClick={() =>
+                        // eslint-disable-next-line prettier/prettier
+                        handleAnswer(formData[`answer${taskStep}2`])}
+                      style={{ marginTop: 3, borderRadius: '25px' }}
+                    >
+                      {formData[`answer${taskStep}2`]}
+                    </Button>
+                    <Button
+                      className={classes.btn}
+                      onClick={() =>
+                        // eslint-disable-next-line prettier/prettier
+                        handleAnswer(formData[`correctanswer${taskStep}`])}
+                      style={{ marginTop: 3, borderRadius: '25px' }}
+                    >
+                      {formData[`correctanswer${taskStep}`]}
+                    </Button>
+                  </ButtonGroup>
+                </>
+              )}
+            </Grid>
+          </div>
           <NextExerciseBtn
             answerState={answerstate}
             handleNextTask={handleNextTask}

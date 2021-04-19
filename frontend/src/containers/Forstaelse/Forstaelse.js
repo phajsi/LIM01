@@ -15,6 +15,7 @@ import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
 import forsaudio from '../../assets/audiofiles/forstaelseVoice.mp3';
 import useStyles from './styles';
+import exerciseStyles from '../exerciseStyle';
 import ProgressBar from '../../components/ProgressBar';
 import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
@@ -27,7 +28,9 @@ const Forstaelse = ({
   restartSet,
   playAudio,
 }) => {
-  const classes = useStyles();
+  const className = useStyles();
+  const classesBase = exerciseStyles();
+  const classes = { ...className, ...classesBase };
 
   const [formData, setFormData] = useState({});
   const [answerState, setAnswerState] = useState(null);
