@@ -45,7 +45,11 @@ const InfoModal = ({ showModal, setShowModal }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setShowModal(false)} color="primary">
+          <Button
+            onClick={() => setShowModal(false)}
+            color="primary"
+            variant="contained"
+          >
             Lukk
           </Button>
         </DialogActions>

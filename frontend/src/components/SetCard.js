@@ -76,7 +76,7 @@ function SetCard({ type, formData, onClick1, onClick2 }) {
         subheader={
           <>
             <PersonIcon style={{ fontSize: 15 }} />
-            {type === 'mySet' ? 'Deg' : formData.setOwner}
+            {type && formData.setOwner}
             {type === 'completed' && (
               <>
                 <WhatshotIcon style={{ fontSize: 15 }} />

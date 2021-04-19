@@ -120,7 +120,7 @@ const Forstaelse = ({
                 <Button
                   onClick={() => onClickAnswer('true')}
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   fullWidth
                 >
                   JA
@@ -130,7 +130,7 @@ const Forstaelse = ({
                 <Button
                   onClick={() => onClickAnswer('false')}
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   fullWidth
                 >
                   NEI

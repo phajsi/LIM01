@@ -22,8 +22,8 @@ import {
   axiosInstance,
   axiosInstanceDelete,
 } from '../../helpers/ApiFunctions';
-import topTriangle from '../../assets/images/topTriangle.SVG';
-import bottomTriangle from '../../assets/images/bottomTriangle.SVG';
+import topTriangle from '../../assets/images/topTriangle.svg';
+import bottomTriangle from '../../assets/images/bottomTriangle.svg';
 import useStyles from './style';
 import SaveIcon from '../../components/SaveIcon';
 import DeleteModal from '../../components/DeleteModal';
@@ -138,7 +138,7 @@ const OverviewPage = ({
               <Button
                 className={classes.buttons}
                 variant="contained"
-                color="secondary"
+                color="primary"
                 onClick={() => nextExercise()}
               >
                 Spill
@@ -150,8 +150,8 @@ const OverviewPage = ({
         <Grid item xs={12}>
           {completed.completed && (
             <p className={classes.completedtext}>
-              Du har fullført dette settet med score
-              {completed.score}
+              Du har fullført dette settet med score:
+              {` ${completed.score}`}
             </p>
           )}
           <Grid item xs={12} className={classes.commentheader}>

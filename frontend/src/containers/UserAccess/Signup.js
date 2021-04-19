@@ -100,7 +100,7 @@ const Signup = ({
   return (
     <div className={classes.root}>
       <Paper className={classes.infoBox}>
-        <h1 className={classes.headline}>Opprett bruker</h1>
+        <h2 className={classes.headline}>Opprett bruker</h2>
         <Formik
           initialValues={formData}
           onSubmit={(values) => {
@@ -185,7 +185,7 @@ const Signup = ({
               <Button
                 variant="contained"
                 disabled={signUp}
-                color="secondary"
+                color="primary"
                 type="submit"
                 fullWidth
                 className={classes.button}
@@ -197,7 +197,7 @@ const Signup = ({
           )}
         </Formik>
         <hr className={classes.divider} />
-        <Grid container>
+        <Grid container alignItems="center">
           <Grid item xs={6}>
             <p> Har du en konto? </p>
           </Grid>
@@ -205,7 +205,7 @@ const Signup = ({
             <Button
               component={Link}
               to="/Login"
-              variant="contained"
+              variant="outlined"
               fullWidth
               size="small"
               className={classes.secondaryButton}

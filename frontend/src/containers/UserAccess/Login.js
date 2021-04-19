@@ -67,7 +67,7 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
   return (
     <div className={classes.root}>
       <Paper className={classes.infoBox}>
-        <h1 className={classes.headline}>Logg inn</h1>
+        <h2 className={classes.headline}>Logg inn</h2>
         <form onSubmit={(e) => onSubmit(e)}>
           <TextField
             type="text"
@@ -114,7 +114,7 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
           />
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             type="submit"
             fullWidth
             className={classes.button}
@@ -132,16 +132,16 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
             <Button
               component={Link}
               to="/signup"
-              variant="contained"
+              variant="outlined"
               fullWidth
               size="small"
-              className={classes.secondaryButton}
+              className={classes.button}
             >
               Registrering
             </Button>
           </Grid>
         </Grid>
-        <Grid container>
+        <Grid container alignItems="center">
           <Grid item xs={6}>
             <p> Glemt passordet? </p>
           </Grid>
@@ -149,10 +149,10 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
             <Button
               component={Link}
               to="/reset-password"
-              variant="contained"
+              variant="outlined"
               fullWidth
               size="small"
-              className={classes.secondaryButton}
+              className={classes.button}
             >
               Bytt passord
             </Button>
