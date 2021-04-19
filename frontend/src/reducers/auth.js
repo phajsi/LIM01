@@ -23,6 +23,7 @@ const initialState = {
   user: null,
   signUpSuccess: false,
   loginError: null,
+  PasswordReset: null,
 };
 
 export default function (state = initialState, action) {
@@ -35,6 +36,7 @@ export default function (state = initialState, action) {
         isAuthenticated: true,
         signUpSuccess: false,
         loginError: null,
+        PasswordReset: null,
       };
     case LOGIN_SUCCESS:
       localStorage.setItem('access', payload.access);
@@ -44,6 +46,7 @@ export default function (state = initialState, action) {
         access: payload.access,
         refresh: payload.refresh,
         loginError: null,
+        PasswordReset: null,
       };
     case SIGNUP_SUCCESS:
       return {
@@ -51,6 +54,7 @@ export default function (state = initialState, action) {
         isAuthenticated: false,
         signUpSuccess: true,
         loginError: null,
+        PasswordReset: null,
       };
     case AUTHENTICATED_FAIL:
       return {
@@ -58,6 +62,7 @@ export default function (state = initialState, action) {
         isAuthenticated: false,
         signUpSuccess: false,
         loginError: null,
+        PasswordReset: null,
       };
     case LOGIN_FAIL:
       localStorage.removeItem('access');
@@ -70,6 +75,7 @@ export default function (state = initialState, action) {
         user: null,
         signUpSuccess: false,
         loginError: payload,
+        PasswordReset: null,
       };
     case SIGNUP_FAIL:
       return {
@@ -80,6 +86,7 @@ export default function (state = initialState, action) {
         user: null,
         signUpSuccess: payload,
         loginError: null,
+        PasswordReset: null,
       };
     case LOGOUT:
       localStorage.removeItem('access');
@@ -92,6 +99,7 @@ export default function (state = initialState, action) {
         user: null,
         signUpSuccess: false,
         loginError: null,
+        PasswordReset: null,
       };
     case USER_LOADED_SUCCESS:
       return {
@@ -106,7 +114,17 @@ export default function (state = initialState, action) {
     case PASSWORD_RESET_SUCCESS:
     case PASSWORD_RESET_FAIL:
     case PASSWORD_RESET_CONFIRM_SUCCESS:
+      return {
+        ...state,
+        PasswordReset: true,
+      };
     case PASSWORD_RESET_CONFIRM_FAIL:
+      return {
+        ...state,
+        signUpSuccess: payload,
+        loginError: null,
+        PasswordReset: payload,
+      };
     case ACTIVATION_SUCCESS:
     case ACTIVATION_FAIL:
       return {

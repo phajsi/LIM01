@@ -4,19 +4,26 @@ import { connect } from 'react-redux';
 import { Button, Paper, TextField } from '@material-ui/core';
 import { reset_password_confirm } from '../../actions/auth';
 import useStyles from './styles';
+import ErrorMessage from '../../components/ErrorMessage';
 
-const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
+const ResetPasswordConfirm = ({
+  match,
+  reset_password_confirm,
+  passwordReset,
+}) => {
   const classes = useStyles();
-  const [requestSent, setRequestSent] = useState(false);
   const [formData, setFormData] = useState({
     new_password: '',
     re_new_password: '',
   });
+  const [submit, setSubmit] = useState(false);
 
   const { new_password, re_new_password } = formData;
 
-  const onChange = (e) =>
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setSubmit(false);
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -25,11 +32,23 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
     const token = match.params.token;
 
     reset_password_confirm(uid, token, new_password, re_new_password);
-    setRequestSent(true);
+    setSubmit(true);
   };
 
-  if (requestSent) {
-    return <Redirect to="/" />;
+  function errorHandling() {
+    if (passwordReset === 400) {
+      return (
+        <ErrorMessage message="Noe gikk galt! Pass på at passordet har 8 tegn, en stor og liten bokstav samt et tall. Passordfeltene må være lik hverandre og du kan ikke velge et passord som er for vanlig eller ligner på brukernavnet ditt." />
+      );
+    }
+    if (typeof passwordReset === 'number' && passwordReset === 400) {
+      return <ErrorMessage message="Noe gikk galt! Prøv igjen senere." />;
+    }
+    return <></>;
+  }
+
+  if (passwordReset === true && submit) {
+    return <Redirect to="/login" />;
   }
 
   return (
@@ -58,6 +77,7 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
             fullWidth
             required
           />
+          {errorHandling()}
           <Button
             variant="contained"
             color="primary"
@@ -72,4 +92,11 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
     </div>
   );
 };
-export default connect(null, { reset_password_confirm })(ResetPasswordConfirm);
+
+const mapStateToProps = (state) => ({
+  passwordReset: state.auth.passwordReset,
+});
+
+export default connect(mapStateToProps, { reset_password_confirm })(
+  ResetPasswordConfirm
+);
