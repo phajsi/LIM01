@@ -123,7 +123,7 @@ const OverviewPage = ({
   return (
     <Paper className={classes.root}>
       <img src={topTriangle} alt="topTriangle" className={classes.triangle1} />
-      <Grid container>
+      <Grid container className={classes.container}>
         <Grid item xs={12} className={classes.infobox}>
           <div className={classes.header}>
             <h1 className={classes.headertitle}>{title}</h1>

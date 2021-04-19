@@ -4,17 +4,28 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: theme.spacing(100),
     margin: 'auto',
+    position: 'relative',
+    zIndex: 1,
   },
   triangle1: {
     top: 0,
     left: 0,
     maxWidth: '100vw',
+    position: 'absolute',
+    marginBottom: theme.spacing(2),
+    zIndex: -1,
   },
   triangle2: {
     bottom: 0,
     right: 0,
     display: 'block',
     maxWidth: '100vw',
+    position: 'absolute',
+    marginTop: theme.spacing(2),
+    zIndex: -1,
+  },
+  container: {
+    padding: theme.spacing(2),
   },
   infobox: {
     textlign: 'center',
