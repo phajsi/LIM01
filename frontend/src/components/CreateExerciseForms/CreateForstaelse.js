@@ -140,6 +140,7 @@ const CreateForstaelse = ({
               {taskAmount > 1 && (
                 <Fab
                   className={classes.innerMargin}
+                  color="secondary"
                   size="small"
                   onClick={() => {
                     setFieldValue(`chat${taskAmount}`, '', false);
@@ -156,6 +157,7 @@ const CreateForstaelse = ({
                 <Fab
                   className={classes.innerMargin}
                   size="small"
+                  color="secondary"
                   onClick={() => setTaskAmount(taskAmount + 1)}
                   variant="contained"
                 >
@@ -170,9 +172,7 @@ const CreateForstaelse = ({
               alignItems="flex-start"
             >
               <Button
-                variant="contained"
-                color="secondary"
-                className={classes.button}
+                variant="outlined"
                 onClick={() => {
                   onGoBack();
                 }}
@@ -184,7 +184,6 @@ const CreateForstaelse = ({
                 type="submit"
                 variant="contained"
                 color="primary"
-                className={classes.button}
               >
                 Opprett
               </Button>

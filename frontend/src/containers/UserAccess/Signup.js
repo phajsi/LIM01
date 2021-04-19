@@ -185,7 +185,7 @@ const Signup = ({
               <Button
                 variant="contained"
                 disabled={signUp}
-                color="secondary"
+                color="primary"
                 type="submit"
                 fullWidth
                 className={classes.button}
@@ -205,7 +205,7 @@ const Signup = ({
             <Button
               component={Link}
               to="/Login"
-              variant="contained"
+              variant="outlined"
               fullWidth
               size="small"
               className={classes.secondaryButton}

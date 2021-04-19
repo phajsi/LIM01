@@ -12,8 +12,9 @@ const useStyles = makeStyles((theme) => ({
   searchBar: {
     margin: 'auto',
     width: '50vw',
-    [theme.breakpoints.down('lg')]: {
-      paddingLeft: '240px',
+    [theme.breakpoints.between('sm', 'md')]: {
+      marginLeft: 0,
+      paddingLeft: '260px',
       width: '50vw',
     },
     [theme.breakpoints.down('xs')]: {

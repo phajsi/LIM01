@@ -159,11 +159,14 @@ const Chat = ({
               <>
                 <ButtonGroup
                   orientation="vertical"
-                  color="primary"
-                  aria-label="vertical contained primary button group"
+                  aria-label="vertical contained secondary button group"
                   variant="contained"
+                  color="secondary"
+                  disableElevation
+                  className={classes.btn}
                 >
                   <Button
+                    style={{ borderRadius: '25px' }}
                     id={1}
                     onClick={() =>
                       // eslint-disable-next-line prettier/prettier
@@ -172,18 +175,20 @@ const Chat = ({
                     {formData[`answer${taskStep}1`]}
                   </Button>
                   <Button
+                    className={classes.btn}
                     onClick={() =>
                       // eslint-disable-next-line prettier/prettier
                       handleAnswer(formData[`answer${taskStep}2`])}
-                    style={{ marginTop: 3 }}
+                    style={{ marginTop: 3, borderRadius: '25px' }}
                   >
                     {formData[`answer${taskStep}2`]}
                   </Button>
                   <Button
+                    className={classes.btn}
                     onClick={() =>
                       // eslint-disable-next-line prettier/prettier
                       handleAnswer(formData[`correctanswer${taskStep}`])}
-                    style={{ marginTop: 3 }}
+                    style={{ marginTop: 3, borderRadius: '25px' }}
                   >
                     {formData[`correctanswer${taskStep}`]}
                   </Button>

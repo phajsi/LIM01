@@ -7,6 +7,12 @@ const ProgressBar = ({ progress, possible }) => {
 
   const normalise = (value) => ((value - MIN) * 100) / (MAX - MIN);
 
-  return <LinearProgress value={normalise(progress)} variant="determinate" />;
+  return (
+    <LinearProgress
+      color="secondary"
+      value={normalise(progress)}
+      variant="determinate"
+    />
+  );
 };
 export default ProgressBar;

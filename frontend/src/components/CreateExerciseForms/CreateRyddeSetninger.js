@@ -154,6 +154,7 @@ const CreateRyddeSetninger = ({
                 <Fab
                   className={classes.innerMargin}
                   size="small"
+                  color="secondary"
                   onClick={() => {
                     setFieldValue(`word${words}`, '', false);
                     setFieldValue(`wordClass${words}`, '', false);
@@ -168,6 +169,7 @@ const CreateRyddeSetninger = ({
                 <Fab
                   className={classes.innerMargin}
                   size="small"
+                  color="secondary"
                   onClick={() => addWords(words + 1)}
                   variant="contained"
                 >
@@ -182,9 +184,7 @@ const CreateRyddeSetninger = ({
               alignItems="flex-start"
             >
               <Button
-                variant="contained"
-                color="secondary"
-                className={classes.button}
+                variant="outlined"
                 onClick={() => {
                   onGoBack();
                 }}
@@ -196,7 +196,6 @@ const CreateRyddeSetninger = ({
                 type="submit"
                 variant="contained"
                 color="primary"
-                className={classes.button}
               >
                 Opprett
               </Button>

@@ -12,9 +12,6 @@ const useStyles = makeStyles(() => ({
     borderRadius: '5px',
   },
   btn: {
-    backgroundColor: '#F7B733',
-    color: 'black',
-    fontWeight: 'bold',
     filter: 'drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.15))',
   },
   card: {
