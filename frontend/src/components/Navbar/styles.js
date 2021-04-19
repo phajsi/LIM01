@@ -23,9 +23,14 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     color: '#367051',
     fontWeight: '600',
-    margin: theme.spacing(1),
+    padding: theme.spacing(1),
     float: 'right',
     textDecoration: 'none',
+    '&:hover': {
+      backgroundColor: '#47956A',
+      color: 'white',
+      borderRadius: '15px',
+    },
   },
   userName: {
     flexGrow: 1,

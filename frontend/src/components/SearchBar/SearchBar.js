@@ -61,6 +61,7 @@ const SearchBar = () => {
             <Button
               fullWidth
               type="submit"
+              color="primary"
               variant="contained"
               className={classes.btn}
             >

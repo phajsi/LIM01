@@ -367,7 +367,7 @@ const CreateExercises = () => {
               <Grid>
                 <Button
                   className={classes.buttons}
-                  variant="contained"
+                  variant="outlined"
                   onClick={() => setRedirectHome(true)}
                 >
                   Kanseller
@@ -377,7 +377,7 @@ const CreateExercises = () => {
                 <Button
                   className={classes.buttons}
                   variant="contained"
-                  color="secondary"
+                  color="primary"
                   onClick={() => {
                     if (location.state?.editSet) {
                       onSubmitPutSet();

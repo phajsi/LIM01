@@ -158,7 +158,7 @@ const Home = () => {
                     component={Link}
                     to="/createexercise"
                     className={classes.drawerBtn}
-                    style={{ textAlign: 'center' }}
+                    style={{ textAlign: 'center', border: 'solid 1px #367051' }}
                   >
                     <ListItemText>Opprett oppgavesett</ListItemText>
                   </ListItem>
