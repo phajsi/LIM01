@@ -7,9 +7,9 @@ import {
   DialogContent,
   DialogContentText,
 } from '@material-ui/core';
-import chatimage from '../../assets/images/chat_infomodal.png';
-import forstaelseimage from '../../assets/images/forstaelse_infomodal.png';
-import ryddesetningerimage from '../../assets/images/ryddesetninger_infomodal.png';
+import chatimage from '../../assets/images/chatModal.png';
+import forstaelseimage from '../../assets/images/forstaelseModal.png';
+import ryddesetningerimage from '../../assets/images/ryddeModal.png';
 import useStyles from './styles';
 
 const InfoModal = ({ showModal, setShowModal }) => {
@@ -29,7 +29,7 @@ const InfoModal = ({ showModal, setShowModal }) => {
           <img
             className={classes.image}
             src={chatimage}
-            alt="Preview of createchat"
+            alt="Preview of chat"
           />
         </div>
       );
@@ -41,7 +41,7 @@ const InfoModal = ({ showModal, setShowModal }) => {
           <img
             className={classes.image}
             src={forstaelseimage}
-            alt="Preview of createforstaelse"
+            alt="Preview of forstaelse"
           />
         </div>
       );
@@ -53,7 +53,7 @@ const InfoModal = ({ showModal, setShowModal }) => {
           <img
             className={classes.image}
             src={ryddesetningerimage}
-            alt="Preview of createryddesetninger"
+            alt="Preview of ryddesetninger"
           />
         </div>
       );
