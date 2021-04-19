@@ -31,7 +31,7 @@ const ResetPassword = ({ reset_password }) => {
   return (
     <div className={classes.root}>
       <Paper className={classes.infoBox}>
-        <h2>Request Password Reset:</h2>
+        <h2 className={classes.headline}>Request Password Reset</h2>
         <form onSubmit={(e) => onSubmit(e)}>
           <TextField
             type="email"
