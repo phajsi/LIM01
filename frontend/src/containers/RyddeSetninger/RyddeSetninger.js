@@ -203,8 +203,7 @@ const RyddeSetninger = ({
           <Grid item xs={6} />
           <Grid item xs={6}>
             <Button
-              variant="outlined"
-              style={{ backgroundColor: 'white' }}
+              variant="contained"
               disabled={disableButton}
               onClick={checkAnswer}
             >
