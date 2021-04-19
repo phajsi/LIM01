@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Typography, Button } from '@material-ui/core';
+import { Paper, Typography, Button, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import sadPickle from '../assets/images/sadPickle.png';
 import mariusPickle from '../assets/images/mariusPickle.png';
@@ -57,7 +57,7 @@ const Feedback = ({
             </Typography>
             <Button
               variant="contained"
-              color="secondary"
+              color="primary"
               onClick={() => nextExercise()}
               fullWidth
             >
@@ -69,7 +69,7 @@ const Feedback = ({
     case false:
       return (
         <Paper elevation={0} className={classes.root}>
-          <div>
+          <Grid>
             <img src={sadPickle} alt="sad pickle" className={classes.image} />
             <Typography variant="h2" className={classes.text}>
               Bedre lykke neste gang!
@@ -84,13 +84,13 @@ const Feedback = ({
             </Typography>
             <Button
               variant="contained"
-              color="secondary"
+              color="primary"
               onClick={() => nextExercise()}
               fullWidth
             >
               Spill neste øvelse
             </Button>
-          </div>
+          </Grid>
         </Paper>
       );
     default:

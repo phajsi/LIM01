@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import ReplayIcon from '@material-ui/icons/Replay';
@@ -220,26 +220,6 @@ const PlaySets = () => {
     case 'finish':
       return (
         <div>
-          <Grid container justify="center">
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => {
-                getContent(id);
-                setStep('overview');
-              }}
-            >
-              Til oversikten
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              component={Link}
-              to={isAuthenticated ? '/home' : '/'}
-            >
-              Hjem
-            </Button>
-          </Grid>
           <FinishedSet
             totalScore={totalScore}
             totalExercises={totalExercises}
@@ -247,6 +227,8 @@ const PlaySets = () => {
             id={id}
             completed={completed}
             isAuthenticated={isAuthenticated}
+            getContents={getContent}
+            setSteps={setStep}
           />
         </div>
       );

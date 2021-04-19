@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Paper, Grid, Typography } from '@material-ui/core';
+import { Paper, Grid, Typography, Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { axiosInstance } from '../helpers/ApiFunctions';
 import SaveIcon from '../components/SaveIcon';
 import happyPickle from '../assets/images/happyPickle.png';
-import mariusPickle from '../assets/images/mariusPickle.png';
+import finalSad from '../assets/images/finalSad.png';
 
 const useStyles = makeStyles({
   root: {
@@ -36,6 +37,8 @@ const FinishedSet = ({
   percentage,
   completed,
   isAuthenticated,
+  setSteps,
+  getContents,
 }) => {
   const [rating, setRating] = useState({ rating: null });
   const [step, setStep] = useState('');
@@ -80,8 +83,8 @@ const FinishedSet = ({
               Ikke værst!
             </Typography>
             <img
-              src={mariusPickle}
-              alt="Marius pickle"
+              src={finalSad}
+              alt="Final sad pickle"
               width="100"
               className={classes.image}
             />
@@ -145,6 +148,23 @@ const FinishedSet = ({
       });
   }
 
+  function restartSet() {
+    return (
+      <Grid>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            getContents(id);
+            setSteps('overview');
+          }}
+        >
+          Til oversikten
+        </Button>
+      </Grid>
+    );
+  }
+
   return (
     <Paper elevation={0} className={classes.root}>
       {switchStep()}
@@ -180,6 +200,16 @@ const FinishedSet = ({
           </Grid>
         </>
       )}
+      <Grid container justify="center">
+        {restartSet()}
+        <Button
+          variant="outlined"
+          component={Link}
+          to={isAuthenticated ? '/home' : '/'}
+        >
+          Hjem
+        </Button>
+      </Grid>
     </Paper>
   );
 };
