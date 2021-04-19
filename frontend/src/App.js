@@ -11,7 +11,7 @@ import StartPage from './containers/StartPage/StartPage';
 import store from './store';
 import Layout from './hocs/Layout';
 import CreateExercises from './containers/CreateExercises/CreateExercises';
-import PlaySets from './containers/PlaySets/PlaySets';
+import PlaySets from './containers/Playsets/PlaySets';
 import ProtectedRoute from './ProtectedRoute';
 
 const App = () => (
