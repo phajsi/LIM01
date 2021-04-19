@@ -3,32 +3,12 @@ import { Paper, Grid, Typography, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import { axiosInstance } from '../helpers/ApiFunctions';
-import SaveIcon from '../components/SaveIcon';
-import happyPickle from '../assets/images/happyPickle.png';
-import finalSad from '../assets/images/finalSad.png';
-
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 800,
-    margin: 'auto',
-    marginTop: 30,
-    background: 'antiquewhite',
-    padding: 30,
-  },
-  image: {
-    maxWidth: 300,
-    float: 'right',
-  },
-  text: {
-    maxWidth: 600,
-    marginBottom: 10,
-    float: 'center',
-    display: 'inline-block',
-  },
-});
+import { axiosInstance } from '../../helpers/ApiFunctions';
+import SaveIcon from '../SaveIcon';
+import happyPickle from '../../assets/images/happyPickle.png';
+import finalSad from '../../assets/images/finalSad.png';
+import useStyles from './styles';
 
 const FinishedSet = ({
   totalScore,
@@ -40,10 +20,10 @@ const FinishedSet = ({
   setSteps,
   getContents,
 }) => {
+  const classes = useStyles();
+
   const [rating, setRating] = useState({ rating: null });
   const [step, setStep] = useState('');
-
-  const classes = useStyles();
 
   function getContent() {
     axiosInstance()
