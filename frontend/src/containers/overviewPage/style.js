@@ -84,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     border: '2px solid #F5F5F5',
     borderRadius: 15,
+    backgroundColor: 'white',
   },
   commentheader: {
     display: 'flex',
@@ -134,6 +135,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     marginBottom: '10px',
     marginTop: '5px',
+    backgroundColor: 'white',
   },
 }));
 export default useStyles;
