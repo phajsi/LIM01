@@ -99,10 +99,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   cardauthor: {
+    minHeight: '50px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FFD172',
+    color: '#ffffff',
+    backgroundColor: '#85aeed',
     textAlign: 'center',
   },
   textgrid: {
