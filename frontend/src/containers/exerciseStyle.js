@@ -22,7 +22,7 @@ const exerciseStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     padding: theme.spacing(2),
     overflow: 'hidden',
-    overflowY: 'scroll',
+    overflowY: 'auto',
   },
   navbar: {
     margin: 0,

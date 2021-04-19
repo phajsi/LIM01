@@ -190,7 +190,7 @@ const RyddeSetninger = ({
         </Card>
       </div>
       <Paper className={classes.layout} elevation={0}>
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
           <Grid item xs={12}>
             <div style={{ alignSelf: 'center' }}>
               {wordWithColorCode.map((el, index) => (
