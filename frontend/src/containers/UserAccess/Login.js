@@ -67,7 +67,7 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
   return (
     <div className={classes.root}>
       <Paper className={classes.infoBox}>
-        <h1 className={classes.headline}>Logg inn</h1>
+        <h2 className={classes.headline}>Logg inn</h2>
         <form onSubmit={(e) => onSubmit(e)}>
           <TextField
             type="text"
@@ -141,7 +141,7 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
             </Button>
           </Grid>
         </Grid>
-        <Grid container>
+        <Grid container alignItems="center">
           <Grid item xs={6}>
             <p> Glemt passordet? </p>
           </Grid>
