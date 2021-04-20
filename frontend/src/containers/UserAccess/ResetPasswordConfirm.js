@@ -4,10 +4,15 @@ import { connect } from 'react-redux';
 import { Button, Paper, TextField } from '@material-ui/core';
 import { reset_password_confirm } from '../../actions/auth';
 import useStyles from './styles';
+import ErrorMessage from '../../components/ErrorMessage';
 
-const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
+const ResetPasswordConfirm = ({
+  match,
+  reset_password_confirm,
+  passwordReset,
+}) => {
   const classes = useStyles();
-  const [requestSent, setRequestSent] = useState(false);
+  const [submit, setSubmit] = useState(false);
   const [formData, setFormData] = useState({
     new_password: '',
     re_new_password: '',
@@ -15,8 +20,10 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
 
   const { new_password, re_new_password } = formData;
 
-  const onChange = (e) =>
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setSubmit(true);
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -42,6 +49,7 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
       return <ErrorMessage message="Noe gikk galt! Prøv igjen senere." />;
     }
     return <></>;
+  }
 
   return (
     <div className={classes.root}>
@@ -69,6 +77,7 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
             fullWidth
             required
           />
+          {errorHandling()}
           <Button
             variant="contained"
             color="primary"
@@ -83,4 +92,11 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
     </div>
   );
 };
-export default connect(null, { reset_password_confirm })(ResetPasswordConfirm);
+
+const mapStateToProps = (state) => ({
+  passwordReset: state.auth.passwordReset,
+});
+
+export default connect(mapStateToProps, { reset_password_confirm })(
+  ResetPasswordConfirm
+);
