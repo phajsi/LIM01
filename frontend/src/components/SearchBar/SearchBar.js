@@ -50,7 +50,7 @@ const SearchBar = () => {
               className={classes.search}
               type="text"
               variant="outlined"
-              placeholder="Finn oppgavesett"
+              placeholder="Tast inn settets ID"
               margin="dense"
               fullWidth
               required

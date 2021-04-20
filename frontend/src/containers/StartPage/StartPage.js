@@ -18,7 +18,7 @@ const StartPage = () => {
         <Toolbar>
           <Typography variant="h6" className={classes.right}>
             <Link to="/login" className={classes.title}>
-              Log inn
+              Logg inn
             </Link>
             <Link to="/signup" className={classes.title}>
               Registrer deg
