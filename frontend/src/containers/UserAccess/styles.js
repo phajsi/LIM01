@@ -32,6 +32,22 @@ const useStyles = makeStyles((theme) => ({
     padding: '3px',
     textAlign: 'left',
   },
+  message: {
+    '& > p': {
+      padding: 0,
+      margin: 0,
+    },
+  },
+  messageList: {
+    '& > p': {
+      padding: 0,
+      margin: 0,
+      textIndent: '1em',
+      listStyleType: 'disc',
+      display: 'list-item',
+      listStylePosition: 'inside',
+    },
+  },
 }));
 
 export default useStyles;
