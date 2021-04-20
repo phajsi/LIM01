@@ -15,7 +15,7 @@ const useStyles = makeStyles(() => ({
 
 function ErrorMessage({ message }) {
   const classes = useStyles();
-  if (!message()) {
+  if (!message) {
     return <></>;
   }
   return (
@@ -23,7 +23,7 @@ function ErrorMessage({ message }) {
       <CardHeader
         className={classes.cardHeader}
         avatar={<InfoOutlinedIcon style={{ color: 'lightcoral' }} />}
-        title={message()}
+        title={message}
       />
     </Card>
   );
