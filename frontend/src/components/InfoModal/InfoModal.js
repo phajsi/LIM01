@@ -10,13 +10,16 @@ import {
 import chatimage from '../../assets/images/chatModal.png';
 import forstaelseimage from '../../assets/images/forstaelseModal.png';
 import ryddesetningerimage from '../../assets/images/ryddeModal.png';
+import chatform from '../../assets/images/chatForm.png';
+import forstaelseform from '../../assets/images/forstaelseForm.png';
+import ryddesetningerform from '../../assets/images/ryddeForm.png';
 import useStyles from './styles';
 
 const InfoModal = ({ showModal, setShowModal }) => {
   const classes = useStyles();
 
   const chatText =
-    'For å opprette en Chat-øvelse må man fylle inn de forpliktede feltene. Det er valgfritt om man vil velge bilder for sender og mottager. Øvelsen består av et spørsmål, med tre svaralternativ hvor kun ett er riktig.';
+    'For å opprette en Chat-øvelse må man fylle inn de forpliktede feltene. Det er valgfritt om man vil velge bilder for sender og mottaker. Øvelsen består av et spørsmål, med tre svaralternativ hvor kun ett er riktig.';
   const forstaelseText =
     'For å opprette en Forståelse-øvelse må man fylle inn alle feltene. Først en melding, gjerne med en påstand. Deretter et ja/nei spørsmål basert på meldingen. Om brukeren skulle velge feil svar, må en forklaring på hvorfor det er feil vises.';
   const rydde_setningerText =
@@ -61,11 +64,11 @@ const InfoModal = ({ showModal, setShowModal }) => {
     if (showModal === 'createchat') {
       return (
         <div>
-          <h2 className={classes.header}>Lage ny oppgave</h2>
+          <h2 className={classes.header}>Lage ny chat-oppgave</h2>
           <p>{chatText}</p>
           <img
             className={classes.image}
-            src={ryddesetningerimage}
+            src={chatform}
             alt="Preview of ryddesetninger"
           />
         </div>
@@ -74,11 +77,11 @@ const InfoModal = ({ showModal, setShowModal }) => {
     if (showModal === 'createforstaelse') {
       return (
         <div>
-          <h2 className={classes.header}>Lage ny oppgave</h2>
+          <h2 className={classes.header}>Lage ny forståelse-oppgave</h2>
           <p>{forstaelseText}</p>
           <img
             className={classes.image}
-            src={ryddesetningerimage}
+            src={forstaelseform}
             alt="Preview of ryddesetninger"
           />
         </div>
@@ -87,11 +90,11 @@ const InfoModal = ({ showModal, setShowModal }) => {
     if (showModal === 'createrydde_setninger') {
       return (
         <div>
-          <h2 className={classes.header}>Lage ny oppgave</h2>
+          <h2 className={classes.header}>Lage ny rydde setninger-oppgave</h2>
           <p>{rydde_setningerText}</p>
           <img
             className={classes.image}
-            src={ryddesetningerimage}
+            src={ryddesetningerform}
             alt="Preview of ryddesetninger"
           />
         </div>
