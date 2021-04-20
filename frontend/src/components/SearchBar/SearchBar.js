@@ -65,7 +65,7 @@ const SearchBar = () => {
               variant="contained"
               className={classes.btn}
             >
-              Søk
+              SPILL
             </Button>
           </Grid>
           {notExistError && (
