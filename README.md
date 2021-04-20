@@ -33,11 +33,8 @@ The project vision is to create an interactive language-learning website that ca
 
    - `python3 -m venv name_of_environment`
 
-     _This depends on what type of python you have and what OS, so be sure to double check different commands._
 
    After creating the environment it has to be activated. You do this by going into /env/Scripts/, then write activate in the terminal. In Git Bash, you have to write `source activate` in the terminal from /env/Scripts/.
-
-   _For some this also requires a different approach. You may have to write `project-name\Scripts\activate.bat` for it to work. This can depend on OS, what Git GUI you use etc._
 
 4. **Install requirements.txt**  
    If you have startet the virtual environment then go into the project backend folder LIM01/backend and install the requirements from requirements.txt
@@ -65,6 +62,9 @@ The project vision is to create an interactive language-learning website that ca
      http://localhost:8000/
 
    _Alternatively you can run the project from the frontend folder by running `npm start` However this will not run the backend server, but it can be useful if working with UI/UX._
+   
+**Remark**   
+The commands may vary depening on the os that you are using. The installation guide is based on Windows and Git bash command line. 
 
 ## Authors
 
@@ -80,11 +80,7 @@ Simen Opedal
 
 ## Credits
 
-The Project was setup with the help of this tutorials:
+The Project was setup with the help of this tutorial:
 
 - [Django & React JWT Authentication](https://www.youtube.com/watch?v=QFDyXWRYQjY&list=PLJRGQoqpRwdfoa9591BcUS6NmMpZcvFsM)
 
-## More information
-
-**Wiki**  
-The project wiki contains more detailed information about the product, technologies, examples and use cases.
