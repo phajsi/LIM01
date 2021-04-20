@@ -9,8 +9,11 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid #000000',
     borderRadius: 5,
   },
+  header: {
+    textAlign: 'center',
+  },
   image: {
-    maxWidth: theme.spacing(75),
+    maxWidth: theme.spacing(62),
   },
 }));
 

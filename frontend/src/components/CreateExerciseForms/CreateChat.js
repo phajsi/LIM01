@@ -99,7 +99,7 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
     <Paper className={classes.root}>
       <Grid className={classes.headergroup}>
         <h1>Chat</h1>
-        <IconButton onClick={() => setShowModal('chat')}>
+        <IconButton onClick={() => setShowModal('createchat')}>
           <InfoIcon className={classes.icons} />
         </IconButton>
       </Grid>

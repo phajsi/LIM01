@@ -24,8 +24,8 @@ const InfoModal = ({ showModal, setShowModal }) => {
   function setInfoText() {
     if (showModal === 'chat') {
       return (
-        <div>
-          <p>{chatText}</p>
+        <div className={classes.header}>
+          <h2>Eksempel på Chat</h2>
           <img
             className={classes.image}
             src={chatimage}
@@ -36,8 +36,8 @@ const InfoModal = ({ showModal, setShowModal }) => {
     }
     if (showModal === 'forstaelse') {
       return (
-        <div>
-          <p>{forstaelseText}</p>
+        <div className={classes.header}>
+          <h2>Eksempel på Forståelse</h2>
           <img
             className={classes.image}
             src={forstaelseimage}
@@ -49,6 +49,45 @@ const InfoModal = ({ showModal, setShowModal }) => {
     if (showModal === 'rydde_setninger') {
       return (
         <div>
+          <h2 className={classes.header}>Eksempel på rydde-setninger</h2>
+          <img
+            className={classes.image}
+            src={ryddesetningerimage}
+            alt="Preview of ryddesetninger"
+          />
+        </div>
+      );
+    }
+    if (showModal === 'createchat') {
+      return (
+        <div>
+          <h2 className={classes.header}>Lage ny oppgave</h2>
+          <p>{chatText}</p>
+          <img
+            className={classes.image}
+            src={ryddesetningerimage}
+            alt="Preview of ryddesetninger"
+          />
+        </div>
+      );
+    }
+    if (showModal === 'createforstaelse') {
+      return (
+        <div>
+          <h2 className={classes.header}>Lage ny oppgave</h2>
+          <p>{forstaelseText}</p>
+          <img
+            className={classes.image}
+            src={ryddesetningerimage}
+            alt="Preview of ryddesetninger"
+          />
+        </div>
+      );
+    }
+    if (showModal === 'createrydde_setninger') {
+      return (
+        <div>
+          <h2 className={classes.header}>Lage ny oppgave</h2>
           <p>{rydde_setningerText}</p>
           <img
             className={classes.image}
