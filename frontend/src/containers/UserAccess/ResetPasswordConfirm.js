@@ -25,12 +25,23 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
     const token = match.params.token;
 
     reset_password_confirm(uid, token, new_password, re_new_password);
-    setRequestSent(true);
+
+    setSubmit(true);
   };
 
-  if (requestSent) {
-    return <Redirect to="/" />;
-  }
+  function errorHandling() {
+    if (passwordReset === true && submit) {
+      return <Redirect to="/login" />;
+    }
+    if (passwordReset === 400 && submit) {
+      return (
+        <ErrorMessage message="Passordet ble ikke godkjent! Pass på at passordet møter kravene: minst 8 tegn, minst en stor og liten bokstav, minst et tall, passordet kan ikke være for vanlig eller for likt brukernavnet ditt." />
+      );
+    }
+    if (typeof passwordReset === 'number' && passwordReset !== 400 && submit) {
+      return <ErrorMessage message="Noe gikk galt! Prøv igjen senere." />;
+    }
+    return <></>;
 
   return (
     <div className={classes.root}>
