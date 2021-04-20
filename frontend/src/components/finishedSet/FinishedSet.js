@@ -24,6 +24,7 @@ const FinishedSet = ({
 
   const [rating, setRating] = useState({ rating: null });
   const [step, setStep] = useState('');
+  const [pers] = useState(Math.ceil(percentage * 100));
 
   function getContent() {
     axiosInstance()
@@ -46,7 +47,7 @@ const FinishedSet = ({
 
   function postCompleted() {
     axiosInstance()
-      .post(`/completed/`, { sets: id, score: totalScore })
+      .post(`/completed/`, { sets: id, score: pers })
       .catch((e) => {
         return e;
       });
@@ -54,7 +55,7 @@ const FinishedSet = ({
   function putCompleted() {
     axiosInstance()
       .put(`/completed/${completed.id}`, {
-        score: totalScore,
+        score: pers,
         sets: id,
       })
       .catch((e) => {
@@ -67,7 +68,7 @@ const FinishedSet = ({
       getContent();
       if (!completed.completed) {
         postCompleted();
-      } else if (completed.completed && totalScore > completed.score) {
+      } else if (completed.completed && pers > completed.score) {
         putCompleted();
       }
     }
