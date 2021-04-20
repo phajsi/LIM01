@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Button, Paper, TextField, Card, CardHeader } from '@material-ui/core';
-import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
+import { Button, Paper, TextField } from '@material-ui/core';
 import { reset_password } from '../../actions/auth';
 import useStyles from './styles';
 
@@ -24,10 +24,14 @@ const ResetPassword = ({ reset_password }) => {
     setRequestSent(true);
   };
 
+  if (requestSent) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <div className={classes.root}>
       <Paper className={classes.infoBox}>
-        <h2>Request Password Reset:</h2>
+        <h2 className={classes.headline}>Request Password Reset</h2>
         <form onSubmit={(e) => onSubmit(e)}>
           <TextField
             type="email"
@@ -39,18 +43,6 @@ const ResetPassword = ({ reset_password }) => {
             fullWidth
             required
           />
-          {requestSent && (
-            <Card className={classes.card}>
-              <CardHeader
-                className={classes.cardHeader}
-                avatar={
-                  // eslint-disable-next-line react/jsx-wrap-multilines
-                  <CheckCircleOutlinedIcon style={{ color: 'lightgreen' }} />
-                }
-                title={`En Epost har blitt sendt til ${formData.email}. Trykk på linken i e-posten for å endre passordet ditt.`}
-              />
-            </Card>
-          )}
           <Button
             variant="contained"
             color="primary"

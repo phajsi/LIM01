@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Button } from '@material-ui/core';
+import { Button, Paper } from '@material-ui/core';
 import { verify } from '../../actions/auth';
 import useStyles from './styles';
 
@@ -23,10 +23,20 @@ const Activate = ({ verify, match }) => {
 
   return (
     <div className={classes.root}>
-      <h1>Verify your Account:</h1>
-      <Button variant="contained" color="primary" onClick={verify_account}>
-        Verify
-      </Button>
+      <Paper className={classes.infoBox} style={{ padding: '24px' }}>
+        <div style={{ margin: 'auto' }}>
+          <h2 className={classes.headline}>Verify your Account</h2>
+          <br />
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={verify_account}
+          >
+            Verify
+          </Button>
+        </div>
+      </Paper>
     </div>
   );
 };

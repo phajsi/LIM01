@@ -17,6 +17,7 @@ import ryddaudio from '../../assets/audiofiles/ryddeSetningerVoice.mp3';
 import ProgressBar from '../../components/ProgressBar';
 import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
+import exerciseStyles from '../exerciseStyle';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
 const RyddeSetninger = ({
@@ -27,7 +28,9 @@ const RyddeSetninger = ({
   restartSet,
   playAudio,
 }) => {
-  const classes = useStyles();
+  const className = useStyles();
+  const classesBase = exerciseStyles();
+  const classes = { ...className, ...classesBase };
 
   const [renderPage, setRenderPage] = useState();
   const [words] = useState([]);
@@ -166,30 +169,30 @@ const RyddeSetninger = ({
           {restartSet()}
         </Toolbar>
       </AppBar>
-      <Paper className={classes.layout} elevation={0}>
+      <div className={classes.topContent}>
         <div className={classes.progresscontainer}>
           <ProgressBar progress={progress} possible={possible} />
         </div>
-        <Grid container spacing={3}>
+        <Card>
+          <CardContent className={classes.cardcontent}>
+            <IconButton onClick={() => fireAudio()} disabled={disabled}>
+              <VolumeUpIcon />
+            </IconButton>
+            <Typography
+              variant="body2"
+              component="p"
+              className={classes.audiotext}
+            >
+              Trykk på ordene sånn at de kommer i riktig rekkefølge. Husk å
+              sjekke tegnsettingen!
+            </Typography>
+          </CardContent>
+        </Card>
+      </div>
+      <Paper className={classes.layout} elevation={0}>
+        <Grid container spacing={1}>
           <Grid item xs={12}>
-            <Card>
-              <CardContent className={classes.cardcontent}>
-                <IconButton onClick={() => fireAudio()} disabled={disabled}>
-                  <VolumeUpIcon />
-                </IconButton>
-                <Typography
-                  variant="body2"
-                  component="p"
-                  className={classes.audiotext}
-                >
-                  Trykk på ordene sånn at de kommer i riktig rekkefølge. Husk å
-                  sjekke tegnsettingen!
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12}>
-            <div>
+            <div style={{ alignSelf: 'center' }}>
               {wordWithColorCode.map((el, index) => (
                 <Button
                   id={index}
@@ -228,6 +231,7 @@ const RyddeSetninger = ({
               variant="contained"
               disabled={disableButton}
               onClick={checkAnswer}
+              className={classes.checkAnswerBtn}
             >
               Sjekk svar
             </Button>

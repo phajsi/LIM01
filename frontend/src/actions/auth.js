@@ -229,7 +229,6 @@ export const reset_password_confirm = (
   } catch (err) {
     dispatch({
       type: PASSWORD_RESET_CONFIRM_FAIL,
-      payload: err.response.status,
     });
   }
 };

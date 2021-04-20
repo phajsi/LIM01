@@ -4,17 +4,28 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: theme.spacing(100),
     margin: 'auto',
+    position: 'relative',
+    zIndex: 1,
   },
   triangle1: {
     top: 0,
     left: 0,
     maxWidth: '100vw',
+    position: 'absolute',
+    marginBottom: theme.spacing(2),
+    zIndex: -1,
   },
   triangle2: {
     bottom: 0,
     right: 0,
     display: 'block',
     maxWidth: '100vw',
+    position: 'absolute',
+    marginTop: theme.spacing(2),
+    zIndex: -1,
+  },
+  container: {
+    padding: theme.spacing(2),
   },
   infobox: {
     textlign: 'center',
@@ -73,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     border: '2px solid #F5F5F5',
     borderRadius: 15,
+    backgroundColor: 'white',
   },
   commentheader: {
     display: 'flex',
@@ -123,6 +135,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     marginBottom: '10px',
     marginTop: '5px',
+    backgroundColor: 'white',
   },
 }));
 export default useStyles;

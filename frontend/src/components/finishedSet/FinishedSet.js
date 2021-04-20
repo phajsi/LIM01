@@ -1,24 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Paper, Grid, Typography } from '@material-ui/core';
+import { Paper, Grid, Typography, Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import { axiosInstance } from '../helpers/ApiFunctions';
-import SaveIcon from '../components/SaveIcon';
-import happyPickle from '../assets/images/happyPickle.png';
-
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 800,
-    margin: 'auto',
-    background: 'transparent',
-  },
-  image: {
-    maxWidth: 300,
-    float: 'right',
-  },
-});
+import { axiosInstance } from '../../helpers/ApiFunctions';
+import SaveIcon from '../SaveIcon';
+import happyPickle from '../../assets/images/happyPickle.png';
+import finalSad from '../../assets/images/finalSad.png';
+import useStyles from './styles';
 
 const FinishedSet = ({
   totalScore,
@@ -27,11 +17,14 @@ const FinishedSet = ({
   percentage,
   completed,
   isAuthenticated,
+  setSteps,
+  getContents,
 }) => {
+  const classes = useStyles();
+
   const [rating, setRating] = useState({ rating: null });
   const [step, setStep] = useState('');
-
-  const classes = useStyles();
+  const [pers] = useState(Math.ceil(percentage * 100));
 
   function getContent() {
     axiosInstance()
@@ -44,27 +37,6 @@ const FinishedSet = ({
       });
   }
 
-  /** The const will display different responces to different results from playing a set */
-  const switchStep = () => {
-    switch (step) {
-      case 'over':
-        return (
-          <div>
-            <Typography variant="h3">Bra jobba!</Typography>
-            <img
-              src={happyPickle}
-              alt="happy pickle"
-              className={classes.image}
-            />
-          </div>
-        );
-      case 'under':
-        return <Typography variant="h3">Ikke værst!</Typography>;
-      default:
-        return <p>default</p>;
-    }
-  };
-
   function scoreState() {
     if (percentage < 0.75) {
       setStep('under');
@@ -75,7 +47,7 @@ const FinishedSet = ({
 
   function postCompleted() {
     axiosInstance()
-      .post(`/completed/`, { sets: id, score: totalScore })
+      .post(`/completed/`, { sets: id, score: pers })
       .catch((e) => {
         return e;
       });
@@ -83,7 +55,7 @@ const FinishedSet = ({
   function putCompleted() {
     axiosInstance()
       .put(`/completed/${completed.id}`, {
-        score: totalScore,
+        score: pers,
         sets: id,
       })
       .catch((e) => {
@@ -96,7 +68,7 @@ const FinishedSet = ({
       getContent();
       if (!completed.completed) {
         postCompleted();
-      } else if (completed.completed && totalScore > completed.score) {
+      } else if (completed.completed && pers > completed.score) {
         putCompleted();
       }
     }
@@ -118,10 +90,62 @@ const FinishedSet = ({
       });
   }
 
+  function restartSet() {
+    return (
+      <Grid>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            getContents(id);
+            setSteps('overview');
+          }}
+        >
+          Til oversikten
+        </Button>
+      </Grid>
+    );
+  }
+
+  /** The const will display different responces to different results from playing a set */
+  const switchStep = () => {
+    switch (step) {
+      case 'over':
+        return (
+          <div>
+            <Typography variant="h3" className={classes.text}>
+              Bra jobba!
+            </Typography>
+            <img
+              src={happyPickle}
+              alt="happy pickle"
+              className={classes.happyImage}
+            />
+          </div>
+        );
+      case 'under':
+        return (
+          <div>
+            <Typography variant="h3" className={classes.text}>
+              Ikke værst!
+            </Typography>
+            <img
+              src={finalSad}
+              alt="Final sad pickle"
+              width="100"
+              className={classes.sadImage}
+            />
+          </div>
+        );
+      default:
+        return <p>default</p>;
+    }
+  };
+
   return (
     <Paper elevation={0} className={classes.root}>
       {switchStep()}
-      <Typography variant="h3">
+      <Typography variant="h4">
         Din totale poengsum ble
         {` ${totalScore} `}
         av totalt
@@ -130,7 +154,7 @@ const FinishedSet = ({
       </Typography>
       {isAuthenticated && (
         <>
-          <Typography variant="h4">
+          <Typography variant="h5">
             <br />
             Hvis du likte settet kan du gi det tommel opp
           </Typography>
@@ -153,6 +177,16 @@ const FinishedSet = ({
           </Grid>
         </>
       )}
+      <Grid container justify="center">
+        {restartSet()}
+        <Button
+          variant="outlined"
+          component={Link}
+          to={isAuthenticated ? '/home' : '/'}
+        >
+          Hjem
+        </Button>
+      </Grid>
     </Paper>
   );
 };

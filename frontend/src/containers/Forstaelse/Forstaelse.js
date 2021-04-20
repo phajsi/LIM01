@@ -15,6 +15,7 @@ import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import ChatBubble from '../../components/ChatBubble/ChatBubble';
 import forsaudio from '../../assets/audiofiles/forstaelseVoice.mp3';
 import useStyles from './styles';
+import exerciseStyles from '../exerciseStyle';
 import ProgressBar from '../../components/ProgressBar';
 import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
@@ -27,7 +28,9 @@ const Forstaelse = ({
   restartSet,
   playAudio,
 }) => {
-  const classes = useStyles();
+  const className = useStyles();
+  const classesBase = exerciseStyles();
+  const classes = { ...className, ...classesBase };
 
   const [formData, setFormData] = useState({});
   const [answerState, setAnswerState] = useState(null);
@@ -87,33 +90,32 @@ const Forstaelse = ({
           {restartSet()}
         </Toolbar>
       </AppBar>
-      <Paper className={classes.layout} elevation={0}>
+      <div className={classes.topContent}>
         <div className={classes.progresscontainer}>
           <ProgressBar progress={progress} possible={possible} />
         </div>
+        <Card>
+          <CardContent className={classes.cardcontent}>
+            <IconButton onClick={() => fireAudio()} disabled={disabled}>
+              <VolumeUpIcon />
+            </IconButton>
+            <Typography
+              variant="body2"
+              component="p"
+              className={classes.audiotext}
+            >
+              Les hva meldingen sier. Svar på spørsmålet.
+            </Typography>
+          </CardContent>
+        </Card>
+      </div>
+      <Paper className={classes.layout} elevation={0}>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Card className={classes.header}>
-              <CardContent className={classes.cardcontent}>
-                <IconButton onClick={() => fireAudio()} disabled={disabled}>
-                  <VolumeUpIcon />
-                </IconButton>
-                <Typography
-                  variant="body2"
-                  component="p"
-                  className={classes.audiotext}
-                >
-                  Les hva meldingen sier. Svar på spørsmålet.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
           <ChatBubble chat={formData[`chat${taskStep}`]} />
           <Grid className={classes.gridText} item xs={12}>
             <hr />
             <p className={classes.text}>{formData[`question${taskStep}`]}</p>
           </Grid>
-
           {answerState === null && (
             <>
               <Grid item xs={6}>
