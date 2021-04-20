@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     maxWidth: theme.spacing(62),
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '80vw',
+    },
   },
 }));
 
