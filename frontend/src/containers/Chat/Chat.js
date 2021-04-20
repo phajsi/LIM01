@@ -105,6 +105,25 @@ const Chat = ({
     chatHistory.push(answer);
   }
 
+  function random() {
+    const buttonList = [
+      formData[`answer${taskStep}1`],
+      formData[`answer${taskStep}2`],
+      formData[`correctanswer${taskStep}`],
+    ];
+    buttonList.sort(() => Math.random() - 0.5);
+    return buttonList.map((chats) => {
+      return (
+        <Button
+          style={{ marginTop: 3, borderRadius: '25px' }}
+          onClick={() => handleAnswer(chats)}
+        >
+          {chats}
+        </Button>
+      );
+    });
+  }
+
   function fireAudio() {
     setDisabled(true);
     playAudio(chataudio);
@@ -166,31 +185,7 @@ const Chat = ({
                 disableElevation
                 className={classes.btn}
               >
-                <Button
-                  style={{ borderRadius: '25px' }}
-                  id={1}
-                  onClick={() => handleAnswer(formData[`answer${taskStep}1`])}
-                >
-                  {formData[`answer${taskStep}1`]}
-                </Button>
-                <Button
-                  className={classes.btn}
-                  onClick={() =>
-                    // eslint-disable-next-line prettier/prettier
-                    handleAnswer(formData[`answer${taskStep}2`])}
-                  style={{ marginTop: 3, borderRadius: '25px' }}
-                >
-                  {formData[`answer${taskStep}2`]}
-                </Button>
-                <Button
-                  className={classes.btn}
-                  onClick={() =>
-                    // eslint-disable-next-line prettier/prettier
-                    handleAnswer(formData[`correctanswer${taskStep}`])}
-                  style={{ marginTop: 3, borderRadius: '25px' }}
-                >
-                  {formData[`correctanswer${taskStep}`]}
-                </Button>
+                {random()}
               </ButtonGroup>
             )}
           </Grid>
