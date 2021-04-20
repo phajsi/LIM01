@@ -99,7 +99,7 @@ const CreateRyddeSetninger = ({
     <Paper className={classes.root}>
       <Grid className={classes.headergroup}>
         <h1>Rydde Setninger</h1>
-        <IconButton onClick={() => setShowModal('rydde_setninger')}>
+        <IconButton onClick={() => setShowModal('createrydde_setninger')}>
           <InfoIcon className={classes.icons} />
         </IconButton>
       </Grid>

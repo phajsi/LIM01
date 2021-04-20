@@ -80,7 +80,7 @@ const CreateForstaelse = ({
     <Paper className={classes.root}>
       <Grid className={classes.headergroup}>
         <h1>Forståelse</h1>
-        <IconButton onClick={() => setShowModal('forstaelse')}>
+        <IconButton onClick={() => setShowModal('createforstaelse')}>
           <InfoIcon className={classes.icons} />
         </IconButton>
       </Grid>
