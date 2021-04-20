@@ -35,28 +35,14 @@ const ResetPasswordConfirm = ({
     setSubmit(true);
   };
 
-  const message = () => {
-    return (
-      <div className={classes.message}>
-        <p>Passordet ble ikke godkjent! </p>
-        <p>Pass på at passordet møter kravene: </p>
-        <div className={classes.messageList}>
-          <p>minst 8 tegn</p>
-          <p>minst en stor og liten bokstav</p>
-          <p>minst et tall</p>
-          <p>passordet kan ikke være for vanlig</p>
-          <p>passordet kan ikke være for likt brukernavnet</p>
-        </div>
-      </div>
-    );
-  };
-
   function errorHandling() {
     if (passwordReset === true && submit) {
       return <Redirect to="/login" />;
     }
     if (passwordReset === 400 && submit) {
-      return <ErrorMessage message={() => message()} />;
+      return (
+        <ErrorMessage message="Passordet ble ikke godkjent! Pass på at passordet møter kravene: minst 8 tegn, minst en stor og liten bokstav, minst et tall, passordet kan ikke være for vanlig eller for likt brukernavnet ditt." />
+      );
     }
     if (typeof passwordReset === 'number' && passwordReset !== 400 && submit) {
       return <ErrorMessage message="Noe gikk galt! Prøv igjen senere." />;
