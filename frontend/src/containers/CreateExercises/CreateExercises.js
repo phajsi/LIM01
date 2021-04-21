@@ -78,6 +78,9 @@ const CreateExercises = () => {
   useEffect(() => {
     // location.state?... is the state/props passed from the Redirect.
     if (location.state?.editSet) {
+      const set = location.state?.formSets;
+      setForminput({ title: set.title, description: set.description });
+      console.log(location.state?.formSets);
       updateSet(location.state?.formSets);
     }
   }, []);
@@ -163,8 +166,6 @@ const CreateExercises = () => {
    */
 
   function onSubmitPostSet() {
-    console.log(forminput.title);
-    console.log(forminput.description);
     if (
       !formDataSet.chat1 &&
       !formDataSet.forstaelse1 &&
@@ -195,16 +196,17 @@ const CreateExercises = () => {
       setEmptyFormError(
         'Du må legge inn et navn og en beskrivelse av settet ditt'
       );
+    } else {
+      const data = { ...formDataSet, ...forminput };
+      axiosInstance()
+        .put(`/createsets/${formDataSet.id}`, data)
+        .then(() => {
+          setStep('confirmation');
+        })
+        .catch((e) => {
+          return e;
+        });
     }
-    const data = { ...formDataSet, ...forminput };
-    axiosInstance()
-      .put(`/createsets/${formDataSet.id}`, data)
-      .then(() => {
-        setStep('confirmation');
-      })
-      .catch((e) => {
-        return e;
-      });
   }
 
   // function to reset formdataedit if a user doesnt want to edit the exercise
