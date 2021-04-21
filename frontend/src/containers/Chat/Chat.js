@@ -127,9 +127,7 @@ const Chat = ({
   function fireAudio() {
     setDisabled(true);
     playAudio(chataudio);
-    setTimeout(() => {
-      setDisabled(false);
-    }, 6000);
+    setTimeout(() => setDisabled(false), 6000);
   }
 
   useEffect(() => {
