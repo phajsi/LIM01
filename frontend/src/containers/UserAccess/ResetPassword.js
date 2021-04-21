@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Paper, TextField, Card, CardHeader } from '@material-ui/core';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
@@ -24,10 +23,6 @@ const ResetPassword = ({ reset_password }) => {
     reset_password(email);
     setRequestSent(true);
   };
-
-  if (requestSent) {
-    return <Redirect to="/" />;
-  }
 
   return (
     <div className={classes.root}>
