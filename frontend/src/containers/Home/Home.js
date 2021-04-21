@@ -90,6 +90,10 @@ const Home = () => {
                     setDeleteId(set.id);
                     setOpen(true);
                   }}
+                  onClick3={() => {
+                    setPlayId(set.id);
+                    setRedirectPlay(true);
+                  }}
                 />
               );
             })}
