@@ -149,7 +149,7 @@ const Chat = ({
         </div>
         <Card>
           <CardContent className={classes.cardcontent}>
-            <IconButton onClick={() => fireAudio()} disabled={disabled}>
+            <IconButton onClick={fireAudio} disabled={disabled}>
               <VolumeUpIcon />
             </IconButton>
             <Typography
