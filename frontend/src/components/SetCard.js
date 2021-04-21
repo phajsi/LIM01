@@ -11,6 +11,7 @@ import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import PersonIcon from '@material-ui/icons/Person';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import CommentIcon from '@material-ui/icons/Comment';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from './SaveIcon';
 
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SetCard({ type, formData, onClick1, onClick2 }) {
+function SetCard({ type, formData, onClick1, onClick2, onClick3 }) {
   const classes = useStyles();
 
   function iconButtons() {
@@ -48,6 +49,9 @@ function SetCard({ type, formData, onClick1, onClick2 }) {
     if (type === 'mySet') {
       return (
         <>
+          <IconButton onClick={() => onClick3()}>
+            <CommentIcon />
+          </IconButton>
           <IconButton onClick={() => onClick1()}>
             <EditIcon />
           </IconButton>

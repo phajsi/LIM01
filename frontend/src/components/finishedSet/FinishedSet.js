@@ -101,7 +101,7 @@ const FinishedSet = ({
             setSteps('overview');
           }}
         >
-          Til oversikten
+          Kommentarer
         </Button>
       </Grid>
     );
