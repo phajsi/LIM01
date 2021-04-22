@@ -140,7 +140,7 @@ const PlaySets = () => {
             setStep('overview');
           }}
         >
-          Restart
+          Restart sett
         </Button>
       </Grid>
     );
