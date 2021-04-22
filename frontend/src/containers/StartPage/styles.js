@@ -81,8 +81,7 @@ const useStyles = makeStyles((theme) => ({
       maxWidth: '16vw',
     },
     [theme.breakpoints.down('xs')]: {
-      right: '5vw',
-      maxWidth: '30vw',
+      display: 'none',
     },
   },
   forest: {
@@ -94,8 +93,7 @@ const useStyles = makeStyles((theme) => ({
       maxWidth: '28vw',
     },
     [theme.breakpoints.down('xs')]: {
-      left: '5vw',
-      maxWidth: '60vw',
+      display: 'none',
     },
   },
 }));
