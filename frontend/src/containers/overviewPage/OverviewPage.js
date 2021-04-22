@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {
   Grid,
@@ -17,6 +18,7 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SendIcon from '@material-ui/icons/Send';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {
   axiosInstanceGet,
   axiosInstance,
@@ -46,6 +48,7 @@ const OverviewPage = ({
   // stores the ID of a comment the user is attempting to delete
   const [deleteId, setDeleteId] = useState(null);
   const [ratings, setRatings] = useState({ upvote: 0, downvote: 0 });
+  const [redirectHome, setRedirectHome] = useState(false);
 
   const classes = useStyles();
 
@@ -123,11 +126,20 @@ const OverviewPage = ({
   return (
     <Paper className={classes.root}>
       <img src={topTriangle} alt="topTriangle" className={classes.triangle1} />
+      <IconButton
+        className={classes.iconbutton}
+        onClick={() => setRedirectHome(true)}
+      >
+        <ArrowBackIcon />
+        Hjem
+      </IconButton>
       <Grid container className={classes.container}>
         <Grid item xs={12} className={classes.infobox}>
           <div className={classes.header}>
             <h1 className={classes.headertitle}>{title}</h1>
-            {isAuthenticated && <SaveIcon id={id} />}
+            {isAuthenticated && (
+              <SaveIcon className={classes.iconbutton} id={id} />
+            )}
           </div>
           <Divider className={classes.divider} />
           <Grid container>
@@ -259,6 +271,17 @@ const OverviewPage = ({
         alt="bottomTriangle"
         className={classes.triangle2}
       />
+      {redirectHome && (
+        <Redirect
+          to={
+            isAuthenticated
+              ? {
+                  pathname: '/home',
+                }
+              : { pathname: '/' }
+          }
+        />
+      )}
     </Paper>
   );
 };
