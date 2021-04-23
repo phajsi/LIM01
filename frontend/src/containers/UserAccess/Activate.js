@@ -5,11 +5,22 @@ import { Button, Paper } from '@material-ui/core';
 import { verify } from '../../actions/auth';
 import useStyles from './styles';
 
+/**
+ * Link to this page is sent to the users email address after successfully registering
+ * an account.
+ * The user can activate the registered account on this page
+ * @param {object} param0 props
+ * @property {function} verify redux action for verifying an account
+ * @property {object} match react router to match url
+ * @returns container for activating account
+ */
+
 const Activate = ({ verify, match }) => {
   const classes = useStyles();
   const [verified, setVerified] = useState(false);
 
   const verify_account = () => {
+    // user id and token needed for verification.
     const uid = match.params.uid;
     const token = match.params.token;
 

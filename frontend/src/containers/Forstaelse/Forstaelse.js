@@ -20,6 +20,7 @@ import ProgressBar from '../../components/ProgressBar';
 import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
+// chat exercise component for playing.
 const Forstaelse = ({
   id,
   showFeedback,
@@ -32,8 +33,13 @@ const Forstaelse = ({
   const classesBase = exerciseStyles();
   const classes = { ...className, ...classesBase };
 
+  // Data for the forstaelse exercise from backend
   const [formData, setFormData] = useState({});
+
+  // null if user hasnt given answer. "corrent" or "incorrect" if user has given answer
   const [answerState, setAnswerState] = useState(null);
+
+  // keeps track of which task in the exercise the user is currently on.
   const [taskStep, setTaskStep] = useState(1);
   const [score, setScore] = useState(0);
   const [totalPossibleScore, setTotalPossibeScore] = useState(0);
@@ -62,8 +68,10 @@ const Forstaelse = ({
     }
   }
 
+  // goes to next task or next exercise after user has played the current task
   const handleNextTask = () => {
     setAnswerState(null);
+    // checks if there are more tasks in the exercise before incrementing the task count
     if (!formData[`chat${taskStep + 1}`]) {
       showFeedback(score, totalPossibleScore);
     } else {

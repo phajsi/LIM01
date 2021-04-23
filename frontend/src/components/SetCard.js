@@ -32,9 +32,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Reusable card component for exercise sets with icon buttons for playing, saving,
+ * editing and deleting exercise sets.
+ * @param {Object} param0 props
+ * @returns card component for given exercise set
+ */
+
 function SetCard({ type, formData, onClick1, onClick2, onClick3 }) {
   const classes = useStyles();
 
+  // returns different buttons depeding on the type of card.
   function iconButtons() {
     if (type !== 'mySet') {
       return (

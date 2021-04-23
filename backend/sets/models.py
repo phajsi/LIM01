@@ -49,6 +49,7 @@ class Saved(models.Model):
     sets = models.ForeignKey(Sets, on_delete=models.CASCADE)
 
     class Meta:
+        # must be unique togheter to avoid multiple entries in database
         unique_together = ('owner', 'sets',)
 
 
@@ -66,6 +67,7 @@ class Rating(models.Model):
     rating = models.BooleanField()
 
     class Meta:
+        # must be unique togheter to avoid multiple entries in database
         unique_together = ('owner', 'sets',)
 
 
@@ -75,4 +77,5 @@ class Completed(models.Model):
     score = models.CharField(max_length=3)
 
     class Meta:
+        # must be unique togheter to avoid multiple entries in database
         unique_together = ('owner', 'sets',)

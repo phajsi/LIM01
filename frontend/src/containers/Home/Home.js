@@ -24,20 +24,34 @@ import useStyles from './styles';
 const Home = () => {
   const classes = useStyles();
 
+  // three lists that are updated with data from backend when the page renders.
+  // list of the users own sets
   const [ExerciseSetList, setExerciseSetList] = useState([]);
+  // list of saved sets
   const [savedList, setSavedList] = useState([]);
+  // list of completed played sets
   const [completedList, setCompletedList] = useState([]);
+
   const [showSetType, setShowSetType] = useState(0);
 
+  // used to redirect if the user has clicked on the play icon on a card
   const [redirectPlay, setRedirectPlay] = useState(false);
   const [playId, setPlayId] = useState(null);
 
+  // two variables used for the delete modal
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
+  // used to redirect if the user has clicked on the edit icon on a card
   const [formDataEdit, setFormDataEdit] = useState(null);
   const [redirectEdit, setRedirectEdit] = useState(false);
 
+  /**
+   * Sends three requests to backend to get necesarry data
+   * first requests gets the sets the user has made
+   * second request gets the user's saved sets
+   * the third request gets the user's completed sets
+   */
   function getContent() {
     const requestOne = axiosInstance().get(`/usersets/`);
     const requestTwo = axiosInstance().get(`/saved/`);
@@ -56,10 +70,12 @@ const Home = () => {
       });
   }
 
+  // only runs once when the page renders and gets the necesarry content form backend
   useEffect(() => {
     getContent();
   }, []);
 
+  // deletes an exercise set that the user has made.
   function onDelete(id) {
     axiosInstanceDelete()
       .delete(`/deletesets/${id}`)
@@ -72,6 +88,7 @@ const Home = () => {
       });
   }
 
+  // returns the correct list of cards depending on what "tab" the user has chosen
   const renderSwitch = (param) => {
     switch (param) {
       case 0:

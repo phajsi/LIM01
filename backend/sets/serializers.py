@@ -11,10 +11,14 @@ class SetsSerializer(serializers.ModelSerializer):
                   'ryddeSetninger5')
         owner = serializers.ReadOnlyField(source='owner.email')
 
+
 class GetSetsSerializer(serializers.ModelSerializer):
+    # in addition to the fields in the model, this serializes a field for set owner which is
+    # the name of the owner and not just the pk(email)
     setOwner = serializers.SerializerMethodField()
 
     def get_setOwner(self, obj):
+        # owner is a foreign key and owner.name is the name of the referenced user in the foriegn key
         return obj.owner.name
 
     class Meta:
@@ -24,6 +28,7 @@ class GetSetsSerializer(serializers.ModelSerializer):
                   'ryddeSetninger1', 'ryddeSetninger2', 'ryddeSetninger3', 'ryddeSetninger4',
                   'ryddeSetninger5')
         owner = serializers.ReadOnlyField(source='owner.email')
+
 
 class SavedSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,9 +42,11 @@ class GetSavedSerializer(serializers.ModelSerializer):
     setOwner = serializers.SerializerMethodField()
 
     def get_title(self, obj):
+        # the set title connected to the referenced primary key for "sets"
         return obj.sets.title
 
     def get_setOwner(self, obj):
+        # owner is a foreign key and owner.name is the name of the referenced user in the foriegn key
         return obj.sets.owner.name
 
     class Meta:

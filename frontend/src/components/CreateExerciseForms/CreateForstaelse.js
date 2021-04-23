@@ -34,6 +34,7 @@ const CreateForstaelse = ({
   const [taskAmount, setTaskAmount] = useState(1);
   const [showModal, setShowModal] = useState(false);
 
+  // used to check if an exisitng exercise should be edited or a new one made.
   useEffect(() => {
     if (formDataEdit) {
       if (formDataEdit.chat3) {
@@ -43,6 +44,14 @@ const CreateForstaelse = ({
       }
     }
   }, []);
+
+  /**
+   * Used to avoid repetition of same code because there are many similar fields.
+   * @param {String} name the name of the field.
+   * @param {Boolean} touched Formik prop. validation will only run if field has been touched by user
+   * @param {Boolean} errors Formik prop to handle errors on user input.
+   * @returns The complete field that will be shown to the user
+   */
 
   function formTextField(name, touched, errors) {
     return (
