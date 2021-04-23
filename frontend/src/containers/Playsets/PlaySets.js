@@ -14,35 +14,44 @@ import useStyles from './styles';
 
 const PlaySets = () => {
   const location = useLocation();
+
+  // stepper for switching beteween exercises in the set
   const [step, setStep] = useState('menu');
+
+  // id for the exercise being played
   const [exerciseId, setExerciseId] = useState(0);
+  // id for the exercise set containgin the exercises
   const [id, setId] = useState(null);
+
   const [totalScore, setTotalScore] = useState(0);
   const [exerciseProgress, setExerciseProgress] = useState(0);
   const [completed, setCompleted] = useState({ completed: false, score: 0 });
   const [totalExercises, setTotalExercises] = useState(0);
   const [feedbackState, setFeedbackState] = useState(false);
+
   const [redirected, setRedirected] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
+  // list of ids for the exercises in the set
   const [formDataExercises] = useState({
     chat: [],
     forstaelse: [],
     ryddeSetninger: [],
   });
+
+  // hook to get access to redux store and obtain user and auth info.
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
 
   const classes = useStyles();
-
-  // const onChange = (e) => setId(e.target.value);
 
   /**
    * The function will turn the response object from the API endpoint into a
    * playlist with exercise IDs. the playlist will be stored as an object with
    * three lists, one for each exercise type. Only exercise types with an ID will be
    * added and other data will be ignored.
-   * @param {*} sets a object containing sets from backend.
+   * @param {object} sets a object containing sets from backend.
    */
   function createPlayList(sets) {
     formDataExercises.chat.length = 0;
@@ -71,7 +80,6 @@ const PlaySets = () => {
    * then it goes to the next exercise. If not then it goes to the finish. It deletes
    * the current exercise being played from the list.
    */
-
   function nextExercise() {
     if (formDataExercises.chat[0]) {
       setExerciseProgress(exerciseProgress + 1);

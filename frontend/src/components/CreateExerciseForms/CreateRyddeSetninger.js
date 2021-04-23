@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
@@ -36,8 +35,7 @@ const CreateRyddeSetninger = ({
   const [showModal, setShowModal] = useState(false);
 
   /**
-   * Used to avoid repetition of same code.
-   * All fields in the form will use this function
+   * Used to avoid repetition of same code because there are many similar fields.
    * @param {String} name the name of the field.
    * @param {String} label name/description that will be visibile to the user
    * @param {Boolean} touched Formik prop. validation will only run if field has been touched by user
@@ -83,9 +81,16 @@ const CreateRyddeSetninger = ({
       </Field>
     );
   }
+
+  /**
+   * Runs when the page first renders and checks if an exisitng exercise
+   * should be edited. formDataEdit is passed as props if it is an exisiting exercise.
+   * if not, this function does nothing.
+   */
   useEffect(() => {
     if (formDataEdit) {
       let wordAmount = 0;
+      // used to keep track of how many words the exercise has.
       Object.entries(formDataEdit).forEach(([key, values]) => {
         if (!key.includes('Class') && key !== 'id' && values !== '') {
           wordAmount += 1;

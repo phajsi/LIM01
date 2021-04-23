@@ -20,6 +20,7 @@ import useStyles from './styles';
 import exerciseStyles from '../exerciseStyle';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
+// ryddeSetninger exercise component for playing.
 const RyddeSetninger = ({
   id,
   showFeedback,

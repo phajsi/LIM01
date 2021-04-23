@@ -17,6 +17,16 @@ import { login, checkAuthenticated } from '../../actions/auth';
 import useStyles from './styles';
 import ErrorMessage from '../../components/ErrorMessage';
 
+/**
+ * login page for the website
+ * @param {object} param0 props
+ * @property {function} login redux action for user auth
+ * @property {boolean} isAuthenticated redux state used to check if a user is auth.
+ * @property {*} loginError redux state used to check if login failed
+ * @property {function} checkAuthenticated redux action for checking if auth is valid and updating isAuthenticated
+ * @returns container for logging in a user
+ */
+
 const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
   const classes = useStyles();
   const location = useLocation();
@@ -25,6 +35,8 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
     email: '',
     password: '',
   });
+
+  // boolean so user can toggle visible password in password field.
   const [showPassword, setShowPassword] = useState(false);
 
   const { email, password } = formData;

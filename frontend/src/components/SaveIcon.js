@@ -11,6 +11,12 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+/**
+ * An icon component for saving/unsaving exercise sets.
+ * @property {integer} id for the set
+ * @returns clickable icon component
+ */
+
 function SaveIcon({ id }) {
   const classes = useStyles();
   const [saved, setSaved] = useState(false);
@@ -28,6 +34,7 @@ function SaveIcon({ id }) {
     getSaved();
   }, []);
 
+  // backend requests for saving/unsaving exercise set
   function onClickSave() {
     if (!saved) {
       axiosInstance()

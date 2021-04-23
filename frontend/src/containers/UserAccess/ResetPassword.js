@@ -5,6 +5,14 @@ import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import { reset_password } from '../../actions/auth';
 import useStyles from './styles';
 
+/**
+ * Users can enter email and request a password reset. an email will be sent with
+ * a link for reseting password.
+ * @param {object} param0 props
+ * @property {reset_password} reset_password redux action for reseting password
+ * @returns container for reseting password
+ */
+
 const ResetPassword = ({ reset_password }) => {
   const classes = useStyles();
   const [requestSent, setRequestSent] = useState(false);

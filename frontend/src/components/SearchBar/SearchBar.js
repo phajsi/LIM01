@@ -16,6 +16,11 @@ const SearchBar = () => {
     setPlayId(e.target.value);
   };
 
+  /**
+   * handles logic after user has entered something in the search bar.
+   * If valid input then it checks if the set exists. sets error message
+   * if the set doesnt exist and redirects to set if it does exist.
+   */
   function playSet(e) {
     e.preventDefault();
     // checks that the user has only entered integer values in the search bar

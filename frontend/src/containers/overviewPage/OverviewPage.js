@@ -56,7 +56,7 @@ const OverviewPage = ({
    * this function updates exerciseFeedback when a user enters
    * the overviewpage of an exercise set with a given ID.
    * only comments related to that set ID are added to exerciseFeedback.
-   * @param {*} feedbacks an object containing comments from backend as input.
+   * @param {object} feedbacks an object containing comments from backend as input.
    */
   function createFeedbackList(feedbacks) {
     Object.entries(feedbacks).forEach(([comment]) => {
@@ -104,7 +104,7 @@ const OverviewPage = ({
    * setOpen is set to false so the delete dialog is closed
    * length of exerciseFeedback is set to 0 to empty the variable before
    * requesting the object list of updated comments from backend.
-   * @param {*} id ID of a specific comment as input.
+   * @param {number} id ID of a specific comment as input.
    */
   function onDelete(id) {
     axiosInstanceDelete()

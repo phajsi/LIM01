@@ -27,6 +27,7 @@ import exerciseStyles from '../exerciseStyle';
 import ProgressBar from '../../components/ProgressBar';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
+// chat exercise component for playing.
 const Chat = ({
   id,
   showFeedback,
@@ -37,10 +38,16 @@ const Chat = ({
 }) => {
   const [sendericon, setSendericon] = useState();
   const [receivericon, setReceivericon] = useState();
+
+  // null if user hasnt given answer. "corrent" or "incorrect" if user has given answer
   const [answerstate, setAnswerstate] = useState(null);
+
+  // keeps track of which task in the exercise the user is currently on.
   const [taskStep, setTaskStep] = useState(1);
   const [score, setScore] = useState(0);
   const [totalPossibleScore, setTotalPossibeScore] = useState(0);
+
+  // list that keeps track of conversation history in the chat exercise
   const [chatHistory] = useState([]);
 
   const [disabled, setDisabled] = useState(false);
@@ -49,6 +56,7 @@ const Chat = ({
   const classesBase = exerciseStyles();
   const classes = { ...className, ...classesBase };
 
+  // Data for the chat exercise from backend
   const [formData, setFormData] = useState({});
 
   const transformIcon = (iconName) => {
@@ -86,13 +94,16 @@ const Chat = ({
   const handleNextTask = () => {
     setAnswerstate(null);
     if (!formData[`chatquestion${taskStep}`]) {
+      // if there are no more tasks then it goes to showfeedback
       showFeedback(score, totalPossibleScore);
     } else {
+      // else it adds the new task to the chat history list
       chatHistory.push(formData[`chatquestion${taskStep}`]);
     }
   };
 
   function handleAnswer(answer) {
+    // checks if answer is correct or not
     if (answer === formData[`correctanswer${taskStep}`]) {
       setAnswerstate('correct');
       setScore(score + 1);
@@ -105,6 +116,7 @@ const Chat = ({
     chatHistory.push(answer);
   }
 
+  // function for randomizing the answers so the correct answer isnt always the same button
   function random() {
     const buttonList = [
       formData[`answer${taskStep}1`],
