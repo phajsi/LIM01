@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
     padding: '3px',
     textAlign: 'left',
   },
+  icon: {
+    color: 'lightgreen',
+  },
 }));
 
 export default useStyles;

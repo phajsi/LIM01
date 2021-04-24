@@ -1,15 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
 import { checkAuthenticated, load_user } from '../actions/auth';
 import Navbar from '../components/Navbar/Navbar';
-
-const useStyles = makeStyles(() => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-}));
+import useStyles from './styles';
 
 const Layout = (props) => {
   const classes = useStyles();

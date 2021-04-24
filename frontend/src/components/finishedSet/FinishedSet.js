@@ -166,14 +166,14 @@ const FinishedSet = ({
           <Grid container spacing={1}>
             <IconButton onClick={() => onClickRating(true)}>
               {rating.rating ? (
-                <ThumbUpIcon style={{ color: 'orange' }} />
+                <ThumbUpIcon className={classes.like} />
               ) : (
                 <ThumbUpIcon />
               )}
             </IconButton>
             <IconButton onClick={() => onClickRating(false)}>
               {rating.rating === false ? (
-                <ThumbDownIcon style={{ color: 'blue' }} />
+                <ThumbDownIcon className={classes.dislike} />
               ) : (
                 <ThumbDownIcon />
               )}

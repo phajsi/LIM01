@@ -51,9 +51,7 @@ const ResetPassword = ({ reset_password }) => {
             <Card className={classes.card}>
               <CardHeader
                 className={classes.cardHeader}
-                avatar={
-                  <CheckCircleOutlinedIcon style={{ color: 'lightgreen' }} />
-                }
+                avatar={<CheckCircleOutlinedIcon className={classes.icon} />}
                 title={`En Epost har blitt sendt til ${formData.email}. Trykk på linken i e-posten for å endre passordet ditt.`}
               />
             </Card>

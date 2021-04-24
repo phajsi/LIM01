@@ -50,12 +50,18 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexGrow: 1,
   },
-  toolbar: theme.mixins.toolbar,
+  spacing: {
+    ...theme.mixins.toolbar,
+  },
   appBar: {
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
+  },
+  toolbar: {
+    justifyContent: 'space-between',
+    background: 'linear-gradient(90deg, #53A77A 1.46%, #80D197 100%)',
   },
   img: {
     [theme.breakpoints.down('xs')]: {

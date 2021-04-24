@@ -16,7 +16,7 @@ import CreateForstaelse from '../../components/CreateExerciseForms/CreateForstae
 import CreateChat from '../../components/CreateExerciseForms/CreateChat';
 import CreateRyddeSetninger from '../../components/CreateExerciseForms/CreateRyddeSetninger';
 import InfoModal from '../../components/InfoModal/InfoModal';
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import useStyles from './styles';
 import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
 

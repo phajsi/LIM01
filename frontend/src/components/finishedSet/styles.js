@@ -27,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
     float: 'center',
     display: 'inline-block',
   },
+  like: {
+    color: 'orange',
+  },
+  dislike: {
+    color: 'blue',
+  },
 }));
 
 export default useStyles;

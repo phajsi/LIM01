@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Button, Paper, TextField } from '@material-ui/core';
 import { reset_password_confirm } from '../../actions/auth';
 import useStyles from './styles';
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 /**
  * after requesting a password reset and receiving an email with a link the user

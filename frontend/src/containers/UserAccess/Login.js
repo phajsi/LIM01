@@ -15,7 +15,7 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { connect } from 'react-redux';
 import { login, checkAuthenticated } from '../../actions/auth';
 import useStyles from './styles';
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 /**
  * login page for the website

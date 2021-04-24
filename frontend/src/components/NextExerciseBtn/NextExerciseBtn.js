@@ -22,7 +22,7 @@ function NextExerciseBtn({ handleNextTask, answerState }) {
         <Grid item xs={12}>
           <Card className={classes.answerElementWrong}>
             <CardHeader
-              avatar={<CancelIcon style={{ color: 'white' }} />}
+              avatar={<CancelIcon className={classes.icons} />}
               title=" Feil! "
             />
             <div className={classes.btnParent}>
@@ -43,7 +43,7 @@ function NextExerciseBtn({ handleNextTask, answerState }) {
         <Grid item xs={12}>
           <Card className={classes.answerElement}>
             <CardHeader
-              avatar={<CheckCircleIcon style={{ color: 'white' }} />}
+              avatar={<CheckCircleIcon className={classes.icons} />}
               title="Riktig!"
             />
             <div className={classes.btnParent}>

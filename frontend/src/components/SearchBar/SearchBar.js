@@ -3,7 +3,7 @@ import { Grid, TextField, Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import useStyles from './styles';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
-import ErrorMessage from '../ErrorMessage';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const SearchBar = () => {
   const classes = useStyles();
