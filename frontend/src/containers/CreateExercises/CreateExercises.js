@@ -79,7 +79,6 @@ const CreateExercises = () => {
     if (location.state?.editSet) {
       const set = location.state?.formSets;
       setForminput({ title: set.title, description: set.description });
-      console.log(location.state?.formSets);
       updateSet(location.state?.formSets);
     }
   }, []);
