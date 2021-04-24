@@ -3,9 +3,9 @@ import { useLocation } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import ReplayIcon from '@material-ui/icons/Replay';
-import Forstaelse from '../Forstaelse/Forstaelse';
-import Chat from '../Chat/Chat';
-import RyddeSetninger from '../RyddeSetninger/RyddeSetninger';
+import Forstaelse from '../../components/Forstaelse/Forstaelse';
+import Chat from '../../components/Chat/Chat';
+import RyddeSetninger from '../../components/RyddeSetninger/RyddeSetninger';
 import Feedback from '../../components/feedback/Feedback';
 import FinishedSet from '../../components/finishedSet/FinishedSet';
 import OverviewPage from '../overviewPage/OverviewPage';
@@ -20,7 +20,7 @@ const PlaySets = () => {
 
   // id for the exercise being played
   const [exerciseId, setExerciseId] = useState(0);
-  // id for the exercise set containgin the exercises
+  // id for the exercise set containing the exercises
   const [id, setId] = useState(null);
 
   const [totalScore, setTotalScore] = useState(0);

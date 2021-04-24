@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-curly-newline */
 import React, { useState, useEffect } from 'react';
 import { useLocation, Redirect } from 'react-router-dom';
 import {
@@ -17,7 +16,7 @@ import CreateForstaelse from '../../components/CreateExerciseForms/CreateForstae
 import CreateChat from '../../components/CreateExerciseForms/CreateChat';
 import CreateRyddeSetninger from '../../components/CreateExerciseForms/CreateRyddeSetninger';
 import InfoModal from '../../components/InfoModal/InfoModal';
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import useStyles from './styles';
 import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
 
@@ -80,7 +79,6 @@ const CreateExercises = () => {
     if (location.state?.editSet) {
       const set = location.state?.formSets;
       setForminput({ title: set.title, description: set.description });
-      console.log(location.state?.formSets);
       updateSet(location.state?.formSets);
     }
   }, []);
@@ -161,7 +159,7 @@ const CreateExercises = () => {
   }
 
   /**
-   * after the user has finished adding/deleting/editing exerices in the set this function will be run
+   * after the user has finished adding/deleting/editing exerices in the set this function will be run.
    * If a user is editing an existing set, a put request will be sent and if a new set is made a post request.
    */
 

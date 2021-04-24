@@ -3,7 +3,7 @@ import { Grid, TextField, Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import useStyles from './styles';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
-import ErrorMessage from '../ErrorMessage';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const SearchBar = () => {
   const classes = useStyles();
@@ -18,8 +18,8 @@ const SearchBar = () => {
 
   /**
    * handles logic after user has entered something in the search bar.
-   * If valid input then it checks if the set exists. sets error message
-   * if the set doesnt exist and redirects to set if it does exist.
+   * if valid input then it checks if the set exists. sets error message
+   * if the set doesn't exist and redirects to set if it does exist.
    */
   function playSet(e) {
     e.preventDefault();

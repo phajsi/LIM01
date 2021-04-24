@@ -112,7 +112,7 @@ const FinishedSet = ({
     );
   }
 
-  // The const will display different responces to different results from playing a set
+  // The const will display different responses to different results from playing a set
   const switchStep = () => {
     switch (step) {
       case 'over':
@@ -166,14 +166,14 @@ const FinishedSet = ({
           <Grid container spacing={1}>
             <IconButton onClick={() => onClickRating(true)}>
               {rating.rating ? (
-                <ThumbUpIcon style={{ color: 'orange' }} />
+                <ThumbUpIcon className={classes.like} />
               ) : (
                 <ThumbUpIcon />
               )}
             </IconButton>
             <IconButton onClick={() => onClickRating(false)}>
               {rating.rating === false ? (
-                <ThumbDownIcon style={{ color: 'blue' }} />
+                <ThumbDownIcon className={classes.dislike} />
               ) : (
                 <ThumbDownIcon />
               )}

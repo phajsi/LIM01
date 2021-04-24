@@ -20,11 +20,11 @@ import brunetteWoman from '../../assets/images/brunetteWoman.png';
 import blondeWoman from '../../assets/images/blondeWoman.png';
 import muslimWoman from '../../assets/images/muslimWoman.png';
 import defaultMan from '../../assets/images/defaultMan.png';
-import ChatBubble from '../../components/ChatBubble/ChatBubble';
-import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
+import ChatBubble from '../ChatBubble/ChatBubble';
+import NextExerciseBtn from '../NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
 import exerciseStyles from '../exerciseStyle';
-import ProgressBar from '../../components/ProgressBar';
+import ProgressBar from '../ProgressBar';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
 // chat exercise component for playing.

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Button, Paper, TextField } from '@material-ui/core';
 import { reset_password_confirm } from '../../actions/auth';
 import useStyles from './styles';
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 /**
  * after requesting a password reset and receiving an email with a link the user
@@ -13,7 +13,7 @@ import ErrorMessage from '../../components/ErrorMessage';
  * @property {object} match react router to match url
  * @property {function} reset_password_confirm redux action for changing password
  * @property {*} passwordReset redux state for checking if the reset threw an error or not
- * @returns container for reseting password
+ * @returns container for resetting password
  */
 const ResetPasswordConfirm = ({
   match,

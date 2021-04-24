@@ -18,7 +18,7 @@ import * as yup from 'yup';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import { signup, checkAuthenticated } from '../../actions/auth';
 import useStyles from './styles';
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 const validationSchema = yup.object({
   name: yup.string().required('Navn er påkrevd.').max(40),
@@ -91,10 +91,7 @@ const Signup = ({
         <Card className={classes.card}>
           <CardHeader
             className={classes.cardHeader}
-            avatar={
-              // eslint-disable-next-line react/jsx-wrap-multilines
-              <CheckCircleOutlinedIcon style={{ color: 'lightgreen' }} />
-            }
+            avatar={<CheckCircleOutlinedIcon className={classes.icon} />}
             title="Takk! Vi har sendt deg en e-post med en link som du må trykke på for å aktivere brukeren din. Når du har gjort det kan du logge deg inn."
           />
         </Card>

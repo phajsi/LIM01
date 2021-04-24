@@ -28,5 +28,8 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(1.5),
     paddingLeft: theme.spacing(2),
   },
+  icons: {
+    color: 'white',
+  },
 }));
 export default useStyles;

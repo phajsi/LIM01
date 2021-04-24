@@ -1,36 +1,13 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React from 'react';
-import {
-  Avatar,
-  Card,
-  CardHeader,
-  IconButton,
-  makeStyles,
-} from '@material-ui/core';
+import { Avatar, Card, CardHeader, IconButton } from '@material-ui/core';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import PersonIcon from '@material-ui/icons/Person';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import CommentIcon from '@material-ui/icons/Comment';
 import EditIcon from '@material-ui/icons/Edit';
-import SaveIcon from './SaveIcon';
-
-const useStyles = makeStyles((theme) => ({
-  avatar: {
-    backgroundColor: 'orange',
-  },
-  cardHeader: {
-    padding: '12px',
-  },
-  card: {
-    marginTop: '3px',
-    marginRight: theme.spacing(1),
-    marginLeft: theme.spacing(1),
-    [theme.breakpoints.between('sm', 'xl')]: {
-      width: '60vw',
-    },
-  },
-}));
+import SaveIcon from '../SaveIcon';
+import useStyles from './styles';
 
 /**
  * Reusable card component for exercise sets with icon buttons for playing, saving,
@@ -42,14 +19,14 @@ const useStyles = makeStyles((theme) => ({
 function SetCard({ type, formData, onClick1, onClick2, onClick3 }) {
   const classes = useStyles();
 
-  // returns different buttons depeding on the type of card.
+  // returns different buttons depending on the type of card.
   function iconButtons() {
     if (type !== 'mySet') {
       return (
         <>
           <SaveIcon id={formData.sets} />
           <IconButton onClick={() => onClick1()}>
-            <PlayCircleOutlineIcon style={{ fontSize: 30 }} />
+            <PlayCircleOutlineIcon className={classes.iconLarge} />
           </IconButton>
         </>
       );
@@ -87,11 +64,11 @@ function SetCard({ type, formData, onClick1, onClick2, onClick3 }) {
         title={formData.title}
         subheader={
           <>
-            <PersonIcon style={{ fontSize: 15 }} />
+            <PersonIcon className={classes.iconSmall} />
             {type && `${formData.setOwner} `}
             {type === 'completed' && (
               <>
-                <WhatshotIcon style={{ fontSize: 15 }} />
+                <WhatshotIcon className={classes.iconSmall} />
                 {`${formData.score}%`}
               </>
             )}
