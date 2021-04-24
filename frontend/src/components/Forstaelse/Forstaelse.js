@@ -12,12 +12,12 @@ import {
   IconButton,
 } from '@material-ui/core';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import ChatBubble from '../../components/ChatBubble/ChatBubble';
+import ChatBubble from '../ChatBubble/ChatBubble';
 import forsaudio from '../../assets/audiofiles/forstaelseVoice.mp3';
 import useStyles from './styles';
 import exerciseStyles from '../exerciseStyle';
-import ProgressBar from '../../components/ProgressBar';
-import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
+import ProgressBar from '../ProgressBar';
+import NextExerciseBtn from '../NextExerciseBtn/NextExerciseBtn';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
 // chat exercise component for playing.

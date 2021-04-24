@@ -14,8 +14,8 @@ import {
 } from '@material-ui/core';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import ryddaudio from '../../assets/audiofiles/ryddeSetningerVoice.mp3';
-import ProgressBar from '../../components/ProgressBar';
-import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
+import ProgressBar from '../ProgressBar';
+import NextExerciseBtn from '../NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
 import exerciseStyles from '../exerciseStyle';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
