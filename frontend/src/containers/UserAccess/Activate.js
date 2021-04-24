@@ -6,7 +6,7 @@ import { verify } from '../../actions/auth';
 import useStyles from './styles';
 
 /**
- * Link to this page is sent to the users email address after successfully registering
+ * Link to this page is sent to the user's email address after successfully registering
  * an account.
  * The user can activate the registered account on this page
  * @param {object} param0 props

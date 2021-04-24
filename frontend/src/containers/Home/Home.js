@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -47,8 +46,8 @@ const Home = () => {
   const [redirectEdit, setRedirectEdit] = useState(false);
 
   /**
-   * Sends three requests to backend to get necesarry data
-   * first requests gets the sets the user has made
+   * Sends three requests to backend to get necessary data
+   * first request gets the sets the user has made
    * second request gets the user's saved sets
    * the third request gets the user's completed sets
    */
@@ -70,7 +69,7 @@ const Home = () => {
       });
   }
 
-  // only runs once when the page renders and gets the necesarry content form backend
+  // only runs once when the page renders and gets the necessary content from backend
   useEffect(() => {
     getContent();
   }, []);

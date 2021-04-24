@@ -190,13 +190,11 @@ const OverviewPage = ({
                 required
                 placeholder="Skriv en kommentar..."
                 variant="outlined"
-                onChange={
-                  (e) =>
-                    setFormDataComment({
-                      ...formDataComment,
-                      comment: e.target.value,
-                    })
-                  // eslint-disable-next-line react/jsx-curly-newline
+                onChange={(e) =>
+                  setFormDataComment({
+                    ...formDataComment,
+                    comment: e.target.value,
+                  })
                 }
                 InputProps={{
                   endAdornment: (

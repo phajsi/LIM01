@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 
 import {
@@ -100,7 +99,7 @@ const RyddeSetninger = ({
       return [words[i], wordClasses[i]];
     });
     randomizeWords();
-    concatenatedWords.forEach(function (item, index, array) {
+    concatenatedWords.forEach(function (item, index) {
       const hexCode = colorCodeTransform(item[1]);
       concatenatedWords[index].splice(1, 1, hexCode);
     });
@@ -112,7 +111,7 @@ const RyddeSetninger = ({
       .get(`/rydde_setninger/${id}`)
       .then((res) => {
         filterData(res.data);
-        setRenderPage((renderPage) => renderPage + 1);
+        setRenderPage(renderPage + 1);
       })
       .catch((e) => {
         return e;

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React from 'react';
 import {
   Avatar,
@@ -42,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 function SetCard({ type, formData, onClick1, onClick2, onClick3 }) {
   const classes = useStyles();
 
-  // returns different buttons depeding on the type of card.
+  // returns different buttons depending on the type of card.
   function iconButtons() {
     if (type !== 'mySet') {
       return (

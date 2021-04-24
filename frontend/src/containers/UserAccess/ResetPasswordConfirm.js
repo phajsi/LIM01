@@ -13,7 +13,7 @@ import ErrorMessage from '../../components/ErrorMessage';
  * @property {object} match react router to match url
  * @property {function} reset_password_confirm redux action for changing password
  * @property {*} passwordReset redux state for checking if the reset threw an error or not
- * @returns container for reseting password
+ * @returns container for resetting password
  */
 const ResetPasswordConfirm = ({
   match,

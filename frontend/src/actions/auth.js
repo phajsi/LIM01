@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import axios from 'axios';
 import {
   LOGIN_SUCCESS,
@@ -23,8 +22,8 @@ export const load_user = () => async (dispatch) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `JWT ${localStorage.getItem('access')}`,
-        'Accept': 'application/json',
+        Authorization: `JWT ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
       },
     };
 
@@ -142,7 +141,7 @@ export const checkAuthenticated = () => async (dispatch) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        Accept: 'application/json',
       },
     };
 
@@ -229,7 +228,7 @@ export const reset_password_confirm = (
   } catch (err) {
     dispatch({
       type: PASSWORD_RESET_CONFIRM_FAIL,
-      payload: err.response.status
+      payload: err.response.status,
     });
   }
 };

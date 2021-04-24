@@ -36,7 +36,7 @@ const Forstaelse = ({
   // Data for the forstaelse exercise from backend
   const [formData, setFormData] = useState({});
 
-  // null if user hasnt given answer. "corrent" or "incorrect" if user has given answer
+  // null if user hasn't given answer. "corrent" or "incorrect" if user has given answer
   const [answerState, setAnswerState] = useState(null);
 
   // keeps track of which task in the exercise the user is currently on.

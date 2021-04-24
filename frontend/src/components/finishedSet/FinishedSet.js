@@ -112,7 +112,7 @@ const FinishedSet = ({
     );
   }
 
-  // The const will display different responces to different results from playing a set
+  // The const will display different responses to different results from playing a set
   const switchStep = () => {
     switch (step) {
       case 'over':

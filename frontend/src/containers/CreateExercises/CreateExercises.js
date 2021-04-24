@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-curly-newline */
 import React, { useState, useEffect } from 'react';
 import { useLocation, Redirect } from 'react-router-dom';
 import {
@@ -161,7 +160,7 @@ const CreateExercises = () => {
   }
 
   /**
-   * after the user has finished adding/deleting/editing exerices in the set this function will be run
+   * after the user has finished adding/deleting/editing exerices in the set this function will be run.
    * If a user is editing an existing set, a put request will be sent and if a new set is made a post request.
    */
 

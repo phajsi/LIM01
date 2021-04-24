@@ -7,10 +7,10 @@ import useStyles from './styles';
 
 /**
  * Users can enter email and request a password reset. an email will be sent with
- * a link for reseting password.
+ * a link for resetting password.
  * @param {object} param0 props
- * @property {reset_password} reset_password redux action for reseting password
- * @returns container for reseting password
+ * @property {reset_password} reset_password redux action for resetting password
+ * @returns container for resetting password
  */
 
 const ResetPassword = ({ reset_password }) => {
@@ -52,7 +52,6 @@ const ResetPassword = ({ reset_password }) => {
               <CardHeader
                 className={classes.cardHeader}
                 avatar={
-                  // eslint-disable-next-line react/jsx-wrap-multilines
                   <CheckCircleOutlinedIcon style={{ color: 'lightgreen' }} />
                 }
                 title={`En Epost har blitt sendt til ${formData.email}. Trykk på linken i e-posten for å endre passordet ditt.`}

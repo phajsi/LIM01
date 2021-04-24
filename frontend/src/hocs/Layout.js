@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';

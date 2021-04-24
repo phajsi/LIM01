@@ -20,7 +20,7 @@ const PlaySets = () => {
 
   // id for the exercise being played
   const [exerciseId, setExerciseId] = useState(0);
-  // id for the exercise set containgin the exercises
+  // id for the exercise set containing the exercises
   const [id, setId] = useState(null);
 
   const [totalScore, setTotalScore] = useState(0);
