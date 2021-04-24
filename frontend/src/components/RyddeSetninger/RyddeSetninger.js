@@ -12,12 +12,12 @@ import {
   IconButton,
 } from '@material-ui/core';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import axios from 'axios';
 import ryddaudio from '../../assets/audiofiles/ryddeSetningerVoice.mp3';
 import ProgressBar from '../ProgressBar';
 import NextExerciseBtn from '../NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
 import exerciseStyles from '../exerciseStyle';
-import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
 // ryddeSetninger exercise component for playing.
 const RyddeSetninger = ({
@@ -107,8 +107,13 @@ const RyddeSetninger = ({
   };
 
   function getContent() {
-    axiosInstanceGet()
-      .get(`/rydde_setninger/${id}`)
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/rydde_setninger/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      })
       .then((res) => {
         filterData(res.data);
         setRenderPage(renderPage + 1);
@@ -195,6 +200,8 @@ const RyddeSetninger = ({
             <div style={{ alignSelf: 'center' }}>
               {wordWithColorCode.map((el, index) => (
                 <Button
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={index}
                   id={index}
                   value={el[0]}
                   style={el[1]}
@@ -212,6 +219,8 @@ const RyddeSetninger = ({
             <div className={classes.chosenWords}>
               {chosenWords.map((el, index) => (
                 <Button
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={index}
                   id={index}
                   value={el[0]}
                   style={el[1]}

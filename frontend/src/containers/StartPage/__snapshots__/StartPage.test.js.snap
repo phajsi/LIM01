@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The StartPage component should render 1`] = `
+<DocumentFragment>
+  <div
+    class="makeStyles-root-1"
+  >
+    <header
+      class="MuiPaper-root MuiAppBar-root MuiAppBar-positionRelative MuiAppBar-colorPrimary makeStyles-navbar-2 MuiPaper-elevation0"
+    >
+      <div
+        class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
+      >
+        <h6
+          class="MuiTypography-root makeStyles-right-5 MuiTypography-h6"
+        >
+          <a
+            class="makeStyles-title-4"
+            href="/login"
+          >
+            Logg inn
+          </a>
+          <a
+            class="makeStyles-title-4"
+            href="/signup"
+          >
+            Registrer deg
+          </a>
+        </h6>
+      </div>
+    </header>
+    <img
+      alt="ellipse"
+      class="makeStyles-ellipse-9"
+      src="ellipse.png"
+    />
+    <div
+      class="makeStyles-logoBox-6"
+    >
+      <img
+        alt="pickle logo"
+        class="makeStyles-logoImg-7"
+        src="pickleLogo.png"
+      />
+      <h3
+        class="MuiTypography-root makeStyles-logoText-8 MuiTypography-h3"
+      >
+        DiPICKLE
+      </h3>
+    </div>
+    <div
+      class="makeStyles-searchBar-3"
+    >
+      <div
+        class="makeStyles-searchBox-12"
+      >
+        <form>
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-xs-center"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-10"
+            >
+              <div
+                class="MuiFormControl-root MuiTextField-root makeStyles-search-13 MuiFormControl-marginDense MuiFormControl-fullWidth"
+              >
+                <div
+                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-marginDense MuiOutlinedInput-marginDense"
+                >
+                  <input
+                    aria-invalid="false"
+                    class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMarginDense MuiOutlinedInput-inputMarginDense"
+                    placeholder="Tast inn settets ID"
+                    required=""
+                    type="text"
+                    value=""
+                  />
+                  <fieldset
+                    aria-hidden="true"
+                    class="PrivateNotchedOutline-root-17 MuiOutlinedInput-notchedOutline"
+                    style="padding-left: 8px;"
+                  >
+                    <legend
+                      class="PrivateNotchedOutline-legend-18"
+                      style="width: 0.01px;"
+                    >
+                      <span>
+                        ​
+                      </span>
+                    </legend>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2"
+            >
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-btn-14 MuiButton-containedPrimary MuiButton-fullWidth"
+                tabindex="0"
+                type="submit"
+              >
+                <span
+                  class="MuiButton-label"
+                >
+                  SPILL
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <img
+      alt="forest"
+      class="makeStyles-forest-11"
+      src="forest.png"
+    />
+    <img
+      alt="tree"
+      class="makeStyles-tree-10"
+      src="tree.png"
+    />
+  </div>
+</DocumentFragment>
+`;
