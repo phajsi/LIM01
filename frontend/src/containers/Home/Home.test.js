@@ -5,21 +5,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Home from './Home';
 
 describe('The Home component', () => {
-  it('should render', () => {
-    // arrange
-    const { asFragment } = render(
-      <Router>
-        <Home />
-      </Router>
-    );
-
-    // act
-    const html = asFragment();
-
-    // assert
-    expect(html).toMatchSnapshot();
-  });
-
   it('should contain the title text "Opprett Oppgavesett"', () => {
     // arrange
     const { getByText } = render(

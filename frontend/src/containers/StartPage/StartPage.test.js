@@ -5,21 +5,6 @@ import { BrowserRouter as Router, MemoryRouter } from 'react-router-dom';
 import StartPage from './StartPage';
 
 describe('The StartPage component', () => {
-  it('should render', () => {
-    // arrange
-    const { asFragment } = render(
-      <Router>
-        <StartPage />
-      </Router>
-    );
-
-    // act
-    const html = asFragment();
-
-    // assert
-    expect(html).toMatchSnapshot();
-  });
-
   it('should contain the title text "DiPICKLE"', () => {
     const { getByText } = render(
       <Router>

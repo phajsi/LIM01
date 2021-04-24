@@ -200,7 +200,6 @@ const RyddeSetninger = ({
             <div style={{ alignSelf: 'center' }}>
               {wordWithColorCode.map((el, index) => (
                 <Button
-                  // eslint-disable-next-line react/no-array-index-key
                   key={index}
                   id={index}
                   value={el[0]}
@@ -219,7 +218,6 @@ const RyddeSetninger = ({
             <div className={classes.chosenWords}>
               {chosenWords.map((el, index) => (
                 <Button
-                  // eslint-disable-next-line react/no-array-index-key
                   key={index}
                   id={index}
                   value={el[0]}
