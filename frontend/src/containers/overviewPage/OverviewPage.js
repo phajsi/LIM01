@@ -27,7 +27,7 @@ import {
 import topTriangle from '../../assets/images/topTriangle.svg';
 import bottomTriangle from '../../assets/images/bottomTriangle.svg';
 import useStyles from './style';
-import SaveIcon from '../../components/SaveIcon';
+import SaveIcon from '../../components/SaveIcon/SaveIcon';
 import DeleteModal from '../../components/DeleteModal';
 
 const OverviewPage = ({
