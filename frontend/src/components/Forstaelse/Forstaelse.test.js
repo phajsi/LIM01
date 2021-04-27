@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Forstaelse from './Forstaelse';
 
 jest.mock('axios');
+jest.useFakeTimers();
 
 describe('Forstaelse exercise', () => {
   const resp = {
@@ -106,5 +107,22 @@ describe('Forstaelse exercise', () => {
     expect(
       screen.getByText('Denne filmen var kjedelig. Jeg drar hjem nå.')
     ).toBeVisible();
+  });
+  test('Audio play should play once after click and be disabled', async () => {
+    axios.get.mockResolvedValue({ data: {} });
+
+    await act(async () =>
+      render(
+        <Router>
+          <Forstaelse id={5} playAudio={() => <></>} restartSet={() => <></>} />
+        </Router>
+      )
+    );
+    const button = screen.getByTestId('volumeForstaelse');
+    fireEvent.click(button);
+
+    expect(setTimeout).toHaveBeenCalledTimes(1);
+    expect(button).toBeDisabled();
+    expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 4000);
   });
 });

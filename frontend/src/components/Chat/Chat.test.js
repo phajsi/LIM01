@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Chat from './Chat';
 
 jest.mock('axios');
+jest.useFakeTimers();
 
 describe('Chat exercise', () => {
   const resp = {
@@ -103,5 +104,23 @@ describe('Chat exercise', () => {
     expect(screen.getByText('Hva er hovedstaden i Norge?')).toBeVisible();
     expect(screen.getByText('Hva er klokka?')).toBeVisible();
     expect(screen.getByText('Hvilken dag er det i dag?')).toBeVisible();
+  });
+
+  test('Audio play should play once after click and be disabled', async () => {
+    axios.get.mockResolvedValue({ data: {} });
+
+    await act(async () =>
+      render(
+        <Router>
+          <Chat id={5} playAudio={() => <></>} restartSet={() => <></>} />
+        </Router>
+      )
+    );
+    const button = screen.getByTestId('volumeChat');
+    fireEvent.click(button);
+
+    expect(setTimeout).toHaveBeenCalledTimes(1);
+    expect(button).toBeDisabled();
+    expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 6000);
   });
 });

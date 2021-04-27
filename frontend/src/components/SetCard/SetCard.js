@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import React from 'react';
 import { Avatar, Card, CardHeader, IconButton } from '@material-ui/core';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
@@ -21,7 +22,7 @@ function SetCard({ type, formData, onClick1, onClick2, onClick3 }) {
 
   // returns different buttons depending on the type of card.
   function iconButtons() {
-    if (type !== 'mySet') {
+    if (type === 'favorite' || type === 'completed') {
       return (
         <>
           <SaveIcon id={formData.sets} />
@@ -49,9 +50,6 @@ function SetCard({ type, formData, onClick1, onClick2, onClick3 }) {
     return <></>;
   }
 
-  if (!formData) {
-    return <></>;
-  }
   return (
     <Card className={classes.card}>
       <CardHeader

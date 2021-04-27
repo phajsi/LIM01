@@ -180,7 +180,11 @@ const RyddeSetninger = ({
         </div>
         <Card>
           <CardContent className={classes.cardcontent}>
-            <IconButton onClick={() => fireAudio()} disabled={disabled}>
+            <IconButton
+              onClick={() => fireAudio()}
+              disabled={disabled}
+              data-testid="volumeRyddeSetninger"
+            >
               <VolumeUpIcon />
             </IconButton>
             <Typography
