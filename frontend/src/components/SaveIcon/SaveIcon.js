@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { IconButton } from '@material-ui/core';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import { axiosInstance, axiosInstanceDelete } from '../helpers/ApiFunctions';
+import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
 
 /**
  * An icon component for saving/unsaving exercise sets.
@@ -14,8 +15,14 @@ function SaveIcon({ id }) {
   const [saved, setSaved] = useState(false);
 
   function getSaved() {
-    axiosInstance()
-      .get(`/usersaved/${id}`)
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/usersaved/${id}`, {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('access')}`,
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      })
       .then((res) => {
         setSaved(res.data.saved);
       })
@@ -52,9 +59,9 @@ function SaveIcon({ id }) {
   return (
     <IconButton onClick={() => onClickSave()}>
       {saved ? (
-        <FavoriteIcon style={{ color: 'red' }} />
+        <FavoriteIcon data-testid="favorite" style={{ color: 'red' }} />
       ) : (
-        <FavoriteBorderIcon />
+        <FavoriteBorderIcon data-testid="notFavorite" />
       )}
     </IconButton>
   );
