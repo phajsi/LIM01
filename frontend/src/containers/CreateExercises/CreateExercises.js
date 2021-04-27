@@ -1,45 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Redirect } from 'react-router-dom';
-import {
-  Chip,
-  Paper,
-  MenuList,
-  MenuItem,
-  Button,
-  TextField,
-  Typography,
-  Grid,
-  IconButton,
-} from '@material-ui/core';
-import InfoIcon from '@material-ui/icons/Info';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CreateForstaelse from '../../components/CreateExerciseForms/CreateForstaelse';
 import CreateChat from '../../components/CreateExerciseForms/CreateChat';
 import CreateRyddeSetninger from '../../components/CreateExerciseForms/CreateRyddeSetninger';
-import InfoModal from '../../components/InfoModal/InfoModal';
-import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
-import useStyles from './styles';
+import CreateExerciseMenu from '../../components/CreateExerciseMenu/CreateExerciseMenu';
 import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
 
 const CreateExercises = () => {
-  const classes = useStyles();
   const location = useLocation();
 
   const [step, setStep] = useState('Menu');
-  const [emptySetError, setEmptySetError] = useState(null);
-  const [emptyFormError, setEmptyFormError] = useState(null);
   // object which contains formData from the exercise the user wants to edit
   const [formDataEdit, setFormDataEdit] = useState(null);
   // object which contains all the IDs for the exercises added to the set.
   const [formDataSet, setFormDataSet] = useState({});
-  const [forminput, setForminput] = useState({
-    title: '',
-    description: '',
-  });
   // keeps track of count to make sure no more than 5 of each are added.
   const [exerciseCounts, setExerciseCounts] = useState({ c: 0, f: 0, r: 0 });
-  const [redirectHome, setRedirectHome] = useState(false);
-  const [showModal, setShowModal] = useState(false);
 
   /**
    * This function updates the formData for the current exercise set being made.
@@ -78,8 +54,6 @@ const CreateExercises = () => {
   useEffect(() => {
     // location.state?... is the state/props passed from the Redirect.
     if (location.state?.editSet) {
-      const set = location.state?.formSets;
-      setForminput({ title: set.title, description: set.description });
       updateSet(location.state?.formSets);
     }
   }, []);
@@ -98,7 +72,6 @@ const CreateExercises = () => {
         formDataSet[`${type}${[exerciseCounts[type.substring(0, 1)] + 1]}`] =
           response.data.id;
         updateSet(formDataSet);
-        setEmptySetError(null);
         setStep('Menu');
       })
       .catch((e) => {
@@ -144,19 +117,15 @@ const CreateExercises = () => {
    * @param {string} url url to the delete api endpoint.
    */
   function onDeleteExercise(exercise, url) {
-    if (location.state?.editSet && Object.keys(formDataSet).length === 4) {
-      setEmptySetError('Det må være igjen minst en oppgave i settet.');
-    } else {
-      axiosInstanceDelete()
-        .delete(url)
-        .then(() => {
-          delete formDataSet[exercise];
-          updateSet(formDataSet);
-        })
-        .catch((e) => {
-          return e;
-        });
-    }
+    axiosInstanceDelete()
+      .delete(url)
+      .then(() => {
+        delete formDataSet[exercise];
+        updateSet(formDataSet);
+      })
+      .catch((e) => {
+        return e;
+      });
   }
 
   /**
@@ -164,41 +133,19 @@ const CreateExercises = () => {
    * If a user is editing an existing set, a put request will be sent and if a new set is made a post request.
    */
 
-  function onSubmitPostSet() {
-    if (
-      !formDataSet.chat1 &&
-      !formDataSet.forstaelse1 &&
-      !formDataSet.ryddeSetninger1
-    ) {
-      setEmptySetError(
-        'Du må legge til minst en oppgave for å opprette et sett.'
-      );
-    } else if (!forminput.title || !forminput.description) {
-      setEmptyFormError(
-        'Du må legge inn et navn og en beskrivelse av settet ditt'
-      );
-    } else {
-      const data = { ...formDataSet, ...forminput };
+  function onSubmitSet() {
+    if (location.state?.editSet) {
       axiosInstance()
-        .post('/createsets/', data)
+        .put(`/createsets/${formDataSet.id}`, formDataSet)
         .then(() => {
           setStep('confirmation');
         })
         .catch((e) => {
           return e;
         });
-    }
-  }
-
-  function onSubmitPutSet() {
-    if (!forminput.title || !forminput.description) {
-      setEmptyFormError(
-        'Du må legge inn et navn og en beskrivelse av settet ditt'
-      );
     } else {
-      const data = { ...formDataSet, ...forminput };
       axiosInstance()
-        .put(`/createsets/${formDataSet.id}`, data)
+        .post('/createsets/', formDataSet)
         .then(() => {
           setStep('confirmation');
         })
@@ -214,205 +161,17 @@ const CreateExercises = () => {
     setStep('Menu');
   }
 
-  function handleFormChange(input) {
-    setForminput({
-      ...forminput,
-      [input.target.name]: input.target.value,
-    });
-    setEmptyFormError(null);
-  }
-
   switch (step) {
     case 'Menu':
       return (
-        <Paper className={classes.root}>
-          <Typography variant="h1" gutterBottom>
-            Nytt sett
-          </Typography>
-          <Grid container className={classes.gridcontainer}>
-            <Grid item xs={12} className={classes.form}>
-              <Typography className={classes.formfieldname}>Tittel:</Typography>
-              <TextField
-                name="title"
-                multiline
-                fullWidth
-                rowsMax={1}
-                required
-                variant="outlined"
-                defaultValue={forminput.title || formDataSet.title}
-                onChange={(e) => handleFormChange(e)}
-              />
-            </Grid>
-            <Grid item xs={12} className={classes.form}>
-              <Typography className={classes.formfieldname}>
-                Beskrivelse:
-              </Typography>
-              <TextField
-                name="description"
-                multiline="true"
-                fullWidth
-                rows={3}
-                rowsMax={10}
-                required
-                variant="outlined"
-                defaultValue={forminput.description || formDataSet.description}
-                onChange={(e) => handleFormChange(e)}
-              />
-            </Grid>
-            <Grid item md={5} xs={12} className={classes.menu}>
-              <Typography variant="h2">Legg til oppgavetyper</Typography>
-              <MenuList>
-                <Grid className={classes.menugroup}>
-                  <MenuItem
-                    className={classes.menuitemchat}
-                    disabled={exerciseCounts.c > 4}
-                    onClick={() => setStep('chat')}
-                  >
-                    Chat
-                  </MenuItem>
-                  <IconButton onClick={() => setShowModal('chat')}>
-                    <InfoIcon className={classes.infoicon} />
-                  </IconButton>
-                </Grid>
-                <Grid className={classes.menugroup}>
-                  <MenuItem
-                    className={classes.menuitemfors}
-                    disabled={exerciseCounts.f > 4}
-                    onClick={() => setStep('forstaelse')}
-                  >
-                    Forståelse
-                  </MenuItem>
-                  <IconButton onClick={() => setShowModal('forstaelse')}>
-                    <InfoIcon className={classes.infoicon} />
-                  </IconButton>
-                </Grid>
-                <Grid className={classes.menugroup}>
-                  <MenuItem
-                    className={classes.menuitemrydd}
-                    disabled={exerciseCounts.r > 4}
-                    onClick={() => setStep('rydde_setninger')}
-                  >
-                    Rydde Setninger
-                  </MenuItem>
-                  <IconButton onClick={() => setShowModal('rydde_setninger')}>
-                    <InfoIcon className={classes.infoicon} />
-                  </IconButton>
-                </Grid>
-              </MenuList>
-            </Grid>
-            <Grid item md={7} xs={12} className={classes.menu}>
-              <Typography variant="h2">Oppgaver</Typography>
-              <Grid container>
-                {Object.entries(formDataSet).map(([type, id]) => {
-                  if (type.substring(0, 4) === 'chat') {
-                    return (
-                      <Grid item xs={6} className={classes.chipgrid}>
-                        <Chip
-                          className={classes.chatchip}
-                          label="Chat"
-                          onClick={() => editExercise(id, 'chat')}
-                        />
-                        <IconButton
-                          className={classes.deletebutton}
-                          onClick={() =>
-                            onDeleteExercise(type, `/deletechat/${id}`)
-                          }
-                        >
-                          <HighlightOffIcon />
-                        </IconButton>
-                      </Grid>
-                    );
-                  }
-                  if (type.substring(0, 4) === 'fors') {
-                    return (
-                      <Grid item xs={6} className={classes.chipgrid}>
-                        <Chip
-                          className={classes.forschip}
-                          label="Forstaelse"
-                          onClick={() => editExercise(id, 'forstaelse')}
-                        />
-                        <IconButton
-                          className={classes.deletebutton}
-                          onClick={() =>
-                            onDeleteExercise(type, `/deleteforstaelse/${id}`)
-                          }
-                        >
-                          <HighlightOffIcon />
-                        </IconButton>
-                      </Grid>
-                    );
-                  }
-                  if (type.substring(0, 4) === 'rydd') {
-                    return (
-                      <Grid item xs={6} className={classes.chipgrid}>
-                        <Chip
-                          className={classes.ryddchip}
-                          label="Rydde Setninger"
-                          onClick={() => editExercise(id, 'rydde_setninger')}
-                        />
-                        <IconButton
-                          className={classes.deletebutton}
-                          onClick={() =>
-                            onDeleteExercise(
-                              type,
-                              `/delete_rydde_setninger/${id}`
-                            )
-                          }
-                        >
-                          <HighlightOffIcon />
-                        </IconButton>
-                      </Grid>
-                    );
-                  }
-                  return <></>;
-                })}
-              </Grid>
-            </Grid>
-            <Grid item sm={12} className={classes.errormessage}>
-              <div>
-                <ErrorMessage message={emptyFormError} />
-                <ErrorMessage message={emptySetError} />
-              </div>
-            </Grid>
-            <Grid item sm={12} className={classes.buttoncontainer}>
-              <Grid>
-                <Button
-                  className={classes.buttons}
-                  variant="outlined"
-                  onClick={() => setRedirectHome(true)}
-                >
-                  Kanseller
-                </Button>
-              </Grid>
-              <Grid>
-                <Button
-                  className={classes.buttons}
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    if (location.state?.editSet) {
-                      onSubmitPutSet();
-                    } else {
-                      onSubmitPostSet();
-                    }
-                  }}
-                >
-                  {location.state?.editSet ? 'Endre' : 'Opprett'}
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-          {showModal && (
-            <InfoModal showModal={showModal} setShowModal={setShowModal} />
-          )}
-          {redirectHome && (
-            <Redirect
-              to={{
-                pathname: '/home',
-              }}
-            />
-          )}
-        </Paper>
+        <CreateExerciseMenu
+          onSubmitSet={onSubmitSet}
+          onDeleteExercise={onDeleteExercise}
+          editExercise={editExercise}
+          exerciseCounts={exerciseCounts}
+          setStep={setStep}
+          formDataSet={formDataSet}
+        />
       );
     case 'chat':
       return (
