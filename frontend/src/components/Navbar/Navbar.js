@@ -41,7 +41,6 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
       <Hidden xsDown implementation="css">
         <Typography variant="h6" className={classes.right}>
           <Link to="/login" className={classes.title}>
-            {console.log(mobileOpen)}
             Logg inn
           </Link>
           <Link to="/signup" className={classes.title}>
