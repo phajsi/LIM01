@@ -1,25 +1,36 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 
 import {
   AppBar,
   Card,
-  CardHeader,
+  CardContent,
+  Typography,
   Grid,
   Toolbar,
   Paper,
   Button,
+  IconButton,
 } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import ProgressBar from '../../components/ProgressBar';
-import NextExerciseBtn from '../../components/NextExerciseBtn/NextExerciseBtn';
+import axios from 'axios';
+import ryddaudio from '../../assets/audiofiles/ryddeSetningerVoice.mp3';
+import ProgressBar from '../ProgressBar';
+import NextExerciseBtn from '../NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
-import { axiosInstanceGet } from '../../helpers/ApiFunctions';
+import exerciseStyles from '../exerciseStyle';
 
-const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
-  const classes = useStyles();
+// ryddeSetninger exercise component for playing.
+const RyddeSetninger = ({
+  id,
+  showFeedback,
+  progress,
+  possible,
+  restartSet,
+  playAudio,
+}) => {
+  const className = useStyles();
+  const classesBase = exerciseStyles();
+  const classes = { ...className, ...classesBase };
 
   const [renderPage, setRenderPage] = useState();
   const [words] = useState([]);
@@ -32,6 +43,8 @@ const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
   const [disableButton, setDisableButton] = useState(false);
   const [score, setScore] = useState(0);
   const [totalPossibleScore, setTotalPossibeScore] = useState(0);
+
+  const [disabled, setDisabled] = useState(false);
 
   let concatenatedWords = [];
   let counter = 0;
@@ -86,7 +99,7 @@ const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
       return [words[i], wordClasses[i]];
     });
     randomizeWords();
-    concatenatedWords.forEach(function (item, index, array) {
+    concatenatedWords.forEach(function (item, index) {
       const hexCode = colorCodeTransform(item[1]);
       concatenatedWords[index].splice(1, 1, hexCode);
     });
@@ -94,11 +107,16 @@ const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
   };
 
   function getContent() {
-    axiosInstanceGet()
-      .get(`/rydde_setninger/${id}`)
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/rydde_setninger/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      })
       .then((res) => {
         filterData(res.data);
-        setRenderPage((renderPage) => renderPage + 1);
+        setRenderPage(renderPage + 1);
       })
       .catch((e) => {
         return e;
@@ -137,6 +155,14 @@ const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
     showFeedback(score, totalPossibleScore);
   };
 
+  function fireAudio() {
+    setDisabled(true);
+    playAudio(ryddaudio);
+    setTimeout(() => {
+      setDisabled(false);
+    }, 6000);
+  }
+
   useEffect(() => {
     getContent();
   }, []);
@@ -144,33 +170,37 @@ const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
   return (
     <Paper className={classes.root}>
       <AppBar className={classes.navbar} position="static">
-        <ProgressBar progress={progress} possible={possible} />
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
+        <Toolbar component="nav" className={classes.toolbar}>
+          {restartSet()}
         </Toolbar>
       </AppBar>
+      <div className={classes.topContent}>
+        <div className={classes.progresscontainer}>
+          <ProgressBar progress={progress} possible={possible} />
+        </div>
+        <Card>
+          <CardContent className={classes.cardcontent}>
+            <IconButton onClick={() => fireAudio()} disabled={disabled}>
+              <VolumeUpIcon />
+            </IconButton>
+            <Typography
+              variant="body2"
+              component="p"
+              className={classes.audiotext}
+            >
+              Trykk på ordene sånn at de kommer i riktig rekkefølge. Husk å
+              sjekke tegnsettingen!
+            </Typography>
+          </CardContent>
+        </Card>
+      </div>
       <Paper className={classes.layout} elevation={0}>
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
           <Grid item xs={12}>
-            <Card>
-              <CardHeader
-                avatar={<VolumeUpIcon />}
-                title="Trykk på ordene sånn at de kommer i
-                 riktig rekkefølge. Husk å sjeekke tegnsettingen!"
-              />
-            </Card>
-          </Grid>
-          <Grid item xs={12}>
-            <div>
+            <div style={{ alignSelf: 'center' }}>
               {wordWithColorCode.map((el, index) => (
                 <Button
+                  key={index}
                   id={index}
                   value={el[0]}
                   style={el[1]}
@@ -188,6 +218,7 @@ const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
             <div className={classes.chosenWords}>
               {chosenWords.map((el, index) => (
                 <Button
+                  key={index}
                   id={index}
                   value={el[0]}
                   style={el[1]}
@@ -204,10 +235,10 @@ const RyddeSetninger = ({ id, showFeedback, progress, possible }) => {
           <Grid item xs={6} />
           <Grid item xs={6}>
             <Button
-              variant="outlined"
-              style={{ backgroundColor: 'white' }}
+              variant="contained"
               disabled={disableButton}
               onClick={checkAnswer}
+              className={classes.checkAnswerBtn}
             >
               Sjekk svar
             </Button>

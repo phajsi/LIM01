@@ -1,17 +1,13 @@
 import React from 'react';
-import { Card, CardHeader, makeStyles } from '@material-ui/core';
+import { Card, CardHeader } from '@material-ui/core';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import useStyles from './styles';
 
-const useStyles = makeStyles(() => ({
-  card: {
-    border: '3px solid lightcoral',
-    textAlign: 'left',
-  },
-  cardHeader: {
-    padding: '3px',
-    textAlign: 'left',
-  },
-}));
+/**
+ * Reusable errorMessage
+ * @property {String} message content of the error message
+ * @returns a card component with an error message, or nothing if no message was passed
+ */
 
 function ErrorMessage({ message }) {
   const classes = useStyles();
@@ -22,7 +18,7 @@ function ErrorMessage({ message }) {
     <Card className={classes.card}>
       <CardHeader
         className={classes.cardHeader}
-        avatar={<InfoOutlinedIcon style={{ color: 'lightcoral' }} />}
+        avatar={<InfoOutlinedIcon className={classes.icon} />}
         title={message}
       />
     </Card>

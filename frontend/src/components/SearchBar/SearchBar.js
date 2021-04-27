@@ -3,7 +3,7 @@ import { Grid, TextField, Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import useStyles from './styles';
 import { axiosInstanceGet } from '../../helpers/ApiFunctions';
-import ErrorMessage from '../ErrorMessage';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const SearchBar = () => {
   const classes = useStyles();
@@ -16,6 +16,11 @@ const SearchBar = () => {
     setPlayId(e.target.value);
   };
 
+  /**
+   * handles logic after user has entered something in the search bar.
+   * if valid input then it checks if the set exists. sets error message
+   * if the set doesn't exist and redirects to set if it does exist.
+   */
   function playSet(e) {
     e.preventDefault();
     // checks that the user has only entered integer values in the search bar
@@ -50,7 +55,7 @@ const SearchBar = () => {
               className={classes.search}
               type="text"
               variant="outlined"
-              placeholder="Finn oppgavesett"
+              placeholder="Tast inn settets ID"
               margin="dense"
               fullWidth
               required
@@ -61,10 +66,11 @@ const SearchBar = () => {
             <Button
               fullWidth
               type="submit"
+              color="primary"
               variant="contained"
               className={classes.btn}
             >
-              Søk
+              SPILL
             </Button>
           </Grid>
           {notExistError && (

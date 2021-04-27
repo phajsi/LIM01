@@ -1,46 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import Forstaelse from './Forstaelse/Forstaelse';
-import Chat from './Chat/Chat';
-import RyddeSetninger from './RyddeSetninger/RyddeSetninger';
-import Feedback from '../components/Feedback';
-import FinishedSet from './FinishedSet';
-import OverviewPage from './overviewPage/OverviewPage';
-import { axiosInstanceGet, axiosInstance } from '../helpers/ApiFunctions';
+import ReplayIcon from '@material-ui/icons/Replay';
+import axios from 'axios';
+import Forstaelse from '../../components/Forstaelse/Forstaelse';
+import Chat from '../../components/Chat/Chat';
+import RyddeSetninger from '../../components/RyddeSetninger/RyddeSetninger';
+import Feedback from '../../components/feedback/Feedback';
+import FinishedSet from '../../components/finishedSet/FinishedSet';
+import OverviewPage from '../overviewPage/OverviewPage';
+import useStyles from './styles';
 
 const PlaySets = () => {
   const location = useLocation();
+
+  // stepper for switching beteween exercises in the set
   const [step, setStep] = useState('menu');
+
+  // id for the exercise being played
   const [exerciseId, setExerciseId] = useState(0);
+  // id for the exercise set containing the exercises
   const [id, setId] = useState(null);
+
   const [totalScore, setTotalScore] = useState(0);
   const [exerciseProgress, setExerciseProgress] = useState(0);
   const [completed, setCompleted] = useState({ completed: false, score: 0 });
   const [totalExercises, setTotalExercises] = useState(0);
   const [feedbackState, setFeedbackState] = useState(false);
+
   const [redirected, setRedirected] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
+  // list of ids for the exercises in the set
   const [formDataExercises] = useState({
     chat: [],
     forstaelse: [],
     ryddeSetninger: [],
   });
+
+  // hook to get access to redux store and obtain user and auth info.
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
 
-  // const onChange = (e) => setId(e.target.value);
+  const classes = useStyles();
 
   /**
    * The function will turn the response object from the API endpoint into a
    * playlist with exercise IDs. the playlist will be stored as an object with
    * three lists, one for each exercise type. Only exercise types with an ID will be
    * added and other data will be ignored.
-   * @param {*} sets a object containing sets from backend.
+   * @param {object} sets a object containing sets from backend.
    */
   function createPlayList(sets) {
+    formDataExercises.chat.length = 0;
+    formDataExercises.forstaelse.length = 0;
+    formDataExercises.ryddeSetninger.length = 0;
     Object.entries(sets).forEach(([exercise, id]) => {
       if (exercise.substring(0, 4) === 'chat' && id) {
         formDataExercises.chat.push(id);
@@ -64,7 +80,6 @@ const PlaySets = () => {
    * then it goes to the next exercise. If not then it goes to the finish. It deletes
    * the current exercise being played from the list.
    */
-
   function nextExercise() {
     if (formDataExercises.chat[0]) {
       setExerciseProgress(exerciseProgress + 1);
@@ -84,12 +99,19 @@ const PlaySets = () => {
   }
 
   function getContent(id) {
-    axiosInstanceGet()
-      .get(`/sets/${id}`)
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/sets/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      })
       .then((res) => {
         createPlayList(res.data);
         setTitle(res.data.title);
         setDescription(res.data.description);
+        setTotalScore(0);
+        setExerciseProgress(0);
         setStep('overview');
       })
       .catch((e) => {
@@ -108,14 +130,43 @@ const PlaySets = () => {
   }
 
   function getCompleted(id) {
-    axiosInstance()
-      .get(`/completed/${id}`)
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/completed/${id}`, {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('access')}`,
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      })
       .then((res) => {
         setCompleted(res.data);
       })
       .catch((e) => {
         return e;
       });
+  }
+
+  function restartSet() {
+    return (
+      <Grid>
+        <Button
+          className={classes.replaybutton}
+          variant="outlined"
+          color="secondary"
+          startIcon={<ReplayIcon />}
+          onClick={() => {
+            getContent(id);
+            setStep('overview');
+          }}
+        >
+          Restart sett
+        </Button>
+      </Grid>
+    );
+  }
+
+  function playAudio(url) {
+    new Audio(url).play();
   }
 
   // only runs if an id is passed as state/props while redirected to this page. i.e search bar on front page
@@ -150,6 +201,8 @@ const PlaySets = () => {
           showFeedback={showFeedback}
           progress={exerciseProgress}
           possible={totalExercises}
+          restartSet={() => restartSet()}
+          playAudio={(url) => playAudio(url)}
         />
       );
     case 'chat':
@@ -159,6 +212,8 @@ const PlaySets = () => {
           showFeedback={showFeedback}
           progress={exerciseProgress}
           possible={totalExercises}
+          restartSet={() => restartSet()}
+          playAudio={(url) => playAudio(url)}
         />
       );
     case 'ryddeSetninger':
@@ -168,6 +223,8 @@ const PlaySets = () => {
           showFeedback={showFeedback}
           progress={exerciseProgress}
           possible={totalExercises}
+          restartSet={() => restartSet()}
+          playAudio={(url) => playAudio(url)}
         />
       );
     case 'feedback':
@@ -177,27 +234,24 @@ const PlaySets = () => {
             totalScore={totalScore}
             totalExercises={totalExercises}
             feedbackState={feedbackState}
+            nextExercise={nextExercise}
           />
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => nextExercise()}
-            fullWidth
-          >
-            neste
-          </Button>
         </div>
       );
     case 'finish':
       return (
-        <FinishedSet
-          totalScore={totalScore}
-          totalExercises={totalExercises}
-          percentage={totalScore / totalExercises}
-          id={id}
-          completed={completed}
-          isAuthenticated={isAuthenticated}
-        />
+        <div>
+          <FinishedSet
+            totalScore={totalScore}
+            totalExercises={totalExercises}
+            percentage={totalScore / totalExercises}
+            id={id}
+            completed={completed}
+            isAuthenticated={isAuthenticated}
+            getContents={getContent}
+            setSteps={setStep}
+          />
+        </div>
       );
     default:
       return <p>default</p>;

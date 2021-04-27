@@ -92,8 +92,8 @@ DATABASES = {
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'simenfop@gmail.com'
-EMAIL_HOST_PASSWORD = 'lcjilhfghkezgphv'
+EMAIL_HOST_USER = 'dipickle.lim@gmail.com'
+EMAIL_HOST_PASSWORD = 'crdpcvrpitchpjtn'
 EMAIL_USE_TLS = True
 
 
@@ -162,6 +162,7 @@ DJOSER = {
     'SEND_CONFIRMATION_EMAIL': True,
     'SET_USERNAME_RETYPE': True,
     'SET_PASSWORD_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_RETYPE': True,
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
     'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': 'activate/{uid}/{token}',

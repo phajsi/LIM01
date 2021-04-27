@@ -1,23 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: '#f5f5f5',
-    maxWidth: theme.spacing(40),
-    marginTop: theme.spacing(3),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    margin: 'auto',
-  },
-  layout: {
-    backgroundColor: '#f5f5f5',
-    padding: theme.spacing(2),
-  },
-  navbar: {
-    backgroundColor: 'white',
-    color: 'black',
-  },
   chosenWords: {
     padding: theme.spacing(1),
     minHeight: '2.5em',
@@ -27,6 +10,13 @@ const useStyles = makeStyles((theme) => ({
   },
   wordBtn: {
     textTransform: 'none',
+    fontWeight: 'normal',
+    '&:hover': {
+      color: 'black',
+    },
+  },
+  checkAnswerBtn: {
+    float: 'right',
   },
 }));
 

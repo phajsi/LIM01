@@ -18,7 +18,7 @@ import * as yup from 'yup';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import { signup, checkAuthenticated } from '../../actions/auth';
 import useStyles from './styles';
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 const validationSchema = yup.object({
   name: yup.string().required('Navn er påkrevd.').max(40),
@@ -39,6 +39,16 @@ const validationSchema = yup.object({
     .oneOf([yup.ref('password'), null], 'Passordene må være like.'),
 });
 
+/**
+ * Sign up page for the website.
+ * @param {object} param0 props
+ * @property {function} signup redux action for registering a user
+ * @property {boolean} isAuthenticated redux state used to check if a user is auth.
+ * @property {*} signUpSuccess redux state used to check if signup failed
+ * @property {function} checkAuthenticated redux action for checking if auth is valid and updating isAuthenticated
+ * @returns container for registering a user
+ */
+
 const Signup = ({
   signup,
   isAuthenticated,
@@ -46,7 +56,6 @@ const Signup = ({
   checkAuthenticated,
 }) => {
   const classes = useStyles();
-  // eslint-disable-next-line no-unused-vars
   const [signUp, setSignUp] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -82,10 +91,7 @@ const Signup = ({
         <Card className={classes.card}>
           <CardHeader
             className={classes.cardHeader}
-            avatar={
-              // eslint-disable-next-line react/jsx-wrap-multilines
-              <CheckCircleOutlinedIcon style={{ color: 'lightgreen' }} />
-            }
+            avatar={<CheckCircleOutlinedIcon className={classes.icon} />}
             title="Takk! Vi har sendt deg en e-post med en link som du må trykke på for å aktivere brukeren din. Når du har gjort det kan du logge deg inn."
           />
         </Card>
@@ -100,7 +106,7 @@ const Signup = ({
   return (
     <div className={classes.root}>
       <Paper className={classes.infoBox}>
-        <h1 className={classes.headline}>Opprett bruker</h1>
+        <h2 className={classes.headline}>Opprett bruker</h2>
         <Formik
           initialValues={formData}
           onSubmit={(values) => {
@@ -185,7 +191,7 @@ const Signup = ({
               <Button
                 variant="contained"
                 disabled={signUp}
-                color="secondary"
+                color="primary"
                 type="submit"
                 fullWidth
                 className={classes.button}
@@ -197,7 +203,7 @@ const Signup = ({
           )}
         </Formik>
         <hr className={classes.divider} />
-        <Grid container>
+        <Grid container alignItems="center">
           <Grid item xs={6}>
             <p> Har du en konto? </p>
           </Grid>
@@ -205,7 +211,7 @@ const Signup = ({
             <Button
               component={Link}
               to="/Login"
-              variant="contained"
+              variant="outlined"
               fullWidth
               size="small"
               className={classes.secondaryButton}

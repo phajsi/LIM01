@@ -10,15 +10,20 @@ import {
   MenuItem,
   Select,
   Avatar,
+  IconButton,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import InfoIcon from '@material-ui/icons/Info';
 import RemoveIcon from '@material-ui/icons/Remove';
+import ClearIcon from '@material-ui/icons/Clear';
+import CheckIcon from '@material-ui/icons/Check';
 import gingerMan from '../../assets/images/gingerMan.png';
 import capsMan from '../../assets/images/capsMan.png';
 import frenchMan from '../../assets/images/frenchMan.png';
 import brunetteWoman from '../../assets/images/brunetteWoman.png';
 import blondeWoman from '../../assets/images/blondeWoman.png';
 import muslimWoman from '../../assets/images/muslimWoman.png';
+import InfoModal from '../InfoModal/InfoModal';
 import useStyles from './styles';
 
 const validationSchema = yup.object({
@@ -31,7 +36,9 @@ const validationSchema = yup.object({
 const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
   const classes = useStyles();
   const [taskAmount, setTaskAmount] = useState(1);
+  const [showModal, setShowModal] = useState(false);
 
+  // used to check if an exisitng exercise should be edited or a new one made.
   useEffect(() => {
     if (formDataEdit) {
       if (formDataEdit.chatquestion3) {
@@ -41,6 +48,14 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
       }
     }
   }, []);
+
+  /**
+   * Used to avoid repetition of same code because there are many similar fields.
+   * @param {String} name the name of the field.
+   * @param {Boolean} touched Formik prop. validation will only run if field has been touched by user
+   * @param {Boolean} errors Formik prop to handle errors on user input.
+   * @returns The complete field that will be shown to the user
+   */
 
   function formTextField(name, touched, errors) {
     return (
@@ -91,7 +106,12 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
 
   return (
     <Paper className={classes.root}>
-      <h1>Chat</h1>
+      <Grid className={classes.headergroup}>
+        <h1>Chat</h1>
+        <IconButton onClick={() => setShowModal('createchat')}>
+          <InfoIcon className={classes.icons} />
+        </IconButton>
+      </Grid>
       <Formik
         initialValues={
           formDataEdit || {
@@ -112,7 +132,6 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
       >
         {({ errors, touched, setFieldValue, isSubmitting }) => (
           <Form className={classes.form}>
-            <h2> Tema 1 </h2>
             <Grid container spacing={3}>
               <Grid item xs={6}>
                 <p>Hvem sender meldingen? </p>
@@ -136,21 +155,45 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                       Tema
                       {el + 1}
                     </h2>
-                    <Grid item xs={12}>
-                      <p>Skriv spørsmålet her: </p>
-                      {formTextField(`chatquestion${el + 1}`, touched, errors)}
-                    </Grid>
-                    <Grid item xs={12}>
-                      <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
-                      {formTextField(`answer${el + 1}1`, touched, errors)}
-                    </Grid>
-                    <Grid item xs={12}>
-                      <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
-                      {formTextField(`answer${el + 1}2`, touched, errors)}
-                    </Grid>
-                    <Grid item xs={12}>
-                      <p>Skriv svaralternativ 3 her (Korrekt alternativ): </p>
-                      {formTextField(`correctanswer${el + 1}`, touched, errors)}
+                    <Grid
+                      container
+                      direction="row"
+                      justify="space-between"
+                      alignItems="center"
+                    >
+                      <p>Skriv en melding i form av et spørsmål her: *</p>
+                      <Grid item xs={11}>
+                        {formTextField(
+                          `chatquestion${el + 1}`,
+                          touched,
+                          errors
+                        )}
+                      </Grid>
+                      <p>Skriv et FEIL svaralternativ til meldingen her: *</p>
+                      <Grid item xs={11}>
+                        {formTextField(`answer${el + 1}1`, touched, errors)}
+                      </Grid>
+                      <Grid>
+                        <ClearIcon />
+                      </Grid>
+                      <p>Skriv et FEIL svaralternativ til meldingen her: *</p>
+                      <Grid item xs={11}>
+                        {formTextField(`answer${el + 1}2`, touched, errors)}
+                      </Grid>
+                      <Grid>
+                        <ClearIcon />
+                      </Grid>
+                      <p>Skriv det RIKTIGE svaret til meldingen her: *</p>
+                      <Grid item xs={11}>
+                        {formTextField(
+                          `correctanswer${el + 1}`,
+                          touched,
+                          errors
+                        )}
+                      </Grid>
+                      <Grid>
+                        <CheckIcon />
+                      </Grid>
                     </Grid>
                   </>
                 );
@@ -160,6 +203,7 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
               {taskAmount > 1 && (
                 <Fab
                   className={classes.innerMargin}
+                  color="secondary"
                   size="small"
                   onClick={() => {
                     setFieldValue(`chatquestion${taskAmount}`, '', false);
@@ -177,6 +221,7 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                 <Fab
                   className={classes.innerMargin}
                   size="small"
+                  color="secondary"
                   onClick={() => setTaskAmount(taskAmount + 1)}
                   variant="contained"
                 >
@@ -184,30 +229,35 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                 </Fab>
               )}
             </div>
-            <div className={classes.buttons}>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="flex-start"
+            >
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  onGoBack();
+                }}
+              >
+                Tilbake
+              </Button>
               <Button
                 disabled={isSubmitting}
                 type="submit"
                 variant="contained"
                 color="primary"
-                className={classes.button}
               >
-                Continue
+                Opprett
               </Button>
-            </div>
+            </Grid>
           </Form>
         )}
       </Formik>
-      <Button
-        variant="contained"
-        color="secondary"
-        className={classes.button}
-        onClick={() => {
-          onGoBack();
-        }}
-      >
-        Tilbake
-      </Button>
+      {showModal && (
+        <InfoModal showModal={showModal} setShowModal={setShowModal} />
+      )}
     </Paper>
   );
 };

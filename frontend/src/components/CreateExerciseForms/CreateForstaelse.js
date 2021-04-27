@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Fab, Paper, Grid, Select, MenuItem } from '@material-ui/core';
+import {
+  Button,
+  Fab,
+  Paper,
+  Grid,
+  Select,
+  MenuItem,
+  IconButton,
+} from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import AddIcon from '@material-ui/icons/Add';
+import InfoIcon from '@material-ui/icons/Info';
 import RemoveIcon from '@material-ui/icons/Remove';
+import InfoModal from '../InfoModal/InfoModal';
 import useStyles from './styles';
 
 const validationSchema = yup.object({
@@ -22,7 +32,9 @@ const CreateForstaelse = ({
 }) => {
   const classes = useStyles();
   const [taskAmount, setTaskAmount] = useState(1);
+  const [showModal, setShowModal] = useState(false);
 
+  // used to check if an exisitng exercise should be edited or a new one made.
   useEffect(() => {
     if (formDataEdit) {
       if (formDataEdit.chat3) {
@@ -32,6 +44,14 @@ const CreateForstaelse = ({
       }
     }
   }, []);
+
+  /**
+   * Used to avoid repetition of same code because there are many similar fields.
+   * @param {String} name the name of the field.
+   * @param {Boolean} touched Formik prop. validation will only run if field has been touched by user
+   * @param {Boolean} errors Formik prop to handle errors on user input.
+   * @returns The complete field that will be shown to the user
+   */
 
   function formTextField(name, touched, errors) {
     return (
@@ -67,7 +87,12 @@ const CreateForstaelse = ({
 
   return (
     <Paper className={classes.root}>
-      <h1>Forståelse</h1>
+      <Grid className={classes.headergroup}>
+        <h1>Forståelse</h1>
+        <IconButton onClick={() => setShowModal('createforstaelse')}>
+          <InfoIcon className={classes.icons} />
+        </IconButton>
+      </Grid>
       <Formik
         initialValues={
           formDataEdit || {
@@ -93,23 +118,26 @@ const CreateForstaelse = ({
                 return (
                   <>
                     <h2>
-                      Oppgave
-                      {el + 1}
+                      Tema
+                      {` ${el + 1} `}
                     </h2>
                     <Grid item xs={12}>
-                      <p>Skriv chat meldingen her:</p>
+                      <p>
+                        Du skal sende en melding til en venn. Skriv meldingen
+                        her: *
+                      </p>
                       {formTextField(`chat${el + 1}`, touched, errors)}
                     </Grid>
                     <Grid item xs={12}>
-                      <p>Skriv et ja/nei spørsmål til chat meldingen:</p>
+                      <p>Skriv et ja/nei spørsmål med tanke på meldingen: *</p>
                       {formTextField(`question${el + 1}`, touched, errors)}
                     </Grid>
                     <Grid item xs={12}>
-                      <p>Velg om svaret er ja eller nei</p>
+                      <p>Velg om svaret på spørsmålet over er ja eller nei</p>
                       {formSelectField(`answer${el + 1}`, touched, errors)}
                     </Grid>
                     <Grid item xs={12}>
-                      <p>Skriv en forklaring til riktig svar</p>
+                      <p>Forklar hvorfor svaret er ja/nei: *</p>
                       {formTextField(`explanation${el + 1}`, touched, errors)}
                     </Grid>
                   </>
@@ -121,6 +149,7 @@ const CreateForstaelse = ({
               {taskAmount > 1 && (
                 <Fab
                   className={classes.innerMargin}
+                  color="secondary"
                   size="small"
                   onClick={() => {
                     setFieldValue(`chat${taskAmount}`, '', false);
@@ -137,6 +166,7 @@ const CreateForstaelse = ({
                 <Fab
                   className={classes.innerMargin}
                   size="small"
+                  color="secondary"
                   onClick={() => setTaskAmount(taskAmount + 1)}
                   variant="contained"
                 >
@@ -144,30 +174,35 @@ const CreateForstaelse = ({
                 </Fab>
               )}
             </div>
-            <div className={classes.buttons}>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="flex-start"
+            >
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  onGoBack();
+                }}
+              >
+                Tilbake
+              </Button>
               <Button
                 disabled={isSubmitting}
                 type="submit"
                 variant="contained"
                 color="primary"
-                className={classes.button}
               >
-                Continue
+                Opprett
               </Button>
-            </div>
+            </Grid>
           </Form>
         )}
       </Formik>
-      <Button
-        variant="contained"
-        color="secondary"
-        className={classes.button}
-        onClick={() => {
-          onGoBack();
-        }}
-      >
-        Tilbake
-      </Button>
+      {showModal && (
+        <InfoModal showModal={showModal} setShowModal={setShowModal} />
+      )}
     </Paper>
   );
 };

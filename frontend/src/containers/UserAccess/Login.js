@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import {
   Button,
   Grid,
@@ -15,14 +15,28 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { connect } from 'react-redux';
 import { login, checkAuthenticated } from '../../actions/auth';
 import useStyles from './styles';
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+
+/**
+ * login page for the website
+ * @param {object} param0 props
+ * @property {function} login redux action for user auth
+ * @property {boolean} isAuthenticated redux state used to check if a user is auth.
+ * @property {*} loginError redux state used to check if login failed
+ * @property {function} checkAuthenticated redux action for checking if auth is valid and updating isAuthenticated
+ * @returns container for logging in a user
+ */
 
 const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
   const classes = useStyles();
+  const location = useLocation();
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+
+  // boolean so user can toggle visible password in password field.
   const [showPassword, setShowPassword] = useState(false);
 
   const { email, password } = formData;
@@ -55,13 +69,17 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
   }
 
   if (isAuthenticated) {
-    return <Redirect to="/home" />;
+    return location.state?.prevLocation ? (
+      <Redirect to={location.state?.prevLocation} />
+    ) : (
+      <Redirect to="/home" />
+    );
   }
 
   return (
     <div className={classes.root}>
       <Paper className={classes.infoBox}>
-        <h1 className={classes.headline}>Logg inn</h1>
+        <h2 className={classes.headline}>Logg inn</h2>
         <form onSubmit={(e) => onSubmit(e)}>
           <TextField
             type="text"
@@ -108,7 +126,7 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
           />
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             type="submit"
             fullWidth
             className={classes.button}
@@ -126,16 +144,16 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
             <Button
               component={Link}
               to="/signup"
-              variant="contained"
+              variant="outlined"
               fullWidth
               size="small"
-              className={classes.secondaryButton}
+              className={classes.button}
             >
               Registrering
             </Button>
           </Grid>
         </Grid>
-        <Grid container>
+        <Grid container alignItems="center">
           <Grid item xs={6}>
             <p> Glemt passordet? </p>
           </Grid>
@@ -143,10 +161,10 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
             <Button
               component={Link}
               to="/reset-password"
-              variant="contained"
+              variant="outlined"
               fullWidth
               size="small"
-              className={classes.secondaryButton}
+              className={classes.button}
             >
               Bytt passord
             </Button>

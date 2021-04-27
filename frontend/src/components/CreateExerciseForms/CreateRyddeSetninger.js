@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
@@ -10,9 +9,12 @@ import {
   TextField,
   Select,
   MenuItem,
+  IconButton,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import InfoIcon from '@material-ui/icons/Info';
 import RemoveIcon from '@material-ui/icons/Remove';
+import InfoModal from '../InfoModal/InfoModal';
 import useStyles from './styles';
 
 const validationSchema = yup.object({
@@ -30,10 +32,10 @@ const CreateRyddeSetninger = ({
   const classes = useStyles();
 
   const [words, addWords] = useState(3);
+  const [showModal, setShowModal] = useState(false);
 
   /**
-   * Used to avoid repetition of same code.
-   * All fields in the form will use this function
+   * Used to avoid repetition of same code because there are many similar fields.
    * @param {String} name the name of the field.
    * @param {String} label name/description that will be visibile to the user
    * @param {Boolean} touched Formik prop. validation will only run if field has been touched by user
@@ -79,9 +81,16 @@ const CreateRyddeSetninger = ({
       </Field>
     );
   }
+
+  /**
+   * Runs when the page first renders and checks if an exisitng exercise
+   * should be edited. formDataEdit is passed as props if it is an exisiting exercise.
+   * if not, this function does nothing.
+   */
   useEffect(() => {
     if (formDataEdit) {
       let wordAmount = 0;
+      // used to keep track of how many words the exercise has.
       Object.entries(formDataEdit).forEach(([key, values]) => {
         if (!key.includes('Class') && key !== 'id' && values !== '') {
           wordAmount += 1;
@@ -93,7 +102,12 @@ const CreateRyddeSetninger = ({
 
   return (
     <Paper className={classes.root}>
-      <h1>Rydde Setninger</h1>
+      <Grid className={classes.headergroup}>
+        <h1>Rydde Setninger</h1>
+        <IconButton onClick={() => setShowModal('createrydde_setninger')}>
+          <InfoIcon className={classes.icons} />
+        </IconButton>
+      </Grid>
       <Formik
         initialValues={
           formDataEdit || {
@@ -115,10 +129,10 @@ const CreateRyddeSetninger = ({
           <Form className={classes.form}>
             <Grid container spacing={3}>
               <Grid item xs={6}>
-                <h3>Skriv inn ord i rekkefølge for å lage en setning:</h3>
+                <h3>Skriv inn ord i rekkefølge for å lage en setning: *</h3>
               </Grid>
               <Grid item xs={6}>
-                <h3>Velg tilhørende ordklasse:</h3>
+                <h3>Velg ordklassen ordet tilhører:</h3>
               </Grid>
               {words > 0 &&
                 [...Array(words).keys()].map((el) => {
@@ -139,54 +153,64 @@ const CreateRyddeSetninger = ({
                   );
                 })}
             </Grid>
-            {words < 10 && (
-              <Fab
-                className={classes.innerMargin}
-                size="small"
-                onClick={() => addWords(words + 1)}
-                variant="contained"
-              >
-                <AddIcon />
-              </Fab>
-            )}
-            {words > 3 && (
-              <Fab
-                className={classes.innerMargin}
-                size="small"
+            <Grid />
+            <div className={classes.addIcon}>
+              {words > 3 && (
+                <Fab
+                  className={classes.innerMargin}
+                  size="small"
+                  color="secondary"
+                  onClick={() => {
+                    setFieldValue(`word${words}`, '', false);
+                    setFieldValue(`wordClass${words}`, '', false);
+                    addWords(words - 1);
+                  }}
+                  variant="contained"
+                >
+                  <RemoveIcon />
+                </Fab>
+              )}
+              {words < 10 && (
+                <Fab
+                  className={classes.innerMargin}
+                  size="small"
+                  color="secondary"
+                  onClick={() => addWords(words + 1)}
+                  variant="contained"
+                >
+                  <AddIcon />
+                </Fab>
+              )}
+            </div>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="flex-start"
+            >
+              <Button
+                variant="outlined"
                 onClick={() => {
-                  setFieldValue(`word${words}`, '', false);
-                  setFieldValue(`wordClass${words}`, '', false);
-                  addWords(words - 1);
+                  onGoBack();
                 }}
-                variant="contained"
               >
-                <RemoveIcon />
-              </Fab>
-            )}
-            <div className={classes.buttons}>
+                Tilbake
+              </Button>
               <Button
                 disabled={isSubmitting}
                 type="submit"
                 variant="contained"
                 color="primary"
-                className={classes.button}
               >
                 Opprett
               </Button>
-            </div>
+            </Grid>
           </Form>
         )}
       </Formik>
-      <Button
-        variant="contained"
-        color="secondary"
-        className={classes.button}
-        onClick={() => {
-          onGoBack();
-        }}
-      >
-        Tilbake
-      </Button>
+      {showModal && (
+        <InfoModal showModal={showModal} setShowModal={setShowModal} />
+      )}
     </Paper>
   );
 };

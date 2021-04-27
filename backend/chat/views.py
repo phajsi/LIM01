@@ -6,9 +6,15 @@ from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 
+"""
+Chat view without permission class meaning it is accessible to anyone. 
+Only allows get requests 
+"""
+
 
 class ChatView(APIView):
     permission_classes = []
+    # receives a primary key in the url and returns the chat object with the corresponding key or 404 error.
 
     def get(self, request, pk):
         try:
@@ -19,7 +25,14 @@ class ChatView(APIView):
         return JsonResponse(serializer.data, safe=False)
 
 
+"""
+Protected chat view which means requests need to include a valid token. 
+allows post, put and delete requests.
+"""
+
+
 class ProtectedChatView(APIView):
+    # adds new chat object to the database model based on request body if it can be serialized correctly.
     def post(self, request):
         data = JSONParser().parse(request)
         serializer = ChatSerializer(data=data)
@@ -28,6 +41,7 @@ class ProtectedChatView(APIView):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
+    # updates an existing chat object if it exists and it can be serialized
     def put(self, request, pk):
         try:
             getChat = Chat.objects.filter(owner=self.request.user).get(pk=pk)
@@ -40,6 +54,7 @@ class ProtectedChatView(APIView):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
+    # deletes an existing chat object if it exists, else 404 error is returned
     def delete(self, request, pk):
         try:
             getChat = Chat.objects.filter(owner=self.request.user).get(pk=pk)

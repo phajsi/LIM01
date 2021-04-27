@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles, IconButton } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { axiosInstance, axiosInstanceDelete } from '../helpers/ApiFunctions';
 
-const useStyles = makeStyles(() => ({
-  card: {
-    border: '3px solid lightcoral',
-    textAlign: 'left',
-  },
-}));
+/**
+ * An icon component for saving/unsaving exercise sets.
+ * @property {integer} id for the set
+ * @returns clickable icon component
+ */
 
 function SaveIcon({ id }) {
-  const classes = useStyles();
   const [saved, setSaved] = useState(false);
 
   function getSaved() {
@@ -28,6 +26,7 @@ function SaveIcon({ id }) {
     getSaved();
   }, []);
 
+  // backend requests for saving/unsaving exercise set
   function onClickSave() {
     if (!saved) {
       axiosInstance()
@@ -51,10 +50,7 @@ function SaveIcon({ id }) {
   }
 
   return (
-    <IconButton
-      className={saved ? classes.saved : classes.notSaved}
-      onClick={() => onClickSave()}
-    >
+    <IconButton onClick={() => onClickSave()}>
       {saved ? (
         <FavoriteIcon style={{ color: 'red' }} />
       ) : (

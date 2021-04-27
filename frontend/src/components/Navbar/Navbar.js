@@ -49,7 +49,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
       </Hidden>
 
       <Drawer anchor="top" open={mobileOpen} onClose={handleDrawerToggle}>
-        <div className={classes.toolbar} />
+        <div className={classes.spacing} />
         <List component="nav" className={classes.list}>
           <ListItem button component={Link} to="/login">
             <ListItemText className={classes.listItem}>Logg inn</ListItemText>
@@ -81,7 +81,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
         </div>
       </Hidden>
       <Drawer anchor="top" open={mobileOpen} onClose={handleDrawerToggle}>
-        <div className={classes.toolbar} />
+        <div className={classes.spacing} />
         <List component="nav" className={classes.list}>
           <ListItem button component={Link} to="/createexercise">
             <ListItemText className={classes.listItem}>
@@ -100,12 +100,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
   return (
     <div className={classes.root}>
       <AppBar position="relative" className={classes.appbar}>
-        <Toolbar
-          style={{
-            justifyContent: 'space-between',
-            background: 'linear-gradient(90deg, #53A77A 1.46%, #80D197 100%)',
-          }}
-        >
+        <Toolbar className={classes.toolbar}>
           <Button
             component={Link}
             to={isAuthenticated ? '/home' : '/'}
