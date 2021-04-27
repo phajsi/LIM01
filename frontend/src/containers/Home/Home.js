@@ -170,7 +170,7 @@ const Home = () => {
               open
             >
               <div>
-                <div className={classes.toolbar} />
+                <div className={classes.spacing} />
                 <List>
                   <ListItem
                     button
@@ -217,6 +217,8 @@ const Home = () => {
               {['Mine sett', 'Lagrede sett', 'Fullførte sett'].map(
                 (text, index) => (
                   <Button
+                    autoFocus={showSetType === index}
+                    disableRipple
                     id={index}
                     key={text}
                     onClick={() => setShowSetType(index)}
