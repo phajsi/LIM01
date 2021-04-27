@@ -254,7 +254,7 @@ const PlaySets = () => {
         </div>
       );
     default:
-      return <Typography variant="p">default</Typography>;
+      return <Typography>default</Typography>;
   }
 };
 

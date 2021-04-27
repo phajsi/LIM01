@@ -206,7 +206,7 @@ const Signup = ({
         <hr className={classes.divider} />
         <Grid container alignItems="center" justify="center">
           <Grid item xs={6}>
-            <Typography variant="p"> Har du en konto? </Typography>
+            <Typography> Har du en konto? </Typography>
           </Grid>
           <Grid item xs={6}>
             <Button

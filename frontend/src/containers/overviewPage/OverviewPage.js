@@ -170,7 +170,7 @@ const OverviewPage = ({
           <Divider className={classes.divider} />
           <Grid container>
             <Grid item sm={9} xs={12}>
-              <Typography variant="p" className={classes.description}>
+              <Typography className={classes.description}>
                 {description}
               </Typography>
             </Grid>
@@ -190,18 +190,16 @@ const OverviewPage = ({
         <Grid container>
           <Grid item xs={12} className={classes.completedtext}>
             {completed.completed && (
-              <Typography variant="p" gutterBottom data-testid="score">
+              <Typography gutterBottom data-testid="score">
                 Din beste score på dette settet er
                 {` ${completed.score}%.`}
-                <br />
-                Prøv å forbedre scoren din.
               </Typography>
             )}
           </Grid>
           <Grid item xs={12} className={classes.commentheader}>
             <Typography variant="h3">Kommentarer</Typography>
             <div className={classes.rating}>
-              <Typography variant="p">
+              <Typography>
                 <ThumbUpIcon />
                 {ratings.upvotes}
                 <ThumbDownIcon />
@@ -247,7 +245,7 @@ const OverviewPage = ({
             </Grid>
           ) : (
             <Grid item xs={12} className={classes.defaulttext}>
-              <Typography variant="p">
+              <Typography>
                 Du må være innlogget for å kunne kunne legge igen en kommentar
                 til dette settet.
               </Typography>

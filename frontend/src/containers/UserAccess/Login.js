@@ -139,7 +139,7 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
         <hr className={classes.divider} />
         <Grid container alignItems="center" justify="center">
           <Grid item xs={6}>
-            <Typography variant="p"> Har du ikke en konto? </Typography>
+            <Typography> Har du ikke en konto? </Typography>
           </Grid>
           <Grid item xs={6}>
             <Button
@@ -156,7 +156,7 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
         </Grid>
         <Grid container alignItems="center">
           <Grid item xs={6}>
-            <Typography variant="p"> Glemt passordet? </Typography>
+            <Typography> Glemt passordet? </Typography>
           </Grid>
           <Grid item xs={6}>
             <Button

@@ -72,7 +72,14 @@
       "reportWebVitals.js",
       "Layout.js",
       "index.js",
-      "exerciseStyle.js"
+      "exerciseStyle.js",
+      "App.js",
+      "ApiFunctions.js",
+      "reducers.js",
+      "auth.js",
+      "resetPassword.js",
+      "ResetPasswordConfirm.js",
+      "Activate.js"
     ]
   }
 }
