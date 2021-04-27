@@ -9,6 +9,7 @@ import {
   TextField,
   Card,
   CardHeader,
+  Typography,
 } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
@@ -203,9 +204,9 @@ const Signup = ({
           )}
         </Formik>
         <hr className={classes.divider} />
-        <Grid container alignItems="center">
+        <Grid container alignItems="center" justify="center">
           <Grid item xs={6}>
-            <p> Har du en konto? </p>
+            <Typography variant="p"> Har du en konto? </Typography>
           </Grid>
           <Grid item xs={6}>
             <Button

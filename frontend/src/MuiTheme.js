@@ -9,6 +9,17 @@ const MuiTheme = createMuiTheme({
       main: '#F68365',
     },
   },
+  typography: {
+    h1: {
+      fontSize: '2.8rem',
+    },
+    h2: {
+      fontSize: '2rem',
+    },
+    h3: {
+      fontSize: '1.2rem',
+    },
+  },
   overrides: {
     MuiButton: {
       contained: {

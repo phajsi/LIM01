@@ -71,8 +71,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
   },
   completedtext: {
+    display: 'flex',
+    flexDirection: 'row',
     maxWidth: theme.spacing(75),
-    margin: '0 auto 0 auto',
+    margin: 'auto',
   },
   makecomment: {
     maxWidth: theme.spacing(75),
@@ -91,6 +93,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     maxWidth: theme.spacing(75),
     maxHeight: theme.spacing(5),
+    marginTop: theme.spacing(1),
     margin: 'auto',
   },
   rating: {

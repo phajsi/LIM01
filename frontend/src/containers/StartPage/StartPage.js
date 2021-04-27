@@ -29,7 +29,7 @@ const StartPage = () => {
       <img src={ellipse} alt="ellipse" className={classes.ellipse} />
       <div className={classes.logoBox}>
         <img src={pickleLogo} alt="pickle logo" className={classes.logoImg} />
-        <Typography variant="h3" className={classes.logoText}>
+        <Typography variant="h1" className={classes.logoText}>
           DiPICKLE
         </Typography>
       </div>

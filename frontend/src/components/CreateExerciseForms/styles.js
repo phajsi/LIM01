@@ -62,10 +62,14 @@ const useStyles = makeStyles((theme) => ({
   icons: {
     fontSize: '1.5em',
     justifyContent: 'flex-end',
+    '> *': {
+      padding: 0,
+    },
   },
   headergroup: {
     display: 'flex',
     flexDirection: 'row',
+    margin: theme.spacing(1),
   },
 }));
 

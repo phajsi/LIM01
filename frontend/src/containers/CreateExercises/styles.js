@@ -5,7 +5,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: theme.spacing(100),
     margin: 'auto',
     textAlign: 'center',
-    border: '1px solid #000000',
     borderRadius: 5,
     padding: '5vw',
   },

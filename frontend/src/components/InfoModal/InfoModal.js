@@ -6,6 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
+  Typography,
 } from '@material-ui/core';
 import chatimage from '../../assets/images/chatModal.png';
 import forstaelseimage from '../../assets/images/forstaelseModal.png';
@@ -65,7 +66,7 @@ const InfoModal = ({ showModal, setShowModal }) => {
       return (
         <div>
           <h2 className={classes.header}>Lage ny chat-oppgave</h2>
-          <p>{chatText}</p>
+          <Typography variant="p">{chatText}</Typography>
           <img
             className={classes.image}
             src={chatform}
@@ -78,7 +79,7 @@ const InfoModal = ({ showModal, setShowModal }) => {
       return (
         <div>
           <h2 className={classes.header}>Lage ny forståelse-oppgave</h2>
-          <p>{forstaelseText}</p>
+          <Typography variant="p">{forstaelseText}</Typography>
           <img
             className={classes.image}
             src={forstaelseform}
@@ -91,7 +92,7 @@ const InfoModal = ({ showModal, setShowModal }) => {
       return (
         <div>
           <h2 className={classes.header}>Lage ny rydde setninger-oppgave</h2>
-          <p>{rydde_setningerText}</p>
+          <Typography variant="p">{rydde_setningerText}</Typography>
           <img
             className={classes.image}
             src={ryddesetningerform}

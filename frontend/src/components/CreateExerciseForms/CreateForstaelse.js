@@ -7,6 +7,7 @@ import {
   Select,
   MenuItem,
   IconButton,
+  Typography,
 } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import { Formik, Form, Field } from 'formik';
@@ -87,12 +88,12 @@ const CreateForstaelse = ({
 
   return (
     <Paper className={classes.root}>
-      <Grid className={classes.headergroup}>
-        <h1>Forståelse</h1>
+      <div className={classes.headergroup}>
+        <Typography variant="h1">Forståelse</Typography>
         <IconButton onClick={() => setShowModal('createforstaelse')}>
           <InfoIcon className={classes.icons} />
         </IconButton>
-      </Grid>
+      </div>
       <Formik
         initialValues={
           formDataEdit || {
@@ -117,27 +118,33 @@ const CreateForstaelse = ({
               {[...Array(taskAmount).keys()].map((el) => {
                 return (
                   <>
-                    <h2>
+                    <Typography variant="h2" paragraph>
                       Tema
                       {` ${el + 1} `}
-                    </h2>
+                    </Typography>
                     <Grid item xs={12}>
-                      <p>
+                      <Typography component="p">
                         Du skal sende en melding til en venn. Skriv meldingen
                         her: *
-                      </p>
+                      </Typography>
                       {formTextField(`chat${el + 1}`, touched, errors)}
                     </Grid>
                     <Grid item xs={12}>
-                      <p>Skriv et ja/nei spørsmål med tanke på meldingen: *</p>
+                      <Typography component="p">
+                        Skriv et ja/nei spørsmål med tanke på meldingen: *
+                      </Typography>
                       {formTextField(`question${el + 1}`, touched, errors)}
                     </Grid>
                     <Grid item xs={12}>
-                      <p>Velg om svaret på spørsmålet over er ja eller nei</p>
+                      <Typography>
+                        Velg om svaret på spørsmålet over er ja eller nei
+                      </Typography>
                       {formSelectField(`answer${el + 1}`, touched, errors)}
                     </Grid>
                     <Grid item xs={12}>
-                      <p>Forklar hvorfor svaret er ja/nei: *</p>
+                      <Typography component="p">
+                        Forklar hvorfor svaret er ja/nei: *
+                      </Typography>
                       {formTextField(`explanation${el + 1}`, touched, errors)}
                     </Grid>
                   </>

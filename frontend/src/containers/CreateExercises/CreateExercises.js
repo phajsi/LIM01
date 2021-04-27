@@ -7,6 +7,7 @@ import {
   MenuItem,
   Button,
   TextField,
+  Typography,
   Grid,
   IconButton,
 } from '@material-ui/core';
@@ -225,10 +226,12 @@ const CreateExercises = () => {
     case 'Menu':
       return (
         <Paper className={classes.root}>
-          <h1>Nytt sett</h1>
+          <Typography variant="h1" gutterBottom>
+            Nytt sett
+          </Typography>
           <Grid container className={classes.gridcontainer}>
             <Grid item xs={12} className={classes.form}>
-              <p className={classes.formfieldname}>Tittel:</p>
+              <Typography className={classes.formfieldname}>Tittel:</Typography>
               <TextField
                 name="title"
                 multiline
@@ -241,7 +244,9 @@ const CreateExercises = () => {
               />
             </Grid>
             <Grid item xs={12} className={classes.form}>
-              <p className={classes.formfieldname}>Beskrivelse:</p>
+              <Typography className={classes.formfieldname}>
+                Beskrivelse:
+              </Typography>
               <TextField
                 name="description"
                 multiline="true"
@@ -255,7 +260,7 @@ const CreateExercises = () => {
               />
             </Grid>
             <Grid item md={5} xs={12} className={classes.menu}>
-              <h2>Legg til oppgavetyper</h2>
+              <Typography variant="h2">Legg til oppgavetyper</Typography>
               <MenuList>
                 <Grid className={classes.menugroup}>
                   <MenuItem
@@ -296,7 +301,7 @@ const CreateExercises = () => {
               </MenuList>
             </Grid>
             <Grid item md={7} xs={12} className={classes.menu}>
-              <h4>Oppgaver:</h4>
+              <Typography variant="h2">Oppgaver</Typography>
               <Grid container>
                 {Object.entries(formDataSet).map(([type, id]) => {
                   if (type.substring(0, 4) === 'chat') {

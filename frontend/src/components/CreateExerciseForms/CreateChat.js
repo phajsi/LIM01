@@ -7,6 +7,7 @@ import {
   Paper,
   Fab,
   TextField,
+  Typography,
   MenuItem,
   Select,
   Avatar,
@@ -106,12 +107,12 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
 
   return (
     <Paper className={classes.root}>
-      <Grid className={classes.headergroup}>
-        <h1>Chat</h1>
+      <div className={classes.headergroup}>
+        <Typography variant="h1">Chat</Typography>
         <IconButton onClick={() => setShowModal('createchat')}>
           <InfoIcon className={classes.icons} />
         </IconButton>
-      </Grid>
+      </div>
       <Formik
         initialValues={
           formDataEdit || {
@@ -134,34 +135,37 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
           <Form className={classes.form}>
             <Grid container spacing={3}>
               <Grid item xs={6}>
-                <p>Hvem sender meldingen? </p>
+                <Typography component="p">Hvem sender meldingen? </Typography>
               </Grid>
               <Grid item xs={3} />
               <Grid item xs={3}>
                 {formSelectField('sendericon', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                <p>Hvem mottar meldingen? </p>
+                <Typography component="p">Hvem mottar meldingen? </Typography>
               </Grid>
               <Grid item xs={3} />
               <Grid item xs={3}>
                 {formSelectField('receivericon', touched, errors)}
               </Grid>
-              <Grid item xs={3} />
               {[...Array(taskAmount).keys()].map((el) => {
                 return (
                   <>
-                    <h2>
-                      Tema
-                      {el + 1}
-                    </h2>
+                    <Grid item xs={12}>
+                      <Typography variant="h2" paragraph align="center">
+                        Tema
+                        {el + 1}
+                      </Typography>
+                    </Grid>
                     <Grid
                       container
                       direction="row"
                       justify="space-between"
                       alignItems="center"
                     >
-                      <p>Skriv en melding i form av et spørsmål her: *</p>
+                      <Typography component="p">
+                        Skriv en melding i form av et spørsmål her: *
+                      </Typography>
                       <Grid item xs={11}>
                         {formTextField(
                           `chatquestion${el + 1}`,
@@ -169,21 +173,27 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                           errors
                         )}
                       </Grid>
-                      <p>Skriv et FEIL svaralternativ til meldingen her: *</p>
+                      <Typography component="p">
+                        Skriv et FEIL svaralternativ til meldingen her: *
+                      </Typography>
                       <Grid item xs={11}>
                         {formTextField(`answer${el + 1}1`, touched, errors)}
                       </Grid>
                       <Grid>
                         <ClearIcon />
                       </Grid>
-                      <p>Skriv et FEIL svaralternativ til meldingen her: *</p>
+                      <Typography component="p">
+                        Skriv et FEIL svaralternativ til meldingen her: *
+                      </Typography>
                       <Grid item xs={11}>
                         {formTextField(`answer${el + 1}2`, touched, errors)}
                       </Grid>
                       <Grid>
                         <ClearIcon />
                       </Grid>
-                      <p>Skriv det RIKTIGE svaret til meldingen her: *</p>
+                      <Typography component="p">
+                        Skriv det RIKTIGE svaret til meldingen her: *
+                      </Typography>
                       <Grid item xs={11}>
                         {formTextField(
                           `correctanswer${el + 1}`,
