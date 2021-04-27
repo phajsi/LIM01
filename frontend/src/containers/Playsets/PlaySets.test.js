@@ -117,4 +117,49 @@ describe('PlaySets', () => {
     ).toBeVisible();
     expect(axios.get).toHaveBeenCalledTimes(7);
   });
+  test('completed Get and restart set', async () => {
+    axios.get.mockImplementation((url) => {
+      if (url === `${process.env.REACT_APP_API_URL}/api/sets/${5}`) {
+        return Promise.resolve({ data: respSet });
+      }
+      if (url === `${process.env.REACT_APP_API_URL}/api/completed/${5}`) {
+        return Promise.resolve({
+          data: { completed: true, score: '2', id: 2 },
+        });
+      }
+      if (url === `${process.env.REACT_APP_API_URL}/api/comment/${5}`) {
+        return Promise.resolve({ data: [] });
+      }
+      if (url === `${process.env.REACT_APP_API_URL}/api/getrating/${5}`) {
+        return Promise.resolve({ data: [] });
+      }
+      if (url === `${process.env.REACT_APP_API_URL}/api/chat/${22}`) {
+        return Promise.resolve({ data: respChat });
+      }
+    });
+
+    await act(async () =>
+      render(
+        <Provider store={store}>
+          <Router>
+            <PlaySets />
+          </Router>
+        </Provider>
+      )
+    );
+
+    await screen.findByText('Spill');
+    const button3 = screen.getByText('Spill');
+    fireEvent.click(button3);
+
+    await screen.findByText('Hvilken dag er det i dag?');
+    const button = screen.getByText('Torsdag');
+    fireEvent.click(button);
+
+    await screen.findByText('Riktig!');
+    const restartButton = screen.getByText('Restart sett');
+    await act(async () => fireEvent.click(restartButton));
+
+    expect(axios.get).toHaveBeenCalledTimes(8);
+  });
 });
