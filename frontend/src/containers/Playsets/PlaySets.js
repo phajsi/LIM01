@@ -3,13 +3,13 @@ import { useLocation } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import ReplayIcon from '@material-ui/icons/Replay';
+import axios from 'axios';
 import Forstaelse from '../../components/Forstaelse/Forstaelse';
 import Chat from '../../components/Chat/Chat';
 import RyddeSetninger from '../../components/RyddeSetninger/RyddeSetninger';
 import Feedback from '../../components/feedback/Feedback';
 import FinishedSet from '../../components/finishedSet/FinishedSet';
 import OverviewPage from '../overviewPage/OverviewPage';
-import { axiosInstanceGet, axiosInstance } from '../../helpers/ApiFunctions';
 import useStyles from './styles';
 
 const PlaySets = () => {
@@ -99,8 +99,13 @@ const PlaySets = () => {
   }
 
   function getContent(id) {
-    axiosInstanceGet()
-      .get(`/sets/${id}`)
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/sets/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      })
       .then((res) => {
         createPlayList(res.data);
         setTitle(res.data.title);
@@ -125,8 +130,14 @@ const PlaySets = () => {
   }
 
   function getCompleted(id) {
-    axiosInstance()
-      .get(`/completed/${id}`)
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/completed/${id}`, {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('access')}`,
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      })
       .then((res) => {
         setCompleted(res.data);
       })

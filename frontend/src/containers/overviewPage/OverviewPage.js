@@ -19,11 +19,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SendIcon from '@material-ui/icons/Send';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import {
-  axiosInstanceGet,
-  axiosInstance,
-  axiosInstanceDelete,
-} from '../../helpers/ApiFunctions';
+import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
 import topTriangle from '../../assets/images/topTriangle.svg';
 import bottomTriangle from '../../assets/images/bottomTriangle.svg';
 import useStyles from './style';
@@ -65,16 +61,29 @@ const OverviewPage = ({
   }
 
   function getContent() {
-    const requestOne = axiosInstanceGet().get(`/comment/${id}`);
-    const requestTwo = axiosInstanceGet().get(`/getrating/${id}`);
     axios
-      .all([requestOne, requestTwo])
-      .then(
-        axios.spread((...res) => {
-          createFeedbackList(res[0].data);
-          setRatings(res[1].data);
-        })
-      )
+      .get(`${process.env.REACT_APP_API_URL}/api/comment/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      })
+      .then((res) => {
+        createFeedbackList(res.data);
+      })
+      .catch((e) => {
+        return e;
+      });
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/getrating/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      })
+      .then((res) => {
+        setRatings(res.data);
+      })
       .catch((e) => {
         return e;
       });
