@@ -15,6 +15,7 @@ import {
 import InfoIcon from '@material-ui/icons/Info';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import InfoModal from '../InfoModal/InfoModal';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import useStyles from './styles';
 
 const CreateExerciseMenu = ({
@@ -24,6 +25,7 @@ const CreateExerciseMenu = ({
   setStep,
   formDataSet,
   exerciseCounts,
+  errorMessage,
 }) => {
   const classes = useStyles();
   const [showModal, setShowModal] = useState(false);
@@ -174,6 +176,11 @@ const CreateExerciseMenu = ({
               return <></>;
             })}
           </Grid>
+        </Grid>
+        <Grid item sm={12} className={classes.errormessage}>
+          <div>
+            <ErrorMessage message={errorMessage} />
+          </div>
         </Grid>
         <Grid item sm={12} className={classes.buttoncontainer}>
           <Grid>

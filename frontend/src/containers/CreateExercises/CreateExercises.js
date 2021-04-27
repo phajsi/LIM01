@@ -17,6 +17,8 @@ const CreateExercises = () => {
   // keeps track of count to make sure no more than 5 of each are added.
   const [exerciseCounts, setExerciseCounts] = useState({ c: 0, f: 0, r: 0 });
 
+  const [errorMessage, setErrorMessage] = useState(null);
+
   /**
    * This function updates the formData for the current exercise set being made.
    * It deletes all entries in the object before adding them back with the correct number
@@ -48,6 +50,7 @@ const CreateExercises = () => {
     });
     setFormDataSet(formData);
     setExerciseCounts(count);
+    setErrorMessage(null);
   }
 
   // updates formdata for the set if user wants to edit an already existing set
@@ -140,8 +143,10 @@ const CreateExercises = () => {
         .then(() => {
           setStep('confirmation');
         })
-        .catch((e) => {
-          return e;
+        .catch(() => {
+          setErrorMessage(
+            'Noe gikk galt! Husk at du må legge til tittel og beskrivelse'
+          );
         });
     } else {
       axiosInstance()
@@ -149,8 +154,10 @@ const CreateExercises = () => {
         .then(() => {
           setStep('confirmation');
         })
-        .catch((e) => {
-          return e;
+        .catch(() => {
+          setErrorMessage(
+            'Noe gikk galt! Husk at du må legge til tittel og beskrivelse'
+          );
         });
     }
   }
@@ -171,6 +178,7 @@ const CreateExercises = () => {
           exerciseCounts={exerciseCounts}
           setStep={setStep}
           formDataSet={formDataSet}
+          errorMessage={errorMessage}
         />
       );
     case 'chat':
