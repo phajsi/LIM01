@@ -26,13 +26,14 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
   const [redirect, setRedirect] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   const logoutUser = () => {
     logout();
     setRedirect(true);
-  };
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    handleDrawerToggle();
   };
 
   const guestLinks = () => (
@@ -40,6 +41,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
       <Hidden xsDown implementation="css">
         <Typography variant="h6" className={classes.right}>
           <Link to="/login" className={classes.title}>
+            {console.log(mobileOpen)}
             Logg inn
           </Link>
           <Link to="/signup" className={classes.title}>
@@ -50,12 +52,21 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
 
       <Drawer anchor="top" open={mobileOpen} onClose={handleDrawerToggle}>
         <div className={classes.spacing} />
-        <List component="nav" className={classes.list}>
+        <List
+          component="nav"
+          className={classes.list}
+          onClick={handleDrawerToggle}
+        >
           <ListItem button component={Link} to="/login">
             <ListItemText className={classes.listItem}>Logg inn</ListItemText>
           </ListItem>
           <Divider />
-          <ListItem button component={Link} to="/signup">
+          <ListItem
+            button
+            component={Link}
+            to="/signup"
+            onClick={handleDrawerToggle}
+          >
             <ListItemText className={classes.listItem}>
               Registrering
             </ListItemText>
@@ -83,8 +94,16 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
       <Drawer anchor="top" open={mobileOpen} onClose={handleDrawerToggle}>
         <div className={classes.spacing} />
         <List component="nav" className={classes.list}>
-          <ListItem button component={Link} to="/createexercise">
-            <ListItemText className={classes.listItem}>
+          <ListItem
+            button
+            component={Link}
+            to="/createexercise"
+            onClick={handleDrawerToggle}
+          >
+            <ListItemText
+              className={classes.listItem}
+              onClick={handleDrawerToggle}
+            >
               Opprett oppgavesett
             </ListItemText>
           </ListItem>
