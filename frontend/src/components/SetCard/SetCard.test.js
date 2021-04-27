@@ -116,4 +116,15 @@ describe('SetCard rendering', () => {
     expect(screen.getByText('Hverdagsliv')).toBeVisible();
     expect(screen.getByText('5')).toBeVisible();
   });
+  test('noType card', async () => {
+    await act(async () =>
+      render(
+        <Router>
+          <SetCard formData={completedResp} />
+        </Router>
+      )
+    );
+    expect(screen.getByText('Hverdagsliv')).toBeVisible();
+    expect(screen.getByText('5')).toBeVisible();
+  });
 });

@@ -81,11 +81,11 @@ describe('PlaySets', () => {
     fireEvent.click(nextButton);
 
     await screen.findByText('Ola har kjøpt middag, du trenger ikke handle.');
-    const button2 = screen.getByText('NEI');
+    const button2 = screen.getByText('JA');
     fireEvent.click(button2);
 
-    await screen.findByText('Riktig!');
-    const resultButton2 = screen.getByTestId('resultButton');
+    await screen.findByText('Feil!');
+    const resultButton2 = screen.getByTestId('resultButtonIncorrect');
     fireEvent.click(resultButton2);
 
     await screen.findByText('neste oppgave');
@@ -113,7 +113,7 @@ describe('PlaySets', () => {
     fireEvent.click(nextButton3);
 
     expect(
-      screen.getByText('Din totale poengsum ble 3 av totalt 3 mulige!')
+      screen.getByText('Din totale poengsum ble 2 av totalt 3 mulige!')
     ).toBeVisible();
     expect(axios.get).toHaveBeenCalledTimes(7);
   });
