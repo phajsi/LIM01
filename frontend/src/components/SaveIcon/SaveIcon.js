@@ -3,7 +3,6 @@ import axios from 'axios';
 import { IconButton } from '@material-ui/core';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
 
 /**
  * An icon component for saving/unsaving exercise sets.
@@ -36,8 +35,18 @@ function SaveIcon({ id }) {
   // backend requests for saving/unsaving exercise set
   function onClickSave() {
     if (!saved) {
-      axiosInstance()
-        .post('/saved/', { sets: id })
+      axios
+        .post(
+          `${process.env.REACT_APP_API_URL}/api/saved/`,
+          { sets: id },
+          {
+            headers: {
+              Authorization: `JWT ${localStorage.getItem('access')}`,
+              'Content-Type': 'application/json',
+              accept: 'application/json',
+            },
+          }
+        )
         .then(() => {
           getSaved();
         })
@@ -45,8 +54,13 @@ function SaveIcon({ id }) {
           return e;
         });
     } else if (saved) {
-      axiosInstanceDelete()
-        .delete(`/saved/${id}`)
+      axios
+        .delete(`${process.env.REACT_APP_API_URL}/api/saved/${id}`, {
+          headers: {
+            Authorization: `JWT ${localStorage.getItem('access')}`,
+            accept: 'application/json',
+          },
+        })
         .then(() => {
           getSaved();
         })
@@ -57,7 +71,7 @@ function SaveIcon({ id }) {
   }
 
   return (
-    <IconButton onClick={() => onClickSave()}>
+    <IconButton data-testid="favoriteButton" onClick={() => onClickSave()}>
       {saved ? (
         <FavoriteIcon data-testid="favorite" style={{ color: 'red' }} />
       ) : (

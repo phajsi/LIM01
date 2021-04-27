@@ -7,12 +7,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import OverviewPage from './OverviewPage';
 
 jest.mock('axios');
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: '/home',
-  }),
-}));
 
 describe('OverviewPage', () => {
   const comments = [
@@ -142,17 +136,7 @@ describe('OverviewPage', () => {
   });
 
   test('Should delete comment', async () => {
-    axios.get.mockImplementation((url) => {
-      if (url === `${process.env.REACT_APP_API_URL}/api/comment/${20}`) {
-        return Promise.resolve({ data: comments });
-      }
-      if (url === `${process.env.REACT_APP_API_URL}/api/getrating/${20}`) {
-        return Promise.resolve({ data: rating });
-      }
-      if (url === `${process.env.REACT_APP_API_URL}/api/usersaved/${20}`) {
-        return Promise.resolve({ data: { saved: true } });
-      }
-    });
+    getRequest();
     axios.delete.mockResolvedValue({ data: {} });
 
     await act(async () =>
