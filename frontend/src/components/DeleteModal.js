@@ -31,11 +31,16 @@ const DeleteModal = ({ open, setOpen, onDelete }) => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" onClick={() => setOpen(false)}>
+        <Button
+          variant="outlined"
+          data-testid="cancelButton"
+          onClick={() => setOpen(false)}
+        >
           Avbryt
         </Button>
         <Button
           variant="contained"
+          data-testid="deleteButton"
           color="primary"
           onClick={() => onDelete()}
           autoFocus
