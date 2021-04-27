@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button, Grid } from '@material-ui/core';
+import { Button, Grid, Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import ReplayIcon from '@material-ui/icons/Replay';
 import axios from 'axios';
@@ -254,7 +254,7 @@ const PlaySets = () => {
         </div>
       );
     default:
-      return <p>default</p>;
+      return <Typography variant="p">default</Typography>;
   }
 };
 

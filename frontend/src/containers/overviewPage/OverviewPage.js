@@ -160,7 +160,9 @@ const OverviewPage = ({
       <Grid container className={classes.container}>
         <Grid item xs={12} className={classes.infobox}>
           <div className={classes.header}>
-            <h1 className={classes.headertitle}>{title}</h1>
+            <Typography variant="h1" className={classes.headertitle}>
+              {title}
+            </Typography>
             {isAuthenticated && (
               <SaveIcon className={classes.iconbutton} id={id} />
             )}
@@ -168,7 +170,9 @@ const OverviewPage = ({
           <Divider className={classes.divider} />
           <Grid container>
             <Grid item sm={9} xs={12}>
-              <p className={classes.description}>{description}</p>
+              <Typography variant="p" className={classes.description}>
+                {description}
+              </Typography>
             </Grid>
             <Grid item sm={3} xs={12} className={classes.buttongrid}>
               <Button
@@ -183,22 +187,26 @@ const OverviewPage = ({
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          {completed.completed && (
-            <p data-testid="score" className={classes.completedtext}>
-              Din beste score på dette settet er
-              {` ${completed.score}%.`}
-            </p>
-          )}
+        <Grid container>
+          <Grid item xs={12} className={classes.completedtext}>
+            {completed.completed && (
+              <Typography variant="p" gutterBottom data-testid="score">
+                Din beste score på dette settet er
+                {` ${completed.score}%.`}
+                <br />
+                Prøv å forbedre scoren din.
+              </Typography>
+            )}
+          </Grid>
           <Grid item xs={12} className={classes.commentheader}>
-            <h3>Kommentarer</h3>
+            <Typography variant="h3">Kommentarer</Typography>
             <div className={classes.rating}>
-              <p>
+              <Typography variant="p">
                 <ThumbUpIcon />
                 {ratings.upvotes}
                 <ThumbDownIcon />
                 {ratings.downvotes}
-              </p>
+              </Typography>
             </div>
           </Grid>
           {isAuthenticated ? (
@@ -239,10 +247,10 @@ const OverviewPage = ({
             </Grid>
           ) : (
             <Grid item xs={12} className={classes.defaulttext}>
-              <p>
+              <Typography variant="p">
                 Du må være innlogget for å kunne kunne legge igen en kommentar
                 til dette settet.
-              </p>
+              </Typography>
             </Grid>
           )}
         </Grid>

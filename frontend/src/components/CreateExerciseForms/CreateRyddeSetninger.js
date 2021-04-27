@@ -7,6 +7,7 @@ import {
   Fab,
   Paper,
   TextField,
+  Typography,
   Select,
   MenuItem,
   IconButton,
@@ -102,12 +103,12 @@ const CreateRyddeSetninger = ({
 
   return (
     <Paper className={classes.root}>
-      <Grid className={classes.headergroup}>
-        <h1>Rydde Setninger</h1>
+      <div className={classes.headergroup}>
+        <Typography variant="h1">Rydde Setninger</Typography>
         <IconButton onClick={() => setShowModal('createrydde_setninger')}>
           <InfoIcon className={classes.icons} />
         </IconButton>
-      </Grid>
+      </div>
       <Formik
         initialValues={
           formDataEdit || {
@@ -129,10 +130,14 @@ const CreateRyddeSetninger = ({
           <Form className={classes.form}>
             <Grid container spacing={3}>
               <Grid item xs={6}>
-                <h3>Skriv inn ord i rekkefølge for å lage en setning: *</h3>
+                <Typography variant="h3">
+                  Skriv inn ord i rekkefølge for å lage en setning: *
+                </Typography>
               </Grid>
               <Grid item xs={6}>
-                <h3>Velg ordklassen ordet tilhører:</h3>
+                <Typography variant="h3">
+                  Velg ordklassen ordet tilhører:
+                </Typography>
               </Grid>
               {words > 0 &&
                 [...Array(words).keys()].map((el) => {

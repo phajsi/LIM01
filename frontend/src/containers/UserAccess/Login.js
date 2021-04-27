@@ -7,6 +7,7 @@ import {
   InputAdornment,
   Paper,
   TextField,
+  Typography,
 } from '@material-ui/core';
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
@@ -136,9 +137,9 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
           {errorHandling()}
         </form>
         <hr className={classes.divider} />
-        <Grid container>
+        <Grid container alignItems="center" justify="center">
           <Grid item xs={6}>
-            <p> Har du ikke en konto? </p>
+            <Typography variant="p"> Har du ikke en konto? </Typography>
           </Grid>
           <Grid item xs={6}>
             <Button
@@ -155,7 +156,7 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
         </Grid>
         <Grid container alignItems="center">
           <Grid item xs={6}>
-            <p> Glemt passordet? </p>
+            <Typography variant="p"> Glemt passordet? </Typography>
           </Grid>
           <Grid item xs={6}>
             <Button

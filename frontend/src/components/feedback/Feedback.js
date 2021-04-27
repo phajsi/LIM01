@@ -22,11 +22,11 @@ const Feedback = ({
             className={classes.image}
           />
           <div className={classes.textBox}>
-            <Typography variant="h3" className={classes.text}>
+            <Typography variant="h1" className={classes.text}>
               Hurra, du klarte det!
             </Typography>
             <br />
-            <Typography variant="h4" className={classes.text}>
+            <Typography variant="h2" className={classes.text}>
               Poengsummen din er
               {` ${totalScore} `}
               <br />
@@ -50,11 +50,11 @@ const Feedback = ({
         <Paper elevation={0} className={classes.root}>
           <img src={sadPickle} alt="sad pickle" className={classes.image} />
           <div className={classes.textBox}>
-            <Typography variant="h3" className={classes.text}>
+            <Typography variant="h1" className={classes.text}>
               Bedre lykke neste gang!
             </Typography>
             <br />
-            <Typography variant="h4" className={classes.text}>
+            <Typography variant="h2" className={classes.text}>
               Poengsummen din er
               {` ${totalScore} `}
               <br />
@@ -77,7 +77,7 @@ const Feedback = ({
       return (
         <Paper className={classes.root}>
           <div>
-            <Typography variant="h4" className={classes.text}>
+            <Typography variant="h3" className={classes.text}>
               Noe gikk galt
             </Typography>
           </div>

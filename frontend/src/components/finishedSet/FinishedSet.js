@@ -131,7 +131,7 @@ const FinishedSet = ({
       case 'under':
         return (
           <div>
-            <Typography variant="h3" className={classes.text}>
+            <Typography variant="h1" className={classes.text}>
               Ikke værst!
             </Typography>
             <img
@@ -143,14 +143,14 @@ const FinishedSet = ({
           </div>
         );
       default:
-        return <p>default</p>;
+        return <Typography variant="p">default</Typography>;
     }
   };
 
   return (
     <Paper elevation={0} className={classes.root}>
       {switchStep()}
-      <Typography variant="h4">
+      <Typography variant="h2">
         Din totale poengsum ble
         {` ${totalScore} `}
         av totalt
@@ -159,7 +159,7 @@ const FinishedSet = ({
       </Typography>
       {isAuthenticated && (
         <>
-          <Typography variant="h5">
+          <Typography variant="h3">
             <br />
             Hvis du likte settet kan du gi det tommel opp
           </Typography>
