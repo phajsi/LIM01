@@ -12,6 +12,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
+import axios from 'axios';
 import chataudio from '../../assets/audiofiles/chatVoice.mp3';
 import gingerMan from '../../assets/images/gingerMan.png';
 import capsMan from '../../assets/images/capsMan.png';
@@ -25,7 +26,6 @@ import NextExerciseBtn from '../NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
 import exerciseStyles from '../exerciseStyle';
 import ProgressBar from '../ProgressBar';
-import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
 // chat exercise component for playing.
 const Chat = ({
@@ -79,8 +79,13 @@ const Chat = ({
   };
 
   function getContent() {
-    axiosInstanceGet()
-      .get(`/chat/${id}`)
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/chat/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      })
       .then((res) => {
         chatHistory.push(res.data.chatquestion1);
         setFormData(res.data);
@@ -124,9 +129,10 @@ const Chat = ({
       formData[`correctanswer${taskStep}`],
     ];
     buttonList.sort(() => Math.random() - 0.5);
-    return buttonList.map((chats) => {
+    return buttonList.map((chats, index) => {
       return (
         <Button
+          key={index}
           style={{ marginTop: 3, borderRadius: '25px' }}
           onClick={() => handleAnswer(chats)}
         >
@@ -176,9 +182,9 @@ const Chat = ({
         <Grid container spacing={3}>
           {chatHistory.map((chat, i) => {
             if (i % 2 === 0) {
-              return <ChatBubble chat={chat} icon={sendericon} />;
+              return <ChatBubble key={i} chat={chat} icon={sendericon} />;
             }
-            return <ChatBubble chat={chat} icon={receivericon} right />;
+            return <ChatBubble key={i} chat={chat} icon={receivericon} right />;
           })}
           <Grid
             container

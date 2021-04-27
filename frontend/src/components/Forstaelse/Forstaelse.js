@@ -12,13 +12,13 @@ import {
   IconButton,
 } from '@material-ui/core';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import axios from 'axios';
 import ChatBubble from '../ChatBubble/ChatBubble';
 import forsaudio from '../../assets/audiofiles/forstaelseVoice.mp3';
 import useStyles from './styles';
 import exerciseStyles from '../exerciseStyle';
 import ProgressBar from '../ProgressBar';
 import NextExerciseBtn from '../NextExerciseBtn/NextExerciseBtn';
-import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 
 // chat exercise component for playing.
 const Forstaelse = ({
@@ -47,8 +47,13 @@ const Forstaelse = ({
   const [disabled, setDisabled] = useState(false);
 
   function getContent() {
-    axiosInstanceGet()
-      .get(`/forstaelse/${id}`)
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/forstaelse/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      })
       .then((res) => {
         setFormData(res.data);
       })

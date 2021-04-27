@@ -27,6 +27,7 @@ function NextExerciseBtn({ handleNextTask, answerState }) {
             />
             <div className={classes.btnParent}>
               <Button
+                data-testid="resultButtonIncorrect"
                 onClick={handleNextTask}
                 className={classes.answerBtn}
                 fullWidth
@@ -48,6 +49,7 @@ function NextExerciseBtn({ handleNextTask, answerState }) {
             />
             <div className={classes.btnParent}>
               <Button
+                data-testid="resultButton"
                 onClick={handleNextTask}
                 className={classes.answerBtn}
                 fullWidth

@@ -25,7 +25,7 @@ function SetCard({ type, formData, onClick1, onClick2, onClick3 }) {
       return (
         <>
           <SaveIcon id={formData.sets} />
-          <IconButton onClick={() => onClick1()}>
+          <IconButton data-testid="playButton" onClick={() => onClick1()}>
             <PlayCircleOutlineIcon className={classes.iconLarge} />
           </IconButton>
         </>
@@ -34,13 +34,13 @@ function SetCard({ type, formData, onClick1, onClick2, onClick3 }) {
     if (type === 'mySet') {
       return (
         <>
-          <IconButton onClick={() => onClick3()}>
+          <IconButton data-testid="commentButton" onClick={() => onClick3()}>
             <CommentIcon />
           </IconButton>
-          <IconButton onClick={() => onClick1()}>
+          <IconButton data-testid="editButton" onClick={() => onClick1()}>
             <EditIcon />
           </IconButton>
-          <IconButton onClick={() => onClick2()}>
+          <IconButton data-testid="deleteButton" onClick={() => onClick2()}>
             <DeleteOutlineIcon />
           </IconButton>
         </>
