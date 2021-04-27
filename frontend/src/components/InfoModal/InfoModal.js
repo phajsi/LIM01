@@ -66,7 +66,7 @@ const InfoModal = ({ showModal, setShowModal }) => {
       return (
         <div>
           <h2 className={classes.header}>Lage ny chat-oppgave</h2>
-          <Typography variant="p">{chatText}</Typography>
+          <Typography>{chatText}</Typography>
           <img
             className={classes.image}
             src={chatform}
@@ -79,7 +79,7 @@ const InfoModal = ({ showModal, setShowModal }) => {
       return (
         <div>
           <h2 className={classes.header}>Lage ny forståelse-oppgave</h2>
-          <Typography variant="p">{forstaelseText}</Typography>
+          <Typography>{forstaelseText}</Typography>
           <img
             className={classes.image}
             src={forstaelseform}
@@ -92,7 +92,7 @@ const InfoModal = ({ showModal, setShowModal }) => {
       return (
         <div>
           <h2 className={classes.header}>Lage ny rydde setninger-oppgave</h2>
-          <Typography variant="p">{rydde_setningerText}</Typography>
+          <Typography>{rydde_setningerText}</Typography>
           <img
             className={classes.image}
             src={ryddesetningerform}

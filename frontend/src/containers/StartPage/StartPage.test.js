@@ -14,7 +14,7 @@ describe('The StartPage component', () => {
 
     const title = getByText('DiPICKLE');
 
-    expect(title.tagName.toLowerCase()).toEqual('h3');
+    expect(title.tagName.toLowerCase()).toEqual('h1');
   });
 });
 
