@@ -5,7 +5,7 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import IconButton from '@material-ui/core/IconButton';
 import { axiosInstance } from '../../helpers/ApiFunctions';
-import SaveIcon from '../SaveIcon';
+import SaveIcon from '../SaveIcon/SaveIcon';
 import happyPickle from '../../assets/images/happyPickle.png';
 import finalSad from '../../assets/images/finalSad.png';
 import useStyles from './styles';

@@ -19,11 +19,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SendIcon from '@material-ui/icons/Send';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
 import topTriangle from '../../assets/images/topTriangle.svg';
 import bottomTriangle from '../../assets/images/bottomTriangle.svg';
 import useStyles from './style';
-import SaveIcon from '../../components/SaveIcon';
+import SaveIcon from '../../components/SaveIcon/SaveIcon';
 import DeleteModal from '../../components/DeleteModal';
 
 const OverviewPage = ({
@@ -93,8 +92,18 @@ const OverviewPage = ({
   function onsubmitPostComment() {
     // this line adds the name of the user creating the comment to formDataComment
     formDataComment.name = user.name;
-    axiosInstance()
-      .post(`/usercomment/`, formDataComment)
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/api/usercomment/`,
+        formDataComment,
+        {
+          headers: {
+            Authorization: `JWT ${localStorage.getItem('access')}`,
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+          },
+        }
+      )
       .then(() => {
         exerciseFeedback.length = 0;
         getContent();
@@ -116,8 +125,13 @@ const OverviewPage = ({
    * @param {number} id ID of a specific comment as input.
    */
   function onDelete(id) {
-    axiosInstanceDelete()
-      .delete(`/usercomment/${id}`)
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/api/usercomment/${id}`, {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('access')}`,
+          accept: 'application/json',
+        },
+      })
       .then(() => {
         setOpen(false);
         exerciseFeedback.length = 0;
@@ -136,6 +150,7 @@ const OverviewPage = ({
     <Paper className={classes.root}>
       <img src={topTriangle} alt="topTriangle" className={classes.triangle1} />
       <IconButton
+        data-testid="homeButton"
         className={classes.iconbutton}
         onClick={() => setRedirectHome(true)}
       >
@@ -175,7 +190,7 @@ const OverviewPage = ({
         <Grid container>
           <Grid item xs={12} className={classes.completedtext}>
             {completed.completed && (
-              <Typography variant="p" gutterBottom>
+              <Typography variant="p" gutterBottom data-testid="score">
                 Din beste score på dette settet er
                 {` ${completed.score}%.`}
                 <br />
@@ -195,11 +210,16 @@ const OverviewPage = ({
             </div>
           </Grid>
           {isAuthenticated ? (
-            <Grid item xs={12} className={classes.makecomment}>
+            <Grid
+              item
+              xs={12}
+              className={classes.makecomment}
+              data-testid="makeComment"
+            >
               <TextField
                 className={classes.formfields}
                 name="comment"
-                multiline="true"
+                multiline
                 rows={1}
                 value={formDataComment.comment}
                 required
@@ -214,7 +234,10 @@ const OverviewPage = ({
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton onClick={() => onsubmitPostComment()}>
+                      <IconButton
+                        data-testid="submitButton"
+                        onClick={() => onsubmitPostComment()}
+                      >
                         <SendIcon />
                       </IconButton>
                     </InputAdornment>
@@ -233,9 +256,9 @@ const OverviewPage = ({
         </Grid>
         <Grid item xs={12} className={classes.commentfield}>
           {exerciseFeedback.length === 0 && <></>}
-          {exerciseFeedback.map((comment) => {
+          {exerciseFeedback.map((comment, index) => {
             return (
-              <Card className={classes.card}>
+              <Card data-testid="card" className={classes.card} key={index}>
                 <CardContent className={classes.cardcontent}>
                   <Grid container>
                     <Grid item xs={2} className={classes.cardauthor}>
@@ -255,6 +278,7 @@ const OverviewPage = ({
                     <Grid item xs={1}>
                       {user && comment.name === user.name.toString() && (
                         <IconButton
+                          data-testid="delete"
                           className={classes.iconbutton}
                           onClick={() => {
                             setDeleteId(comment.id);

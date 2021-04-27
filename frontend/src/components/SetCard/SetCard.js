@@ -7,7 +7,7 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import CommentIcon from '@material-ui/icons/Comment';
 import EditIcon from '@material-ui/icons/Edit';
-import SaveIcon from '../SaveIcon';
+import SaveIcon from '../SaveIcon/SaveIcon';
 import useStyles from './styles';
 
 /**
