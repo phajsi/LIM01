@@ -10,8 +10,11 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
-    position: 'fixed',
+    position: 'absolute',
     right: 0,
+  },
+  menuSVG: {
+    fill: 'white',
   },
   list: {
     background: 'linear-gradient(90deg, #53A77A 1.46%, #80D197 100%)',

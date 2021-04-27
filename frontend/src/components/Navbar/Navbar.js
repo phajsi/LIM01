@@ -132,7 +132,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
             onClick={handleDrawerToggle}
             className={classes.menuButton}
           >
-            <MenuIcon />
+            <MenuIcon className={classes.menuSVG} />
           </IconButton>
           {isAuthenticated ? authLinks() : guestLinks()}
         </Toolbar>
