@@ -26,13 +26,14 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
   const [redirect, setRedirect] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   const logoutUser = () => {
     logout();
     setRedirect(true);
-  };
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    handleDrawerToggle();
   };
 
   const guestLinks = () => (
@@ -50,12 +51,21 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
 
       <Drawer anchor="top" open={mobileOpen} onClose={handleDrawerToggle}>
         <div className={classes.spacing} />
-        <List component="nav" className={classes.list}>
+        <List
+          component="nav"
+          className={classes.list}
+          onClick={handleDrawerToggle}
+        >
           <ListItem button component={Link} to="/login">
             <ListItemText className={classes.listItem}>Logg inn</ListItemText>
           </ListItem>
           <Divider />
-          <ListItem button component={Link} to="/signup">
+          <ListItem
+            button
+            component={Link}
+            to="/signup"
+            onClick={handleDrawerToggle}
+          >
             <ListItemText className={classes.listItem}>
               Registrering
             </ListItemText>
@@ -83,8 +93,16 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
       <Drawer anchor="top" open={mobileOpen} onClose={handleDrawerToggle}>
         <div className={classes.spacing} />
         <List component="nav" className={classes.list}>
-          <ListItem button component={Link} to="/createexercise">
-            <ListItemText className={classes.listItem}>
+          <ListItem
+            button
+            component={Link}
+            to="/createexercise"
+            onClick={handleDrawerToggle}
+          >
+            <ListItemText
+              className={classes.listItem}
+              onClick={handleDrawerToggle}
+            >
               Opprett oppgavesett
             </ListItemText>
           </ListItem>
@@ -114,7 +132,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
             onClick={handleDrawerToggle}
             className={classes.menuButton}
           >
-            <MenuIcon />
+            <MenuIcon className={classes.menuSVG} />
           </IconButton>
           {isAuthenticated ? authLinks() : guestLinks()}
         </Toolbar>
