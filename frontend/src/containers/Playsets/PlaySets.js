@@ -15,12 +15,12 @@ import useStyles from './styles';
 const PlaySets = () => {
   const location = useLocation();
 
-  // stepper for switching beteween exercises in the set
+  // Stepper for switching between exercises in the set.
   const [step, setStep] = useState('menu');
 
-  // id for the exercise being played
+  // Id for the exercise being played.
   const [exerciseId, setExerciseId] = useState(0);
-  // id for the exercise set containing the exercises
+  // Id for the exercise set containing the exercises.
   const [id, setId] = useState(null);
 
   const [totalScore, setTotalScore] = useState(0);
@@ -33,14 +33,14 @@ const PlaySets = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  // list of ids for the exercises in the set
+  // List of id's for the exercises in the set.
   const [formDataExercises] = useState({
     chat: [],
     forstaelse: [],
     ryddeSetninger: [],
   });
 
-  // hook to get access to redux store and obtain user and auth info.
+  // Hook to get access to redux store and obtain user and auth info.
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
 
@@ -48,10 +48,10 @@ const PlaySets = () => {
 
   /**
    * The function will turn the response object from the API endpoint into a
-   * playlist with exercise IDs. the playlist will be stored as an object with
+   * playlist with exercise IDs. The playlist will be stored as an object with
    * three lists, one for each exercise type. Only exercise types with an ID will be
-   * added and other data will be ignored.
-   * @param {object} sets a object containing sets from backend.
+   * added, and other data will be ignored.
+   * @param {object} sets an object containing sets from backend.
    */
   function createPlayList(sets) {
     formDataExercises.chat.length = 0;
@@ -76,8 +76,8 @@ const PlaySets = () => {
   /**
    * The function will handle logic for going to the next exercise when the user
    * has finished the current exercise. It will use exercise lists created from
-   * createPlayList() and check if the list contains more exercises. If it does
-   * then it goes to the next exercise. If not then it goes to the finish. It deletes
+   * createPlayList() and check if the list contains more exercises. If it does,
+   * then it goes to the next exercise. If not, then it goes to the finish. It deletes
    * the current exercise being played from the list.
    */
   function nextExercise() {
@@ -146,6 +146,11 @@ const PlaySets = () => {
       });
   }
 
+  /**
+   * Retrieves the information related to the exercise set being played from backend
+   * and changes step to "overview" when restart button is clicked on. This enables the user to
+   * exit the exercise set currently being played. The user is redirected to the set's overviewpage.
+   */
   function restartSet() {
     return (
       <Grid>
@@ -169,7 +174,10 @@ const PlaySets = () => {
     new Audio(url).play();
   }
 
-  // only runs if an id is passed as state/props while redirected to this page. i.e search bar on front page
+  /**
+   * Only runs if an id is passed as state/props while redirected to this page.
+   * I.e search bar on front page.
+   */
   useEffect(() => {
     if (location.state?.id && !redirected) {
       getCompleted(location.state?.id);

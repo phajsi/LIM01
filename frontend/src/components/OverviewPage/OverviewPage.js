@@ -25,6 +25,21 @@ import useStyles from './style';
 import SaveIcon from '../SaveIcon/SaveIcon';
 import DeleteModal from '../DeleteModal';
 
+/**
+ * The overviewPage component is displayed when a user searches for an exercise set to play.
+ * This component displays the set's title, description, commentfield, rating, and a like button
+ * if the user is authenticated. The user can click to play the set from this page.
+ * @author Maja, Simen
+ * @param {object} props
+ * @property {string} title the exercise set's title.
+ * @property {string} description the exercise set's description.
+ * @property {integer} id of the exercise set.
+ * @property {function} nextExercise fires when play button is clicked. Starts the exercise set.
+ * @property {boolean} isAuthenticated redux state used to check if a user is auth.
+ * @property {object} user redux object used to get user information.
+ * @property {boolean} completed is true if the user has played the exercise set before.
+ * @returns a component displaying overview information to an exercise set.
+ */
 const OverviewPage = ({
   title,
   description,
@@ -34,13 +49,13 @@ const OverviewPage = ({
   user,
   completed,
 }) => {
-  // object which contains all the comments related to an exercise set with a specific ID
+  // Object which contains all the comments related to an exercise set with a specific ID.
   const [exerciseFeedback] = useState([]);
-  // object which contains a set ID, comment and username for creating a new comment
+  // Object which contains a set ID, comment and username for creating a new comment.
   const [formDataComment, setFormDataComment] = useState({ sets: id });
-  // bool used to check whether a user has clicked on a comment to delete it
+  // Boolean used to check whether a user has clicked on a comment to delete it.
   const [open, setOpen] = useState(false);
-  // stores the ID of a comment the user is attempting to delete
+  // Stores the ID of a comment the user is attempting to delete.
   const [deleteId, setDeleteId] = useState(null);
   const [ratings, setRatings] = useState({ upvote: 0, downvote: 0 });
   const [redirectHome, setRedirectHome] = useState(false);
@@ -48,9 +63,9 @@ const OverviewPage = ({
   const classes = useStyles();
 
   /**
-   * this function updates exerciseFeedback when a user enters
+   * This function updates exerciseFeedback when a user enters
    * the overviewpage of an exercise set with a given ID.
-   * only comments related to that set ID are added to exerciseFeedback.
+   * Only comments related to the set ID are added to exerciseFeedback.
    * @param {object} feedbacks an object containing comments from backend as input.
    */
   function createFeedbackList(feedbacks) {
@@ -88,9 +103,9 @@ const OverviewPage = ({
       });
   }
 
-  // post request to the backend for the comment being created.
+  // Post request to the backend for the comment being created.
   function onsubmitPostComment() {
-    // this line adds the name of the user creating the comment to formDataComment
+    // This line adds the name of the user creating the comment to formDataComment.
     formDataComment.name = user.name;
     axios
       .post(
@@ -118,9 +133,9 @@ const OverviewPage = ({
   }
 
   /**
-   * this function deletes a comment with a specific ID from backend.
-   * setOpen is set to false so the delete dialog is closed
-   * length of exerciseFeedback is set to 0 to empty the variable before
+   * This function deletes a comment with a specific ID from backend.
+   * Then setOpen is set to false so the delete dialog is closed.
+   * Length of exerciseFeedback is set to 0 to empty the variable before
    * requesting the object list of updated comments from backend.
    * @param {number} id ID of a specific comment as input.
    */

@@ -42,12 +42,14 @@ const validationSchema = yup.object({
 
 /**
  * Sign up page for the website.
- * @param {object} param0 props
- * @property {function} signup redux action for registering a user
+ * @author Simen, Phajsi
+ * @param {object} props
+ * @property {function} signup redux action for registering a user.
  * @property {boolean} isAuthenticated redux state used to check if a user is auth.
- * @property {*} signUpSuccess redux state used to check if signup failed
- * @property {function} checkAuthenticated redux action for checking if auth is valid and updating isAuthenticated
- * @returns container for registering a user
+ * @property {*} signUpSuccess redux state used to check if signup failed.
+ * @property {function} checkAuthenticated redux action for checking if auth is valid
+ * and updating isAuthenticated.
+ * @returns container for registering a user.
  */
 
 const Signup = ({

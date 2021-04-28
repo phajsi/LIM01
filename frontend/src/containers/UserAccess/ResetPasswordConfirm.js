@@ -7,13 +7,14 @@ import useStyles from './styles';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 /**
- * after requesting a password reset and receiving an email with a link the user
+ * After requesting a password reset and receiving an email with a link, the user
  * is sent to this page for entering a new password.
- * @param {object} param0 props
- * @property {object} match react router to match url
- * @property {function} reset_password_confirm redux action for changing password
- * @property {*} passwordReset redux state for checking if the reset threw an error or not
- * @returns container for resetting password
+ * @author Simen, Phajsi
+ * @param {object} props
+ * @property {object} match react router to match url.
+ * @property {function} reset_password_confirm redux action for changing password.
+ * @property {*} passwordReset redux state for checking if the reset threw an error or not.
+ * @returns container for resetting password.
  */
 const ResetPasswordConfirm = ({
   match,

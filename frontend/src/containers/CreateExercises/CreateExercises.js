@@ -10,20 +10,20 @@ const CreateExercises = () => {
   const location = useLocation();
 
   const [step, setStep] = useState('Menu');
-  // object which contains formData from the exercise the user wants to edit
+  // Object which contains formData from the exercise the user wants to edit.
   const [formDataEdit, setFormDataEdit] = useState(null);
-  // object which contains all the IDs for the exercises added to the set.
+  // Object which contains all the IDs for the exercises added to the set.
   const [formDataSet, setFormDataSet] = useState({});
-  // keeps track of count to make sure no more than 5 of each are added.
+  // Keeps track of count to make sure no more than 5 of each are added.
   const [exerciseCounts, setExerciseCounts] = useState({ c: 0, f: 0, r: 0 });
 
   const [errorMessage, setErrorMessage] = useState(null);
 
   /**
    * This function updates the formData for the current exercise set being made.
-   * It deletes all entries in the object before adding them back with the correct number
-   * i.e. It makes sure that chat2 will always be added before chat3 if both are empty.
-   * It also updates the exercise counts which keeps track of how many exercises are in the set
+   * It deletes all entries in the object before adding them back with the correct number.
+   * I.e. it makes sure that chat2 will always be added before chat3 if both are empty.
+   * It also updates the exercise counts which keeps track of how many exercises are in the set,
    * and that it is not possible to add more than 5.
    * @param {object} form the function formDataSet as input.
    */
@@ -53,7 +53,7 @@ const CreateExercises = () => {
     setErrorMessage(null);
   }
 
-  // updates formdata for the set if user wants to edit an already existing set
+  // Updates formdata for the set if user wants to edit an already existing set.
   useEffect(() => {
     // location.state?... is the state/props passed from the Redirect.
     if (location.state?.editSet) {
@@ -62,16 +62,16 @@ const CreateExercises = () => {
   }, []);
 
   /**
-   * regular post request to the backend for the exercises being created in the set.
-   * @param {object} values formData object for the exercise being created
+   * Regular post request to the backend for the exercises being created in the set.
+   * @param {object} values formData object for the exercise being created.
    * @param {string} url url to the correct exercise type backend.
-   * @param {string} type either chat, forstaelse or ryddeSetnigner
+   * @param {string} type either chat, forstaelse or ryddeSetnigner.
    */
   const onSubmitPost = (values, url, type) => {
     axiosInstance()
       .post(url, values)
       .then((response) => {
-        // this line is adding a row to the formDataSetObject. i.e formdataSet.chat3 = id
+        // This line is adding a row to the formDataSetObject. i.e formdataSet.chat3 = id.
         formDataSet[`${type}${[exerciseCounts[type.substring(0, 1)] + 1]}`] =
           response.data.id;
         updateSet(formDataSet);
@@ -82,7 +82,7 @@ const CreateExercises = () => {
       });
   };
 
-  // Same as function above, but is used when a user wants to edit an exising esercise in the set.
+  // Same as function above, but is used when a user wants to edit an existing exercise in the set.
   const onSubmitPut = (values, url) => {
     axiosInstance()
       .put(url, values)
@@ -98,8 +98,8 @@ const CreateExercises = () => {
   /**
    * Gets the exercise formData from backend and passes it into the correct exercise
    * component when a user wants to edit an exercise.
-   * @param {number} id id for the exercise which will be edited
-   * @param {string} exerciseType type of exercise to be edited
+   * @param {number} id id for the exercise which will be edited.
+   * @param {string} exerciseType type of exercise to be edited.
    */
   function editExercise(id, exerciseType) {
     axiosInstance()
@@ -115,7 +115,7 @@ const CreateExercises = () => {
 
   /**
    * Deletes an exercise in the current set.
-   * If a user tries to delete the last exercise in an already existing set then an error is thrown.
+   * If a user tries to delete the last exercise in an already existing set, then an error is thrown.
    * @param {string} exercise name of exercise. i.e chat4.
    * @param {string} url url to the delete api endpoint.
    */
@@ -132,8 +132,10 @@ const CreateExercises = () => {
   }
 
   /**
-   * after the user has finished adding/deleting/editing exerices in the set this function will be run.
-   * If a user is editing an existing set, a put request will be sent and if a new set is made a post request.
+   * After the user has finished adding/deleting/editing exercises in the set,
+   * this function will be run.
+   * If a user is editing an existing set, a put request will be sent.
+   * If a new set is made, a post request will be sent.
    */
 
   function onSubmitSet() {
@@ -170,7 +172,7 @@ const CreateExercises = () => {
     }
   }
 
-  // function to reset formdataedit if a user doesnt want to edit the exercise
+  // Function to reset formdataedit if a user doesn't want to edit the exercise.
   function onGoBack() {
     setFormDataEdit(null);
     setStep('Menu');

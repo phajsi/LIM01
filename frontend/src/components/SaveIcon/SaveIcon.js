@@ -6,8 +6,10 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 
 /**
  * An icon component for saving/unsaving exercise sets.
- * @property {integer} id for the set
- * @returns clickable icon component
+ * @author Simen
+ * @param {object} props
+ * @property {integer} id for the set.
+ * @returns clickable icon component.
  */
 
 function SaveIcon({ id }) {
@@ -32,7 +34,7 @@ function SaveIcon({ id }) {
     getSaved();
   }, []);
 
-  // backend requests for saving/unsaving exercise set
+  // Backend requests for saving/unsaving exercise set.
   function onClickSave() {
     if (!saved) {
       axios
