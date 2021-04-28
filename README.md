@@ -1,5 +1,7 @@
 # DiPICKLE
 
+![CI/CD](https://github.com/phajsi/LIM01/workflows/node.js.yml/badge.svg)
+
 ## Table of contents
 
 - [About](#about)
