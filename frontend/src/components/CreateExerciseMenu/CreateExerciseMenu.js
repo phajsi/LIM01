@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import {
@@ -52,6 +51,7 @@ const CreateExerciseMenu = ({
             required
             variant="outlined"
             defaultValue={formDataSet.title}
+            placeholder="Legg til tittel..."
             onChange={(e) => handleFormChange(e, formDataSet)}
           />
         </Grid>
@@ -68,6 +68,7 @@ const CreateExerciseMenu = ({
             required
             variant="outlined"
             defaultValue={formDataSet.description}
+            placeholder="Gi settet ditt en beskrivelse..."
             onChange={(e) => handleFormChange(e, formDataSet)}
           />
         </Grid>

@@ -20,7 +20,20 @@ import exerciseStyles from '../exerciseStyle';
 import ProgressBar from '../ProgressBar';
 import NextExerciseBtn from '../NextExerciseBtn/NextExerciseBtn';
 
-// chat exercise component for playing.
+/**
+ * This is the forstaelse exercise component that is playable from Playsets.
+ * @author Simen, Phajsi
+ * @param {object} props
+ * @property {integer} id of the forstaelse exercise being played.
+ * @property {function} showFeedback tracks a user's score when playing an exercise in a set and
+ * which feedback case to show after finishing the exercise.
+ * @property {integer} progress counts how many exercises the user has played.
+ * @property {integer} possible total exercises in the set.
+ * @property {function} restartSet sets setStep in Playsets to "overview" so the user can exit
+ * the exercise set from any exercise.
+ * @property {function} playAudio returns a new HTMLAudioElement.
+ * @returns a forstaelse exercise instance.
+ */
 const Forstaelse = ({
   id,
   showFeedback,
@@ -33,13 +46,13 @@ const Forstaelse = ({
   const classesBase = exerciseStyles();
   const classes = { ...className, ...classesBase };
 
-  // Data for the forstaelse exercise from backend
+  // Data for the forstaelse exercise from backend.
   const [formData, setFormData] = useState({});
 
-  // null if user hasn't given answer. "corrent" or "incorrect" if user has given answer
+  // Null if user hasn't given answer, "correct" or "incorrect" if user has given answer.
   const [answerState, setAnswerState] = useState(null);
 
-  // keeps track of which task in the exercise the user is currently on.
+  // Keeps track of which task in the exercise the user is currently on.
   const [taskStep, setTaskStep] = useState(1);
   const [score, setScore] = useState(0);
   const [totalPossibleScore, setTotalPossibeScore] = useState(0);
@@ -73,10 +86,10 @@ const Forstaelse = ({
     }
   }
 
-  // goes to next task or next exercise after user has played the current task
+  // Goes to next task or next exercise after user has played the current task.
   const handleNextTask = () => {
     setAnswerState(null);
-    // checks if there are more tasks in the exercise before incrementing the task count
+    // Checks if there are more tasks in the exercise before incrementing the task count.
     if (!formData[`chat${taskStep + 1}`]) {
       showFeedback(score, totalPossibleScore);
     } else {

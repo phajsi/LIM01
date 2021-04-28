@@ -37,11 +37,11 @@ const CreateRyddeSetninger = ({
 
   /**
    * Used to avoid repetition of same code because there are many similar fields.
-   * @param {String} name the name of the field.
-   * @param {String} label name/description that will be visibile to the user
-   * @param {Boolean} touched Formik prop. validation will only run if field has been touched by user
-   * @param {Boolean} errors Formik prop to handle errors on user input.
-   * @returns The complete field that will be shown to the user
+   * @param {string} name the name of the field.
+   * @param {string} label name/description that will be visibile to the user.
+   * @param {boolean} touched Formik prop. Validation will only run if field has been touched by user.
+   * @param {boolean} errors Formik prop to handle errors on user input.
+   * @returns The complete field that will be shown to the user.
    */
   function formTextField(name, label, touched, errors) {
     return (
@@ -85,13 +85,13 @@ const CreateRyddeSetninger = ({
 
   /**
    * Runs when the page first renders and checks if an exisitng exercise
-   * should be edited. formDataEdit is passed as props if it is an exisiting exercise.
-   * if not, this function does nothing.
+   * should be edited. FormDataEdit is passed as props if it is an exisiting exercise.
+   * If not, this function does nothing.
    */
   useEffect(() => {
     if (formDataEdit) {
       let wordAmount = 0;
-      // used to keep track of how many words the exercise has.
+      // Used to keep track of how many words the exercise has.
       Object.entries(formDataEdit).forEach(([key, values]) => {
         if (!key.includes('Class') && key !== 'id' && values !== '') {
           wordAmount += 1;
