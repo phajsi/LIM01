@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   Typography,
 } from '@material-ui/core';
 import chatimage from '../../assets/images/chatModal.png';
@@ -122,11 +121,7 @@ const InfoModal = ({ showModal, setShowModal }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {setInfoText()}
-          </DialogContentText>
-        </DialogContent>
+        <DialogContent>{setInfoText()}</DialogContent>
         <DialogActions>
           <Button
             onClick={() => setShowModal(false)}
