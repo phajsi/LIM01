@@ -1,6 +1,6 @@
 # DiPICKLE
 
-![CI/CD](https://github.com/phajsi/LIM01/workflows/node.js.yml/badge.svg)
+[![Node.js CI](https://github.com/phajsi/LIM01/actions/workflows/node.js.yml/badge.svg)](https://github.com/phajsi/LIM01/actions/workflows/node.js.yml)
 
 ## Table of contents
 
