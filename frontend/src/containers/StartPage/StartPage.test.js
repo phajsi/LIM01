@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { BrowserRouter as Router, MemoryRouter } from 'react-router-dom';
 import StartPage from './StartPage';
 
@@ -42,27 +42,5 @@ describe('The Link component should', () => {
 
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute('href', '/signup');
-  });
-});
-
-describe('Searchbar', () => {
-  test('show an error message on illegal input', async () => {
-    await act(async () =>
-      render(
-        <Router>
-          <StartPage />
-        </Router>
-      )
-    );
-
-    const inputEl = screen.getByPlaceholderText('Tast inn settets ID');
-    fireEvent.change(inputEl, { target: { value: 'hei' } });
-    const button2 = screen.getByText('SPILL');
-    fireEvent.click(button2);
-
-    await screen.findByText('Settet finnes ikke.');
-    const errorMessage = screen.getByText('Settet finnes ikke.');
-
-    expect(errorMessage.tagName.toLowerCase()).toEqual('span');
   });
 });

@@ -80,7 +80,9 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
   return (
     <div className={classes.root}>
       <Paper className={classes.infoBox}>
-        <h2 className={classes.headline}>Logg inn</h2>
+        <Typography variant="h1" className={classes.headline}>
+          Logg inn
+        </Typography>
         <form onSubmit={(e) => onSubmit(e)}>
           <TextField
             type="text"

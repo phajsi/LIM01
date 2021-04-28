@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import IconButton from '@material-ui/core/IconButton';
+import axios from 'axios';
 import { axiosInstance } from '../../helpers/ApiFunctions';
 import SaveIcon from '../SaveIcon/SaveIcon';
 import happyPickle from '../../assets/images/happyPickle.png';
@@ -27,8 +28,14 @@ const FinishedSet = ({
   const [pers] = useState(Math.ceil(percentage * 100));
 
   function getContent() {
-    axiosInstance()
-      .get(`/rating/${id}`)
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/rating/${id}`, {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('access')}`,
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      })
       .then((res) => {
         setRating(res.data);
       })
@@ -46,8 +53,21 @@ const FinishedSet = ({
   }
 
   function postCompleted() {
-    axiosInstance()
-      .post(`/completed/`, { sets: id, score: pers })
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/api/completed/`,
+        {
+          sets: id,
+          score: pers,
+        },
+        {
+          headers: {
+            Authorization: `JWT ${localStorage.getItem('access')}`,
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+          },
+        }
+      )
       .catch((e) => {
         return e;
       });
@@ -85,8 +105,14 @@ const FinishedSet = ({
       rating: rated,
       sets: id,
     };
-    axiosInstance()
-      .post(`/rating/`, formData)
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/api/rating/`, formData, {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('access')}`,
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      })
       .then(() => {
         getContent();
       })
@@ -164,18 +190,30 @@ const FinishedSet = ({
             Hvis du likte settet kan du gi det tommel opp
           </Typography>
           <Grid container spacing={1}>
-            <IconButton onClick={() => onClickRating(true)}>
+            <IconButton
+              data-testid="ratingUpButton"
+              onClick={() => onClickRating(true)}
+            >
               {rating.rating ? (
-                <ThumbUpIcon className={classes.like} />
+                <ThumbUpIcon
+                  data-testid="ratingUpButtonClicked"
+                  className={classes.like}
+                />
               ) : (
-                <ThumbUpIcon />
+                <ThumbUpIcon data-testid="ratingUpButtonUnClicked" />
               )}
             </IconButton>
-            <IconButton onClick={() => onClickRating(false)}>
+            <IconButton
+              data-testid="ratingDownButton"
+              onClick={() => onClickRating(false)}
+            >
               {rating.rating === false ? (
-                <ThumbDownIcon className={classes.dislike} />
+                <ThumbDownIcon
+                  data-testid="ratingDownButtonClicked"
+                  className={classes.dislike}
+                />
               ) : (
-                <ThumbDownIcon />
+                <ThumbDownIcon data-testid="ratingDownButtonUnClicked" />
               )}
             </IconButton>
             <SaveIcon id={id} />
