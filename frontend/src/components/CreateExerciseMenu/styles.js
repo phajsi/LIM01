@@ -69,9 +69,10 @@ const useStyles = makeStyles((theme) => ({
   formfieldname: {
     textAlign: 'left',
     fontWeight: 'bold',
-    minWidth: theme.spacing(9),
     paddingRight: theme.spacing(2),
     justifyContent: 'flex-start',
+    minWidth: theme.spacing(11),
+    margin: 'auto 0 auto 0',
   },
   buttoncontainer: {
     display: 'flex',
