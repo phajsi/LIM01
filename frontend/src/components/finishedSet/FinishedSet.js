@@ -64,9 +64,9 @@ const FinishedSet = ({
   }
 
   /**
-   * runs on first render and gets necesarry content from backend
-   * only if user is authenticated to avoid unnecesarry requests.
-   * also updates the users score if a new personal record was set.
+   * Runs on first render and gets necessary content from backend
+   * only if user is authenticated to avoid unnecessary requests.
+   * Also updates the users score if a new personal record was set.
    */
   useEffect(() => {
     if (isAuthenticated) {
@@ -112,7 +112,7 @@ const FinishedSet = ({
     );
   }
 
-  // The const will display different responses to different results from playing a set
+  // The const will display different responses to different results from playing a set.
   const switchStep = () => {
     switch (step) {
       case 'over':
