@@ -137,7 +137,15 @@ const CreateExercises = () => {
    */
 
   function onSubmitSet() {
-    if (location.state?.editSet) {
+    if (
+      !formDataSet.chat1 &&
+      !formDataSet.forstaelse1 &&
+      !formDataSet.ryddeSetninger1
+    ) {
+      setErrorMessage(
+        'Du må legge til minst en oppgave for å opprette et sett.'
+      );
+    } else if (location.state?.editSet) {
       axiosInstance()
         .put(`/createsets/${formDataSet.id}`, formDataSet)
         .then(() => {
