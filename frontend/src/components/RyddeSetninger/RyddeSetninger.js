@@ -19,7 +19,20 @@ import NextExerciseBtn from '../NextExerciseBtn/NextExerciseBtn';
 import useStyles from './styles';
 import exerciseStyles from '../exerciseStyle';
 
-// ryddeSetninger exercise component for playing.
+/**
+ * This is the ryddeSetninger exercise component that is playable from Playsets.
+ * @author Julie, Phajsi
+ * @param {object} props
+ * @property {integer} id of the ryddeSetninger exercise being played.
+ * @property {function} showFeedback tracks a user's score when playing an exercise in a set and
+ * which feedback case to show after finishing the exercise.
+ * @property {integer} progress counts how many exercises the user has played.
+ * @property {integer} possible total exercises in the set.
+ * @property {function} restartSet sets setStep in Playsets to "overview" so the user can exit
+ * the exercise set from any exercise.
+ * @property {function} playAudio returns a new HTMLAudioElement.
+ * @returns a ryddeSetninger exercise instance.
+ */
 const RyddeSetninger = ({
   id,
   showFeedback,
@@ -49,7 +62,7 @@ const RyddeSetninger = ({
   let concatenatedWords = [];
   let counter = 0;
 
-  // splits the words in the sentence from their wordclasses
+  // Splits the words in the sentence from their wordclasses.
   const splitData = (el) => {
     counter += 1;
     if (!(el === '' || typeof el === 'number')) {

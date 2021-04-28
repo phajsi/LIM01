@@ -2,7 +2,15 @@ import React from 'react';
 import { Avatar, Card, Grid } from '@material-ui/core';
 import useStyles from './styles';
 import defaultMan from '../../assets/images/defaultMan.png';
-
+/**
+ * This is the component that is used to display messages in the chat and forstaelse exercises.
+ * @author Julie, Simen
+ * @param {object} props
+ * @property {string} chat the message being displayed.
+ * @property {string} icon decides which icon to display.
+ * @property {boolean} right decides if the component should float right or left.
+ * @returns a chatBubble component.
+ */
 const ChatBubble = ({ chat, icon, right }) => {
   const classes = useStyles();
   return (

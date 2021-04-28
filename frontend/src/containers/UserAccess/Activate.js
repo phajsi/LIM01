@@ -7,12 +7,12 @@ import useStyles from './styles';
 
 /**
  * Link to this page is sent to the user's email address after successfully registering
- * an account.
- * The user can activate the registered account on this page
- * @param {object} param0 props
- * @property {function} verify redux action for verifying an account
- * @property {object} match react router to match url
- * @returns container for activating account
+ * an account. The user can activate the registered account on this page.
+ * @author Simen, Phajsi
+ * @param {object} props
+ * @property {function} verify redux action for verifying an account.
+ * @property {object} match react router to match url.
+ * @returns container for activating account.
  */
 
 const Activate = ({ verify, match }) => {
@@ -20,7 +20,7 @@ const Activate = ({ verify, match }) => {
   const [verified, setVerified] = useState(false);
 
   const verify_account = () => {
-    // user id and token needed for verification.
+    // User id and token needed for verification.
     const uid = match.params.uid;
     const token = match.params.token;
 

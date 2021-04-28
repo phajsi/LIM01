@@ -30,6 +30,7 @@
     "react/jsx-curly-newline": "off",
     "react/destructuring-assignment": "off",
     "react/jsx-props-no-spreading": "off",
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "no-param-reassign": "off"
   }
 }

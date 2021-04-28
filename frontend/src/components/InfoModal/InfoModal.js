@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   Typography,
 } from '@material-ui/core';
 import chatimage from '../../assets/images/chatModal.png';
@@ -16,6 +15,16 @@ import forstaelseform from '../../assets/images/forstaelseForm.png';
 import ryddesetningerform from '../../assets/images/ryddeForm.png';
 import useStyles from './styles';
 
+/**
+ * This is a modal displaying information on how to create a new chat, forstaelse or
+ * ryddeSetninger exercise.
+ * @author Maja, Even
+ * @param {object} props
+ * @property {boolean} showModal is true if user has clicked on an info button to view more info.
+ * @property {function} setShowModal sets showModal to true if user has clicked on an info button,
+ * and showModal to false if user has clicked to close an open info modal.
+ * @returns a modal with the requested information when showModal is true.
+ */
 const InfoModal = ({ showModal, setShowModal }) => {
   const classes = useStyles();
 
@@ -112,11 +121,7 @@ const InfoModal = ({ showModal, setShowModal }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {setInfoText()}
-          </DialogContentText>
-        </DialogContent>
+        <DialogContent>{setInfoText()}</DialogContent>
         <DialogActions>
           <Button
             onClick={() => setShowModal(false)}

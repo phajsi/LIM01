@@ -5,8 +5,9 @@ import useStyles from './styles';
 
 /**
  * Reusable errorMessage
- * @property {String} message content of the error message
- * @returns a card component with an error message, or nothing if no message was passed
+ * @param {object} props
+ * @property {string} message content of the error message.
+ * @returns a card component with an error message, or nothing if no message was passed.
  */
 
 function ErrorMessage({ message }) {
