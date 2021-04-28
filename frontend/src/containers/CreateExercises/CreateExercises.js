@@ -162,7 +162,7 @@ const CreateExercises = () => {
       !formDataSet.ryddeSetninger1
     ) {
       setEmptySetError(
-        'Du må legge til minst en oppgave for å opprette et sett.'
+        'Du må legge til minst en oppgave for å opprette et sett. '
       );
     } else {
       axiosInstance
