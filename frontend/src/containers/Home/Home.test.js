@@ -20,6 +20,6 @@ describe('The Home component', () => {
     fireEvent.click(screen.getAllByText('Fullførte sett')[1]);
 
     // assert
-    expect(title.tagName.toLowerCase()).toEqual('a');
+    expect(title.tagName.toLowerCase()).toEqual('span');
   });
 });
