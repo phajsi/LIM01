@@ -9,7 +9,7 @@ import Chat from '../../components/Chat/Chat';
 import RyddeSetninger from '../../components/RyddeSetninger/RyddeSetninger';
 import Feedback from '../../components/feedback/Feedback';
 import FinishedSet from '../../components/finishedSet/FinishedSet';
-import OverviewPage from '../overviewPage/OverviewPage';
+import OverviewPage from '../../components/OverviewPage/OverviewPage';
 import useStyles from './styles';
 
 const PlaySets = () => {
