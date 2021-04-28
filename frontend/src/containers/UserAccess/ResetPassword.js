@@ -6,11 +6,12 @@ import { reset_password } from '../../actions/auth';
 import useStyles from './styles';
 
 /**
- * Users can enter email and request a password reset. an email will be sent with
+ * Users can enter email and request a password reset. An email will be sent with
  * a link for resetting password.
- * @param {object} param0 props
- * @property {reset_password} reset_password redux action for resetting password
- * @returns container for resetting password
+ * @author Simen, Phajsi
+ * @param {object} props
+ * @property {function} reset_password redux action for resetting password.
+ * @returns container for resetting password.
  */
 
 const ResetPassword = ({ reset_password }) => {
