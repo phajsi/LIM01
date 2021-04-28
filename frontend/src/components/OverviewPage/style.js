@@ -33,13 +33,14 @@ const useStyles = makeStyles((theme) => ({
     margin: '50px auto 50px auto',
     borderRadius: '15px',
   },
-  headertitle: {
-    marginTop: '5px',
+  centertext: {
+    margin: 'auto 0 auto 0',
   },
   description: {
-    minHeight: theme.spacing(10),
+    textAlign: 'justify',
     [theme.breakpoints.down('xs')]: {
-      marginTop: '50px',
+      minHeight: theme.spacing(7.5),
+      margin: '10px 0 0 0',
     },
   },
   header: {
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto',
     [theme.breakpoints.down('xs')]: {
       margin: 'auto',
-      marginTop: '50px',
+      marginTop: '30px',
     },
   },
   buttons: {
@@ -83,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
   defaulttext: {
     maxWidth: theme.spacing(75),
     margin: '15px auto 0 auto',
+    padding: '10px',
     textAlign: 'center',
     border: '2px solid #F5F5F5',
     borderRadius: 15,
@@ -130,9 +132,17 @@ const useStyles = makeStyles((theme) => ({
   cardtext: {
     wordBreak: 'break-word',
   },
+  homeIconbutton: {
+    height: '50px',
+    margin: 'auto 0 auto 0',
+    borderRadius: '15px',
+  },
   iconbutton: {
     height: '50px',
     margin: 'auto 0 auto 0',
+    [theme.breakpoints.down('xs')]: {
+      padding: 0,
+    },
   },
   formfields: {
     width: '100%',

@@ -22,8 +22,8 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import topTriangle from '../../assets/images/topTriangle.svg';
 import bottomTriangle from '../../assets/images/bottomTriangle.svg';
 import useStyles from './style';
-import SaveIcon from '../../components/SaveIcon/SaveIcon';
-import DeleteModal from '../../components/DeleteModal';
+import SaveIcon from '../SaveIcon/SaveIcon';
+import DeleteModal from '../DeleteModal';
 
 const OverviewPage = ({
   title,
@@ -151,16 +151,16 @@ const OverviewPage = ({
       <img src={topTriangle} alt="topTriangle" className={classes.triangle1} />
       <IconButton
         data-testid="homeButton"
-        className={classes.iconbutton}
+        className={classes.homeIconbutton}
         onClick={() => setRedirectHome(true)}
       >
         <ArrowBackIcon />
-        Hjem
+        <Typography variant="h3">Hjem</Typography>
       </IconButton>
       <Grid container className={classes.container}>
         <Grid item xs={12} className={classes.infobox}>
           <div className={classes.header}>
-            <Typography variant="h1" className={classes.headertitle}>
+            <Typography variant="h1" className={classes.centertext}>
               {title}
             </Typography>
             {isAuthenticated && (
@@ -169,7 +169,7 @@ const OverviewPage = ({
           </div>
           <Divider className={classes.divider} />
           <Grid container>
-            <Grid item sm={9} xs={12}>
+            <Grid item sm={9} xs={12} className={classes.centertext}>
               <Typography className={classes.description}>
                 {description}
               </Typography>
@@ -244,8 +244,8 @@ const OverviewPage = ({
               />
             </Grid>
           ) : (
-            <Grid item xs={12} className={classes.defaulttext}>
-              <Typography>
+            <Grid item xs={12}>
+              <Typography variant="body1" className={classes.defaulttext}>
                 Du må være innlogget for å kunne kunne legge igen en kommentar
                 til dette settet.
               </Typography>
