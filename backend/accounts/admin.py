@@ -3,9 +3,7 @@ from .models import UserAccount
 from forstaelse.models import Forstaelse
 from chat.models import Chat
 from rydde_setninger.models import RyddeSetninger
-from sets.models import Sets, Saved, Feedback
-
-# Register your models here.
+from sets.models import Sets, Saved, Comment, Rating, Completed
 
 
 class AccountAdmin(admin.ModelAdmin):
@@ -39,8 +37,17 @@ class SetsAdmin(admin.ModelAdmin):
 class SavedAdmin(admin.ModelAdmin):
     list_display = ('id', 'owner', 'sets')
 
-class FeedbackAdmin(admin.ModelAdmin):
-    list_display = ('id', 'sets', 'owner', 'comment', 'created_on')
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'sets', 'owner', 'comment', 'name')
+
+
+class RatingAdmin(admin.ModelAdmin):
+    list_display = ('id', 'owner', 'sets', 'rating')
+
+
+class CompletedAdmin(admin.ModelAdmin):
+    list_display = ('id', 'owner', 'sets')
 
 
 admin.site.register(UserAccount, AccountAdmin)
@@ -49,4 +56,6 @@ admin.site.register(Chat, ChatAdmin)
 admin.site.register(RyddeSetninger, RyddeSetningerAdmin)
 admin.site.register(Sets, SetsAdmin)
 admin.site.register(Saved, SavedAdmin)
-admin.site.register(Feedback, FeedbackAdmin)
+admin.site.register(Comment, CommentAdmin)
+admin.site.register(Rating, RatingAdmin)
+admin.site.register(Completed, CompletedAdmin)

@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import theme from './MuiTheme';
 
+const themeResponsive = responsiveFontSizes(theme);
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={themeResponsive}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

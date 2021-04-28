@@ -5,6 +5,15 @@ import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import useStyles from './styles';
 
+/**
+ * Button used to go to next exercise in set.
+ * Changes color depending on whether right or wrong answer was given
+ * @param {Object} param0 props
+ * @property {Function} handleNextTask onClick function for component button
+ * @property {boolean} answerState decides what type of component will be returned depending on user answer
+ * @returns Card component with onclick button
+ */
+
 function NextExerciseBtn({ handleNextTask, answerState }) {
   const classes = useStyles();
   switch (answerState) {
@@ -13,11 +22,12 @@ function NextExerciseBtn({ handleNextTask, answerState }) {
         <Grid item xs={12}>
           <Card className={classes.answerElementWrong}>
             <CardHeader
-              avatar={<CancelIcon style={{ color: 'white' }} />}
+              avatar={<CancelIcon className={classes.icons} />}
               title=" Feil! "
             />
             <div className={classes.btnParent}>
               <Button
+                data-testid="resultButtonIncorrect"
                 onClick={handleNextTask}
                 className={classes.answerBtn}
                 fullWidth
@@ -34,17 +44,20 @@ function NextExerciseBtn({ handleNextTask, answerState }) {
         <Grid item xs={12}>
           <Card className={classes.answerElement}>
             <CardHeader
-              avatar={<CheckCircleIcon style={{ color: 'white' }} />}
+              avatar={<CheckCircleIcon className={classes.icons} />}
               title="Riktig!"
             />
-            <Button
-              onClick={handleNextTask}
-              className={classes.answerBtn}
-              fullWidth
-              size="small"
-            >
-              <TrendingFlatIcon fontSize="large" />
-            </Button>
+            <div className={classes.btnParent}>
+              <Button
+                data-testid="resultButton"
+                onClick={handleNextTask}
+                className={classes.answerBtn}
+                fullWidth
+                size="small"
+              >
+                <TrendingFlatIcon fontSize="large" />
+              </Button>
+            </div>
           </Card>
         </Grid>
       );

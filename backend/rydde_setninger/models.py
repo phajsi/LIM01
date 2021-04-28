@@ -20,15 +20,15 @@ class RyddeSetninger(models.Model):
 
     word1 = models.CharField(max_length=20)
     wordClass1 = models.CharField(
-        max_length=12, choices=WORD_CLASSES, default="Null")
+        max_length=12, choices=WORD_CLASSES, blank=True)
 
     word2 = models.CharField(max_length=20)
     wordClass2 = models.CharField(
-        max_length=12, choices=WORD_CLASSES, default="Null")
+        max_length=12, choices=WORD_CLASSES, blank=True)
 
     word3 = models.CharField(max_length=20)
     wordClass3 = models.CharField(
-        max_length=12, choices=WORD_CLASSES, default="Null")
+        max_length=12, choices=WORD_CLASSES, blank=True)
 
     word4 = models.CharField(max_length=20, blank=True)
     wordClass4 = models.CharField(

@@ -9,13 +9,25 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'transparent',
     elevation: 'none',
   },
+  searchBar: {
+    margin: 'auto',
+    maxWidth: '40vw',
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '60vw',
+    },
+  },
   title: {
     flexGrow: 1,
     color: '#367051',
     fontWeight: '600',
     float: 'right',
-    margin: theme.spacing(1),
+    padding: theme.spacing(1),
     textDecoration: 'none',
+    '&:hover': {
+      backgroundColor: '#47956A',
+      color: 'white',
+      borderRadius: '15px',
+    },
   },
   right: {
     flex: 1,
@@ -23,9 +35,17 @@ const useStyles = makeStyles((theme) => ({
   logoBox: {
     lineHeight: '200px',
     justifyContent: 'center',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '15vh',
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2),
+    },
   },
   logoImg: {
     verticalAlign: 'middle',
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '70%',
+    },
   },
   logoText: {
     display: 'inline-block',
@@ -36,43 +56,45 @@ const useStyles = makeStyles((theme) => ({
     color: '#0F6D5F',
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
-  },
-  searchBox: {
-    margin: 'auto',
-    width: '40vw',
-  },
-  search: {
-    backgroundColor: 'white',
-    border: '2px solid #0F6D5F',
-    boxSizing: 'border-box',
-    borderRadius: '5px',
-    margin: theme.spacing(4),
-  },
-  btn: {
-    backgroundColor: '#F7B733',
-    color: 'black',
-    fontWeight: 'bold',
-    filter: 'drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.15))',
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '70%',
+    },
   },
   ellipse: {
-    width: '20vw',
     display: 'block',
     position: 'absolute',
     top: '0',
+    [theme.breakpoints.up('xs')]: {
+      maxWidth: '20vw',
+    },
+    [theme.breakpoints.down('xs')]: {
+      top: '0',
+      maxWidth: '40vw',
+    },
   },
   tree: {
-    width: '16vw',
     display: 'block',
     position: 'absolute',
     bottom: '0',
     right: '10vw',
+    [theme.breakpoints.up('xs')]: {
+      maxWidth: '16vw',
+    },
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
+    },
   },
   forest: {
-    width: '28vw',
     display: 'block',
     position: 'absolute',
     bottom: '0',
     left: '12vw',
+    [theme.breakpoints.up('xs')]: {
+      maxWidth: '28vw',
+    },
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
+    },
   },
 }));
 export default useStyles;

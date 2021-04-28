@@ -21,6 +21,9 @@ const initialState = {
   refresh: localStorage.getItem('refresh'),
   isAuthenticated: null,
   user: null,
+  signUpSuccess: false,
+  loginError: null,
+  passwordReset: null,
 };
 
 export default function (state = initialState, action) {
@@ -31,6 +34,9 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isAuthenticated: true,
+        signUpSuccess: false,
+        loginError: null,
+        passwordReset: null,
       };
     case LOGIN_SUCCESS:
       localStorage.setItem('access', payload.access);
@@ -39,16 +45,24 @@ export default function (state = initialState, action) {
         isAuthenticated: true,
         access: payload.access,
         refresh: payload.refresh,
+        loginError: null,
+        passwordReset: null,
       };
     case SIGNUP_SUCCESS:
       return {
         ...state,
         isAuthenticated: false,
+        signUpSuccess: true,
+        loginError: null,
+        passwordReset: null,
       };
     case AUTHENTICATED_FAIL:
       return {
         ...state,
         isAuthenticated: false,
+        signUpSuccess: false,
+        loginError: null,
+        passwordReset: null,
       };
     case LOGIN_FAIL:
       localStorage.removeItem('access');
@@ -59,8 +73,21 @@ export default function (state = initialState, action) {
         access: null,
         refresh: null,
         user: null,
+        signUpSuccess: false,
+        loginError: payload,
+        passwordReset: null,
       };
     case SIGNUP_FAIL:
+      return {
+        ...state,
+        access: null,
+        refresh: null,
+        isAuthenticated: false,
+        user: null,
+        signUpSuccess: payload,
+        loginError: null,
+        passwordReset: null,
+      };
     case LOGOUT:
       localStorage.removeItem('access');
       localStorage.removeItem('refresh');
@@ -70,6 +97,9 @@ export default function (state = initialState, action) {
         refresh: null,
         isAuthenticated: false,
         user: null,
+        signUpSuccess: false,
+        loginError: null,
+        passwordReset: null,
       };
     case USER_LOADED_SUCCESS:
       return {
@@ -84,7 +114,15 @@ export default function (state = initialState, action) {
     case PASSWORD_RESET_SUCCESS:
     case PASSWORD_RESET_FAIL:
     case PASSWORD_RESET_CONFIRM_SUCCESS:
+      return {
+        ...state,
+        passwordReset: true,
+      };
     case PASSWORD_RESET_CONFIRM_FAIL:
+      return {
+        ...state,
+        passwordReset: payload,
+      };
     case ACTIVATION_SUCCESS:
     case ACTIVATION_FAIL:
       return {

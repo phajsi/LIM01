@@ -48,22 +48,6 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
     float: 'right',
   },
-  answerElement: {
-    display: 'flex',
-    flexDirection: 'row',
-    backgroundColor: 'lightgreen',
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-  },
-  answerElementWrong: {
-    display: 'flex',
-    flexDirection: 'row',
-    backgroundColor: 'lightcoral',
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-  },
   answerBtn: {
     backgroundColor: 'white',
     marginRight: theme.spacing(1),
@@ -72,10 +56,19 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2),
     textAlign: 'center',
   },
-  buttonRight: {
-    float: 'right',
-  },
   innerMargin: {
+    margin: theme.spacing(1),
+  },
+  icons: {
+    fontSize: '1.5em',
+    justifyContent: 'flex-end',
+    '> *': {
+      padding: 0,
+    },
+  },
+  headergroup: {
+    display: 'flex',
+    flexDirection: 'row',
     margin: theme.spacing(1),
   },
 }));

@@ -11,7 +11,8 @@ import StartPage from './containers/StartPage/StartPage';
 import store from './store';
 import Layout from './hocs/Layout';
 import CreateExercises from './containers/CreateExercises/CreateExercises';
-import PlaySets from './containers/PlaySets';
+import PlaySets from './containers/Playsets/PlaySets';
+import ProtectedRoute from './ProtectedRoute';
 
 const App = () => (
   <Provider store={store}>
@@ -19,8 +20,12 @@ const App = () => (
       <Switch>
         <Route exact path="/" component={StartPage} />
         <Layout>
-          <Route exact path="/home" component={Home} />
-          <Route exact path="/createexercise" component={CreateExercises} />
+          <ProtectedRoute exact path="/home" component={Home} />
+          <ProtectedRoute
+            exact
+            path="/createexercise"
+            component={CreateExercises}
+          />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/reset-password" component={ResetPassword} />
