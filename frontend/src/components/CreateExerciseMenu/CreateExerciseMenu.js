@@ -61,7 +61,7 @@ const CreateExerciseMenu = ({
           </Typography>
           <TextField
             name="description"
-            multiline="true"
+            multiline
             fullWidth
             rows={3}
             rowsMax={10}
@@ -83,7 +83,10 @@ const CreateExerciseMenu = ({
               >
                 Chat
               </MenuItem>
-              <IconButton onClick={() => setShowModal('chat')}>
+              <IconButton
+                data-testid="chatModal"
+                onClick={() => setShowModal('chat')}
+              >
                 <InfoIcon className={classes.infoicon} />
               </IconButton>
             </Grid>
@@ -95,7 +98,10 @@ const CreateExerciseMenu = ({
               >
                 Forståelse
               </MenuItem>
-              <IconButton onClick={() => setShowModal('forstaelse')}>
+              <IconButton
+                data-testid="forstaelseModal"
+                onClick={() => setShowModal('forstaelse')}
+              >
                 <InfoIcon className={classes.infoicon} />
               </IconButton>
             </Grid>
@@ -107,7 +113,10 @@ const CreateExerciseMenu = ({
               >
                 Rydde Setninger
               </MenuItem>
-              <IconButton onClick={() => setShowModal('rydde_setninger')}>
+              <IconButton
+                data-testid="ryddeSetningerModal"
+                onClick={() => setShowModal('rydde_setninger')}
+              >
                 <InfoIcon className={classes.infoicon} />
               </IconButton>
             </Grid>
@@ -116,10 +125,10 @@ const CreateExerciseMenu = ({
         <Grid item md={7} xs={12} className={classes.menu}>
           <Typography variant="h2">Oppgaver</Typography>
           <Grid container>
-            {Object.entries(formDataSet).map(([type, id]) => {
+            {Object.entries(formDataSet).map(([type, id], index) => {
               if (type.substring(0, 4) === 'chat') {
                 return (
-                  <Grid item xs={6} className={classes.chipgrid}>
+                  <Grid key={index} item xs={6} className={classes.chipgrid}>
                     <Chip
                       className={classes.chatchip}
                       label="Chat"
@@ -138,7 +147,7 @@ const CreateExerciseMenu = ({
               }
               if (type.substring(0, 4) === 'fors') {
                 return (
-                  <Grid item xs={6} className={classes.chipgrid}>
+                  <Grid key={index} item xs={6} className={classes.chipgrid}>
                     <Chip
                       className={classes.forschip}
                       label="Forstaelse"
@@ -157,7 +166,7 @@ const CreateExerciseMenu = ({
               }
               if (type.substring(0, 4) === 'rydd') {
                 return (
-                  <Grid item xs={6} className={classes.chipgrid}>
+                  <Grid key={index} item xs={6} className={classes.chipgrid}>
                     <Chip
                       className={classes.ryddchip}
                       label="Rydde Setninger"
@@ -174,7 +183,7 @@ const CreateExerciseMenu = ({
                   </Grid>
                 );
               }
-              return <></>;
+              return <div key={index} />;
             })}
           </Grid>
         </Grid>
