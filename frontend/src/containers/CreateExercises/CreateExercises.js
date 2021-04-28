@@ -153,7 +153,7 @@ const CreateExercises = () => {
         })
         .catch(() => {
           setErrorMessage(
-            'Noe gikk galt! Husk at du må legge til tittel og beskrivelse'
+            'Noe gikk galt! Husk at du må legge til tittel og beskrivelse.'
           );
         });
     } else {
@@ -164,7 +164,7 @@ const CreateExercises = () => {
         })
         .catch(() => {
           setErrorMessage(
-            'Noe gikk galt! Husk at du må legge til tittel og beskrivelse'
+            'Noe gikk galt! Husk at du må legge til tittel og beskrivelse.'
           );
         });
     }
