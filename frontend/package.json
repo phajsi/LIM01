@@ -25,6 +25,7 @@
     "start": "react-scripts start",
     "build": "rm -rf ../backend/build && react-scripts build && cp -r build ../backend/build",
     "test": "react-scripts test",
+    "coverage": "react-scripts test --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\""
@@ -57,5 +58,28 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "prettier": "^2.2.1"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/vendor/**"
+    ],
+    "coveragePathIgnorePatterns": [
+      ".styles.js",
+      ".style.js",
+      "MuiTheme.js",
+      "reportWebVitals.js",
+      "Layout.js",
+      "index.js",
+      "exerciseStyle.js",
+      "App.js",
+      "ApiFunctions.js",
+      "reducers.js",
+      "auth.js",
+      "resetPassword.js",
+      "ResetPasswordConfirm.js",
+      "Activate.js"
+    ]
   }
 }

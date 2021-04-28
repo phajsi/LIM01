@@ -49,11 +49,33 @@ class Saved(models.Model):
     sets = models.ForeignKey(Sets, on_delete=models.CASCADE)
 
     class Meta:
+        # must be unique togheter to avoid multiple entries in database
         unique_together = ('owner', 'sets',)
 
-class Feedback(models.Model):
-    sets = models.ForeignKey(Sets, related_name='comments', on_delete=models.CASCADE)
-    owner = models.CharField(max_length=100)
+
+class Comment(models.Model):
+    owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    sets = models.ForeignKey(
+        Sets, related_name='comments', on_delete=models.CASCADE)
     comment = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True, null=True)
-    
+    name = models.CharField(max_length=50, default='')
+
+
+class Rating(models.Model):
+    owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    sets = models.ForeignKey(Sets, on_delete=models.CASCADE)
+    rating = models.BooleanField()
+
+    class Meta:
+        # must be unique togheter to avoid multiple entries in database
+        unique_together = ('owner', 'sets',)
+
+
+class Completed(models.Model):
+    owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    sets = models.ForeignKey(Sets, on_delete=models.CASCADE)
+    score = models.CharField(max_length=3)
+
+    class Meta:
+        # must be unique togheter to avoid multiple entries in database
+        unique_together = ('owner', 'sets',)

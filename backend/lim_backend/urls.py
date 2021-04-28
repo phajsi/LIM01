@@ -10,7 +10,6 @@ urlpatterns = [
     path('api/', include('chat.urls')),
     path('api/', include('sets.urls')),
     path('api/', include('rydde_setninger.urls')),
-    #    path('auth/', include('djoser.social.urls')),
 ]
 
 urlpatterns += [re_path(r'^.*',

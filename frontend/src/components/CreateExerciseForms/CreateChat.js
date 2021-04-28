@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import {
@@ -7,18 +7,24 @@ import {
   Paper,
   Fab,
   TextField,
+  Typography,
   MenuItem,
   Select,
   Avatar,
+  IconButton,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import InfoIcon from '@material-ui/icons/Info';
 import RemoveIcon from '@material-ui/icons/Remove';
+import ClearIcon from '@material-ui/icons/Clear';
+import CheckIcon from '@material-ui/icons/Check';
 import gingerMan from '../../assets/images/gingerMan.png';
 import capsMan from '../../assets/images/capsMan.png';
 import frenchMan from '../../assets/images/frenchMan.png';
 import brunetteWoman from '../../assets/images/brunetteWoman.png';
 import blondeWoman from '../../assets/images/blondeWoman.png';
 import muslimWoman from '../../assets/images/muslimWoman.png';
+import InfoModal from '../InfoModal/InfoModal';
 import useStyles from './styles';
 
 const validationSchema = yup.object({
@@ -31,6 +37,26 @@ const validationSchema = yup.object({
 const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
   const classes = useStyles();
   const [taskAmount, setTaskAmount] = useState(1);
+  const [showModal, setShowModal] = useState(false);
+
+  // used to check if an exisitng exercise should be edited or a new one made.
+  useEffect(() => {
+    if (formDataEdit) {
+      if (formDataEdit.chatquestion3) {
+        setTaskAmount(3);
+      } else if (formDataEdit.chatquestion2) {
+        setTaskAmount(2);
+      }
+    }
+  }, []);
+
+  /**
+   * Used to avoid repetition of same code because there are many similar fields.
+   * @param {String} name the name of the field.
+   * @param {Boolean} touched Formik prop. validation will only run if field has been touched by user
+   * @param {Boolean} errors Formik prop to handle errors on user input.
+   * @returns The complete field that will be shown to the user
+   */
 
   function formTextField(name, touched, errors) {
     return (
@@ -81,7 +107,12 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
 
   return (
     <Paper className={classes.root}>
-      <h1>Chat</h1>
+      <div className={classes.headergroup}>
+        <Typography variant="h1">Chat</Typography>
+        <IconButton onClick={() => setShowModal('createchat')}>
+          <InfoIcon className={classes.icons} />
+        </IconButton>
+      </div>
       <Formik
         initialValues={
           formDataEdit || {
@@ -102,105 +133,93 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
       >
         {({ errors, touched, setFieldValue, isSubmitting }) => (
           <Form className={classes.form}>
-            <h2> Tema 1 </h2>
             <Grid container spacing={3}>
               <Grid item xs={6}>
-                <p>Hvem sender meldingen? </p>
+                <Typography component="p">Hvem sender meldingen? </Typography>
               </Grid>
               <Grid item xs={3} />
               <Grid item xs={3}>
                 {formSelectField('sendericon', touched, errors)}
               </Grid>
               <Grid item xs={6}>
-                <p>Hvem mottar meldingen? </p>
+                <Typography component="p">Hvem mottar meldingen? </Typography>
               </Grid>
               <Grid item xs={3} />
               <Grid item xs={3}>
                 {formSelectField('receivericon', touched, errors)}
               </Grid>
-              <Grid item xs={12}>
-                <p>Skriv spørsmålet her: </p>
-                {formTextField('chatquestion1', touched, errors)}
-              </Grid>
-              <Grid item xs={12}>
-                <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
-                {formTextField('answer11', touched, errors)}
-              </Grid>
-              <Grid item xs={12}>
-                <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
-                {formTextField('answer12', touched, errors)}
-              </Grid>
-              <Grid item xs={12}>
-                <p>Skriv svaralternativ 3 her (Korrekt alternativ) her: </p>
-                {formTextField('correctanswer1', touched, errors)}
-              </Grid>
+              {[...Array(taskAmount).keys()].map((el) => {
+                return (
+                  <>
+                    <Grid item xs={12}>
+                      <Typography variant="h2" paragraph align="center">
+                        Tema
+                        {el + 1}
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      container
+                      direction="row"
+                      justify="space-between"
+                      alignItems="center"
+                    >
+                      <Typography component="p">
+                        Skriv en melding i form av et spørsmål her: *
+                      </Typography>
+                      <Grid item xs={11}>
+                        {formTextField(
+                          `chatquestion${el + 1}`,
+                          touched,
+                          errors
+                        )}
+                      </Grid>
+                      <Typography component="p">
+                        Skriv et FEIL svaralternativ til meldingen her: *
+                      </Typography>
+                      <Grid item xs={11}>
+                        {formTextField(`answer${el + 1}1`, touched, errors)}
+                      </Grid>
+                      <Grid>
+                        <ClearIcon />
+                      </Grid>
+                      <Typography component="p">
+                        Skriv et FEIL svaralternativ til meldingen her: *
+                      </Typography>
+                      <Grid item xs={11}>
+                        {formTextField(`answer${el + 1}2`, touched, errors)}
+                      </Grid>
+                      <Grid>
+                        <ClearIcon />
+                      </Grid>
+                      <Typography component="p">
+                        Skriv det RIKTIGE svaret til meldingen her: *
+                      </Typography>
+                      <Grid item xs={11}>
+                        {formTextField(
+                          `correctanswer${el + 1}`,
+                          touched,
+                          errors
+                        )}
+                      </Grid>
+                      <Grid>
+                        <CheckIcon />
+                      </Grid>
+                    </Grid>
+                  </>
+                );
+              })}
             </Grid>
-            {taskAmount > 1 && (
-              <>
-                <hr />
-                <h2> Tema 2 </h2>
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <p>Skriv spørsmålet her: </p>
-                    {formTextField('chatquestion2', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
-                    {formTextField('answer21', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
-                    {formTextField('answer22', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Skriv svaralternativ 3 her (Korrekt alternativ) her: </p>
-                    {formTextField('correctanswer2', touched, errors)}
-                  </Grid>
-                </Grid>
-              </>
-            )}
-            {taskAmount > 2 && (
-              <>
-                <hr />
-                <h2> Tema 3 </h2>
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <p>Skriv spørsmålet her: </p>
-                    {formTextField('chatquestion3', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Skriv svaralternativ 1 her (Feil alternativ): </p>
-                    {formTextField('answer31', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Skriv svaralternativ 2 her (Feil alternativ): </p>
-                    {formTextField('answer32', touched, errors)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p>Skriv svaralternativ 3 her (Korrekt alternativ) her: </p>
-                    {formTextField('correctanswer3', touched, errors)}
-                  </Grid>
-                </Grid>
-              </>
-            )}
-            <Grid />
             <div className={classes.addIcon}>
               {taskAmount > 1 && (
                 <Fab
                   className={classes.innerMargin}
+                  color="secondary"
                   size="small"
                   onClick={() => {
-                    if (taskAmount === 3) {
-                      setFieldValue('chatquestion3', '', false);
-                      setFieldValue('answer31', '', false);
-                      setFieldValue('answer32', '', false);
-                      setFieldValue('correctanswer3', '', false);
-                    } else {
-                      setFieldValue('chatquestion2', '', false);
-                      setFieldValue('answer21', '', false);
-                      setFieldValue('answer22', '', false);
-                      setFieldValue('correctanswer2', '', false);
-                    }
+                    setFieldValue(`chatquestion${taskAmount}`, '', false);
+                    setFieldValue(`answer${taskAmount}1`, '', false);
+                    setFieldValue(`answer${taskAmount}2`, '', false);
+                    setFieldValue(`correctanswer${taskAmount}`, '', false);
                     setTaskAmount(taskAmount - 1);
                   }}
                   variant="contained"
@@ -212,6 +231,7 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                 <Fab
                   className={classes.innerMargin}
                   size="small"
+                  color="secondary"
                   onClick={() => setTaskAmount(taskAmount + 1)}
                   variant="contained"
                 >
@@ -219,30 +239,35 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                 </Fab>
               )}
             </div>
-            <div className={classes.buttons}>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="flex-start"
+            >
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  onGoBack();
+                }}
+              >
+                Tilbake
+              </Button>
               <Button
                 disabled={isSubmitting}
                 type="submit"
                 variant="contained"
                 color="primary"
-                className={classes.button}
               >
-                Continue
+                Opprett
               </Button>
-            </div>
+            </Grid>
           </Form>
         )}
       </Formik>
-      <Button
-        variant="contained"
-        color="secondary"
-        className={classes.button}
-        onClick={() => {
-          onGoBack();
-        }}
-      >
-        Tilbake
-      </Button>
+      {showModal && (
+        <InfoModal showModal={showModal} setShowModal={setShowModal} />
+      )}
     </Paper>
   );
 };

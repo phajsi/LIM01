@@ -1,36 +1,71 @@
 import { makeStyles } from '@material-ui/core/styles';
 
+const drawerWidth = 240;
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    alignItems: 'center',
     height: '100%',
-    flexDirection: 'column',
-    padding: theme.spacing(3),
+    display: 'flex',
+    padding: theme.spacing(2),
     fontFamily: 'roboto, helvetica, arial, sansSerif',
   },
-  infoBox: {
-    padding: theme.spacing(2),
-  },
-  searchTitle: {
+  searchBar: {
     margin: 'auto',
+    width: '50vw',
+    [theme.breakpoints.between('sm', 'md')]: {
+      marginLeft: 0,
+      paddingLeft: '260px',
+      width: '50vw',
+    },
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: '0px',
+      width: '60vw',
+    },
   },
-  searchBox: {
+  drawer: {
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+    display: 'block',
+  },
+  spacing: theme.mixins.toolbar,
+  drawerPaper: {
+    width: drawerWidth,
+    backgroundColor: '#47956A',
+    alignItems: 'center',
+    paddingTop: theme.spacing(10),
+    padding: theme.spacing(1),
+    display: 'inline',
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(1),
+  },
+  buttonList: {
+    margin: theme.spacing(1),
+    textAlign: 'center',
+  },
+  drawerBtn: {
+    padding: theme.spacing(1),
+    textTransform: 'uppercase',
+    lineHeight: '2',
+    fontWeight: 500,
+    borderRadius: '11px',
+    '&.MuiListItem-button.Mui-selected': {
+      backgroundColor: '#367051',
+      color: 'antiquewhite',
+      '& > *': {
+        color: 'antiquewhite',
+      },
+    },
+    '&:focus': {
+      backgroundColor: '#367051',
+      color: 'antiquewhite',
+    },
+  },
+  svg: {
     margin: 'auto',
-    color: '#FFFAF0',
-    width: '40vw',
-  },
-  search: {
-    backgroundColor: 'white',
-    opacity: '0.8',
-    border: '2px solid #0F6D5F',
-    boxSizing: 'border-box',
-    borderRadius: '5px',
-  },
-  btn: {
-    backgroundColor: '#F7B733',
-    color: 'black',
-    fontWeight: 'bold',
-    filter: 'drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.15))',
   },
 }));
 export default useStyles;

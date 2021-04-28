@@ -1,23 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import {
   Button,
   Grid,
+  Fab,
   Paper,
   TextField,
+  Typography,
   Select,
   MenuItem,
+  IconButton,
 } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import InfoIcon from '@material-ui/icons/Info';
+import RemoveIcon from '@material-ui/icons/Remove';
+import InfoModal from '../InfoModal/InfoModal';
 import useStyles from './styles';
 
 const validationSchema = yup.object({
-  word1: yup.string().required('Dette feltet må fylles ut.').max(30),
-  wordClass1: yup.string().required('Dette feltet må fylles ut.'),
-  word2: yup.string().required('Dette feltet må fylles ut.').max(30),
-  wordClass2: yup.string().required('Dette feltet må fylles ut.'),
-  word3: yup.string().required('Dette feltet må fylles ut.').max(30),
-  wordClass3: yup.string().required('Dette feltet må fylles ut.'),
+  word1: yup.string().required('Dette feltet må fylles ut.').max(20),
+  word2: yup.string().required('Dette feltet må fylles ut.').max(20),
+  word3: yup.string().required('Dette feltet må fylles ut.').max(20),
 });
 
 const CreateRyddeSetninger = ({
@@ -28,13 +32,15 @@ const CreateRyddeSetninger = ({
 }) => {
   const classes = useStyles();
 
+  const [words, addWords] = useState(3);
+  const [showModal, setShowModal] = useState(false);
+
   /**
-   * Used to avoid repetition of same code.
-   * All fields in the form will use this function
-   * @param {*} name the name of the field.
-   * @param {*} label name/description that will be visibile to the user
-   * @param {*} touched Formik prop. validation will only run if field has been touched by user
-   * @param {*} errors Formik prop to handle errors on user input.
+   * Used to avoid repetition of same code because there are many similar fields.
+   * @param {String} name the name of the field.
+   * @param {String} label name/description that will be visibile to the user
+   * @param {Boolean} touched Formik prop. validation will only run if field has been touched by user
+   * @param {Boolean} errors Formik prop to handle errors on user input.
    * @returns The complete field that will be shown to the user
    */
   function formTextField(name, label, touched, errors) {
@@ -77,18 +83,38 @@ const CreateRyddeSetninger = ({
     );
   }
 
+  /**
+   * Runs when the page first renders and checks if an exisitng exercise
+   * should be edited. formDataEdit is passed as props if it is an exisiting exercise.
+   * if not, this function does nothing.
+   */
+  useEffect(() => {
+    if (formDataEdit) {
+      let wordAmount = 0;
+      // used to keep track of how many words the exercise has.
+      Object.entries(formDataEdit).forEach(([key, values]) => {
+        if (!key.includes('Class') && key !== 'id' && values !== '') {
+          wordAmount += 1;
+        }
+      });
+      addWords(wordAmount);
+    }
+  }, []);
+
   return (
     <Paper className={classes.root}>
-      <h1>Rydde Setninger</h1>
+      <div className={classes.headergroup}>
+        <Typography variant="h1">Rydde Setninger</Typography>
+        <IconButton onClick={() => setShowModal('createrydde_setninger')}>
+          <InfoIcon className={classes.icons} />
+        </IconButton>
+      </div>
       <Formik
         initialValues={
           formDataEdit || {
             word1: '',
-            wordClass1: '',
             word2: '',
-            wordClass2: '',
             word3: '',
-            wordClass3: '',
           }
         }
         onSubmit={(values) => {
@@ -100,100 +126,96 @@ const CreateRyddeSetninger = ({
         }}
         validationSchema={validationSchema}
       >
-        {({ errors, touched, isSubmitting }) => (
+        {({ errors, touched, isSubmitting, setFieldValue }) => (
           <Form className={classes.form}>
             <Grid container spacing={3}>
               <Grid item xs={6}>
-                <h3>Skriv inn ord i rekkefølge for å lage en setning:</h3>
+                <Typography variant="h3">
+                  Skriv inn ord i rekkefølge for å lage en setning: *
+                </Typography>
               </Grid>
               <Grid item xs={6}>
-                <h3>Velg tilhørende ordklasse:</h3>
+                <Typography variant="h3">
+                  Velg ordklassen ordet tilhører:
+                </Typography>
               </Grid>
-              <Grid item xs={6}>
-                {formTextField('word1', 'ord 1', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass1', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word2', 'ord 2', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass2', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word3', 'ord 3', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass3', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word4', 'ord 4', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass4', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word5', 'ord 5', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass5', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word6', 'ord 6', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass6', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word7', 'ord 7', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass7', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word8', 'ord 8', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass8', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word9', 'ord 9', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass9', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formTextField('word10', 'ord 10', touched, errors)}
-              </Grid>
-              <Grid item xs={6}>
-                {formSelectField('wordClass10', touched, errors)}
-              </Grid>
+              {words > 0 &&
+                [...Array(words).keys()].map((el) => {
+                  return (
+                    <>
+                      <Grid item xs={6}>
+                        {formTextField(
+                          `word${el + 1}`,
+                          `ord ${el + 1}`,
+                          touched,
+                          errors
+                        )}
+                      </Grid>
+                      <Grid item xs={6}>
+                        {formSelectField(`wordClass${el + 1}`, touched, errors)}
+                      </Grid>
+                    </>
+                  );
+                })}
             </Grid>
-            <div className={classes.buttons}>
+            <Grid />
+            <div className={classes.addIcon}>
+              {words > 3 && (
+                <Fab
+                  className={classes.innerMargin}
+                  size="small"
+                  color="secondary"
+                  onClick={() => {
+                    setFieldValue(`word${words}`, '', false);
+                    setFieldValue(`wordClass${words}`, '', false);
+                    addWords(words - 1);
+                  }}
+                  variant="contained"
+                >
+                  <RemoveIcon />
+                </Fab>
+              )}
+              {words < 10 && (
+                <Fab
+                  className={classes.innerMargin}
+                  size="small"
+                  color="secondary"
+                  onClick={() => addWords(words + 1)}
+                  variant="contained"
+                >
+                  <AddIcon />
+                </Fab>
+              )}
+            </div>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="flex-start"
+            >
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  onGoBack();
+                }}
+              >
+                Tilbake
+              </Button>
               <Button
                 disabled={isSubmitting}
                 type="submit"
                 variant="contained"
                 color="primary"
-                className={classes.button}
               >
                 Opprett
               </Button>
-            </div>
+            </Grid>
           </Form>
         )}
       </Formik>
-      <Button
-        variant="contained"
-        color="secondary"
-        className={classes.button}
-        onClick={() => {
-          onGoBack();
-        }}
-      >
-        Tilbake
-      </Button>
+      {showModal && (
+        <InfoModal showModal={showModal} setShowModal={setShowModal} />
+      )}
     </Paper>
   );
 };

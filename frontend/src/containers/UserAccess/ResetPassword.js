@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Button, Paper, TextField, Card, CardHeader } from '@material-ui/core';
+import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import { reset_password } from '../../actions/auth';
 import useStyles from './styles';
+
+/**
+ * Users can enter email and request a password reset. an email will be sent with
+ * a link for resetting password.
+ * @param {object} param0 props
+ * @property {reset_password} reset_password redux action for resetting password
+ * @returns container for resetting password
+ */
 
 const ResetPassword = ({ reset_password }) => {
   const classes = useStyles();
@@ -23,26 +32,41 @@ const ResetPassword = ({ reset_password }) => {
     setRequestSent(true);
   };
 
-  if (requestSent) {
-    return <Redirect to="/" />;
-  }
-
   return (
     <div className={classes.root}>
-      <h1>Request Password Reset:</h1>
-      <form onSubmit={(e) => onSubmit(e)}>
-        <div>
-          <input
+      <Paper className={classes.infoBox}>
+        <h2 className={classes.headline}>Request Password Reset</h2>
+        <form onSubmit={(e) => onSubmit(e)}>
+          <TextField
             type="email"
             placeholder="Email"
             name="email"
+            variant="outlined"
             value={email}
             onChange={(e) => onChange(e)}
+            fullWidth
             required
           />
-        </div>
-        <button type="submit">Reset Password</button>
-      </form>
+          {requestSent && (
+            <Card className={classes.card}>
+              <CardHeader
+                className={classes.cardHeader}
+                avatar={<CheckCircleOutlinedIcon className={classes.icon} />}
+                title={`En Epost har blitt sendt til ${formData.email}. Trykk på linken i e-posten for å endre passordet ditt.`}
+              />
+            </Card>
+          )}
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            fullWidth
+            className={classes.button}
+          >
+            Reset Password
+          </Button>
+        </form>
+      </Paper>
     </div>
   );
 };
