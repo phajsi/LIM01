@@ -19,9 +19,10 @@ import useStyles from './styles';
  * @property {integer} id The id of the current set being played.
  * @property {integer} totalExercises The total number of exercises in the set.
  * @property {integer} percentage The total score in percentage.
+ * * @property {object} completed Shows the score and if the set is completed or not.
  * @property {boolean} isAuthenticated Redux state used to check if a user is auth.
  * @property {function} setSteps Changes case in the playset container.
- * @property {function} getContents TODO
+ * @property {function} getContents Gets the ID of the set so the user can start it over again.
  * @returns The finished set component displaying scores and buttons for rating and saving.
  */
 
@@ -59,7 +60,7 @@ const FinishedSet = ({
         return e;
       });
   }
-
+  // Checks if the user scored over or under 75 percent of the total score to give the user different feedback accordingly.
   function scoreState() {
     if (percentage < 0.75) {
       setStep('under');
@@ -148,7 +149,7 @@ const FinishedSet = ({
         return e;
       });
   }
-
+  // Button that sends the user back to the overview page
   function restartSet() {
     return (
       <Grid>

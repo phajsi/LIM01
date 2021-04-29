@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import ReplayIcon from '@material-ui/icons/Replay';
 import axios from 'axios';
@@ -11,7 +11,11 @@ import Feedback from '../../components/feedback/Feedback';
 import FinishedSet from '../../components/finishedSet/FinishedSet';
 import OverviewPage from '../../components/OverviewPage/OverviewPage';
 import useStyles from './styles';
-
+/**
+ * This is the container for playing exercise sets.
+ * @author Maja, Julie
+ * @returns A set of exercises.
+ */
 const PlaySets = () => {
   const location = useLocation();
 
@@ -22,12 +26,13 @@ const PlaySets = () => {
   const [exerciseId, setExerciseId] = useState(0);
   // Id for the exercise set containing the exercises.
   const [id, setId] = useState(null);
-
+  // trackers for progress bar and feedback pages
   const [totalScore, setTotalScore] = useState(0);
-  const [exerciseProgress, setExerciseProgress] = useState(0);
-  const [completed, setCompleted] = useState({ completed: false, score: 0 });
   const [totalExercises, setTotalExercises] = useState(0);
   const [feedbackState, setFeedbackState] = useState(false);
+  const [exerciseProgress, setExerciseProgress] = useState(0);
+  // Tracks if a set is completed and the score.
+  const [completed, setCompleted] = useState({ completed: false, score: 0 });
 
   const [redirected, setRedirected] = useState(false);
   const [title, setTitle] = useState('');
@@ -119,6 +124,7 @@ const PlaySets = () => {
       });
   }
 
+  // Keeps track of scores and decides what feedback to show accordingly
   function showFeedback(score, totalPossibleScore) {
     if (score === totalPossibleScore) {
       setTotalScore(totalScore + 1);
@@ -262,7 +268,7 @@ const PlaySets = () => {
         </div>
       );
     default:
-      return <Typography>default</Typography>;
+      return null;
   }
 };
 
