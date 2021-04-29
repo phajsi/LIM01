@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import store from '../../store';
 import Navbar from './Navbar';
@@ -31,5 +31,22 @@ describe('Whith no logged inn user, the Navbar component should', () => {
     const link = getByText('Registrering');
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute('href', '/signup');
+  });
+
+  it('show a menu when the hamburger menu icon is clicked', async () => {
+    await act(async () =>
+      render(
+        <Provider store={store}>
+          <Router>
+            <Navbar />
+          </Router>
+        </Provider>
+      )
+    );
+
+    const hamburgerMenuButton = screen.getByTestId('hamburgerMenuButton');
+    await act(async () => fireEvent.click(hamburgerMenuButton));
+    await screen.findByTestId('drawer');
+    expect(screen.getByTestId('drawer')).toBeVisible();
   });
 });
