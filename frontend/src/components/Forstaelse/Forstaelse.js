@@ -59,6 +59,7 @@ const Forstaelse = ({
 
   const [disabled, setDisabled] = useState(false);
 
+  // Gets the exercise content with {id} from backend.
   function getContent() {
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/forstaelse/${id}`, {
@@ -75,6 +76,7 @@ const Forstaelse = ({
       });
   }
 
+  // Updates states after a user has clicked on an answer.
   function onClickAnswer(userAnswer) {
     if (formData[`answer${taskStep}`] === userAnswer) {
       setAnswerState('correct');

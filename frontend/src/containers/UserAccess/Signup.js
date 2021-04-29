@@ -21,6 +21,10 @@ import { signup, checkAuthenticated } from '../../actions/auth';
 import useStyles from './styles';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
+/*
+ * Used to specify validations for the signup form.
+ * It specifies which fields need what validation and gives a specific error message.
+ */
 const validationSchema = yup.object({
   name: yup.string().required('Navn er påkrevd.').max(40),
   email: yup
@@ -79,6 +83,7 @@ const Signup = ({
     checkAuthenticated();
   }, []);
 
+  // Returns the ErrorMessage component if signup failed based on the type of error.
   function errorHandling() {
     if (signUpSuccess) {
       setSignUp(false);
