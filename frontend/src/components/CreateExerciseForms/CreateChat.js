@@ -113,7 +113,10 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
     <Paper className={classes.root}>
       <div className={classes.headergroup}>
         <Typography variant="h1">Chat</Typography>
-        <IconButton onClick={() => setShowModal('createchat')}>
+        <IconButton
+          data-testid="infoButton"
+          onClick={() => setShowModal('createchat')}
+        >
           <InfoIcon className={classes.icons} />
         </IconButton>
       </div>
@@ -227,6 +230,7 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                     setTaskAmount(taskAmount - 1);
                   }}
                   variant="contained"
+                  data-testid="removeButton"
                 >
                   <RemoveIcon />
                 </Fab>
@@ -238,6 +242,7 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                   color="secondary"
                   onClick={() => setTaskAmount(taskAmount + 1)}
                   variant="contained"
+                  data-testid="addButton"
                 >
                   <AddIcon />
                 </Fab>

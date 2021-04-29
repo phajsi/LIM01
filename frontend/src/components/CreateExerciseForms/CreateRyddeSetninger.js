@@ -55,6 +55,7 @@ const CreateRyddeSetninger = ({
         margin="dense"
         fullWidth
         variant="outlined"
+        data-testid={name}
         as={TextField}
         error={touched[name] && errors[name]}
         helperText={touched[name] && errors[name]}
@@ -109,7 +110,10 @@ const CreateRyddeSetninger = ({
     <Paper className={classes.root}>
       <div className={classes.headergroup}>
         <Typography variant="h1">Rydde Setninger</Typography>
-        <IconButton onClick={() => setShowModal('createrydde_setninger')}>
+        <IconButton
+          data-testid="infoButton"
+          onClick={() => setShowModal('createrydde_setninger')}
+        >
           <InfoIcon className={classes.icons} />
         </IconButton>
       </div>
@@ -175,6 +179,7 @@ const CreateRyddeSetninger = ({
                     addWords(words - 1);
                   }}
                   variant="contained"
+                  data-testid="removeButton"
                 >
                   <RemoveIcon />
                 </Fab>
@@ -186,6 +191,7 @@ const CreateRyddeSetninger = ({
                   color="secondary"
                   onClick={() => addWords(words + 1)}
                   variant="contained"
+                  data-testid="addButton"
                 >
                   <AddIcon />
                 </Fab>
