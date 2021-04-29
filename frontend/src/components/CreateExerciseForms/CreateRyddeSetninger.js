@@ -18,6 +18,10 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import InfoModal from '../InfoModal/InfoModal';
 import useStyles from './styles';
 
+/*
+ * Used to specify validations for the form.
+ * It specifies which fields need what validation and gives a specific error message.
+ */
 const validationSchema = yup.object({
   word1: yup.string().required('Dette feltet må fylles ut.').max(20),
   word2: yup.string().required('Dette feltet må fylles ut.').max(20),
