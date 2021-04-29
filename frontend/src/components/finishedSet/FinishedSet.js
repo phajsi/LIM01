@@ -5,7 +5,6 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import IconButton from '@material-ui/core/IconButton';
 import axios from 'axios';
-import { axiosInstance } from '../../helpers/ApiFunctions';
 import SaveIcon from '../SaveIcon/SaveIcon';
 import happyPickle from '../../assets/images/happyPickle.png';
 import finalSad from '../../assets/images/finalSad.png';
@@ -91,11 +90,21 @@ const FinishedSet = ({
       });
   }
   function putCompleted() {
-    axiosInstance()
-      .put(`/completed/${completed.id}`, {
-        score: pers,
-        sets: id,
-      })
+    axios
+      .put(
+        `${process.env.REACT_APP_API_URL}/api/completed/${completed.id}`,
+        {
+          score: pers,
+          sets: id,
+        },
+        {
+          headers: {
+            Authorization: `JWT ${localStorage.getItem('access')}`,
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+          },
+        }
+      )
       .catch((e) => {
         return e;
       });
