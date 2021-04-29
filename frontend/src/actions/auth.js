@@ -65,7 +65,7 @@ export const load_user = () => async (dispatch) => {
  * Sends request to backend if email and password are correct
  * and updates redux state with returned authorization tokens and user.
  * @param {string} email Provided by user as login credentials on login page.
- * @param {*} password Provided by user as login credentials on login page.
+ * @param {string} password Provided by user as login credentials on login page.
  * @returns Dispatch for updating redux states with error or user and tokens.
  */
 export const login = (email, password) => async (dispatch) => {
@@ -140,8 +140,8 @@ export const signup = (name, email, password, re_password) => async (
  * Action used for verifying an account. It updates user backend with a verified=true field.
  * A user needs to be verified to be able to log in. This action is run when user clicks
  * Verify button in verify component after receiving a confirmation mail.
- * @param {*} uid Id for identifying user being verified
- * @param {*} token Unique token connected to user for verifying.
+ * @param {integer} uid Id for identifying user being verified
+ * @param {string} token Unique token connected to user for verifying.
  * @returns Dispatch for updating redux state.
  */
 export const verify = (uid, token) => async (dispatch) => {
@@ -250,9 +250,9 @@ export const reset_password = (email) => async (dispatch) => {
  * The user can enter a new password and confirm password and clicking the confirm button.
  * An api call will be sent to backend to check if the password matches the requirements.
  * @param {integer} uid Id used for identifying users.
- * @param {*} token Unique token needed to be able to access the api.
- * @param {*} new_password New password the user has requested.
- * @param {*} re_new_password Confirmation of the password to avoid mistyping.
+ * @param {string} token Unique token needed to be able to access the api.
+ * @param {string} new_password New password the user has requested.
+ * @param {string} re_new_password Confirmation of the password to avoid mistyping.
  * @returns Dispatch for updating redux state.
  */
 export const reset_password_confirm = (
