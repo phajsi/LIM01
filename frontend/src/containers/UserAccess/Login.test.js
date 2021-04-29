@@ -26,18 +26,35 @@ describe('The Login component', () => {
     expect(screen.getAllByText('Logg inn')[1]);
   });
 
-  it('should change icon when clicked', async () => {
+  it('should render when logging in', async () => {
+    axios.post.mockImplementation((url) => {
+      if (url === `${process.env.REACT_APP_API_URL}/auth/jwt/create/`) {
+        return Promise.resolve({
+          data: {
+            refresh: 'refresh',
+            access: 'access',
+          },
+        });
+      }
+    });
     await act(async () =>
       render(
         <Provider store={store}>
           <Router>
-            <Login isAuthenticated={false} />
+            <Login />
           </Router>
         </Provider>
       )
     );
 
-    expect(screen.getAllByText('Logg inn')[1]);
+    const inputEmail = screen.getByPlaceholderText('Epost');
+    const inputPassord = screen.getByPlaceholderText('Passord');
+    fireEvent.change(inputEmail, { target: { value: 'pickle@lim.no' } });
+    fireEvent.change(inputPassord, { target: { value: 'Sylteagurk1' } });
+    const button = screen.getByTestId('LoggInnButton');
+    fireEvent.click(button);
+
+    expect(axios.post).toHaveBeenCalledTimes(1);
   });
 
   it('should show an error message on wrong input', async () => {
@@ -96,7 +113,7 @@ describe('The Login component', () => {
 
     await screen.findByText('Brukernavn eller passord er feil.');
     expect(screen.getByText('Brukernavn eller passord er feil.')).toBeVisible();
-    expect(axios.post).toHaveBeenCalledTimes(1);
+    expect(axios.post).toHaveBeenCalledTimes(2);
   });
 
   it('should show an error message in general', async () => {
