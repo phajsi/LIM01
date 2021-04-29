@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable prefer-promise-reject-errors */
 /* eslint-disable no-undef */
 import React from 'react';
 import axios from 'axios';
@@ -30,10 +32,10 @@ describe('The Searchbar component', () => {
 
   it('head request is working with the right input', async () => {
     axios.head.mockImplementation((url) => {
-    if (url === `${process.env.REACT_APP_API_URL}/api/sets/5`) {
-      return Promise.resolve({});
-    }
-  });
+      if (url === `${process.env.REACT_APP_API_URL}/api/sets/5`) {
+        return Promise.resolve({});
+      }
+    });
     await act(async () =>
       render(
         <Router>
@@ -52,14 +54,14 @@ describe('The Searchbar component', () => {
 
   it('head request catch block fires when the set ID does not exist', async () => {
     axios.head.mockImplementation((url) => {
-    if (url === `${process.env.REACT_APP_API_URL}/api/sets/5`) {
-      return Promise.reject({
-        response: {
-          status: 404,
-        },
-      });
-    }
-  });
+      if (url === `${process.env.REACT_APP_API_URL}/api/sets/5`) {
+        return Promise.reject({
+          response: {
+            status: 404,
+          },
+        });
+      }
+    });
     await act(async () =>
       render(
         <Router>
