@@ -73,13 +73,7 @@
       "Layout.js",
       "index.js",
       "exerciseStyle.js",
-      "App.js",
-      "ApiFunctions.js",
-      "reducers.js",
-      "auth.js",
-      "resetPassword.js",
-      "ResetPasswordConfirm.js",
-      "Activate.js"
+      "ApiFunctions.js"
     ]
   }
 }

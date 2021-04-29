@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 import useStyles from './styles';
-import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const SearchBar = () => {
@@ -27,8 +27,13 @@ const SearchBar = () => {
     if (!/^\d+$/.test(playId)) {
       setNotExistError(true);
     } else {
-      axiosInstanceGet()
-        .head(`/sets/${playId}`)
+      axios
+        .head(`${process.env.REACT_APP_API_URL}/api/sets/${playId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+          },
+        })
         .then(() => {
           setRedirectPlay(true);
         })

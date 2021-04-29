@@ -94,7 +94,10 @@ const CreateForstaelse = ({
     <Paper className={classes.root}>
       <div className={classes.headergroup}>
         <Typography variant="h1">Forståelse</Typography>
-        <IconButton onClick={() => setShowModal('createforstaelse')}>
+        <IconButton
+          data-testid="infoButton"
+          onClick={() => setShowModal('createforstaelse')}
+        >
           <InfoIcon className={classes.icons} />
         </IconButton>
       </div>
@@ -169,6 +172,7 @@ const CreateForstaelse = ({
                     setTaskAmount(taskAmount - 1);
                   }}
                   variant="contained"
+                  data-testid="removeButton"
                 >
                   <RemoveIcon />
                 </Fab>
@@ -180,6 +184,7 @@ const CreateForstaelse = ({
                   color="secondary"
                   onClick={() => setTaskAmount(taskAmount + 1)}
                   variant="contained"
+                  data-testid="addButton"
                 >
                   <AddIcon />
                 </Fab>
