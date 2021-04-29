@@ -71,6 +71,13 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
     return <></>;
   }
 
+  /**
+   * This page should not be accessible if the user is already authenticated.
+   * location.state?.prevLocation is passed to login component if the user was redirected
+   * to login from another protected container such as /home or /createexercise because the
+   * user was not authenticated.
+   * It is used to redirect the user back to the prev location after the user has logged in.
+   */
   if (isAuthenticated) {
     return location.state?.prevLocation ? (
       <Redirect to={location.state?.prevLocation} />

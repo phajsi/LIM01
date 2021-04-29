@@ -27,6 +27,10 @@ import muslimWoman from '../../assets/images/muslimWoman.png';
 import InfoModal from '../InfoModal/InfoModal';
 import useStyles from './styles';
 
+/*
+ * Used to specify validations for the form.
+ * It specifies which fields need what validation and gives a specific error message.
+ */
 const validationSchema = yup.object({
   chatquestion1: yup.string().required('Dette feltet må fylles ut.').max(1000),
   answer11: yup.string().required('Dette feltet må fylles ut.').max(1000),

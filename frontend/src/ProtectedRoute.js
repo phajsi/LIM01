@@ -3,6 +3,20 @@ import { Redirect, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { checkAuthenticated } from './actions/auth';
 
+/**
+ * This component is used to redirect users to log in if they try to access a protected component
+ * without being logged in.
+ * Currently the routes /Home and /createexercise require authenticated users.
+ * Even if the users manages to access these routes, the API calls would be blocked
+ * without autentication. Protected routes are mainly used for UX, and not for security measures.
+ * @author Simen
+ * @param {object} props
+ * @property {component} comp The component to be routed to.
+ * @property {boolean} isAuthenticated the users authentication status.
+ * @property {string} path The relative path to the component to be routed to.
+ * @property {list} rest Other not specific props.
+ * @returns Redirect to the correct path and component.
+ */
 const ProtectedRoute = ({
   component: Comp,
   isAuthenticated,

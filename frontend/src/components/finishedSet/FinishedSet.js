@@ -11,6 +11,21 @@ import happyPickle from '../../assets/images/happyPickle.png';
 import finalSad from '../../assets/images/finalSad.png';
 import useStyles from './styles';
 
+/**
+ * This component is displayed after a user has played through a set.
+ * It gives the user an option to like/dislike, save the exercise and get an overview of the score.
+ * @author Simen, Julie
+ * @param {object} props
+ * @property {integer} totalScore The player's score after playing the set.
+ * @property {integer} id The id of the current set being played.
+ * @property {integer} totalExercises The total number of exercises in the set.
+ * @property {integer} percentage The total score in percentage.
+ * @property {boolean} isAuthenticated Redux state used to check if a user is auth.
+ * @property {function} setSteps Changes case in the playset container.
+ * @property {function} getContents TODO
+ * @returns The finished set component displaying scores and buttons for rating and saving.
+ */
+
 const FinishedSet = ({
   totalScore,
   id,
@@ -23,10 +38,12 @@ const FinishedSet = ({
 }) => {
   const classes = useStyles();
 
+  // Used to keep track of whether a user has given a rating before and what rating has been given.
   const [rating, setRating] = useState({ rating: null });
   const [step, setStep] = useState('');
   const [pers] = useState(Math.ceil(percentage * 100));
 
+  // Checks if the current user has rated a set before from backend and updates the state.
   function getContent() {
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/rating/${id}`, {
@@ -52,6 +69,7 @@ const FinishedSet = ({
     }
   }
 
+  // Sends a post request to backend to update the users completed sets and the score.
   function postCompleted() {
     axios
       .post(
@@ -100,6 +118,7 @@ const FinishedSet = ({
     scoreState();
   }, []);
 
+  // If user clicks on like or dislike a post request is sent to update the users rating.
   function onClickRating(rated) {
     const formData = {
       rating: rated,
