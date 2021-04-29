@@ -49,7 +49,12 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
         </Typography>
       </Hidden>
 
-      <Drawer anchor="top" open={mobileOpen} onClose={handleDrawerToggle}>
+      <Drawer
+        data-testid="drawer"
+        anchor="top"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+      >
         <div className={classes.spacing} />
         <List
           component="nav"
@@ -130,6 +135,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerToggle}
+            data-testid="hamburgerMenuButton"
             className={classes.menuButton}
           >
             <MenuIcon className={classes.menuSVG} />
