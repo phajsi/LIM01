@@ -82,7 +82,7 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
   return (
     <div className={classes.root}>
       <Paper className={classes.infoBox}>
-        <Typography variant="h1" className={classes.headline}>
+        <Typography variant="h2" gutterBottom className={classes.headline}>
           Logg inn
         </Typography>
         <form onSubmit={(e) => onSubmit(e)}>
@@ -120,7 +120,11 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={handleClickShowPassword}>
-                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    {showPassword ? (
+                      <VisibilityIcon data-testid="visibilityButton" />
+                    ) : (
+                      <VisibilityOffIcon data-testid="visibilityOffButton" />
+                    )}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -133,6 +137,7 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
             variant="contained"
             color="primary"
             type="submit"
+            data-testid="LoggInnButton"
             fullWidth
             className={classes.button}
           >
