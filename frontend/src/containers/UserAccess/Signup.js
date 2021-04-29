@@ -101,7 +101,7 @@ const Signup = ({
       );
     }
     if (signUpSuccess) {
-      return <ErrorMessage message="Noe gikk galt! Prøv igjen senere" />;
+      return <ErrorMessage message="Noe gikk galt! Prøv igjen senere." />;
     }
     return <></>;
   }
@@ -109,7 +109,9 @@ const Signup = ({
   return (
     <div className={classes.root}>
       <Paper className={classes.infoBox}>
-        <h2 className={classes.headline}>Opprett bruker</h2>
+        <Typography variant="h2" gutterBottom className={classes.headline}>
+          Opprett bruker
+        </Typography>
         <Formik
           initialValues={formData}
           onSubmit={(values) => {
@@ -198,6 +200,7 @@ const Signup = ({
                 type="submit"
                 fullWidth
                 className={classes.button}
+                data-testid="signUpButton"
               >
                 Opprett
               </Button>
