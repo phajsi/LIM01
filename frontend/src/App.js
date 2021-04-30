@@ -13,7 +13,9 @@ import Layout from './hocs/Layout';
 import CreateExercises from './containers/CreateExercises/CreateExercises';
 import PlaySets from './containers/Playsets/PlaySets';
 import ProtectedRoute from './ProtectedRoute';
-
+/**
+ * @author Julie, Maja, Phajsi, Even, Simen
+ */
 const App = () => (
   <Provider store={store}>
     <Router>

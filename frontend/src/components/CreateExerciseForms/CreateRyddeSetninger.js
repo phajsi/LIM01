@@ -20,7 +20,7 @@ import useStyles from './styles';
 
 /*
  * Used to specify validations for the form.
- * It specifies which fields need what validation and gives a specific error message.
+ * It specifies which fields need validation and gives a specific error message.
  */
 const validationSchema = yup.object({
   word1: yup.string().required('Dette feltet må fylles ut.').max(20),
@@ -28,6 +28,7 @@ const validationSchema = yup.object({
   word3: yup.string().required('Dette feltet må fylles ut.').max(20),
 });
 
+// TODO
 const CreateRyddeSetninger = ({
   onGoBack,
   formDataEdit,
@@ -41,7 +42,7 @@ const CreateRyddeSetninger = ({
 
   /**
    * Used to avoid repetition of same code because there are many similar fields.
-   * @param {string} name the name of the field.
+   * @param {string} name The name of the field.
    * @param {string} label name/description that will be visibile to the user.
    * @param {boolean} touched Formik prop. Validation will only run if field has been touched by user.
    * @param {boolean} errors Formik prop to handle errors on user input.

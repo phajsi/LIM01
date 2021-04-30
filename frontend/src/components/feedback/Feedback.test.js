@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Feedback from './Feedback';
 
 describe('The Feedback component', () => {
-  it('should show true case', async () => {
+  test('should show true case', async () => {
     await act(async () =>
       render(
         <Router>
@@ -20,7 +20,7 @@ describe('The Feedback component', () => {
     ).toBeVisible();
   });
 
-  it('should show false case', async () => {
+  test('should show false case', async () => {
     await act(async () =>
       render(
         <Router>
@@ -35,7 +35,7 @@ describe('The Feedback component', () => {
     ).toBeVisible();
   });
 
-  it('should show true case', async () => {
+  test('should show default case', async () => {
     await act(async () =>
       render(
         <Router>

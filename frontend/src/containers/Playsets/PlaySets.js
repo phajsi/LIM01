@@ -13,7 +13,7 @@ import OverviewPage from '../../components/OverviewPage/OverviewPage';
 import useStyles from './styles';
 /**
  * This is the container for playing exercise sets.
- * @author Maja, Julie
+ * @author Maja, Julie, Simen
  * @returns A set of exercises.
  */
 const PlaySets = () => {
@@ -31,21 +31,21 @@ const PlaySets = () => {
   const [totalExercises, setTotalExercises] = useState(0);
   const [feedbackState, setFeedbackState] = useState(false);
   const [exerciseProgress, setExerciseProgress] = useState(0);
-  // Tracks if a set is completed and the score.
+  // Tracks if a set is completed and the player's score.
   const [completed, setCompleted] = useState({ completed: false, score: 0 });
 
   const [redirected, setRedirected] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  // List of id's for the exercises in the set.
+  // Lists of id's for the exercises in the set.
   const [formDataExercises] = useState({
     chat: [],
     forstaelse: [],
     ryddeSetninger: [],
   });
 
-  // Hook to get access to redux store and obtain user and auth info.
+  // Hooks to get access to the Redux store and obtain user and auth info.
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
 
@@ -124,7 +124,7 @@ const PlaySets = () => {
       });
   }
 
-  // Keeps track of scores and decides what feedback to show accordingly
+  // Keeps track of scores and decides what feedback to show accordingly.
   function showFeedback(score, totalPossibleScore) {
     if (score === totalPossibleScore) {
       setTotalScore(totalScore + 1);
@@ -154,7 +154,7 @@ const PlaySets = () => {
 
   /**
    * Retrieves the information related to the exercise set being played from backend
-   * and changes step to "overview" when restart button is clicked on. This enables the user to
+   * and changes step to "overview" when the restart button is clicked. This enables the user to
    * exit the exercise set currently being played. The user is redirected to the set's overviewpage.
    */
   function restartSet() {

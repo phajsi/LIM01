@@ -18,8 +18,8 @@ import useStyles from './styles';
  * @property {integer} totalScore The player's score after playing the set.
  * @property {integer} id The id of the current set being played.
  * @property {integer} totalExercises The total number of exercises in the set.
- * @property {integer} percentage The total score in percentage.
- * * @property {object} completed Shows the score and if the set is completed or not.
+ * @property {float} percentage The total score in percentage.
+ * @property {object} completed Shows the score and if the set is completed or not.
  * @property {boolean} isAuthenticated Redux state used to check if a user is auth.
  * @property {function} setSteps Changes case in the playset container.
  * @property {function} getContents Gets the ID of the set so the user can start it over again.
@@ -40,6 +40,7 @@ const FinishedSet = ({
 
   // Used to keep track of whether a user has given a rating before and what rating has been given.
   const [rating, setRating] = useState({ rating: null });
+
   const [step, setStep] = useState('');
   const [pers] = useState(Math.ceil(percentage * 100));
 
@@ -60,7 +61,10 @@ const FinishedSet = ({
         return e;
       });
   }
-  // Checks if the user scored over or under 75 percent of the total score to give the user different feedback accordingly.
+  /**
+   * Checks if the user scored over or under 75 percent of the total score
+   * to give the user different feedback accordingly.
+   */
   function scoreState() {
     if (percentage < 0.75) {
       setStep('under');
@@ -90,6 +94,7 @@ const FinishedSet = ({
         return e;
       });
   }
+  // Sends a put request to backend to update the score if a new hiscore has been reached.
   function putCompleted() {
     axios
       .put(
@@ -128,7 +133,7 @@ const FinishedSet = ({
     scoreState();
   }, []);
 
-  // If user clicks on like or dislike a post request is sent to update the users rating.
+  // If user clicks on like or dislike, a post request is sent to update the users rating.
   function onClickRating(rated) {
     const formData = {
       rating: rated,
@@ -149,7 +154,7 @@ const FinishedSet = ({
         return e;
       });
   }
-  // Button that sends the user back to the overview page
+  // Button that sends the user back to the overview page.
   function restartSet() {
     return (
       <Grid>

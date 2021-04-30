@@ -5,6 +5,7 @@ import useStyles from './styles';
 
 /**
  * Reusable errorMessage
+ * @author Simen
  * @param {object} props
  * @property {string} message content of the error message.
  * @returns a card component with an error message, or nothing if no message was passed.

@@ -20,7 +20,7 @@ import useStyles from './styles';
 
 /*
  * Used to specify validations for the form.
- * It specifies which fields need what validation and gives a specific error message.
+ * It specifies which fields need validation and gives a specific error message.
  */
 const validationSchema = yup.object({
   chat1: yup.string().required('Dette feltet må fylles ut.').max(1000),
@@ -29,6 +29,7 @@ const validationSchema = yup.object({
   explanation1: yup.string().required('Dette feltet må fylles ut.').max(1000),
 });
 
+// TODO
 const CreateForstaelse = ({
   onGoBack,
   formDataEdit,
@@ -39,7 +40,7 @@ const CreateForstaelse = ({
   const [taskAmount, setTaskAmount] = useState(1);
   const [showModal, setShowModal] = useState(false);
 
-  // Used to check if an exisitng exercise should be edited or a new one made.
+  // TODO
   useEffect(() => {
     if (formDataEdit) {
       if (formDataEdit.chat3) {
@@ -52,7 +53,7 @@ const CreateForstaelse = ({
 
   /**
    * Used to avoid repetition of same code because there are many similar fields.
-   * @param {string} name the name of the field.
+   * @param {string} name The name of the field.
    * @param {boolean} touched Formik prop. Validation will only run if field has been touched by user.
    * @param {boolean} errors Formik prop to handle errors on user input.
    * @returns The complete field that will be shown to the user.

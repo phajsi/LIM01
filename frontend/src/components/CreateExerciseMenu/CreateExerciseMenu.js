@@ -17,6 +17,7 @@ import InfoModal from '../InfoModal/InfoModal';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import useStyles from './styles';
 
+// TODO
 const CreateExerciseMenu = ({
   onSubmitSet,
   onDeleteExercise,

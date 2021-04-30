@@ -8,7 +8,7 @@ import RyddeSetninger from './RyddeSetninger';
 jest.mock('axios');
 jest.useFakeTimers();
 
-describe('Rydde setninger exercise', () => {
+describe('RyddeSetninger component', () => {
   const resp = {
     id: 11,
     word1: 'Jeg',
@@ -71,7 +71,7 @@ describe('Rydde setninger exercise', () => {
 
     expect(text.tagName.toLowerCase()).toEqual('span');
   });
-  test('should return "Riktig!" on correct play through, and buttons disabled', async () => {
+  test('should return "Riktig!" on correct play through, and buttons are disabled', async () => {
     axios.get.mockResolvedValue({ data: resp });
 
     await act(async () =>
@@ -106,7 +106,7 @@ describe('Rydde setninger exercise', () => {
     expect(answer.tagName.toLowerCase()).toEqual('span');
     expect(text.tagName.toLowerCase()).toEqual('span');
   });
-  test('should return "Feil!" on incorrect play through, and buttons disabled', async () => {
+  test('should return "Feil!" on incorrect play through, and buttons are disabled', async () => {
     axios.get.mockResolvedValue({ data: resp });
 
     await act(async () =>
@@ -141,7 +141,7 @@ describe('Rydde setninger exercise', () => {
     expect(answer.tagName.toLowerCase()).toEqual('span');
     expect(text.tagName.toLowerCase()).toEqual('span');
   });
-  test('Should be able to click and unclick buttons in answer', async () => {
+  test('should be able to click and unclick buttons in answer', async () => {
     axios.get.mockResolvedValue({ data: resp });
 
     await act(async () =>

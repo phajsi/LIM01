@@ -31,8 +31,8 @@ import {
  * isAuthenticated: Boolean used for storing/checking authentication.
  * user: Object that stores current logged in user information.
  * signUpSuccess: Boolean for checking if signup was successful or what error occured.
- * loginError: Used for storing what error occured on failed login attempt.
- * passwordReset: Used for storing what error occured on failed password reset.
+ * loginError: Used for storing what error ocurred on failed login attempt.
+ * passwordReset: Used for storing what error ocurred on failed password reset.
  */
 const initialState = {
   access: localStorage.getItem('access'),
@@ -45,10 +45,10 @@ const initialState = {
 };
 
 /**
- * Standard Reducers used for user authentication. It is built as a switch case and
+ * Standard reducers used for user authentication. It is built as a switch case and
  * switches based on the Redux action being used and dispatched.
  * @param {object} state the initial state shown above.
- * @param {function} action Action dispatch function returning type for swtich case and payload for data.
+ * @param {function} action Action dispatch function returning type for switch case and payload for data.
  * @returns Updated version of initialState.
  */
 

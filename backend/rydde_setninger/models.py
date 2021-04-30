@@ -1,6 +1,10 @@
 from django.db import models
 from accounts.models import UserAccount
 
+"""
+@author Phajsi, Julie
+"""
+
 
 class RyddeSetninger(models.Model):
     WORD_CLASSES = (

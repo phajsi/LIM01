@@ -13,7 +13,7 @@ beforeEach(() => {
 });
 
 describe('CreateChat test', () => {
-  test('Add task button', async () => {
+  test('add task button', async () => {
     await act(async () =>
       render(
         <Router>
@@ -31,7 +31,7 @@ describe('CreateChat test', () => {
     expect(removeTaskButton).toBeVisible();
     expect(screen.getByText('Tema3')).toBeVisible();
   });
-  test('Remove task button', async () => {
+  test('remove task button', async () => {
     await act(async () =>
       render(
         <Router>
@@ -72,7 +72,7 @@ describe('CreateChat test', () => {
 
     expect(screen.getByText('Tema2')).toBeVisible();
   });
-  test('infoModal', async () => {
+  test('infoModal chat', async () => {
     await act(async () =>
       render(
         <Router>
@@ -88,7 +88,7 @@ describe('CreateChat test', () => {
 });
 
 describe('CreateForstaelse test', () => {
-  test('Add task button', async () => {
+  test('add task button', async () => {
     await act(async () =>
       render(
         <Router>
@@ -106,7 +106,7 @@ describe('CreateForstaelse test', () => {
     expect(removeTaskButton).toBeVisible();
     expect(screen.getByText('Tema 3')).toBeVisible();
   });
-  test('Remove task button', async () => {
+  test('remove task button', async () => {
     await act(async () =>
       render(
         <Router>
@@ -147,7 +147,7 @@ describe('CreateForstaelse test', () => {
 
     expect(screen.getByText('Tema 2')).toBeVisible();
   });
-  test('infoModal', async () => {
+  test('infoModal forstaelse', async () => {
     await act(async () =>
       render(
         <Router>
@@ -176,7 +176,7 @@ describe('CreateRyddeSetninger test', () => {
     word5: 'nå',
     wordClass5: 'n',
   };
-  test('Add word button', async () => {
+  test('add word button', async () => {
     await act(async () =>
       render(
         <Router>
@@ -194,7 +194,7 @@ describe('CreateRyddeSetninger test', () => {
     expect(removeTaskButton).toBeVisible();
     expect(screen.getByTestId('word5')).toBeVisible();
   });
-  test('Remove task button', async () => {
+  test('remove task button', async () => {
     await act(async () =>
       render(
         <Router>
@@ -213,7 +213,7 @@ describe('CreateRyddeSetninger test', () => {
     await screen.findByTestId('addButton');
     expect(screen.getByTestId('addButton')).toBeVisible();
   });
-  test('render with formDataEdit tema3', async () => {
+  test('render with formDataEdit word5', async () => {
     await act(async () =>
       render(
         <Router>
@@ -224,7 +224,7 @@ describe('CreateRyddeSetninger test', () => {
 
     expect(screen.getByTestId('word5')).toBeVisible();
   });
-  test('infoModal', async () => {
+  test('infoModal ryddeSetninger', async () => {
     await act(async () =>
       render(
         <Router>

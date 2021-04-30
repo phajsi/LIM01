@@ -9,6 +9,7 @@ import forest from '../../assets/images/forest.png';
 import useStyles from './styles';
 import SearchBar from '../../components/SearchBar/SearchBar';
 
+// TODO
 const StartPage = () => {
   const classes = useStyles();
 

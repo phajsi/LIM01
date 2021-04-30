@@ -12,7 +12,7 @@ import ResetPassword from './ResetPassword';
 jest.mock('axios');
 
 describe('The ResetPassword component', () => {
-  it('show an error message on illegal input', async () => {
+  test('should show an error message on illegal input', async () => {
     axios.post.mockImplementation((url) => {
       if (
         url === `${process.env.REACT_APP_API_URL}/auth/users/reset_password`

@@ -4,7 +4,9 @@ from chat.models import Chat
 from rydde_setninger.models import RyddeSetninger
 from accounts.models import UserAccount
 
-# Create your models here.
+"""
+@author Maja, Simen
+"""
 
 
 class Sets(models.Model):

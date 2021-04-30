@@ -1,3 +1,4 @@
+/* eslint-disable prefer-promise-reject-errors */
 /* eslint-disable consistent-return */
 /* eslint-disable no-undef */
 import axios from 'axios';
@@ -9,7 +10,7 @@ import FinishedSet from './FinishedSet';
 jest.mock('axios');
 
 describe('The FinishedSet component', () => {
-  it('should show over case', async () => {
+  test('should show "over" case', async () => {
     await act(async () =>
       render(
         <Router>
@@ -30,7 +31,7 @@ describe('The FinishedSet component', () => {
     expect(screen.getByAltText('happy pickle')).toBeVisible();
   });
 
-  it('should show under case', async () => {
+  test('should show "under" case', async () => {
     await act(async () =>
       render(
         <Router>
@@ -51,7 +52,7 @@ describe('The FinishedSet component', () => {
     expect(screen.getByAltText('Final sad pickle')).toBeVisible();
   });
 
-  it('should fetch getContent twice', async () => {
+  test('should fetch getContent twice', async () => {
     axios.post.mockResolvedValue({ data: { id: 11, sets: 10, score: 1 } });
     axios.get.mockImplementation((url) => {
       if (url === `${process.env.REACT_APP_API_URL}/api/rating/${10}`) {
@@ -73,7 +74,7 @@ describe('The FinishedSet component', () => {
     expect(axios.get).toHaveBeenCalledTimes(2);
   });
 
-  it('thumbs up should change color when clicked', async () => {
+  test('thumbs up should change color when clicked', async () => {
     axios.post.mockResolvedValue({ data: { id: 11, sets: 10, score: 1 } });
     axios.get.mockImplementation((url) => {
       if (url === `${process.env.REACT_APP_API_URL}/api/rating/${10}`) {
@@ -97,21 +98,27 @@ describe('The FinishedSet component', () => {
     expect(screen.getByTestId('ratingUpButton')).toBeVisible();
   });
 
-  it('head request catch block fires when the set ID does not exist', async () => {
+  test('get requests error fires when the set ID does not exist', async () => {
     axios.get.mockImplementation((url) => {
-    if (url === `${process.env.REACT_APP_API_URL}/api/rating/${10}`) {
-      return Promise.reject({});
-    }
-    if (url === `${process.env.REACT_APP_API_URL}/api/usersaved/${10}`) {
-      return Promise.reject({});
-    }
-  });
+      if (url === `${process.env.REACT_APP_API_URL}/api/rating/${10}`) {
+        return Promise.reject({});
+      }
+      if (url === `${process.env.REACT_APP_API_URL}/api/usersaved/${10}`) {
+        return Promise.reject({});
+      }
+    });
     axios.put.mockResolvedValue({});
 
     await act(async () =>
       render(
         <Router>
-          <FinishedSet id={10} completed={{completed: true, score: 0}} percentage={100} isAuthenticated rating={null} />
+          <FinishedSet
+            id={10}
+            completed={{ completed: true, score: 0 }}
+            percentage={100}
+            isAuthenticated
+            rating={null}
+          />
         </Router>
       )
     );

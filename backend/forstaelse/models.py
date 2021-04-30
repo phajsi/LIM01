@@ -1,6 +1,10 @@
 from django.db import models
 from accounts.models import UserAccount
 
+"""
+@author Phajsi, Simen
+"""
+
 
 class Forstaelse(models.Model):
     ANSWER_STATE = (

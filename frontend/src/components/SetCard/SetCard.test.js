@@ -5,7 +5,7 @@ import { render, screen, act, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import SetCard from './SetCard';
 
-describe('SetCard rendering', () => {
+describe('SetCard component', () => {
   const userResp = {
     id: 5,
     setOwner: 'simen',
@@ -27,7 +27,7 @@ describe('SetCard rendering', () => {
     ryddeSetninger4: null,
     ryddeSetninger5: null,
   };
-  test('SetCard should return MySet card type with correct information', async () => {
+  test('should return MySet card type with correct information', async () => {
     let count1 = 0;
     let count2 = 0;
     let count3 = 0;
@@ -64,7 +64,7 @@ describe('SetCard rendering', () => {
     expect(screen.getByText('5')).toBeVisible();
   });
   const savedResp = { id: 2, sets: 5, title: 'Hverdagsliv', setOwner: 'simen' };
-  test('SetCard should return favorite card type with correct information', async () => {
+  test('should return favorite card type with correct information', async () => {
     let count1 = 0;
     await act(async () =>
       render(
@@ -94,7 +94,7 @@ describe('SetCard rendering', () => {
     title: 'Hverdagsliv',
     setOwner: 'simen',
   };
-  test('SetCard should return completed card type with correct information', async () => {
+  test('should return completed card type with correct information', async () => {
     let count1 = 0;
     await act(async () =>
       render(

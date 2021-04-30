@@ -20,6 +20,11 @@ import SetCard from '../../components/SetCard/SetCard';
 import DeleteModal from '../../components/DeleteModal';
 import useStyles from './styles';
 
+// TODO
+/**
+ * @author Phajsi, Simen
+ * @returns
+ */
 const Home = () => {
   const classes = useStyles();
 

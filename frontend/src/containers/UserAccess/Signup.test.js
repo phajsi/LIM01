@@ -15,8 +15,8 @@ beforeEach(() => {
   jest.spyOn(console, 'error').mockImplementation(() => {});
 });
 
-describe('Whith no logged inn user, the Navbar component should', () => {
-  it('contain a navigation link to the login page', async () => {
+describe('Signup component', () => {
+  test('should contain a navigation link to the login page', async () => {
     await act(async () =>
       render(
         <Provider store={store}>
@@ -30,7 +30,7 @@ describe('Whith no logged inn user, the Navbar component should', () => {
     expect(screen.getByText('Opprett bruker'));
   });
 
-  it('should show an error message if email already exists', async () => {
+  test('should show an error message if email already exists', async () => {
     axios.post.mockImplementation((url) => {
       if (url === `${process.env.REACT_APP_API_URL}/auth/users/`) {
         return Promise.reject({
@@ -72,7 +72,7 @@ describe('Whith no logged inn user, the Navbar component should', () => {
     expect(axios.post).toHaveBeenCalledTimes(1);
   });
 
-  it('should show an error message if the password is not good enough', async () => {
+  test('should show an error message if the password is not good enough', async () => {
     axios.post.mockImplementation((url) => {
       if (url === `${process.env.REACT_APP_API_URL}/auth/users/`) {
         return Promise.reject({
@@ -112,7 +112,7 @@ describe('Whith no logged inn user, the Navbar component should', () => {
     expect(axios.post).toHaveBeenCalledTimes(1);
   });
 
-  it('should show a general error message', async () => {
+  test('should show a general error message', async () => {
     axios.post.mockImplementation((url) => {
       if (url === `${process.env.REACT_APP_API_URL}/auth/users/`) {
         return Promise.reject({
@@ -152,7 +152,7 @@ describe('Whith no logged inn user, the Navbar component should', () => {
     expect(axios.post).toHaveBeenCalledTimes(1);
   });
 
-  it('should show a signup successful error message', async () => {
+  test('should show a "signup successful" error message', async () => {
     axios.post.mockImplementation((url) => {
       if (url === `${process.env.REACT_APP_API_URL}/auth/users/`) {
         return Promise.resolve({

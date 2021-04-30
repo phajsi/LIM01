@@ -5,6 +5,11 @@ import axios from 'axios';
 import useStyles from './styles';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
+/**
+ * @author Simen
+ * @returns
+ */
+// TODO
 const SearchBar = () => {
   const classes = useStyles();
   const [redirectPlay, setRedirectPlay] = useState(false);

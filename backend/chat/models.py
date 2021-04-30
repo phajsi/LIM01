@@ -1,6 +1,10 @@
 from django.db import models
 from accounts.models import UserAccount
 
+"""
+@author Maja, Even, Julie
+"""
+
 
 class Chat(models.Model):
     owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)

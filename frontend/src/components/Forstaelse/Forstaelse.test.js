@@ -66,7 +66,7 @@ describe('Forstaelse exercise', () => {
 
     expect(text.tagName.toLowerCase()).toEqual('p');
   });
-  test('Playthrough and explanation visible when answer is given', async () => {
+  test('playthrough and explanation are visible when answer is given', async () => {
     axios.get.mockResolvedValue({ data: resp });
 
     await act(async () =>
@@ -108,7 +108,7 @@ describe('Forstaelse exercise', () => {
       screen.getByText('Denne filmen var kjedelig. Jeg drar hjem nå.')
     ).toBeVisible();
   });
-  test('Audio play should play once after click and be disabled', async () => {
+  test('audio play should play once after click and be disabled', async () => {
     axios.get.mockResolvedValue({ data: {} });
 
     await act(async () =>

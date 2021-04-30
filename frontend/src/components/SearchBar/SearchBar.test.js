@@ -10,7 +10,7 @@ import SearchBar from './SearchBar';
 jest.mock('axios');
 
 describe('The Searchbar component', () => {
-  it('show an error message on illegal input', async () => {
+  test('shows an error message on illegal input', async () => {
     await act(async () =>
       render(
         <Router>
@@ -30,7 +30,7 @@ describe('The Searchbar component', () => {
     expect(errorMessage.tagName.toLowerCase()).toEqual('span');
   });
 
-  it('head request is working with the right input', async () => {
+  test('request is working with the right input', async () => {
     axios.head.mockImplementation((url) => {
       if (url === `${process.env.REACT_APP_API_URL}/api/sets/5`) {
         return Promise.resolve({});
@@ -52,7 +52,7 @@ describe('The Searchbar component', () => {
     expect(axios.head).toHaveBeenCalledTimes(1);
   });
 
-  it('head request catch block fires when the set ID does not exist', async () => {
+  test('request error fires when the set ID does not exist', async () => {
     axios.head.mockImplementation((url) => {
       if (url === `${process.env.REACT_APP_API_URL}/api/sets/5`) {
         return Promise.reject({

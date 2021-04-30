@@ -52,7 +52,7 @@ const Chat = ({
   const [sendericon, setSendericon] = useState();
   const [receivericon, setReceivericon] = useState();
 
-  // Null if user hasn't given answer, "correct" or "incorrect" if user has given answer.
+  // Null if user hasn't given an answer, "correct" or "incorrect" if user has given an answer.
   const [answerstate, setAnswerstate] = useState(null);
 
   // Keeps track of which task in the exercise the user is currently on.
@@ -72,6 +72,7 @@ const Chat = ({
   // Data for the chat exercise from backend.
   const [formData, setFormData] = useState({});
 
+  // TODO
   const transformIcon = (iconName) => {
     switch (iconName) {
       case 'gingerMan':
@@ -134,7 +135,7 @@ const Chat = ({
     chatHistory.push(answer);
   }
 
-  // Function for randomizing the answers so the correct answer isn't always on the same button.
+  // Function for randomizing the answers so the correct answer isn't always the same button.
   function random() {
     const buttonList = [
       formData[`answer${taskStep}1`],

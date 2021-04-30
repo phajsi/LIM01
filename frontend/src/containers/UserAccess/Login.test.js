@@ -12,7 +12,7 @@ import Login from './Login';
 jest.mock('axios');
 
 describe('The Login component', () => {
-  it('should contain a Login header, when no user is logged in', async () => {
+  test('should contain a Login header, when no user is logged in', async () => {
     await act(async () =>
       render(
         <Provider store={store}>
@@ -26,7 +26,7 @@ describe('The Login component', () => {
     expect(screen.getAllByText('Logg inn')[1]);
   });
 
-  it('should render when logging in', async () => {
+  test('should send one post request on login', async () => {
     axios.post.mockImplementation((url) => {
       if (url === `${process.env.REACT_APP_API_URL}/auth/jwt/create/`) {
         return Promise.resolve({
@@ -57,16 +57,7 @@ describe('The Login component', () => {
     expect(axios.post).toHaveBeenCalledTimes(1);
   });
 
-  it('should show an error message on wrong input', async () => {
-    axios.post.mockImplementation((url) => {
-      if (url === `${process.env.REACT_APP_API_URL}/auth/jwt/create/`) {
-        return Promise.reject({
-          response: {
-            status: 401,
-          },
-        });
-      }
-    });
+  test('should be able to toggle password visibility', async () => {
     await act(async () =>
       render(
         <Provider store={store}>
@@ -84,7 +75,7 @@ describe('The Login component', () => {
     expect(screen.getByTestId('visibilityButton')).toBeVisible();
   });
 
-  it('should show an error message when credentials are not found on the database', async () => {
+  test('should show an error message when credentials are not found on the database', async () => {
     axios.post.mockImplementation((url) => {
       if (url === `${process.env.REACT_APP_API_URL}/auth/jwt/create/`) {
         return Promise.reject({
@@ -116,7 +107,7 @@ describe('The Login component', () => {
     expect(axios.post).toHaveBeenCalledTimes(2);
   });
 
-  it('should show an error message in general', async () => {
+  test('should show a general error message', async () => {
     axios.post.mockImplementation((url) => {
       if (url === `${process.env.REACT_APP_API_URL}/auth/jwt/create/`) {
         return Promise.reject({

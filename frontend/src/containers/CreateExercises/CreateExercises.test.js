@@ -11,7 +11,7 @@ beforeEach(() => {
 });
 
 describe('CreateExercises', () => {
-  test('Error on empty set', async () => {
+  test('error on empty set', async () => {
     await act(async () =>
       render(
         <Router>
@@ -30,7 +30,7 @@ describe('CreateExercises', () => {
       )
     ).toBeVisible();
   });
-  test('Stepper Chat', async () => {
+  test('"stepper" Chat', async () => {
     await act(async () =>
       render(
         <Router>
@@ -52,7 +52,7 @@ describe('CreateExercises', () => {
 
     expect(screen.getByText('Nytt sett')).toBeVisible();
   });
-  test('Stepper Forstaelse', async () => {
+  test('"stepper" Forstaelse', async () => {
     await act(async () =>
       render(
         <Router>
@@ -76,7 +76,7 @@ describe('CreateExercises', () => {
 
     expect(screen.getByText('Nytt sett')).toBeVisible();
   });
-  test('Stepper RyddeSetninger', async () => {
+  test('"stepper" RyddeSetninger', async () => {
     await act(async () =>
       render(
         <Router>
