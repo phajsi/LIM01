@@ -9,6 +9,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.response import Response
 
 """
+@author Maja, Simen
+"""
+
+
+"""
 Set view without permission class meaning it is accessible to anyone. 
 Only allows get requests.
 """
@@ -16,7 +21,7 @@ Only allows get requests.
 
 class SetsView(APIView):
     permission_classes = []
-    # receives a primary key in the url and returns the chat object with the corresponding key or 404 error.
+    # Receives a primary key in the url and returns the chat object with the corresponding key or 404 error.
 
     def get(self, request, pk):
         try:
@@ -29,12 +34,12 @@ class SetsView(APIView):
 
 """
 Protected set view which means requests need to include a valid token. 
-allows post, put and delete requests.
+Allows post, put and delete requests.
 """
 
 
 class ProtectedSetsView(APIView):
-    # adds new set object to the database model based on request body if it can be serialized correctly.
+    # Adds new set object to the database model based on request body if it can be serialized correctly.
     def post(self, request):
         data = JSONParser().parse(request)
         serializer = SetsSerializer(data=data)
@@ -43,7 +48,7 @@ class ProtectedSetsView(APIView):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
-    # updates an existing set object if it exists and it can be serialized
+    # Updates an existing set object if it exists and it can be serialized.
     def put(self, request, pk):
         try:
             getSets = Sets.objects.filter(owner=self.request.user).get(pk=pk)
@@ -56,7 +61,7 @@ class ProtectedSetsView(APIView):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
-    # deletes an existing set object if it exists, else 404 error is returned
+    # Deletes an existing set object if it exists, else 404 error is returned.
     def delete(self, request, pk):
         try:
             getSets = Sets.objects.filter(owner=self.request.user).get(pk=pk)
@@ -66,7 +71,7 @@ class ProtectedSetsView(APIView):
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
 
-# protected get view which returns a list of all the sets the user has made.
+# Protected get view which returns a list of all the sets the user has made.
 
 class UserSetsView(APIView):
     def get(self, request):
@@ -75,7 +80,7 @@ class UserSetsView(APIView):
         return JsonResponse(serializer.data, safe=False)
 
 
-# protected view for getting, posting and deleting saved sets.
+# Protected view for getting, posting and deleting saved sets.
 
 class SavedView(APIView):
     def get(self, request):
@@ -100,7 +105,7 @@ class SavedView(APIView):
         getSaved.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
-# protected view for checking whether user has saved set with given primary key.
+# Protected view for checking whether user has saved set with given primary key.
 
 
 class UserSavedView(APIView):
@@ -125,7 +130,7 @@ class CommentView(APIView):
         serializer = CommentSerializer(getComment, many=True)
         return JsonResponse(serializer.data, safe=False)
 
-# protected view for getting, posting and deleting comments for a given set.
+# Protected view for getting, posting and deleting comments for a given set.
 
 
 class UserCommentView(APIView):
@@ -155,7 +160,7 @@ class UserCommentView(APIView):
         getComment.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
-# view accessible to all for getting total rating for a given set.
+# View accessible to all for getting total rating for a given set.
 
 
 class getRatingView(APIView):
@@ -166,16 +171,16 @@ class getRatingView(APIView):
         ratingCount = getRatings.count()
         upvotes = getRatings.filter(rating=True).count()
         downvotes = getRatings.filter(rating=False).count()
-        # json object with data about rating based on django aggregation functions.
+        # JSON object with data about rating based on django aggregation functions.
         content = {'ratings': ratingCount,
                    'upvotes': upvotes, 'downvotes': downvotes}
         return Response(content)
 
-# protected view for CRUD requests for modifying ratings for a set.
+# Protected view for CRUD requests for modifying ratings for a set.
 
 
 class RatingView(APIView):
-    # get request to check whether user has rated the set or not
+    # Get request to check whether user has rated the set or not.
     def get(self, request, pk):
         try:
             getRating = Rating.objects.filter(
@@ -215,11 +220,11 @@ class RatingView(APIView):
                 return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
-# protected view for posting, getting and updating completed view.
+# Protected view for posting, getting and updating completed view.
 
 
 class CompletedView(APIView):
-    # get request which returns whether a set has been completed and the score.
+    # Get request which returns whether a set has been completed and the score.
     def get(self, request, pk):
         try:
             getCompleted = Completed.objects.filter(
@@ -252,7 +257,7 @@ class CompletedView(APIView):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
-# protected view which returns a list of the users completed sets.
+# Protected view which returns a list of the users completed sets.
 
 
 class UserCompletedView(APIView):

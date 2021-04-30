@@ -20,12 +20,16 @@ import { logout } from '../../actions/auth';
 import logo from '../../assets/images/logoWithText.png';
 import useStyles from './styles';
 
+// TODO
 const Navbar = ({ logout, isAuthenticated, user }) => {
   const classes = useStyles();
 
   const [redirect, setRedirect] = useState(false);
+
+  // TODO
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // TODO
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -36,6 +40,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
     handleDrawerToggle();
   };
 
+  // TODO
   const guestLinks = () => (
     <>
       <Hidden xsDown implementation="css">
@@ -80,6 +85,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
     </>
   );
 
+  // TODO
   const authLinks = () => (
     <>
       <Hidden xsDown implementation="css">

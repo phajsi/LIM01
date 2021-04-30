@@ -41,17 +41,24 @@ const RyddeSetninger = ({
   restartSet,
   playAudio,
 }) => {
+  // TODO
   const className = useStyles();
   const classesBase = exerciseStyles();
   const classes = { ...className, ...classesBase };
 
+  // TODO
   const [renderPage, setRenderPage] = useState();
+  // TODO
   const [words] = useState([]);
+  // TODO
   const [chosenWords, setChosenWords] = useState([]);
+  // TODO
   const [wordWithColorCode, setWordWithColorCode] = useState([]);
-
+  // TODO
   const [wordClasses] = useState([]);
+  // TODO
   const [rightAnswer, setRightAnswer] = useState();
+
   const [answerState, setAnswerState] = useState();
   const [disableButton, setDisableButton] = useState(false);
   const [score, setScore] = useState(0);
@@ -59,10 +66,11 @@ const RyddeSetninger = ({
 
   const [disabled, setDisabled] = useState(false);
 
+  // TODO
   let concatenatedWords = [];
   let counter = 0;
 
-  // Splits the words in the sentence from their wordclasses.
+  // TODO Splits the words in the sentence from their wordclasses.
   const splitData = (el) => {
     counter += 1;
     if (!(el === '' || typeof el === 'number')) {
@@ -78,6 +86,7 @@ const RyddeSetninger = ({
     concatenatedWords.sort(() => Math.random() - 0.5);
   };
 
+  // TODO
   const colorCodeTransform = (wordClass) => {
     switch (wordClass) {
       case 'det':
@@ -105,6 +114,7 @@ const RyddeSetninger = ({
     }
   };
 
+  // TODO
   const filterData = (data) => {
     Object.values(data).map((el) => splitData(el));
     setRightAnswer([...words]);
@@ -136,6 +146,7 @@ const RyddeSetninger = ({
       });
   }
 
+  // TODO
   const clicked = (e, el) => {
     chosenWords.push(el);
     const temp = [...wordWithColorCode];
@@ -143,6 +154,7 @@ const RyddeSetninger = ({
     setWordWithColorCode(temp);
   };
 
+  // TODO
   const removeWord = (e, el) => {
     wordWithColorCode.push(el);
     const temp = [...chosenWords];
@@ -150,6 +162,7 @@ const RyddeSetninger = ({
     setChosenWords(temp);
   };
 
+  // TODO maybe
   const checkAnswer = () => {
     setDisableButton(true);
     const finalSentence = chosenWords.map((el) => el[0]);

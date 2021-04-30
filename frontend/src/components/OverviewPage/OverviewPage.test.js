@@ -8,7 +8,7 @@ import OverviewPage from './OverviewPage';
 
 jest.mock('axios');
 
-describe('OverviewPage', () => {
+describe('OverviewPage component', () => {
   const comments = [
     {
       id: 39,
@@ -41,7 +41,7 @@ describe('OverviewPage', () => {
     });
   }
 
-  test('Should fetch getcontent once when user is authenticated', async () => {
+  test('should fetch getcontent once when user is authenticated', async () => {
     getRequest();
     await act(async () =>
       render(
@@ -69,7 +69,7 @@ describe('OverviewPage', () => {
     expect(screen.getByTestId('delete')).toBeVisible();
   });
 
-  test('Should fetch getcontent once when user is not authenticated', async () => {
+  test('should fetch getcontent once when user is not authenticated', async () => {
     axios.get.mockImplementation((url) => {
       if (url === `${process.env.REACT_APP_API_URL}/api/comment/${20}`) {
         return Promise.resolve({ data: comments });
@@ -100,7 +100,7 @@ describe('OverviewPage', () => {
     expect(screen.getByText('Pickle')).toBeVisible();
   });
 
-  test('Should open deletemodal when authenticated user wants to delete a comment', async () => {
+  test('should open deletemodal when an authenticated user wants to delete a comment', async () => {
     getRequest();
 
     await act(async () =>
@@ -135,7 +135,7 @@ describe('OverviewPage', () => {
     expect(cancelButton).toBeVisible();
   });
 
-  test('Should delete comment', async () => {
+  test('should delete comment', async () => {
     getRequest();
     axios.delete.mockResolvedValue({ data: {} });
 

@@ -42,6 +42,7 @@ const Forstaelse = ({
   restartSet,
   playAudio,
 }) => {
+  // TODO
   const className = useStyles();
   const classesBase = exerciseStyles();
   const classes = { ...className, ...classesBase };
@@ -49,7 +50,7 @@ const Forstaelse = ({
   // Data for the forstaelse exercise from backend.
   const [formData, setFormData] = useState({});
 
-  // Null if user hasn't given answer, "correct" or "incorrect" if user has given answer.
+  // Null if user hasn't given an answer, "correct" or "incorrect" if user has given an answer.
   const [answerState, setAnswerState] = useState(null);
 
   // Keeps track of which task in the exercise the user is currently on.
@@ -88,7 +89,7 @@ const Forstaelse = ({
     }
   }
 
-  // Goes to next task or next exercise after user has played the current task.
+  // Goes to the next task or the next exercise after the user has played the current task.
   const handleNextTask = () => {
     setAnswerState(null);
     // Checks if there are more tasks in the exercise before incrementing the task count.

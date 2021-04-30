@@ -6,8 +6,8 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import store from '../../store';
 import Navbar from './Navbar';
 
-describe('Whith no logged inn user, the Navbar component should', () => {
-  it('contain a navigation link to the login page', () => {
+describe('Navbar component', () => {
+  test('contain a navigation link to the login page', () => {
     const { getByText } = render(
       <Provider store={store}>
         <Router>
@@ -20,7 +20,7 @@ describe('Whith no logged inn user, the Navbar component should', () => {
     expect(link).toHaveAttribute('href', '/login');
   });
 
-  it('contain a navigation link to the Signup page', () => {
+  test('contain a navigation link to the Signup page', () => {
     const { getByText } = render(
       <Provider store={store}>
         <Router>
@@ -33,7 +33,7 @@ describe('Whith no logged inn user, the Navbar component should', () => {
     expect(link).toHaveAttribute('href', '/signup');
   });
 
-  it('show a menu when the hamburger menu icon is clicked', async () => {
+  test('show a menu when the hamburger menu icon is clicked', async () => {
     await act(async () =>
       render(
         <Provider store={store}>

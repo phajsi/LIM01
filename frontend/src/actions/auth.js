@@ -172,7 +172,7 @@ export const verify = (uid, token) => async (dispatch) => {
 };
 
 /**
- * Chekcs if user is authenticated based on access token in local storage.
+ * Checks if user is authenticated based on access token in local storage.
  * @returns Dispatch for checking and updating isAuthenticated state in redux.
  */
 export const checkAuthenticated = () => async (dispatch) => {
@@ -246,8 +246,7 @@ export const reset_password = (email) => async (dispatch) => {
 };
 
 /**
- * Can be run after a user has clicked on the link after receinving an email after requesting password change.
- * The user can enter a new password and confirm password and clicking the confirm button.
+ * The user can enter a new "password" and "confirm password".
  * An api call will be sent to backend to check if the password matches the requirements.
  * @param {integer} uid Id used for identifying users.
  * @param {string} token Unique token needed to be able to access the api.
@@ -289,7 +288,7 @@ export const reset_password_confirm = (
 
 /**
  * Deletes access tokens and refresh token from redux and local storage.
- * @returns Dispatch for deleteing access and refresh tokens from redux state.
+ * @returns Dispatch for deleting access and refresh tokens from redux state.
  */
 export const logout = () => (dispatch) => {
   dispatch({

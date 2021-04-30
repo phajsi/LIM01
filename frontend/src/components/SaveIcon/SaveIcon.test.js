@@ -8,7 +8,7 @@ import SaveIcon from './SaveIcon';
 
 jest.mock('axios');
 
-describe('Save icon', () => {
+describe('SaveIcon component', () => {
   test('should fetch getcontent once', async () => {
     axios.get.mockImplementation((url) => {
       if (url === `${process.env.REACT_APP_API_URL}/api/usersaved/${5}`) {
@@ -55,7 +55,7 @@ describe('Save icon', () => {
     expect(screen.getByTestId('notFavorite')).toBeVisible();
   });
 
-  test('should save set as favorite when clicked on ', async () => {
+  test('should save set as favorite when clicked on', async () => {
     axios.get.mockResolvedValue({ data: { saved: false } });
     axios.post.mockResolvedValue({ data: { saved: true } });
 
@@ -72,7 +72,7 @@ describe('Save icon', () => {
     expect(axios.post).toHaveBeenCalled();
   });
 
-  test('should unsave set as favorite when clicked on ', async () => {
+  test('should unsave set as favorite when clicked on', async () => {
     axios.get.mockResolvedValue({ data: { saved: true } });
     axios.delete.mockResolvedValue({ data: 5 });
 

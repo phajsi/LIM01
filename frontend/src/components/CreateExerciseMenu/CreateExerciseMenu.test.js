@@ -5,8 +5,8 @@ import { render, act, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import CreateExerciseMenu from './CreateExerciseMenu';
 
-describe('CreateExercisesMenu', () => {
-  test('Test render correctly', async () => {
+describe('CreateExerciseMenu component', () => {
+  test('renders correctly', async () => {
     await act(async () =>
       render(
         <Router>
@@ -30,7 +30,7 @@ describe('CreateExercisesMenu', () => {
     expect(inputTitle.value).toBe('');
     expect(inputDescription.value).toBe('');
   });
-  test('Test render correctly when edit', async () => {
+  test('renders correctly when editing', async () => {
     await act(async () =>
       render(
         <Router>
@@ -74,7 +74,7 @@ describe('CreateExercisesMenu', () => {
       'Dette er et sett som tar for seg hverdagslige aktiviteter.'
     );
   });
-  test('Test errorMessage', async () => {
+  test('ErrorMessage displays correctly', async () => {
     await act(async () =>
       render(
         <Router>
@@ -92,7 +92,7 @@ describe('CreateExercisesMenu', () => {
 
     expect(error).toBeVisible();
   });
-  test('chatModal open correctly', async () => {
+  test('chatModal opens correctly', async () => {
     await act(async () =>
       render(
         <Router>
@@ -110,7 +110,7 @@ describe('CreateExercisesMenu', () => {
 
     expect(screen.getByText('Eksempel på Chat')).toBeVisible();
   });
-  test('forstaelseModal open correctly', async () => {
+  test('forstaelseModal opens correctly', async () => {
     await act(async () =>
       render(
         <Router>
@@ -128,7 +128,7 @@ describe('CreateExercisesMenu', () => {
 
     expect(screen.getByText('Eksempel på Forståelse')).toBeVisible();
   });
-  test('ryddeSetningerModal open correctly', async () => {
+  test('ryddeSetningerModal opens correctly', async () => {
     await act(async () =>
       render(
         <Router>
