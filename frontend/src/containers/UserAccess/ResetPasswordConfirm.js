@@ -18,10 +18,10 @@ import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
  * is sent to this page for entering a new password.
  * @author Simen, Phajsi
  * @param {object} props
- * @property {object} match react router to match url.
- * @property {function} reset_password_confirm redux action for changing password.
- * @property {*} passwordReset redux state for checking if the reset threw an error or not.
- * @returns container for resetting password.
+ * @property {object} match React router to match url.
+ * @property {function} reset_password_confirm Redux action for changing password.
+ * @property {*} passwordReset Redux state for checking if the reset threw an error or not.
+ * @returns Container for resetting password.
  */
 const ResetPasswordConfirm = ({
   match,

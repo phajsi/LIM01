@@ -17,9 +17,9 @@ import useStyles from './styles';
  * an account. The user can activate the registered account on this page.
  * @author Simen, Phajsi
  * @param {object} props
- * @property {function} verify redux action for verifying an account.
- * @property {object} match react router to match url.
- * @returns container for activating account.
+ * @property {function} verify Redux action for verifying an account.
+ * @property {object} match React router to match url.
+ * @returns Container for activating account.
  */
 
 const Activate = ({ verify, match }) => {

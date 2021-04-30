@@ -6,16 +6,16 @@ from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 
-"""
-@Author Maja, Even, Julie, Simen
-"""
 
 """
-Chat view without permission class meaning it is accessible to anyone. 
-Only allows get requests.
+ @Author Maja, Even, Julie, Simen
 """
 
 
+"""
+ Chat view without permission class meaning it is accessible to anyone. 
+ Only allows get requests.
+"""
 class ChatView(APIView):
     permission_classes = []
     # receives a primary key in the url and returns the chat object with the corresponding key or 404 error.
@@ -30,11 +30,9 @@ class ChatView(APIView):
 
 
 """
-Protected chat view which means requests need to include a valid token. 
-Allows post, put and delete requests.
+ Protected chat view which means requests need to include a valid token. 
+ Allows post, put and delete requests.
 """
-
-
 class ProtectedChatView(APIView):
     # Adds new chat object to the database model based on request body if it can be serialized correctly.
     def post(self, request):

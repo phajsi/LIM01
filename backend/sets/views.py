@@ -8,17 +8,16 @@ from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.response import Response
 
-"""
-@author Maja, Simen
-"""
-
 
 """
-Set view without permission class meaning it is accessible to anyone. 
-Only allows get requests.
+ @author Maja, Simen
 """
 
 
+"""
+ Set view without permission class meaning it is accessible to anyone. 
+ Only allows get requests.
+"""
 class SetsView(APIView):
     permission_classes = []
     # Receives a primary key in the url and returns the chat object with the corresponding key or 404 error.
@@ -36,8 +35,6 @@ class SetsView(APIView):
 Protected set view which means requests need to include a valid token. 
 Allows post, put and delete requests.
 """
-
-
 class ProtectedSetsView(APIView):
     # Adds new set object to the database model based on request body if it can be serialized correctly.
     def post(self, request):
@@ -72,7 +69,6 @@ class ProtectedSetsView(APIView):
 
 
 # Protected get view which returns a list of all the sets the user has made.
-
 class UserSetsView(APIView):
     def get(self, request):
         getSet = Sets.objects.filter(owner=self.request.user)
@@ -81,7 +77,6 @@ class UserSetsView(APIView):
 
 
 # Protected view for getting, posting and deleting saved sets.
-
 class SavedView(APIView):
     def get(self, request):
         getSaved = Saved.objects.filter(owner=self.request.user)
@@ -106,8 +101,6 @@ class SavedView(APIView):
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
 # Protected view for checking whether user has saved set with given primary key.
-
-
 class UserSavedView(APIView):
     def get(self, request, pk):
         try:
@@ -119,9 +112,7 @@ class UserSavedView(APIView):
         content = {'saved': True}
         return Response(content)
 
-# view accessible for anyone. returns a list of all comments related to a given set.
-
-
+# View accessible for anyone. Returns a list of all comments related to a given set.
 class CommentView(APIView):
     permission_classes = []
 
@@ -131,8 +122,6 @@ class CommentView(APIView):
         return JsonResponse(serializer.data, safe=False)
 
 # Protected view for getting, posting and deleting comments for a given set.
-
-
 class UserCommentView(APIView):
     def get(self, request, pk):
         try:
@@ -161,8 +150,6 @@ class UserCommentView(APIView):
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
 # View accessible to all for getting total rating for a given set.
-
-
 class getRatingView(APIView):
     permission_classes = []
 
@@ -177,8 +164,6 @@ class getRatingView(APIView):
         return Response(content)
 
 # Protected view for CRUD requests for modifying ratings for a set.
-
-
 class RatingView(APIView):
     # Get request to check whether user has rated the set or not.
     def get(self, request, pk):
@@ -191,14 +176,14 @@ class RatingView(APIView):
         content = {'rating': getRating.rating}
         return Response(content)
 
-    def post(self, request):
-        """
-        adds, changes or deletes user rating for a set.
 
-        If a user has not rated this set, the post request will make a new rating.
-        If a user has rated the set before and a new rating is sent it will either
-        be deleted or changed.
-        """
+    """
+     Adds, changes or deletes user rating for a set.
+     If a user has not rated this set, the post request will make a new rating.
+     If a user has rated the set before and a new rating is sent, it will either
+     be deleted or changed.
+    """
+    def post(self, request):
         data = JSONParser().parse(request)
         setId = data["sets"]
         rating = data["rating"]
@@ -221,8 +206,6 @@ class RatingView(APIView):
         return JsonResponse(serializer.errors, status=400)
 
 # Protected view for posting, getting and updating completed view.
-
-
 class CompletedView(APIView):
     # Get request which returns whether a set has been completed and the score.
     def get(self, request, pk):
@@ -258,8 +241,6 @@ class CompletedView(APIView):
         return JsonResponse(serializer.errors, status=400)
 
 # Protected view which returns a list of the users completed sets.
-
-
 class UserCompletedView(APIView):
     def get(self, request):
         getCompleted = Completed.objects.filter(owner=self.request.user)

@@ -43,7 +43,7 @@ const CreateRyddeSetninger = ({
   /**
    * Used to avoid repetition of same code because there are many similar fields.
    * @param {string} name The name of the field.
-   * @param {string} label name/description that will be visibile to the user.
+   * @param {string} label The name/description that will be visibile to the user.
    * @param {boolean} touched Formik prop. Validation will only run if field has been touched by user.
    * @param {boolean} errors Formik prop to handle errors on user input.
    * @returns The complete field that will be shown to the user.
@@ -90,7 +90,7 @@ const CreateRyddeSetninger = ({
   }
 
   /**
-   * Runs when the page first renders and checks if an exisitng exercise
+   * Runs when the page first renders and checks if an existing exercise
    * should be edited. FormDataEdit is passed as props if it is an exisiting exercise.
    * If not, this function does nothing.
    */

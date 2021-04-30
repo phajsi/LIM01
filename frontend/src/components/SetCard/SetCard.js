@@ -14,12 +14,12 @@ import useStyles from './styles';
  * editing and deleting exercise sets.
  * @author Simen
  * @param {object} props
- * @property {string} type decides which type of card to display.
- * @property {object} formData contains information about the set.
- * @property {function} onClick1 lets user edit or play the set.
- * @property {function} onClick2 lets user delete the set.
- * @property {function} onClick3 lets user play the set.
- * @returns card component for given exercise set.
+ * @property {string} type Decides which type of card to display.
+ * @property {object} formData Contains information about the set.
+ * @property {function} onClick1 Lets user edit or play the set.
+ * @property {function} onClick2 Lets user delete the set.
+ * @property {function} onClick3 Lets user play the set.
+ * @returns Card component for given exercise set.
  */
 function SetCard({ type, formData, onClick1, onClick2, onClick3 }) {
   const classes = useStyles();

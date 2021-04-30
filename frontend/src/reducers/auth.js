@@ -47,7 +47,7 @@ const initialState = {
 /**
  * Standard reducers used for user authentication. It is built as a switch case and
  * switches based on the Redux action being used and dispatched.
- * @param {object} state the initial state shown above.
+ * @param {object} state The initial state shown above.
  * @param {function} action Action dispatch function returning type for switch case and payload for data.
  * @returns Updated version of initialState.
  */

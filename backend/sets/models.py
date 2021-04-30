@@ -4,11 +4,18 @@ from chat.models import Chat
 from rydde_setninger.models import RyddeSetninger
 from accounts.models import UserAccount
 
+
 """
-@author Maja, Simen
+ @author Maja, Simen
+ This file contains all the models related to exercise sets. 
 """
 
 
+"""
+ This is the model for the exercise set. It determines all the fields and the constraints.
+ Each exercise set may have up to 5 exercises of each type.
+ In addition to the exercise-specific fields, each exercise set needs an owner, title and description.
+"""
 class Sets(models.Model):
     owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
@@ -23,6 +30,7 @@ class Sets(models.Model):
         Forstaelse, on_delete=models.SET_NULL, related_name='forstaelse4', blank=True, null=True)
     forstaelse5 = models.ForeignKey(
         Forstaelse, on_delete=models.SET_NULL, related_name='forstaelse5', blank=True, null=True)
+
     chat1 = models.ForeignKey(
         Chat, on_delete=models.SET_NULL, related_name='chat1', blank=True, null=True)
     chat2 = models.ForeignKey(
@@ -46,15 +54,21 @@ class Sets(models.Model):
         RyddeSetninger, on_delete=models.SET_NULL, related_name='ryddeSetninger5', blank=True, null=True)
 
 
+"""
+This is the model for the user's saved exercise sets.
+Owner and sets must be unique together because it should not be possible to save a set multiple times.
+"""
 class Saved(models.Model):
     owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     sets = models.ForeignKey(Sets, on_delete=models.CASCADE)
 
     class Meta:
-        # must be unique togheter to avoid multiple entries in database
         unique_together = ('owner', 'sets',)
 
 
+"""
+This is the model for the comments related to a exercise set.
+"""
 class Comment(models.Model):
     owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     sets = models.ForeignKey(
@@ -63,21 +77,27 @@ class Comment(models.Model):
     name = models.CharField(max_length=50, default='')
 
 
+"""
+This is the model for the user rating related to the exercise sets.
+Owner and sets must be unique together because it should not be possible to rate a set multiple times.
+"""
 class Rating(models.Model):
     owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     sets = models.ForeignKey(Sets, on_delete=models.CASCADE)
     rating = models.BooleanField()
 
     class Meta:
-        # must be unique togheter to avoid multiple entries in database
         unique_together = ('owner', 'sets',)
 
 
+"""
+This is the model for the user's completed exercise sets.
+Owner and sets must be unique together because only the best score will be saved, and not multiple scores.
+"""
 class Completed(models.Model):
     owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     sets = models.ForeignKey(Sets, on_delete=models.CASCADE)
     score = models.CharField(max_length=3)
 
     class Meta:
-        # must be unique togheter to avoid multiple entries in database
         unique_together = ('owner', 'sets',)

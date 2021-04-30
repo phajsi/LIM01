@@ -17,8 +17,8 @@ import useStyles from './styles';
  * a link for resetting password.
  * @author Simen, Phajsi
  * @param {object} props
- * @property {function} reset_password redux action for resetting password.
- * @returns container for resetting password.
+ * @property {function} reset_password Redux action for resetting password.
+ * @returns Container for resetting password.
  */
 
 const ResetPassword = ({ reset_password }) => {

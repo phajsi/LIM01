@@ -6,10 +6,10 @@ import defaultMan from '../../assets/images/defaultMan.png';
  * This is the component that is used to display messages in the chat and forstaelse exercises.
  * @author Julie, Simen
  * @param {object} props
- * @property {string} chat the message being displayed.
- * @property {string} icon decides which icon to display.
- * @property {boolean} right decides if the component should float right or left.
- * @returns a chatBubble component.
+ * @property {string} chat The message being displayed.
+ * @property {string} icon Decides which icon to display.
+ * @property {boolean} right Decides if the component should float right or left.
+ * @returns A chatBubble component.
  */
 const ChatBubble = ({ chat, icon, right }) => {
   const classes = useStyles();

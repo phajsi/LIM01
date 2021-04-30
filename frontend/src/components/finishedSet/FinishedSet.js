@@ -119,7 +119,7 @@ const FinishedSet = ({
   /**
    * Runs on first render and gets necessary content from backend
    * only if user is authenticated to avoid unnecessary requests.
-   * Also updates the users score if a new personal record was set.
+   * Also updates the user's score if a new personal record was set.
    */
   useEffect(() => {
     if (isAuthenticated) {

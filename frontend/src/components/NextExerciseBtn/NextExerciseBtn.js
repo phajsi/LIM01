@@ -10,10 +10,10 @@ import useStyles from './styles';
  * wrong answer was given.
  * @author Simen
  * @param {object} props
- * @property {function} handleNextTask onClick function for component button.
- * @property {boolean} answerState decides what type of component will be returned depending on
+ * @property {function} handleNextTask OnClick function for component button.
+ * @property {boolean} answerState Decides what type of component will be returned depending on
  * user answer.
- * @returns card component with onclick button.
+ * @returns Card component with onClick button.
  */
 
 function NextExerciseBtn({ handleNextTask, answerState }) {

@@ -1,8 +1,13 @@
 from django.db import models
 from accounts.models import UserAccount
 
+
 """
-@author Phajsi, Simen
+ @author Phajsi, Simen
+ This is the model for the forstaelse exercise. It determines all the fields and the constraints.
+ Each forstaelse exercise may have up to 3 tasks, but only 1 is required.
+ In addition to the task-specific fields, each exercise needs an owner which is a foreign key
+ related to the account model. 
 """
 
 
