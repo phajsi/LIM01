@@ -6,10 +6,11 @@ import CreateRyddeSetninger from '../../components/CreateExerciseForms/CreateRyd
 import CreateExerciseMenu from '../../components/CreateExerciseMenu/CreateExerciseMenu';
 import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
 
-// TODO
 /**
+ * Handles all the backend CRUD requests for sets and exercises
+ * and keeps track of the current set being made.
  * @author Simen, Maja
- * @returns
+ * @returns A exercise component based on the current case.
  */
 const CreateExercises = () => {
   const location = useLocation();
@@ -137,7 +138,7 @@ const CreateExercises = () => {
   }
 
   /**
-   * After the user has finished adding/deleting/editing exercises in the set,
+   * After the user has finished creating/editing exercises in the set,
    * this function will be run.
    * If a user is editing an existing set, a put request will be sent.
    * If a new set is made, a post request will be sent.

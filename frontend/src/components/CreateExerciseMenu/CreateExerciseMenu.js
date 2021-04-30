@@ -17,7 +17,18 @@ import InfoModal from '../InfoModal/InfoModal';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import useStyles from './styles';
 
-// TODO
+/**
+ * @author Maja, Simen
+ * @param {object} props
+ * @property {function} onSubmitSet Sends a post or put request to backend for updating/creating a set.
+ * @property {function} onDeleteExercise Sends a delete request to backend for deleting an exercise.
+ * @property {function} editExercise Gets the exercise formData from backend and passes it into the correct exercise.
+ * @property {function} setStep Function for changing step to correct exercise type.
+ * @property {object} formDataSet Object containing all the id's for the exercises in the set.
+ * @property {object} exerciseCounts keeps track of exercise counts to make sure no more than 5 of each type are added.
+ * @property {string} errorMessage contains the message for the current error being thrown.
+ * @returns
+ */
 const CreateExerciseMenu = ({
   onSubmitSet,
   onDeleteExercise,
