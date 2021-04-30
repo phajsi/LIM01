@@ -3,6 +3,7 @@ from .models import Sets, Saved, Comment, Rating, Completed
 
 """
 @author Maja, Simen
+This is the serializer for the all the models related to exercise sets.
 """
 
 
@@ -16,9 +17,15 @@ class SetsSerializer(serializers.ModelSerializer):
         owner = serializers.ReadOnlyField(source='owner.email')
 
 
+"""
+In addition to the fields in the model, this serializes a field for set owner which is
+the name of the owner and not just the pk(email).
+This is needed in addition to the serialzer above because it is necessary to get more 
+detailed information about the owner and not just the foreign key. 
+"""
+
+
 class GetSetsSerializer(serializers.ModelSerializer):
-    # In addition to the fields in the model, this serializes a field for set owner which is
-    # the name of the owner and not just the pk(email).
     setOwner = serializers.SerializerMethodField()
 
     def get_setOwner(self, obj):
@@ -39,6 +46,12 @@ class SavedSerializer(serializers.ModelSerializer):
         model = Saved
         fields = ('id', 'sets')
         owner = serializers.ReadOnlyField(source='owner.email')
+
+
+"""
+This serializer is necessary in addition to the one above because more information about the owner
+and set is needed and not just the foreign keys. 
+"""
 
 
 class GetSavedSerializer(serializers.ModelSerializer):
@@ -78,6 +91,12 @@ class CompletedSerializer(serializers.ModelSerializer):
         model = Completed
         fields = ('id', 'sets', 'score')
         owner = serializers.ReadOnlyField(source='owner.email')
+
+
+"""
+This serializer is necessary in addition to the one above because more information about the owner
+and set is needed and not just the foreign keys. 
+"""
 
 
 class GetCompletedSerializer(serializers.ModelSerializer):

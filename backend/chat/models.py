@@ -3,6 +3,10 @@ from accounts.models import UserAccount
 
 """
 @author Maja, Even, Julie
+This is the model for the chat exercise. It determines all the fields and the constraints.
+Each chat exercise may have up to 3 tasks, but only 1 is required.
+In addition to the task-specific fields, each exercise needs an owner which is a foreign key
+related to the account model. 
 """
 
 
