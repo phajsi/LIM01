@@ -10,7 +10,7 @@ import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
  * Handles all the backend CRUD requests for sets and exercises
  * and keeps track of the current set being made.
  * @author Simen, Maja
- * @returns A exercise component based on the current case.
+ * @returns An exercise component based on the current case.
  */
 const CreateExercises = () => {
   const location = useLocation();
