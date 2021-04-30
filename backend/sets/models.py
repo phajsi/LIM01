@@ -4,19 +4,18 @@ from chat.models import Chat
 from rydde_setninger.models import RyddeSetninger
 from accounts.models import UserAccount
 
-"""
-@author Maja, Simen
-This file contains all the models related to exercise sets. 
-"""
-
 
 """
-This is the model for the exercise set. It determines all the fields and the constraints.
-Each exercise set may have up to 5 exercises of each type.
-In addition to the exercise-specific fields, each exercise set needs an owner, title and description.
+ @author Maja, Simen
+ This file contains all the models related to exercise sets. 
 """
 
 
+"""
+ This is the model for the exercise set. It determines all the fields and the constraints.
+ Each exercise set may have up to 5 exercises of each type.
+ In addition to the exercise-specific fields, each exercise set needs an owner, title and description.
+"""
 class Sets(models.Model):
     owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
@@ -59,8 +58,6 @@ class Sets(models.Model):
 This is the model for the user's saved exercise sets.
 Owner and sets must be unique together because it should not be possible to save a set multiple times.
 """
-
-
 class Saved(models.Model):
     owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     sets = models.ForeignKey(Sets, on_delete=models.CASCADE)
@@ -72,8 +69,6 @@ class Saved(models.Model):
 """
 This is the model for the comments related to a exercise set.
 """
-
-
 class Comment(models.Model):
     owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     sets = models.ForeignKey(
@@ -86,8 +81,6 @@ class Comment(models.Model):
 This is the model for the user rating related to the exercise sets.
 Owner and sets must be unique together because it should not be possible to rate a set multiple times.
 """
-
-
 class Rating(models.Model):
     owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     sets = models.ForeignKey(Sets, on_delete=models.CASCADE)
@@ -101,8 +94,6 @@ class Rating(models.Model):
 This is the model for the user's completed exercise sets.
 Owner and sets must be unique together because only the best score will be saved, and not multiple scores.
 """
-
-
 class Completed(models.Model):
     owner = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     sets = models.ForeignKey(Sets, on_delete=models.CASCADE)

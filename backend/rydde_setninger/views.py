@@ -6,16 +6,16 @@ from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 
-"""
-@author Phajsi, Julie, Simen
-"""
 
 """
-Rydde_setninger view without permission class meaning it is accessible to anyone. 
-Only allows get requests.
+ @author Phajsi, Julie, Simen
 """
 
 
+"""
+ Rydde_setninger view without permission class meaning it is accessible to anyone. 
+ Only allows get requests.
+"""
 class RyddeSetningerView(APIView):
     # Receives a primary key in the url and returns the rydde_setninger object with the corresponding key or 404 error.
     permission_classes = []
@@ -33,8 +33,6 @@ class RyddeSetningerView(APIView):
 Protected rydde_setninger view which means requests need to include a valid token. 
 Allows post, put and delete requests.
 """
-
-
 class ProtectedRyddeSetningerView(APIView):
     # Adds new rydde_setninger object to the database model based on request body if it can be serialized correctly.
     def post(self, request):

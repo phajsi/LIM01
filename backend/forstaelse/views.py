@@ -6,16 +6,16 @@ from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 
-"""
-@author Simen, Phajsi
-"""
 
 """
-Forstaelse view without permission class meaning it is accessible to anyone. 
-Only allows get requests.
+ @author Simen, Phajsi
 """
 
 
+"""
+ Forstaelse view without permission class meaning it is accessible to anyone. 
+ Only allows get requests.
+"""
 class ForstaelseView(APIView):
     permission_classes = []
     # Receives a primary key in the url and returns the forstaelse object with the corresponding key or 404 error.
@@ -30,11 +30,9 @@ class ForstaelseView(APIView):
 
 
 """
-Protected forstaelse view which means requests need to include a valid token. 
-Allows post, put and delete requests.
+ Protected forstaelse view which means requests need to include a valid token. 
+ Allows post, put and delete requests.
 """
-
-
 class ProtectedForstaelseView(APIView):
     # Adds new forstaelse object to the database model based on request body if it can be serialized correctly.
     def post(self, request):

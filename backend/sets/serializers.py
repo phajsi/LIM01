@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from .models import Sets, Saved, Comment, Rating, Completed
 
+
 """
-@author Maja, Simen
-This is the serializer for the all the models related to exercise sets.
+ @author Maja, Simen
+ This is the serializer for the all the models related to exercise sets.
 """
 
 
@@ -18,13 +19,11 @@ class SetsSerializer(serializers.ModelSerializer):
 
 
 """
-In addition to the fields in the model, this serializes a field for set owner which is
-the name of the owner and not just the pk(email).
-This is needed in addition to the serialzer above because it is necessary to get more 
-detailed information about the owner and not just the foreign key. 
+ In addition to the fields in the model, this serializes a field for set owner which is
+ the name of the owner and not just the pk(email).
+ This is needed in addition to the serialzer above because it is necessary to get more 
+ detailed information about the owner and not just the foreign key. 
 """
-
-
 class GetSetsSerializer(serializers.ModelSerializer):
     setOwner = serializers.SerializerMethodField()
 
@@ -49,11 +48,9 @@ class SavedSerializer(serializers.ModelSerializer):
 
 
 """
-This serializer is necessary in addition to the one above because more information about the owner
-and set is needed and not just the foreign keys. 
+ This serializer is necessary in addition to the one above because more information about the owner
+ and set is needed and not just the foreign keys. 
 """
-
-
 class GetSavedSerializer(serializers.ModelSerializer):
     title = serializers.SerializerMethodField()
     setOwner = serializers.SerializerMethodField()
@@ -94,11 +91,9 @@ class CompletedSerializer(serializers.ModelSerializer):
 
 
 """
-This serializer is necessary in addition to the one above because more information about the owner
-and set is needed and not just the foreign keys. 
+ This serializer is necessary in addition to the one above because more information about the owner
+ and set is needed and not just the foreign keys. 
 """
-
-
 class GetCompletedSerializer(serializers.ModelSerializer):
     title = serializers.SerializerMethodField()
     setOwner = serializers.SerializerMethodField()
