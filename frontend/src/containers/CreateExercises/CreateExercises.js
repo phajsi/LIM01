@@ -30,7 +30,7 @@ const CreateExercises = () => {
    * I.e. it makes sure that chat2 will always be added before chat3 if both are empty.
    * It also updates the exercise counts which keeps track of how many exercises are in the set,
    * and that it is not possible to add more than 5.
-   * @param {object} form the function formDataSet as input.
+   * @param {object} form The function formDataSet as input.
    */
 
   function updateSet(form) {
@@ -68,9 +68,9 @@ const CreateExercises = () => {
 
   /**
    * Regular post request to the backend for the exercises being created in the set.
-   * @param {object} values formData object for the exercise being created.
-   * @param {string} url url to the correct exercise type backend.
-   * @param {string} type either chat, forstaelse or ryddeSetnigner.
+   * @param {object} values FormData object for the exercise being created.
+   * @param {string} url An url to the correct exercise type backend.
+   * @param {string} type Either chat, forstaelse or ryddeSetninger.
    */
   const onSubmitPost = (values, url, type) => {
     axiosInstance()
@@ -103,8 +103,8 @@ const CreateExercises = () => {
   /**
    * Gets the exercise formData from backend and passes it into the correct exercise
    * component when a user wants to edit an exercise.
-   * @param {number} id id for the exercise which will be edited.
-   * @param {string} exerciseType type of exercise to be edited.
+   * @param {number} id The id for the exercise which will be edited.
+   * @param {string} exerciseType Type of exercise to be edited.
    */
   function editExercise(id, exerciseType) {
     axiosInstance()
@@ -121,8 +121,8 @@ const CreateExercises = () => {
   /**
    * Deletes an exercise in the current set.
    * If a user tries to delete the last exercise in an already existing set, an error is thrown.
-   * @param {string} exercise name of exercise. i.e chat4.
-   * @param {string} url url to the delete api endpoint.
+   * @param {string} exercise Name of exercise. i.e chat4.
+   * @param {string} url An url to the delete api endpoint.
    */
   function onDeleteExercise(exercise, url) {
     axiosInstanceDelete()

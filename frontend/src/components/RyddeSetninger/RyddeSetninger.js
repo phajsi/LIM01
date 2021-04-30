@@ -23,15 +23,15 @@ import exerciseStyles from '../exerciseStyle';
  * This is the ryddeSetninger exercise component that is playable from Playsets.
  * @author Julie, Phajsi
  * @param {object} props
- * @property {integer} id of the ryddeSetninger exercise being played.
- * @property {function} showFeedback tracks a user's score when playing an exercise in a set and
+ * @property {integer} id This is the id of the ryddeSetninger exercise being played.
+ * @property {function} showFeedback Tracks a user's score when playing an exercise in a set and
  * which feedback case to show after finishing the exercise.
- * @property {integer} progress counts how many exercises the user has played.
- * @property {integer} possible total exercises in the set.
- * @property {function} restartSet sets setStep in Playsets to "overview" so the user can exit
+ * @property {integer} progress Counts how many exercises the user has played.
+ * @property {integer} possible Total exercises in the set.
+ * @property {function} restartSet Sets setStep in Playsets to "overview" so the user can exit
  * the exercise set from any exercise.
- * @property {function} playAudio returns a new HTMLAudioElement.
- * @returns a ryddeSetninger exercise instance.
+ * @property {function} playAudio Returns a new HTMLAudioElement.
+ * @returns A ryddeSetninger exercise instance.
  */
 const RyddeSetninger = ({
   id,

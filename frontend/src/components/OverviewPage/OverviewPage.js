@@ -31,14 +31,14 @@ import DeleteModal from '../DeleteModal';
  * if the user is authenticated. The user can click to play the set from this page.
  * @author Maja, Simen
  * @param {object} props
- * @property {string} title the exercise set's title.
- * @property {string} description the exercise set's description.
- * @property {integer} id of the exercise set.
- * @property {function} nextExercise fires when play button is clicked. Starts the exercise set.
- * @property {boolean} isAuthenticated redux state used to check if a user is auth.
- * @property {object} user redux object used to get user information.
- * @property {boolean} completed is true if the user has played the exercise set before.
- * @returns a component displaying overview information to an exercise set.
+ * @property {string} title The exercise set's title.
+ * @property {string} description The exercise set's description.
+ * @property {integer} id The id of the exercise set.
+ * @property {function} nextExercise Fires when play button is clicked. Starts the exercise set.
+ * @property {boolean} isAuthenticated Redux state used to check if a user is auth.
+ * @property {object} user Redux object used to get user information.
+ * @property {boolean} completed Boolean is true if the user has played the exercise set before.
+ * @returns A component displaying overview information to an exercise set.
  */
 const OverviewPage = ({
   title,
@@ -66,7 +66,7 @@ const OverviewPage = ({
    * This function updates exerciseFeedback when a user enters
    * the overviewpage of an exercise set with a given ID.
    * Only comments related to the set ID are added to exerciseFeedback.
-   * @param {object} feedbacks an object containing comments from backend as input.
+   * @param {object} feedbacks An object containing comments from backend as input.
    */
   function createFeedbackList(feedbacks) {
     Object.entries(feedbacks).forEach(([comment]) => {
@@ -137,7 +137,7 @@ const OverviewPage = ({
    * Then setOpen is set to false so the delete dialog is closed.
    * Length of exerciseFeedback is set to 0 to empty the variable before
    * requesting the object list of updated comments from backend.
-   * @param {number} id ID of a specific comment as input.
+   * @param {number} id The id of a specific comment as input.
    */
   function onDelete(id) {
     axios

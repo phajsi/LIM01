@@ -22,12 +22,12 @@ import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
  * Login page for the website.
  * @author Simen, Phajsi
  * @param {object} props
- * @property {function} login redux action for user auth.
- * @property {boolean} isAuthenticated redux state used to check if a user is auth.
- * @property {*} loginError redux state used to check if login failed.
- * @property {function} checkAuthenticated redux action for checking if auth is valid
+ * @property {function} login Redux action for user auth.
+ * @property {boolean} isAuthenticated Redux state used to check if a user is auth.
+ * @property {*} loginError Redux state used to check if login failed.
+ * @property {function} checkAuthenticated Redux action for checking if auth is valid
  * and updating isAuthenticated.
- * @returns container for logging in a user.
+ * @returns Container for logging in a user.
  */
 
 const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {

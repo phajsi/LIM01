@@ -8,8 +8,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
  * An icon component for saving/unsaving exercise sets.
  * @author Simen
  * @param {object} props
- * @property {integer} id for the set.
- * @returns clickable icon component.
+ * @property {integer} id The id of the set.
+ * @returns Clickable icon component.
  */
 
 function SaveIcon({ id }) {

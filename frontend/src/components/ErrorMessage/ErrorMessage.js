@@ -4,11 +4,11 @@ import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import useStyles from './styles';
 
 /**
- * Reusable errorMessage
+ * Reusable errorMessage.
  * @author Simen
  * @param {object} props
- * @property {string} message content of the error message.
- * @returns a card component with an error message, or nothing if no message was passed.
+ * @property {string} message Content of the error message.
+ * @returns A card component with an error message, or nothing if no message was passed.
  */
 
 function ErrorMessage({ message }) {

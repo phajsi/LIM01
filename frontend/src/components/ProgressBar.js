@@ -3,12 +3,12 @@ import { LinearProgress } from '@material-ui/core';
 
 /**
  * This is the progress bar displayed at the top of every exercise,
- * keeping track of the overal progress in a set.
+ * keeping track of the overall progress in a set.
  * @author Julie
  * @param {object} props
- * @property {integer} progress counts how many exercises the user has played.
- * @property {integer} possible total exercises in the set.
- * @returns a progress bar.
+ * @property {integer} progress Counts how many exercises the user has played.
+ * @property {integer} possible Total exercises in the set.
+ * @returns A progress bar.
  */
 const ProgressBar = ({ progress, possible }) => {
   const MIN = 0;

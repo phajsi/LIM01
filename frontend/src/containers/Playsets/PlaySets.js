@@ -26,7 +26,7 @@ const PlaySets = () => {
   const [exerciseId, setExerciseId] = useState(0);
   // Id for the exercise set containing the exercises.
   const [id, setId] = useState(null);
-  // trackers for progress bar and feedback pages
+  // Trackers for progress bar and feedback pages
   const [totalScore, setTotalScore] = useState(0);
   const [totalExercises, setTotalExercises] = useState(0);
   const [feedbackState, setFeedbackState] = useState(false);
@@ -56,7 +56,7 @@ const PlaySets = () => {
    * playlist with exercise IDs. The playlist will be stored as an object with
    * three lists, one for each exercise type. Only exercise types with an ID will be
    * added, and other data will be ignored.
-   * @param {object} sets an object containing sets from backend.
+   * @param {object} sets An object containing sets from backend.
    */
   function createPlayList(sets) {
     formDataExercises.chat.length = 0;

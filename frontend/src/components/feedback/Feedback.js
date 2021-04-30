@@ -5,14 +5,14 @@ import sadPickle from '../../assets/images/sadPickle.png';
 import mariusPickle from '../../assets/images/mariusPickle.png';
 
 /**
- * This is the feedback page between exercises
+ * This is the feedback page between exercises.
  * @author Julie
  * @param {object} props
  * @property {integer} totalScore Keeps track of the players total score.
  * @property {integer} totalExercises Total number of exercises in a set.
  * @property {boolean} feedbackState True if the player answered correctly, false if not.
  * @property {function} nextExercise Button that takes the player to the next exercise.
- * @returns a feedback page.
+ * @returns A feedback page.
  */
 const Feedback = ({
   totalScore,
@@ -21,7 +21,7 @@ const Feedback = ({
   nextExercise,
 }) => {
   const classes = useStyles();
-  // returns a different feedback page if the player succeeded or not.
+  // Returns a different feedback page if the player succeeded or not.
   switch (feedbackState) {
     case true:
       return (

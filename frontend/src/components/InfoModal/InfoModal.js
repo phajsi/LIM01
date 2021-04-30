@@ -20,10 +20,10 @@ import useStyles from './styles';
  * ryddeSetninger exercise.
  * @author Maja, Even
  * @param {object} props
- * @property {boolean} showModal is true if user has clicked on an info button to view more info.
- * @property {function} setShowModal sets showModal to true if user has clicked on an info button,
- * and showModal to false if user has clicked to close an open info modal.
- * @returns a modal with the requested information when showModal is true.
+ * @property {boolean} showModal Boolean is true if user has clicked on an info button to view more info.
+ * @property {function} setShowModal This function sets showModal to true if user has clicked on an
+ * info button, and showModal to false if user has clicked to close an open info modal.
+ * @returns A modal with the requested information when showModal is true.
  */
 const InfoModal = ({ showModal, setShowModal }) => {
   const classes = useStyles();
