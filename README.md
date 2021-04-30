@@ -70,7 +70,7 @@ The commands may vary depening on the os that you are using. The installation gu
 
 To run tests and get a coverage report run the following command in the frontend folder:
 
-- `python manage.py runserver`
+- `npm run coverage`
 
 ## Authors
 
