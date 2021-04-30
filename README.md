@@ -4,6 +4,7 @@
 
 - [About](#about)
 - [Installation](#installation)
+- [Testing](#testing)
 - [Authors](#authors)
 - [Credits](#credits)
 - [More information](#more-information)
@@ -11,7 +12,7 @@
 ## About
 
 This is the repository for the DiPICKLE for the [Language, Integration and Media Project (LIM-Project)](https://www.ntnu.edu/web/isl/lim) at NTNU. It was created by a group of five Informatics students in the course IT2901 "Informatics Project II" at NTNU.
-The development began in January 2021. 
+The development began in January 2021.
 The project vision is to create an interactive language-learning website that can help young migrant students learn Norwegian in a fun and engaging way.
 
 ## Installation
@@ -32,7 +33,6 @@ The project vision is to create an interactive language-learning website that ca
    Create a virtual environment. It can be inside the project folder or somewhere else on your computer. If you are making it inside the project folder then make sure to not push it to github.
 
    - `python3 -m venv name_of_environment`
-
 
    After creating the environment it has to be activated. You do this by going into /env/Scripts/, then write activate in the terminal. In Git Bash, you have to write `source activate` in the terminal from /env/Scripts/.
 
@@ -62,9 +62,15 @@ The project vision is to create an interactive language-learning website that ca
      http://localhost:8000/
 
    _Alternatively you can run the project from the frontend folder by running `npm start` However this will not run the backend server, but it can be useful if working with UI/UX._
-   
-**Remark**   
-The commands may vary depening on the os that you are using. The installation guide is based on Windows and Git bash command line. 
+
+**Remark**  
+The commands may vary depening on the os that you are using. The installation guide is based on Windows and Git bash command line.
+
+## Testing
+
+To run tests and get a coverage report run the following command in the frontend folder:
+
+- `python manage.py runserver`
 
 ## Authors
 
@@ -83,4 +89,3 @@ Simen Opedal
 The Project was setup with the help of this tutorial:
 
 - [Django & React JWT Authentication](https://www.youtube.com/watch?v=QFDyXWRYQjY&list=PLJRGQoqpRwdfoa9591BcUS6NmMpZcvFsM)
-

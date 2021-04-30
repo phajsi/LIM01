@@ -12,8 +12,8 @@ import Login from './Login';
 
 jest.mock('axios');
 
-describe('ResetPasswordConfirm test', () => {
-  it('should render correctly', async () => {
+describe('ResetPasswordConfirm component', () => {
+  test('should render correctly', async () => {
     await act(async () =>
       render(
         <Provider store={store}>
@@ -28,7 +28,7 @@ describe('ResetPasswordConfirm test', () => {
     expect(screen.getByPlaceholderText('New Password'));
     expect(screen.getByPlaceholderText('Confirm New Password'));
   });
-  it('should verify properly and redirect', async () => {
+  test('should verify password change properly and redirect', async () => {
     axios.post.mockResolvedValue({});
     await act(async () =>
       render(
@@ -54,7 +54,7 @@ describe('ResetPasswordConfirm test', () => {
     expect(screen.getByText('Har du ikke en konto?'));
     expect(axios.post).toHaveBeenCalledTimes(1);
   });
-  it('should verify properly and redirect', async () => {
+  test('should reject password change', async () => {
     axios.post.mockRejectedValue({
       response: {
         status: 400,
@@ -89,7 +89,7 @@ describe('ResetPasswordConfirm test', () => {
     );
     expect(axios.post).toHaveBeenCalledTimes(1);
   });
-  it('should verify properly and redirect', async () => {
+  it('should reject and give general error', async () => {
     axios.post.mockRejectedValue({
       response: {
         status: 404,

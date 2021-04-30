@@ -13,7 +13,7 @@ import StartPage from '../StartPage/StartPage';
 jest.mock('axios');
 
 describe('The Login component', () => {
-  it('should render correctly', async () => {
+  test('should render correctly', async () => {
     await act(async () =>
       render(
         <Provider store={store}>
@@ -27,7 +27,7 @@ describe('The Login component', () => {
     expect(screen.getByText('Verify your Account'));
     expect(screen.getByText('Verify'));
   });
-  it('should render correctly', async () => {
+  test('activate account', async () => {
     axios.post.mockResolvedValue({});
     await act(async () =>
       render(

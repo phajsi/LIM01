@@ -7,6 +7,13 @@ import useStyles from './styles';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 /**
+ * This code is based on a youtube tutorial:
+ * Django & React JWT Authentication by Bryan Dunn
+ * https://www.youtube.com/watch?v=QFDyXWRYQjY&list=PLJRGQoqpRwdfoa9591BcUS6NmMpZcvFsM
+ * It has been modified and changed to fit our project.
+ */
+
+/**
  * After requesting a password reset and receiving an email with a link, the user
  * is sent to this page for entering a new password.
  * @author Simen, Phajsi

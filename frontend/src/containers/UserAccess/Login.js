@@ -39,7 +39,7 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
     password: '',
   });
 
-  // Boolean so user can toggle visible password in password field.
+  // Boolean so user can toggle password visibility in password field.
   const [showPassword, setShowPassword] = useState(false);
 
   const { email, password } = formData;

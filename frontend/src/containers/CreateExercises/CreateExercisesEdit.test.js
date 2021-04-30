@@ -41,8 +41,8 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-describe('Create Exercises Edit test', () => {
-  test('Edit set', async () => {
+describe('Editiing create Exercises ', () => {
+  test('edit set', async () => {
     await act(async () =>
       render(
         <Router>

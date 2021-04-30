@@ -6,6 +6,13 @@ import { verify } from '../../actions/auth';
 import useStyles from './styles';
 
 /**
+ * This code is based on a youtube tutorial:
+ * Django & React JWT Authentication by Bryan Dunn
+ * https://www.youtube.com/watch?v=QFDyXWRYQjY&list=PLJRGQoqpRwdfoa9591BcUS6NmMpZcvFsM
+ * It has been modified and changed to fit our project.
+ */
+
+/**
  * Link to this page is sent to the user's email address after successfully registering
  * an account. The user can activate the registered account on this page.
  * @author Simen, Phajsi

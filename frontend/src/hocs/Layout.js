@@ -4,6 +4,10 @@ import { checkAuthenticated, load_user } from '../actions/auth';
 import Navbar from '../components/Navbar/Navbar';
 import useStyles from './styles';
 
+/**
+ * @author Phajsi, Simen
+ */
+// TODO
 const Layout = (props) => {
   const classes = useStyles();
   useEffect(() => {

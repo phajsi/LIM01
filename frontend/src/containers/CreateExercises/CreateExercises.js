@@ -6,6 +6,11 @@ import CreateRyddeSetninger from '../../components/CreateExerciseForms/CreateRyd
 import CreateExerciseMenu from '../../components/CreateExerciseMenu/CreateExerciseMenu';
 import { axiosInstance, axiosInstanceDelete } from '../../helpers/ApiFunctions';
 
+// TODO
+/**
+ * @author Simen, Maja
+ * @returns
+ */
 const CreateExercises = () => {
   const location = useLocation();
 
@@ -82,7 +87,7 @@ const CreateExercises = () => {
       });
   };
 
-  // Same as function above, but is used when a user wants to edit an existing exercise in the set.
+  // Same as the function above, but is used when a user wants to edit an existing exercise in the set.
   const onSubmitPut = (values, url) => {
     axiosInstance()
       .put(url, values)
@@ -115,7 +120,7 @@ const CreateExercises = () => {
 
   /**
    * Deletes an exercise in the current set.
-   * If a user tries to delete the last exercise in an already existing set, then an error is thrown.
+   * If a user tries to delete the last exercise in an already existing set, an error is thrown.
    * @param {string} exercise name of exercise. i.e chat4.
    * @param {string} url url to the delete api endpoint.
    */
