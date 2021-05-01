@@ -6,10 +6,11 @@ import useStyles from './styles';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 /**
- * @author Simen
- * @returns
+ * A searchbar component that redirects to a playable set, corresponding to the set ID
+ * the player searches for.
+ * @author Simen, Phajsi
+ * @returns SearchBar component.
  */
-// TODO
 const SearchBar = () => {
   const classes = useStyles();
   const [redirectPlay, setRedirectPlay] = useState(false);
@@ -22,7 +23,7 @@ const SearchBar = () => {
   };
 
   /**
-   * Handles logic after user has entered something in the search bar.
+   * Handles the logic after the user has entered something in the searchbar.
    * If valid input then it checks if the set exists.
    * Sets error message if the set doesn't exist, and redirects to set if it does exist.
    */

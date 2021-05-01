@@ -58,13 +58,16 @@ const Chat = ({
   // Keeps track of which task in the exercise the user is currently on.
   const [taskStep, setTaskStep] = useState(1);
   const [score, setScore] = useState(0);
-  const [totalPossibleScore, setTotalPossibeScore] = useState(0);
+  const [totalPossibleScore, setTotalPossibleScore] = useState(0);
 
   // List that keeps track of conversation history in the chat exercise.
   const [chatHistory] = useState([]);
 
   const [disabled, setDisabled] = useState(false);
 
+  /* Objects that take both the component style and a common style between all
+  exercises, to finally integrate both style objects into the classes object
+  to be used in the component */
   const className = useStyles();
   const classesBase = exerciseStyles();
   const classes = { ...className, ...classesBase };
@@ -72,7 +75,12 @@ const Chat = ({
   // Data for the chat exercise from backend.
   const [formData, setFormData] = useState({});
 
-  // TODO
+  /**
+   * Function that checks if the input argument corresponds to a case
+   * with a similar name, in order to return the right image object.
+   * @param {string} iconName Icon name from the database.
+   * @returns The image object corresponding the input argument.
+   */
   const transformIcon = (iconName) => {
     switch (iconName) {
       case 'gingerMan':
@@ -126,10 +134,10 @@ const Chat = ({
     if (answer === formData[`correctanswer${taskStep}`]) {
       setAnswerstate('correct');
       setScore(score + 1);
-      setTotalPossibeScore(totalPossibleScore + 1);
+      setTotalPossibleScore(totalPossibleScore + 1);
     } else {
       setAnswerstate('incorrect');
-      setTotalPossibeScore(totalPossibleScore + 1);
+      setTotalPossibleScore(totalPossibleScore + 1);
     }
     setTaskStep(taskStep + 1);
     chatHistory.push(answer);
