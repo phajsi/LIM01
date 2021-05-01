@@ -21,9 +21,9 @@ import DeleteModal from '../../components/DeleteModal';
 import useStyles from './styles';
 
 /**
- *
+ * This is the container for the home page.
  * @author Phajsi, Simen
- * @returns
+ * @returns The user home page.
  */
 const Home = () => {
   const classes = useStyles();
