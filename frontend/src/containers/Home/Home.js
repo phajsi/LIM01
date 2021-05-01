@@ -20,8 +20,8 @@ import SetCard from '../../components/SetCard/SetCard';
 import DeleteModal from '../../components/DeleteModal';
 import useStyles from './styles';
 
-// TODO
 /**
+ *
  * @author Phajsi, Simen
  * @returns
  */
@@ -29,6 +29,7 @@ const Home = () => {
   const classes = useStyles();
 
   // Three lists that are updated with data from backend when the page renders.
+
   // List of the users own sets.
   const [ExerciseSetList, setExerciseSetList] = useState([]);
   // List of saved sets.

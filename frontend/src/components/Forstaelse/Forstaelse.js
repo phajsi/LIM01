@@ -42,11 +42,6 @@ const Forstaelse = ({
   restartSet,
   playAudio,
 }) => {
-  // TODO
-  const className = useStyles();
-  const classesBase = exerciseStyles();
-  const classes = { ...className, ...classesBase };
-
   // Data for the forstaelse exercise from backend.
   const [formData, setFormData] = useState({});
 
@@ -56,9 +51,16 @@ const Forstaelse = ({
   // Keeps track of which task in the exercise the user is currently on.
   const [taskStep, setTaskStep] = useState(1);
   const [score, setScore] = useState(0);
-  const [totalPossibleScore, setTotalPossibeScore] = useState(0);
+  const [totalPossibleScore, setTotalPossibleScore] = useState(0);
 
   const [disabled, setDisabled] = useState(false);
+
+  /* Objects that take both the component style and a common style between all
+  exercises, to finally integrate both style objects into the classes object
+  to be used in the component */
+  const className = useStyles();
+  const classesBase = exerciseStyles();
+  const classes = { ...className, ...classesBase };
 
   // Gets the exercise content with {id} from backend.
   function getContent() {
@@ -82,10 +84,10 @@ const Forstaelse = ({
     if (formData[`answer${taskStep}`] === userAnswer) {
       setAnswerState('correct');
       setScore(score + 1);
-      setTotalPossibeScore(totalPossibleScore + 1);
+      setTotalPossibleScore(totalPossibleScore + 1);
     } else {
       setAnswerState('incorrect');
-      setTotalPossibeScore(totalPossibleScore + 1);
+      setTotalPossibleScore(totalPossibleScore + 1);
     }
   }
 

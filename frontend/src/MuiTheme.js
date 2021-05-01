@@ -1,6 +1,6 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
-// TODO
+// Customized the Matearial UI global theme with the projects preferences.
 const MuiTheme = createMuiTheme({
   palette: {
     primary: {

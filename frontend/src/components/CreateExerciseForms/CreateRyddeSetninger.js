@@ -28,7 +28,15 @@ const validationSchema = yup.object({
   word3: yup.string().required('Dette feltet må fylles ut.').max(20),
 });
 
-// TODO
+/**
+ * @author Julie, Simen, Phajsi
+ * @param {object} props
+ * @property {function} onGoBack Function that takes the user to the CreateExercises page.
+ * @property {object} formDataEdit Object that gets a previously written exercise from the database.
+ * @property {function} onSubmitPost Function that runs if the Chat is being edited.
+ * @property {function} onSubmitPut Function that runs if the Chat is new.
+ * @returns a CreateRyddeSetninger component based on if the exercise is new or being edited.
+ */
 const CreateRyddeSetninger = ({
   onGoBack,
   formDataEdit,

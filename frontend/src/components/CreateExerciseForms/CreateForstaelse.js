@@ -29,7 +29,15 @@ const validationSchema = yup.object({
   explanation1: yup.string().required('Dette feltet må fylles ut.').max(1000),
 });
 
-// TODO
+/**
+ * @author Simen, Phajsi
+ * @param {object} props
+ * @property {function} onGoBack Function that takes the user to the CreateExercises page.
+ * @property {object} formDataEdit Object that gets a previously written exercise from the database.
+ * @property {function} onSubmitPost Function that runs if the Chat is being edited.
+ * @property {function} onSubmitPut Function that runs if the Chat is new.
+ * @returns a CreateForstaelse component based on if the exercise is new or being edited.
+ */
 const CreateForstaelse = ({
   onGoBack,
   formDataEdit,
@@ -40,7 +48,11 @@ const CreateForstaelse = ({
   const [taskAmount, setTaskAmount] = useState(1);
   const [showModal, setShowModal] = useState(false);
 
-  // TODO
+  /**
+   * Runs when the page first renders and checks if an existing exercise
+   * should be edited. FormDataEdit is passed as props if it is an exisiting exercise.
+   * If not, this function does nothing.
+   */
   useEffect(() => {
     if (formDataEdit) {
       if (formDataEdit.chat3) {
