@@ -14,7 +14,7 @@ const ProgressBar = ({ progress, possible }) => {
   const MIN = 0;
   const MAX = possible;
   // Takes the users progress and fills the progress bar as a percentage of the total number of exercises.
-  const normalise = (value) => ((value - MIN) * 100) / (MAX - MIN);
+  const normalise = (progress) => ((progress - MIN) * 100) / (MAX - MIN);
 
   return (
     <LinearProgress
