@@ -7,13 +7,21 @@ import useStyles from './styles';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 /**
- * after requesting a password reset and receiving an email with a link the user
+ * This code is based on a youtube tutorial:
+ * Django & React JWT Authentication by Bryan Dunn
+ * https://www.youtube.com/watch?v=QFDyXWRYQjY&list=PLJRGQoqpRwdfoa9591BcUS6NmMpZcvFsM
+ * It has been modified and changed to fit our project.
+ */
+
+/**
+ * After requesting a password reset and receiving an email with a link, the user
  * is sent to this page for entering a new password.
- * @param {object} param0 props
- * @property {object} match react router to match url
- * @property {function} reset_password_confirm redux action for changing password
- * @property {*} passwordReset redux state for checking if the reset threw an error or not
- * @returns container for resetting password
+ * @author Simen, Phajsi
+ * @param {object} props
+ * @property {object} match React router to match url.
+ * @property {function} reset_password_confirm Redux action for changing password.
+ * @property {*} passwordReset Redux state for checking if the reset threw an error or not.
+ * @returns Container for resetting password.
  */
 const ResetPasswordConfirm = ({
   match,

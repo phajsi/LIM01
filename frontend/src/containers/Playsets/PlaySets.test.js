@@ -21,13 +21,13 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-describe('PlaySets', () => {
+describe('PlaySets component', () => {
   const respSet = SetMock();
   const respChat = ChatMock();
   const respForstaelse = ForstaelseMock();
   const respRydde = RyddeSetningerMock();
 
-  test('Playthrough', async () => {
+  test('playthrough', async () => {
     axios.get.mockImplementation((url) => {
       if (url === `${process.env.REACT_APP_API_URL}/api/sets/${5}`) {
         return Promise.resolve({ data: respSet });
@@ -117,7 +117,7 @@ describe('PlaySets', () => {
     ).toBeVisible();
     expect(axios.get).toHaveBeenCalledTimes(7);
   });
-  test('completed Get and restart set', async () => {
+  test('retrieve completed set and restart set', async () => {
     axios.get.mockImplementation((url) => {
       if (url === `${process.env.REACT_APP_API_URL}/api/sets/${5}`) {
         return Promise.resolve({ data: respSet });

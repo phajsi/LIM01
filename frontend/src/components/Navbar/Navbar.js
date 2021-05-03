@@ -20,12 +20,27 @@ import { logout } from '../../actions/auth';
 import logo from '../../assets/images/logoWithText.png';
 import useStyles from './styles';
 
+/**
+ * Global navbar component that displays a navbar for desktop and
+ * laptop screen sizes, and displays a hamburger menu for mobile
+ * screen sizes. The navbar has differing links in respect to if
+ * the user is logged in or not.
+ * @param {object} props
+ * @property {function} logout Redux dispatch function that logs out the user.
+ * @property {boolean} isAuthenticated Boolean that checks if user is logged in or not.
+ * @property {object} user Name of the user that is logged in.
+ * @returns a navbar component based on if the user is logged in or not.
+ */
+
 const Navbar = ({ logout, isAuthenticated, user }) => {
   const classes = useStyles();
 
   const [redirect, setRedirect] = useState(false);
+
+  // Boolean state that keeps track if the hamburger mernu is open.
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // Function that toggled between opening and closing the hamburger menu.
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -36,6 +51,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
     handleDrawerToggle();
   };
 
+  // Links that are displayed if the user is not logged in.
   const guestLinks = () => (
     <>
       <Hidden xsDown implementation="css">
@@ -49,7 +65,12 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
         </Typography>
       </Hidden>
 
-      <Drawer anchor="top" open={mobileOpen} onClose={handleDrawerToggle}>
+      <Drawer
+        data-testid="drawer"
+        anchor="top"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+      >
         <div className={classes.spacing} />
         <List
           component="nav"
@@ -75,6 +96,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
     </>
   );
 
+  // Links that are displayed if the user is logged in.
   const authLinks = () => (
     <>
       <Hidden xsDown implementation="css">
@@ -130,6 +152,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerToggle}
+            data-testid="hamburgerMenuButton"
             className={classes.menuButton}
           >
             <MenuIcon className={classes.menuSVG} />

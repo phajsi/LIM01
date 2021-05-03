@@ -13,17 +13,30 @@ import {
   IconButton,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import InfoIcon from '@material-ui/icons/Info';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import RemoveIcon from '@material-ui/icons/Remove';
 import InfoModal from '../InfoModal/InfoModal';
 import useStyles from './styles';
 
+/*
+ * Used to specify validations for the form.
+ * It specifies which fields need validation and gives a specific error message.
+ */
 const validationSchema = yup.object({
   word1: yup.string().required('Dette feltet må fylles ut.').max(20),
   word2: yup.string().required('Dette feltet må fylles ut.').max(20),
   word3: yup.string().required('Dette feltet må fylles ut.').max(20),
 });
 
+/**
+ * @author Julie, Simen, Phajsi
+ * @param {object} props
+ * @property {function} onGoBack Function that takes the user to the CreateExercises page.
+ * @property {object} formDataEdit Object that gets a previously written exercise from the database.
+ * @property {function} onSubmitPost Function that runs if the Chat is being edited.
+ * @property {function} onSubmitPut Function that runs if the Chat is new.
+ * @returns a CreateRyddeSetninger component based on if the exercise is new or being edited.
+ */
 const CreateRyddeSetninger = ({
   onGoBack,
   formDataEdit,
@@ -37,11 +50,11 @@ const CreateRyddeSetninger = ({
 
   /**
    * Used to avoid repetition of same code because there are many similar fields.
-   * @param {String} name the name of the field.
-   * @param {String} label name/description that will be visibile to the user
-   * @param {Boolean} touched Formik prop. validation will only run if field has been touched by user
-   * @param {Boolean} errors Formik prop to handle errors on user input.
-   * @returns The complete field that will be shown to the user
+   * @param {string} name The name of the field.
+   * @param {string} label The name/description that will be visibile to the user.
+   * @param {boolean} touched Formik prop. Validation will only run if field has been touched by user.
+   * @param {boolean} errors Formik prop to handle errors on user input.
+   * @returns The complete field that will be shown to the user.
    */
   function formTextField(name, label, touched, errors) {
     return (
@@ -51,6 +64,7 @@ const CreateRyddeSetninger = ({
         margin="dense"
         fullWidth
         variant="outlined"
+        data-testid={name}
         as={TextField}
         error={touched[name] && errors[name]}
         helperText={touched[name] && errors[name]}
@@ -84,14 +98,14 @@ const CreateRyddeSetninger = ({
   }
 
   /**
-   * Runs when the page first renders and checks if an exisitng exercise
-   * should be edited. formDataEdit is passed as props if it is an exisiting exercise.
-   * if not, this function does nothing.
+   * Runs when the page first renders and checks if an existing exercise
+   * should be edited. FormDataEdit is passed as props if it is an exisiting exercise.
+   * If not, this function does nothing.
    */
   useEffect(() => {
     if (formDataEdit) {
       let wordAmount = 0;
-      // used to keep track of how many words the exercise has.
+      // Used to keep track of how many words the exercise has.
       Object.entries(formDataEdit).forEach(([key, values]) => {
         if (!key.includes('Class') && key !== 'id' && values !== '') {
           wordAmount += 1;
@@ -105,8 +119,13 @@ const CreateRyddeSetninger = ({
     <Paper className={classes.root}>
       <div className={classes.headergroup}>
         <Typography variant="h1">Rydde Setninger</Typography>
-        <IconButton onClick={() => setShowModal('createrydde_setninger')}>
-          <InfoIcon className={classes.icons} />
+        <IconButton
+          data-testid="infoButton"
+          color="secondary"
+          className={classes.infoiconButton}
+          onClick={() => setShowModal('createrydde_setninger')}
+        >
+          <InfoOutlinedIcon className={classes.icons} />
         </IconButton>
       </div>
       <Formik
@@ -164,13 +183,13 @@ const CreateRyddeSetninger = ({
                 <Fab
                   className={classes.innerMargin}
                   size="small"
-                  color="secondary"
                   onClick={() => {
                     setFieldValue(`word${words}`, '', false);
                     setFieldValue(`wordClass${words}`, '', false);
                     addWords(words - 1);
                   }}
-                  variant="contained"
+                  variant="round"
+                  data-testid="removeButton"
                 >
                   <RemoveIcon />
                 </Fab>
@@ -179,9 +198,9 @@ const CreateRyddeSetninger = ({
                 <Fab
                   className={classes.innerMargin}
                   size="small"
-                  color="secondary"
                   onClick={() => addWords(words + 1)}
-                  variant="contained"
+                  variant="round"
+                  data-testid="addButton"
                 >
                   <AddIcon />
                 </Fab>

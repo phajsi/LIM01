@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   text: {
     fontWeight: '600',
-    margin: theme.spacing(0),
+    margin: 'auto',
+    textAlign: 'center',
   },
   gridText: {
     paddingBottom: theme.spacing(0),
@@ -13,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
     float: 'right',
   },
   explanation: {
-    margin: 'auto',
+    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(2),
   },
 }));
 

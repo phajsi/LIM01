@@ -1,3 +1,10 @@
+/**
+ * This code is based on a youtube tutorial:
+ * Django & React JWT Authentication by Bryan Dunn
+ * https://www.youtube.com/watch?v=QFDyXWRYQjY&list=PLJRGQoqpRwdfoa9591BcUS6NmMpZcvFsM
+ * @author Phajsi, Simen
+ */
+
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';

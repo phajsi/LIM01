@@ -6,11 +6,19 @@ import { reset_password } from '../../actions/auth';
 import useStyles from './styles';
 
 /**
- * Users can enter email and request a password reset. an email will be sent with
+ * This code is based on a youtube tutorial:
+ * Django & React JWT Authentication by Bryan Dunn
+ * https://www.youtube.com/watch?v=QFDyXWRYQjY&list=PLJRGQoqpRwdfoa9591BcUS6NmMpZcvFsM
+ * It has been modified and changed to fit our project.
+ */
+
+/**
+ * Users can enter email and request a password reset. An email will be sent with
  * a link for resetting password.
- * @param {object} param0 props
- * @property {reset_password} reset_password redux action for resetting password
- * @returns container for resetting password
+ * @author Simen, Phajsi
+ * @param {object} props
+ * @property {function} reset_password Redux action for resetting password.
+ * @returns Container for resetting password.
  */
 
 const ResetPassword = ({ reset_password }) => {

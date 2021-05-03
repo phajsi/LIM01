@@ -9,12 +9,13 @@ import {
 } from '@material-ui/core';
 
 /**
- * Modal for confirming unreversable deletions.
- * @param {Object} param0 props
- * @property {boolean} open open or closed modal
- * @property {function} setopen function for opening or closing the modal
- * @property {function} onDelete function that runs if the user confirms the deletion
- * @returns open of closed modal component
+ * Modal for confirming irreversible deletions.
+ * @author Simen
+ * @param {object} props
+ * @property {boolean} open Open or closed modal.
+ * @property {function} setOpen Function for opening or closing the modal.
+ * @property {function} onDelete Function that runs if the user confirms the deletion.
+ * @returns Open or closed modal component.
  */
 const DeleteModal = ({ open, setOpen, onDelete }) => {
   return (

@@ -27,7 +27,20 @@ import useStyles from './styles';
 import exerciseStyles from '../exerciseStyle';
 import ProgressBar from '../ProgressBar';
 
-// chat exercise component for playing.
+/**
+ * This is the chat exercise component that is playable from Playsets.
+ * @author Maja, Julie, Even, Simen, Phajsi
+ * @param {object} props
+ * @property {integer} id This is the id of the chat exercise being played.
+ * @property {function} showFeedback Tracks a user's score when playing an exercise in a set and
+ * which feedback case to show after finishing the exercise.
+ * @property {integer} progress Counts how many exercises the user has played.
+ * @property {integer} possible Total exercises in the set.
+ * @property {function} restartSet Sets setStep in Playsets to "overview" so the user can exit
+ * the exercise set from any exercise.
+ * @property {function} playAudio Returns a new HTMLAudioElement.
+ * @returns A chat exercise instance.
+ */
 const Chat = ({
   id,
   showFeedback,
@@ -39,26 +52,35 @@ const Chat = ({
   const [sendericon, setSendericon] = useState();
   const [receivericon, setReceivericon] = useState();
 
-  // null if user hasnt given answer. "corrent" or "incorrect" if user has given answer
+  // Null if user hasn't given an answer, "correct" or "incorrect" if user has given an answer.
   const [answerstate, setAnswerstate] = useState(null);
 
-  // keeps track of which task in the exercise the user is currently on.
+  // Keeps track of which task in the exercise the user is currently on.
   const [taskStep, setTaskStep] = useState(1);
   const [score, setScore] = useState(0);
-  const [totalPossibleScore, setTotalPossibeScore] = useState(0);
+  const [totalPossibleScore, setTotalPossibleScore] = useState(0);
 
-  // list that keeps track of conversation history in the chat exercise
+  // List that keeps track of conversation history in the chat exercise.
   const [chatHistory] = useState([]);
 
   const [disabled, setDisabled] = useState(false);
 
+  /* Objects that take both the component style and a common style between all
+  exercises, to finally integrate both style objects into the classes object
+  to be used in the component */
   const className = useStyles();
   const classesBase = exerciseStyles();
   const classes = { ...className, ...classesBase };
 
-  // Data for the chat exercise from backend
+  // Data for the chat exercise from backend.
   const [formData, setFormData] = useState({});
 
+  /**
+   * Function that checks if the input argument corresponds to a case
+   * with a similar name, in order to return the right image object.
+   * @param {string} iconName Icon name from the database.
+   * @returns The image object corresponding the input argument.
+   */
   const transformIcon = (iconName) => {
     switch (iconName) {
       case 'gingerMan':
@@ -99,29 +121,29 @@ const Chat = ({
   const handleNextTask = () => {
     setAnswerstate(null);
     if (!formData[`chatquestion${taskStep}`]) {
-      // if there are no more tasks then it goes to showfeedback
+      // If there are no more tasks then showfeedback is fired.
       showFeedback(score, totalPossibleScore);
     } else {
-      // else it adds the new task to the chat history list
+      // Else it adds the new task to the chat history list.
       chatHistory.push(formData[`chatquestion${taskStep}`]);
     }
   };
 
   function handleAnswer(answer) {
-    // checks if answer is correct or not
+    // Checks if answer is correct or not.
     if (answer === formData[`correctanswer${taskStep}`]) {
       setAnswerstate('correct');
       setScore(score + 1);
-      setTotalPossibeScore(totalPossibleScore + 1);
+      setTotalPossibleScore(totalPossibleScore + 1);
     } else {
       setAnswerstate('incorrect');
-      setTotalPossibeScore(totalPossibleScore + 1);
+      setTotalPossibleScore(totalPossibleScore + 1);
     }
     setTaskStep(taskStep + 1);
     chatHistory.push(answer);
   }
 
-  // function for randomizing the answers so the correct answer isnt always the same button
+  // Function for randomizing the answers so the correct answer isn't always the same button.
   function random() {
     const buttonList = [
       formData[`answer${taskStep}1`],

@@ -52,6 +52,11 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: '#F68365',
   },
+  infoiconButton: {
+    '&.MuiIconButton-colorSecondary:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+    },
+  },
   infoicon: {
     fontSize: '1.5em',
     justifyContent: 'flex-end',

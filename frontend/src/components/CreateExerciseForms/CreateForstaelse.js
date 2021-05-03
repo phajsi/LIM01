@@ -13,11 +13,15 @@ import TextField from '@material-ui/core/TextField';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import AddIcon from '@material-ui/icons/Add';
-import InfoIcon from '@material-ui/icons/Info';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import RemoveIcon from '@material-ui/icons/Remove';
 import InfoModal from '../InfoModal/InfoModal';
 import useStyles from './styles';
 
+/*
+ * Used to specify validations for the form.
+ * It specifies which fields need validation and gives a specific error message.
+ */
 const validationSchema = yup.object({
   chat1: yup.string().required('Dette feltet må fylles ut.').max(1000),
   question1: yup.string().required('Dette feltet må fylles ut.').max(1000),
@@ -25,6 +29,15 @@ const validationSchema = yup.object({
   explanation1: yup.string().required('Dette feltet må fylles ut.').max(1000),
 });
 
+/**
+ * @author Simen, Phajsi
+ * @param {object} props
+ * @property {function} onGoBack Function that takes the user to the CreateExercises page.
+ * @property {object} formDataEdit Object that gets a previously written exercise from the database.
+ * @property {function} onSubmitPost Function that runs if the Chat is being edited.
+ * @property {function} onSubmitPut Function that runs if the Chat is new.
+ * @returns a CreateForstaelse component based on if the exercise is new or being edited.
+ */
 const CreateForstaelse = ({
   onGoBack,
   formDataEdit,
@@ -35,7 +48,11 @@ const CreateForstaelse = ({
   const [taskAmount, setTaskAmount] = useState(1);
   const [showModal, setShowModal] = useState(false);
 
-  // used to check if an exisitng exercise should be edited or a new one made.
+  /**
+   * Runs when the page first renders and checks if an existing exercise
+   * should be edited. FormDataEdit is passed as props if it is an exisiting exercise.
+   * If not, this function does nothing.
+   */
   useEffect(() => {
     if (formDataEdit) {
       if (formDataEdit.chat3) {
@@ -48,10 +65,10 @@ const CreateForstaelse = ({
 
   /**
    * Used to avoid repetition of same code because there are many similar fields.
-   * @param {String} name the name of the field.
-   * @param {Boolean} touched Formik prop. validation will only run if field has been touched by user
-   * @param {Boolean} errors Formik prop to handle errors on user input.
-   * @returns The complete field that will be shown to the user
+   * @param {string} name The name of the field.
+   * @param {boolean} touched Formik prop. Validation will only run if field has been touched by user.
+   * @param {boolean} errors Formik prop to handle errors on user input.
+   * @returns The complete field that will be shown to the user.
    */
 
   function formTextField(name, touched, errors) {
@@ -90,8 +107,13 @@ const CreateForstaelse = ({
     <Paper className={classes.root}>
       <div className={classes.headergroup}>
         <Typography variant="h1">Forståelse</Typography>
-        <IconButton onClick={() => setShowModal('createforstaelse')}>
-          <InfoIcon className={classes.icons} />
+        <IconButton
+          data-testid="infoButton"
+          color="secondary"
+          className={classes.infoiconButton}
+          onClick={() => setShowModal('createforstaelse')}
+        >
+          <InfoOutlinedIcon className={classes.icons} />
         </IconButton>
       </div>
       <Formik
@@ -123,14 +145,14 @@ const CreateForstaelse = ({
                       {` ${el + 1} `}
                     </Typography>
                     <Grid item xs={12}>
-                      <Typography component="p">
+                      <Typography>
                         Du skal sende en melding til en venn. Skriv meldingen
                         her: *
                       </Typography>
                       {formTextField(`chat${el + 1}`, touched, errors)}
                     </Grid>
                     <Grid item xs={12}>
-                      <Typography component="p">
+                      <Typography>
                         Skriv et ja/nei spørsmål med tanke på meldingen: *
                       </Typography>
                       {formTextField(`question${el + 1}`, touched, errors)}
@@ -142,7 +164,7 @@ const CreateForstaelse = ({
                       {formSelectField(`answer${el + 1}`, touched, errors)}
                     </Grid>
                     <Grid item xs={12}>
-                      <Typography component="p">
+                      <Typography>
                         Forklar hvorfor svaret er ja/nei: *
                       </Typography>
                       {formTextField(`explanation${el + 1}`, touched, errors)}
@@ -156,7 +178,6 @@ const CreateForstaelse = ({
               {taskAmount > 1 && (
                 <Fab
                   className={classes.innerMargin}
-                  color="secondary"
                   size="small"
                   onClick={() => {
                     setFieldValue(`chat${taskAmount}`, '', false);
@@ -164,7 +185,8 @@ const CreateForstaelse = ({
                     setFieldValue(`explanation${taskAmount}`, '', false);
                     setTaskAmount(taskAmount - 1);
                   }}
-                  variant="contained"
+                  variant="round"
+                  data-testid="removeButton"
                 >
                   <RemoveIcon />
                 </Fab>
@@ -173,9 +195,9 @@ const CreateForstaelse = ({
                 <Fab
                   className={classes.innerMargin}
                   size="small"
-                  color="secondary"
                   onClick={() => setTaskAmount(taskAmount + 1)}
-                  variant="contained"
+                  variant="round"
+                  data-testid="addButton"
                 >
                   <AddIcon />
                 </Fab>

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { IconButton } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
 /**
  * An icon component for saving/unsaving exercise sets.
- * @property {integer} id for the set
- * @returns clickable icon component
+ * @author Simen
+ * @param {object} props
+ * @property {integer} id The id of the set.
+ * @returns Clickable icon component.
  */
 
 function SaveIcon({ id }) {
@@ -32,7 +34,7 @@ function SaveIcon({ id }) {
     getSaved();
   }, []);
 
-  // backend requests for saving/unsaving exercise set
+  // Backend requests for saving/unsaving exercise set.
   function onClickSave() {
     if (!saved) {
       axios
@@ -71,13 +73,22 @@ function SaveIcon({ id }) {
   }
 
   return (
-    <IconButton data-testid="favoriteButton" onClick={() => onClickSave()}>
-      {saved ? (
-        <FavoriteIcon data-testid="favorite" style={{ color: 'red' }} />
-      ) : (
-        <FavoriteBorderIcon data-testid="notFavorite" />
-      )}
-    </IconButton>
+    <Button
+      data-testid="favoriteButton"
+      variant="outlined"
+      color="secondary"
+      style={{ margin: '8px' }}
+      startIcon={
+        saved ? (
+          <FavoriteIcon data-testid="favorite" style={{ color: 'red' }} />
+        ) : (
+          <FavoriteBorderIcon data-testid="notFavorite" />
+        )
+      }
+      onClick={() => onClickSave()}
+    >
+      Lagre
+    </Button>
   );
 }
 

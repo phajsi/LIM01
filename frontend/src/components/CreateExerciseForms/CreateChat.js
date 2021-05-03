@@ -14,7 +14,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import InfoIcon from '@material-ui/icons/Info';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import RemoveIcon from '@material-ui/icons/Remove';
 import ClearIcon from '@material-ui/icons/Clear';
 import CheckIcon from '@material-ui/icons/Check';
@@ -27,6 +27,10 @@ import muslimWoman from '../../assets/images/muslimWoman.png';
 import InfoModal from '../InfoModal/InfoModal';
 import useStyles from './styles';
 
+/*
+ * Used to specify validations for the form.
+ * It specifies which fields need validation and gives a specific error message.
+ */
 const validationSchema = yup.object({
   chatquestion1: yup.string().required('Dette feltet må fylles ut.').max(1000),
   answer11: yup.string().required('Dette feltet må fylles ut.').max(1000),
@@ -34,12 +38,26 @@ const validationSchema = yup.object({
   correctanswer1: yup.string().required('Dette feltet må fylles ut.').max(1000),
 });
 
+/**
+ * @author Maja, Julie, Even, Simen, Phajsi
+ * @param {object} props
+ * @property {function} onGoBack Function that takes the user to the CreateExercises page.
+ * @property {object} formDataEdit Object that gets a previously written exercise from the database.
+ * @property {function} onSubmitPost Function that runs if the Chat is being edited.
+ * @property {function} onSubmitPut Function that runs if the Chat is new.
+ * @returns a CreateChat component based on if the exercise is new or being edited.
+ */
 const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
   const classes = useStyles();
   const [taskAmount, setTaskAmount] = useState(1);
   const [showModal, setShowModal] = useState(false);
 
-  // used to check if an exisitng exercise should be edited or a new one made.
+  /**
+   * Runs when the page first renders and checks if an existing exercise
+   * should be edited. FormDataEdit is passed as props if it is an exisiting exercise.
+   * If not, this function does nothing.
+   */
+
   useEffect(() => {
     if (formDataEdit) {
       if (formDataEdit.chatquestion3) {
@@ -52,10 +70,10 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
 
   /**
    * Used to avoid repetition of same code because there are many similar fields.
-   * @param {String} name the name of the field.
-   * @param {Boolean} touched Formik prop. validation will only run if field has been touched by user
-   * @param {Boolean} errors Formik prop to handle errors on user input.
-   * @returns The complete field that will be shown to the user
+   * @param {string} name The name of the field.
+   * @param {boolean} touched Formik prop. Validation will only run if field has been touched by user.
+   * @param {boolean} errors Formik prop to handle errors on user input.
+   * @returns The complete field that will be shown to the user.
    */
 
   function formTextField(name, touched, errors) {
@@ -109,8 +127,13 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
     <Paper className={classes.root}>
       <div className={classes.headergroup}>
         <Typography variant="h1">Chat</Typography>
-        <IconButton onClick={() => setShowModal('createchat')}>
-          <InfoIcon className={classes.icons} />
+        <IconButton
+          data-testid="infoButton"
+          color="secondary"
+          className={classes.infoiconButton}
+          onClick={() => setShowModal('createchat')}
+        >
+          <InfoOutlinedIcon className={classes.icons} />
         </IconButton>
       </div>
       <Formik
@@ -213,7 +236,6 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
               {taskAmount > 1 && (
                 <Fab
                   className={classes.innerMargin}
-                  color="secondary"
                   size="small"
                   onClick={() => {
                     setFieldValue(`chatquestion${taskAmount}`, '', false);
@@ -222,7 +244,8 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                     setFieldValue(`correctanswer${taskAmount}`, '', false);
                     setTaskAmount(taskAmount - 1);
                   }}
-                  variant="contained"
+                  variant="round"
+                  data-testid="removeButton"
                 >
                   <RemoveIcon />
                 </Fab>
@@ -231,9 +254,9 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                 <Fab
                   className={classes.innerMargin}
                   size="small"
-                  color="secondary"
                   onClick={() => setTaskAmount(taskAmount + 1)}
-                  variant="contained"
+                  variant="round"
+                  data-testid="addButton"
                 >
                   <AddIcon />
                 </Fab>

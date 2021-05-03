@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import React from 'react';
 import { Avatar, Card, CardHeader, IconButton } from '@material-ui/core';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
@@ -13,14 +12,19 @@ import useStyles from './styles';
 /**
  * Reusable card component for exercise sets with icon buttons for playing, saving,
  * editing and deleting exercise sets.
- * @param {Object} param0 props
- * @returns card component for given exercise set
+ * @author Simen
+ * @param {object} props
+ * @property {string} type Decides which type of card to display.
+ * @property {object} formData Contains information about the set.
+ * @property {function} onClick1 Lets user edit or play the set.
+ * @property {function} onClick2 Lets user delete the set.
+ * @property {function} onClick3 Lets user play the set.
+ * @returns Card component for given exercise set.
  */
-
 function SetCard({ type, formData, onClick1, onClick2, onClick3 }) {
   const classes = useStyles();
 
-  // returns different buttons depending on the type of card.
+  // Returns different buttons depending on the type of card.
   function iconButtons() {
     if (type === 'favorite' || type === 'completed') {
       return (

@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 import useStyles from './styles';
-import { axiosInstanceGet } from '../../helpers/ApiFunctions';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
+/**
+ * A searchbar component that redirects to a playable set, corresponding to the set ID
+ * the player searches for.
+ * @author Simen, Phajsi
+ * @returns SearchBar component.
+ */
 const SearchBar = () => {
   const classes = useStyles();
   const [redirectPlay, setRedirectPlay] = useState(false);
@@ -17,18 +23,23 @@ const SearchBar = () => {
   };
 
   /**
-   * handles logic after user has entered something in the search bar.
-   * if valid input then it checks if the set exists. sets error message
-   * if the set doesn't exist and redirects to set if it does exist.
+   * Handles the logic after the user has entered something in the searchbar.
+   * If valid input then it checks if the set exists.
+   * Sets error message if the set doesn't exist, and redirects to set if it does exist.
    */
   function playSet(e) {
     e.preventDefault();
-    // checks that the user has only entered integer values in the search bar
+    // Checks that the user has only entered integer values in the search bar.
     if (!/^\d+$/.test(playId)) {
       setNotExistError(true);
     } else {
-      axiosInstanceGet()
-        .head(`/sets/${playId}`)
+      axios
+        .head(`${process.env.REACT_APP_API_URL}/api/sets/${playId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+          },
+        })
         .then(() => {
           setRedirectPlay(true);
         })

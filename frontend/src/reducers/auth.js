@@ -16,6 +16,24 @@ import {
   ACTIVATION_FAIL,
 } from '../actions/types';
 
+/**
+ * This code is based on a youtube tutorial:
+ * Django & React JWT Authentication by Bryan Dunn
+ * https://www.youtube.com/watch?v=QFDyXWRYQjY&list=PLJRGQoqpRwdfoa9591BcUS6NmMpZcvFsM
+ * It has been modified and changed to fit our project.
+ * @author Phajsi, Simen
+ */
+
+/**
+ * The state used when redux is initiated.
+ * access: The access token stored in localstorage.
+ * refresh: The refresh token stored in localstorage.
+ * isAuthenticated: Boolean used for storing/checking authentication.
+ * user: Object that stores current logged in user information.
+ * signUpSuccess: Boolean for checking if signup was successful or what error occured.
+ * loginError: Used for storing what error ocurred on failed login attempt.
+ * passwordReset: Used for storing what error ocurred on failed password reset.
+ */
 const initialState = {
   access: localStorage.getItem('access'),
   refresh: localStorage.getItem('refresh'),
@@ -25,6 +43,14 @@ const initialState = {
   loginError: null,
   passwordReset: null,
 };
+
+/**
+ * Standard reducers used for user authentication. It is built as a switch case and
+ * switches based on the Redux action being used and dispatched.
+ * @param {object} state The initial state shown above.
+ * @param {function} action Action dispatch function returning type for switch case and payload for data.
+ * @returns Updated version of initialState.
+ */
 
 export default function (state = initialState, action) {
   const { type, payload } = action;

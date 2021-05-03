@@ -2,6 +2,19 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
 
+"""
+ This code is based on a youtube tutorial:
+ Django & React JWT Authentication by Bryan Dunn
+ https://www.youtube.com/watch?v=QFDyXWRYQjY&list=PLJRGQoqpRwdfoa9591BcUS6NmMpZcvFsM
+ @author Phajsi, Simen
+"""
+
+
+"""
+ There are two different user types: 
+ create_user creates a regular user without any special permissions,
+ create_superuser creates a special user with superuser permissions.
+"""
 class UserAccountManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -27,6 +40,9 @@ class UserAccountManager(BaseUserManager):
         return user
 
 
+"""
+ This is the model for user accounts. Email is an unique identifier for all users.
+"""
 class UserAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)

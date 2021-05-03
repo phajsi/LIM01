@@ -2,6 +2,15 @@ from django.db import models
 from accounts.models import UserAccount
 
 
+"""
+ @author Phajsi, Julie
+ This is the model for the rydde_setninger exercise. It determines all the fields and the constraints.
+ Each rydde_setninger exercise may have up to 3 tasks, but only 1 is required.
+ In addition to the task-specific fields, each exercise needs an owner which is a foreign key
+ related to the account model.
+"""
+
+
 class RyddeSetninger(models.Model):
     WORD_CLASSES = (
         ('n', 'Substantiv'),

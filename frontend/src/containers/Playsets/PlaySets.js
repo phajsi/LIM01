@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import ReplayIcon from '@material-ui/icons/Replay';
 import axios from 'axios';
@@ -11,36 +11,41 @@ import Feedback from '../../components/feedback/Feedback';
 import FinishedSet from '../../components/finishedSet/FinishedSet';
 import OverviewPage from '../../components/OverviewPage/OverviewPage';
 import useStyles from './styles';
-
+/**
+ * This is the container for playing exercise sets.
+ * @author Maja, Julie, Simen
+ * @returns A set of exercises.
+ */
 const PlaySets = () => {
   const location = useLocation();
 
-  // stepper for switching beteween exercises in the set
+  // Stepper for switching between exercises in the set.
   const [step, setStep] = useState('menu');
 
-  // id for the exercise being played
+  // Id for the exercise being played.
   const [exerciseId, setExerciseId] = useState(0);
-  // id for the exercise set containing the exercises
+  // Id for the exercise set containing the exercises.
   const [id, setId] = useState(null);
-
+  // Trackers for progress bar and feedback pages
   const [totalScore, setTotalScore] = useState(0);
-  const [exerciseProgress, setExerciseProgress] = useState(0);
-  const [completed, setCompleted] = useState({ completed: false, score: 0 });
   const [totalExercises, setTotalExercises] = useState(0);
   const [feedbackState, setFeedbackState] = useState(false);
+  const [exerciseProgress, setExerciseProgress] = useState(0);
+  // Tracks if a set is completed and the player's score.
+  const [completed, setCompleted] = useState({ completed: false, score: 0 });
 
   const [redirected, setRedirected] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  // list of ids for the exercises in the set
+  // Lists of id's for the exercises in the set.
   const [formDataExercises] = useState({
     chat: [],
     forstaelse: [],
     ryddeSetninger: [],
   });
 
-  // hook to get access to redux store and obtain user and auth info.
+  // Hooks to get access to the Redux store and obtain user and auth info.
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
 
@@ -48,10 +53,10 @@ const PlaySets = () => {
 
   /**
    * The function will turn the response object from the API endpoint into a
-   * playlist with exercise IDs. the playlist will be stored as an object with
+   * playlist with exercise IDs. The playlist will be stored as an object with
    * three lists, one for each exercise type. Only exercise types with an ID will be
-   * added and other data will be ignored.
-   * @param {object} sets a object containing sets from backend.
+   * added, and other data will be ignored.
+   * @param {object} sets An object containing sets from backend.
    */
   function createPlayList(sets) {
     formDataExercises.chat.length = 0;
@@ -76,8 +81,8 @@ const PlaySets = () => {
   /**
    * The function will handle logic for going to the next exercise when the user
    * has finished the current exercise. It will use exercise lists created from
-   * createPlayList() and check if the list contains more exercises. If it does
-   * then it goes to the next exercise. If not then it goes to the finish. It deletes
+   * createPlayList() and check if the list contains more exercises. If it does,
+   * then it goes to the next exercise. If not, then it goes to the finish. It deletes
    * the current exercise being played from the list.
    */
   function nextExercise() {
@@ -119,6 +124,7 @@ const PlaySets = () => {
       });
   }
 
+  // Keeps track of scores and decides what feedback to show accordingly.
   function showFeedback(score, totalPossibleScore) {
     if (score === totalPossibleScore) {
       setTotalScore(totalScore + 1);
@@ -146,6 +152,11 @@ const PlaySets = () => {
       });
   }
 
+  /**
+   * Retrieves the information related to the exercise set being played from backend
+   * and changes step to "overview" when the restart button is clicked. This enables the user to
+   * exit the exercise set currently being played. The user is redirected to the set's overviewpage.
+   */
   function restartSet() {
     return (
       <Grid>
@@ -169,7 +180,10 @@ const PlaySets = () => {
     new Audio(url).play();
   }
 
-  // only runs if an id is passed as state/props while redirected to this page. i.e search bar on front page
+  /**
+   * Only runs if an id is passed as state/props while redirected to this page.
+   * I.e search bar on front page.
+   */
   useEffect(() => {
     if (location.state?.id && !redirected) {
       getCompleted(location.state?.id);
@@ -254,7 +268,7 @@ const PlaySets = () => {
         </div>
       );
     default:
-      return <Typography>default</Typography>;
+      return null;
   }
 };
 

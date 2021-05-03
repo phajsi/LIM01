@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import {
@@ -12,12 +11,26 @@ import {
   Grid,
   IconButton,
 } from '@material-ui/core';
-import InfoIcon from '@material-ui/icons/Info';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import InfoModal from '../InfoModal/InfoModal';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import useStyles from './styles';
 
+/**
+ * An overview component of the set being made with fields for adding title and description,
+ * and buttons for redirecting to the exercise the user wants to make.
+ * @author Maja, Simen
+ * @param {object} props
+ * @property {function} onSubmitSet Sends a post or put request to backend for updating/creating a set.
+ * @property {function} onDeleteExercise Sends a delete request to backend for deleting an exercise.
+ * @property {function} editExercise Gets the exercise's formData from backend and passes it into the correct exercise.
+ * @property {function} setStep Function for changing step to correct exercise type.
+ * @property {object} formDataSet Object containing all the id's for the exercises in the set.
+ * @property {object} exerciseCounts Keeps track of exercise counts to make sure no more than 5 of each type are added.
+ * @property {string} errorMessage Contains the message for the current error being thrown.
+ * @returns The createExerciseMenu component.
+ */
 const CreateExerciseMenu = ({
   onSubmitSet,
   onDeleteExercise,
@@ -52,6 +65,7 @@ const CreateExerciseMenu = ({
             required
             variant="outlined"
             defaultValue={formDataSet.title}
+            placeholder="Legg til tittel..."
             onChange={(e) => handleFormChange(e, formDataSet)}
           />
         </Grid>
@@ -61,13 +75,14 @@ const CreateExerciseMenu = ({
           </Typography>
           <TextField
             name="description"
-            multiline="true"
+            multiline
             fullWidth
             rows={3}
             rowsMax={10}
             required
             variant="outlined"
             defaultValue={formDataSet.description}
+            placeholder="Gi settet ditt en beskrivelse..."
             onChange={(e) => handleFormChange(e, formDataSet)}
           />
         </Grid>
@@ -82,8 +97,13 @@ const CreateExerciseMenu = ({
               >
                 Chat
               </MenuItem>
-              <IconButton onClick={() => setShowModal('chat')}>
-                <InfoIcon className={classes.infoicon} />
+              <IconButton
+                data-testid="chatModal"
+                color="secondary"
+                className={classes.infoiconButton}
+                onClick={() => setShowModal('chat')}
+              >
+                <InfoOutlinedIcon className={classes.infoicon} />
               </IconButton>
             </Grid>
             <Grid className={classes.menugroup}>
@@ -94,8 +114,13 @@ const CreateExerciseMenu = ({
               >
                 Forståelse
               </MenuItem>
-              <IconButton onClick={() => setShowModal('forstaelse')}>
-                <InfoIcon className={classes.infoicon} />
+              <IconButton
+                data-testid="forstaelseModal"
+                color="secondary"
+                className={classes.infoiconButton}
+                onClick={() => setShowModal('forstaelse')}
+              >
+                <InfoOutlinedIcon className={classes.infoicon} />
               </IconButton>
             </Grid>
             <Grid className={classes.menugroup}>
@@ -106,8 +131,13 @@ const CreateExerciseMenu = ({
               >
                 Rydde Setninger
               </MenuItem>
-              <IconButton onClick={() => setShowModal('rydde_setninger')}>
-                <InfoIcon className={classes.infoicon} />
+              <IconButton
+                data-testid="ryddeSetningerModal"
+                color="secondary"
+                className={classes.infoiconButton}
+                onClick={() => setShowModal('rydde_setninger')}
+              >
+                <InfoOutlinedIcon className={classes.infoicon} />
               </IconButton>
             </Grid>
           </MenuList>
@@ -115,10 +145,10 @@ const CreateExerciseMenu = ({
         <Grid item md={7} xs={12} className={classes.menu}>
           <Typography variant="h2">Oppgaver</Typography>
           <Grid container>
-            {Object.entries(formDataSet).map(([type, id]) => {
+            {Object.entries(formDataSet).map(([type, id], index) => {
               if (type.substring(0, 4) === 'chat') {
                 return (
-                  <Grid item xs={6} className={classes.chipgrid}>
+                  <Grid key={index} item xs={6} className={classes.chipgrid}>
                     <Chip
                       className={classes.chatchip}
                       label="Chat"
@@ -137,7 +167,7 @@ const CreateExerciseMenu = ({
               }
               if (type.substring(0, 4) === 'fors') {
                 return (
-                  <Grid item xs={6} className={classes.chipgrid}>
+                  <Grid key={index} item xs={6} className={classes.chipgrid}>
                     <Chip
                       className={classes.forschip}
                       label="Forstaelse"
@@ -156,7 +186,7 @@ const CreateExerciseMenu = ({
               }
               if (type.substring(0, 4) === 'rydd') {
                 return (
-                  <Grid item xs={6} className={classes.chipgrid}>
+                  <Grid key={index} item xs={6} className={classes.chipgrid}>
                     <Chip
                       className={classes.ryddchip}
                       label="Rydde Setninger"
@@ -173,7 +203,7 @@ const CreateExerciseMenu = ({
                   </Grid>
                 );
               }
-              return <></>;
+              return <div key={index} />;
             })}
           </Grid>
         </Grid>

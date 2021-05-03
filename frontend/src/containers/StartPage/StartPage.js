@@ -9,6 +9,12 @@ import forest from '../../assets/images/forest.png';
 import useStyles from './styles';
 import SearchBar from '../../components/SearchBar/SearchBar';
 
+/**
+ * The StartPage is the first page the user sees before logging in.
+ * @author Phajsi
+ * @returns The StartPage with links to the login and signup pages,
+ * in addition to the DiPickle logo and the searchbar component.
+ */
 const StartPage = () => {
   const classes = useStyles();
 

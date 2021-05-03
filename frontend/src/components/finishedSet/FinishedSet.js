@@ -4,11 +4,27 @@ import { Link } from 'react-router-dom';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import IconButton from '@material-ui/core/IconButton';
-import { axiosInstance } from '../../helpers/ApiFunctions';
+import axios from 'axios';
 import SaveIcon from '../SaveIcon/SaveIcon';
 import happyPickle from '../../assets/images/happyPickle.png';
 import finalSad from '../../assets/images/finalSad.png';
 import useStyles from './styles';
+
+/**
+ * This component is displayed after a user has played through a set.
+ * It gives the user an option to like/dislike, save the exercise and get an overview of the score.
+ * @author Simen, Julie
+ * @param {object} props
+ * @property {integer} totalScore The player's score after playing the set.
+ * @property {integer} id The id of the current set being played.
+ * @property {integer} totalExercises The total number of exercises in the set.
+ * @property {float} percentage The total score in percentage.
+ * @property {object} completed Shows the score and if the set is completed or not.
+ * @property {boolean} isAuthenticated Redux state used to check if a user is auth.
+ * @property {function} setSteps Changes case in the playset container.
+ * @property {function} getContents Gets the ID of the set so the user can start it over again.
+ * @returns The finished set component displaying scores and buttons for rating and saving.
+ */
 
 const FinishedSet = ({
   totalScore,
@@ -22,13 +38,22 @@ const FinishedSet = ({
 }) => {
   const classes = useStyles();
 
+  // Used to keep track of whether a user has given a rating before and what rating has been given.
   const [rating, setRating] = useState({ rating: null });
+
   const [step, setStep] = useState('');
   const [pers] = useState(Math.ceil(percentage * 100));
 
+  // Checks if the current user has rated a set before from backend and updates the state.
   function getContent() {
-    axiosInstance()
-      .get(`/rating/${id}`)
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/rating/${id}`, {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('access')}`,
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      })
       .then((res) => {
         setRating(res.data);
       })
@@ -36,7 +61,10 @@ const FinishedSet = ({
         return e;
       });
   }
-
+  /**
+   * Checks if the user scored over or under 75 percent of the total score
+   * to give the user different feedback accordingly.
+   */
   function scoreState() {
     if (percentage < 0.75) {
       setStep('under');
@@ -45,28 +73,53 @@ const FinishedSet = ({
     }
   }
 
+  // Sends a post request to backend to update the users completed sets and the score.
   function postCompleted() {
-    axiosInstance()
-      .post(`/completed/`, { sets: id, score: pers })
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/api/completed/`,
+        {
+          sets: id,
+          score: pers,
+        },
+        {
+          headers: {
+            Authorization: `JWT ${localStorage.getItem('access')}`,
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+          },
+        }
+      )
       .catch((e) => {
         return e;
       });
   }
+  // Sends a put request to backend to update the score if a new hiscore has been reached.
   function putCompleted() {
-    axiosInstance()
-      .put(`/completed/${completed.id}`, {
-        score: pers,
-        sets: id,
-      })
+    axios
+      .put(
+        `${process.env.REACT_APP_API_URL}/api/completed/${completed.id}`,
+        {
+          score: pers,
+          sets: id,
+        },
+        {
+          headers: {
+            Authorization: `JWT ${localStorage.getItem('access')}`,
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+          },
+        }
+      )
       .catch((e) => {
         return e;
       });
   }
 
   /**
-   * runs on first render and gets necesarry content from backend
-   * only if user is authenticated to avoid unnecesarry requests.
-   * also updates the users score if a new personal record was set.
+   * Runs on first render and gets necessary content from backend
+   * only if user is authenticated to avoid unnecessary requests.
+   * Also updates the user's score if a new personal record was set.
    */
   useEffect(() => {
     if (isAuthenticated) {
@@ -80,13 +133,20 @@ const FinishedSet = ({
     scoreState();
   }, []);
 
+  // If user clicks on like or dislike, a post request is sent to update the users rating.
   function onClickRating(rated) {
     const formData = {
       rating: rated,
       sets: id,
     };
-    axiosInstance()
-      .post(`/rating/`, formData)
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/api/rating/`, formData, {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('access')}`,
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      })
       .then(() => {
         getContent();
       })
@@ -94,7 +154,7 @@ const FinishedSet = ({
         return e;
       });
   }
-
+  // Button that sends the user back to the overview page.
   function restartSet() {
     return (
       <Grid>
@@ -112,7 +172,7 @@ const FinishedSet = ({
     );
   }
 
-  // The const will display different responses to different results from playing a set
+  // The const will display different responses to different results from playing a set.
   const switchStep = () => {
     switch (step) {
       case 'over':
@@ -164,18 +224,30 @@ const FinishedSet = ({
             Hvis du likte settet kan du gi det tommel opp
           </Typography>
           <Grid container spacing={1}>
-            <IconButton onClick={() => onClickRating(true)}>
+            <IconButton
+              data-testid="ratingUpButton"
+              onClick={() => onClickRating(true)}
+            >
               {rating.rating ? (
-                <ThumbUpIcon className={classes.like} />
+                <ThumbUpIcon
+                  data-testid="ratingUpButtonClicked"
+                  className={classes.like}
+                />
               ) : (
-                <ThumbUpIcon />
+                <ThumbUpIcon data-testid="ratingUpButtonUnClicked" />
               )}
             </IconButton>
-            <IconButton onClick={() => onClickRating(false)}>
+            <IconButton
+              data-testid="ratingDownButton"
+              onClick={() => onClickRating(false)}
+            >
               {rating.rating === false ? (
-                <ThumbDownIcon className={classes.dislike} />
+                <ThumbDownIcon
+                  data-testid="ratingDownButtonClicked"
+                  className={classes.dislike}
+                />
               ) : (
-                <ThumbDownIcon />
+                <ThumbDownIcon data-testid="ratingDownButtonUnClicked" />
               )}
             </IconButton>
             <SaveIcon id={id} />

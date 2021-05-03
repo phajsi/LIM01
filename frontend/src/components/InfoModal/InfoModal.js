@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   Typography,
 } from '@material-ui/core';
 import chatimage from '../../assets/images/chatModal.png';
@@ -16,15 +15,31 @@ import forstaelseform from '../../assets/images/forstaelseForm.png';
 import ryddesetningerform from '../../assets/images/ryddeForm.png';
 import useStyles from './styles';
 
+/**
+ * This is a modal displaying information on how to create a new chat, forstaelse or
+ * ryddeSetninger exercise.
+ * @author Maja, Even
+ * @param {object} props
+ * @property {boolean} showModal Boolean is true if user has clicked on an info button to view more info.
+ * @property {function} setShowModal This function sets showModal to true if user has clicked on an
+ * info button, and showModal to false if user has clicked to close an open info modal.
+ * @returns A modal with the requested information when showModal is true.
+ */
 const InfoModal = ({ showModal, setShowModal }) => {
   const classes = useStyles();
 
-  const chatText =
-    'For å opprette en Chat-øvelse må man fylle inn de forpliktede feltene. Det er valgfritt om man vil velge bilder for sender og mottaker. Øvelsen består av et spørsmål, med tre svaralternativ hvor kun ett er riktig.';
-  const forstaelseText =
-    'For å opprette en Forståelse-øvelse må man fylle inn alle feltene. Først en melding, gjerne med en påstand. Deretter et ja/nei spørsmål basert på meldingen. Om brukeren skulle velge feil svar, må en forklaring på hvorfor det er feil vises.';
-  const rydde_setningerText =
-    'For å opprette en Rydde Setninger-øvelse må man formulere en setning på minst tre ord. For å legge til flere ord, trykker man på "+"-tegnet, setningen kan være på maks ti ord. Å velge ordklasser for ordene er valgfritt, om man ikke gjør det blir fargekoden grå. Hver ordklasse har en tilhørende fargekode, for å bedre visuell læring.';
+  const chatText = `For å opprette en Chat-øvelse må man fylle inn de forpliktede feltene. 
+  Det er valgfritt om man vil velge bilder for sender og mottaker. 
+  Øvelsen består av et spørsmål, med tre svaralternativ hvor kun ett er riktig.`;
+
+  const forstaelseText = `For å opprette en Forståelse-øvelse må man fylle inn alle feltene. 
+  Først en melding, gjerne med en påstand. Deretter et ja/nei spørsmål basert på meldingen. 
+  Om brukeren skulle velge feil svar, må en forklaring på hvorfor det er feil vises.`;
+
+  const rydde_setningerText = `For å opprette en Rydde Setninger-øvelse må man formulere en setning på minst tre ord. 
+  For å legge til flere ord, trykker man på "+"-tegnet, setningen kan være på maks ti ord. 
+  Å velge ordklasser for ordene er valgfritt, om man ikke gjør det blir fargekoden grå. 
+  Hver ordklasse har en tilhørende fargekode, for å bedre visuell læring.`;
   function setInfoText() {
     if (showModal === 'chat') {
       return (
@@ -112,11 +127,7 @@ const InfoModal = ({ showModal, setShowModal }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {setInfoText()}
-          </DialogContentText>
-        </DialogContent>
+        <DialogContent>{setInfoText()}</DialogContent>
         <DialogActions>
           <Button
             onClick={() => setShowModal(false)}

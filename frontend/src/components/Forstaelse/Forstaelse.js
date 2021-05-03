@@ -20,7 +20,20 @@ import exerciseStyles from '../exerciseStyle';
 import ProgressBar from '../ProgressBar';
 import NextExerciseBtn from '../NextExerciseBtn/NextExerciseBtn';
 
-// chat exercise component for playing.
+/**
+ * This is the forstaelse exercise component that is playable from Playsets.
+ * @author Simen, Phajsi
+ * @param {object} props
+ * @property {integer} id This is the id of the forstaelse exercise being played.
+ * @property {function} showFeedback Tracks a user's score when playing an exercise in a set and
+ * which feedback case to show after finishing the exercise.
+ * @property {integer} progress Counts how many exercises the user has played.
+ * @property {integer} possible Total exercises in the set.
+ * @property {function} restartSet Sets setStep in Playsets to "overview" so the user can exit
+ * the exercise set from any exercise.
+ * @property {function} playAudio Returns a new HTMLAudioElement.
+ * @returns A forstaelse exercise instance.
+ */
 const Forstaelse = ({
   id,
   showFeedback,
@@ -29,23 +42,27 @@ const Forstaelse = ({
   restartSet,
   playAudio,
 }) => {
+  // Data for the forstaelse exercise from backend.
+  const [formData, setFormData] = useState({});
+
+  // Null if user hasn't given an answer, "correct" or "incorrect" if user has given an answer.
+  const [answerState, setAnswerState] = useState(null);
+
+  // Keeps track of which task in the exercise the user is currently on.
+  const [taskStep, setTaskStep] = useState(1);
+  const [score, setScore] = useState(0);
+  const [totalPossibleScore, setTotalPossibleScore] = useState(0);
+
+  const [disabled, setDisabled] = useState(false);
+
+  /* Objects that take both the component style and a common style between all
+  exercises, to finally integrate both style objects into the classes object
+  to be used in the component */
   const className = useStyles();
   const classesBase = exerciseStyles();
   const classes = { ...className, ...classesBase };
 
-  // Data for the forstaelse exercise from backend
-  const [formData, setFormData] = useState({});
-
-  // null if user hasn't given answer. "corrent" or "incorrect" if user has given answer
-  const [answerState, setAnswerState] = useState(null);
-
-  // keeps track of which task in the exercise the user is currently on.
-  const [taskStep, setTaskStep] = useState(1);
-  const [score, setScore] = useState(0);
-  const [totalPossibleScore, setTotalPossibeScore] = useState(0);
-
-  const [disabled, setDisabled] = useState(false);
-
+  // Gets the exercise content with {id} from backend.
   function getContent() {
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/forstaelse/${id}`, {
@@ -62,21 +79,22 @@ const Forstaelse = ({
       });
   }
 
+  // Updates states after a user has clicked on an answer.
   function onClickAnswer(userAnswer) {
     if (formData[`answer${taskStep}`] === userAnswer) {
       setAnswerState('correct');
       setScore(score + 1);
-      setTotalPossibeScore(totalPossibleScore + 1);
+      setTotalPossibleScore(totalPossibleScore + 1);
     } else {
       setAnswerState('incorrect');
-      setTotalPossibeScore(totalPossibleScore + 1);
+      setTotalPossibleScore(totalPossibleScore + 1);
     }
   }
 
-  // goes to next task or next exercise after user has played the current task
+  // Goes to the next task or the next exercise after the user has played the current task.
   const handleNextTask = () => {
     setAnswerState(null);
-    // checks if there are more tasks in the exercise before incrementing the task count
+    // Checks if there are more tasks in the exercise before incrementing the task count.
     if (!formData[`chat${taskStep + 1}`]) {
       showFeedback(score, totalPossibleScore);
     } else {
@@ -131,7 +149,9 @@ const Forstaelse = ({
           <ChatBubble chat={formData[`chat${taskStep}`]} />
           <Grid className={classes.gridText} item xs={12}>
             <hr />
-            <p className={classes.text}>{formData[`question${taskStep}`]}</p>
+            <Typography className={classes.text}>
+              {formData[`question${taskStep}`]}
+            </Typography>
           </Grid>
           {answerState === null && (
             <>
@@ -158,9 +178,9 @@ const Forstaelse = ({
             </>
           )}
           {answerState !== null && (
-            <p className={classes.explanation}>
+            <Typography className={classes.explanation}>
               {formData[`explanation${taskStep}`]}
-            </p>
+            </Typography>
           )}
           <NextExerciseBtn
             answerState={answerState}

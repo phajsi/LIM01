@@ -19,13 +19,15 @@ import useStyles from './styles';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 /**
- * login page for the website
- * @param {object} param0 props
- * @property {function} login redux action for user auth
- * @property {boolean} isAuthenticated redux state used to check if a user is auth.
- * @property {*} loginError redux state used to check if login failed
- * @property {function} checkAuthenticated redux action for checking if auth is valid and updating isAuthenticated
- * @returns container for logging in a user
+ * Login page for the website.
+ * @author Simen, Phajsi
+ * @param {object} props
+ * @property {function} login Redux action for user auth.
+ * @property {boolean} isAuthenticated Redux state used to check if a user is auth.
+ * @property {*} loginError Redux state used to check if login failed.
+ * @property {function} checkAuthenticated Redux action for checking if auth is valid
+ * and updating isAuthenticated.
+ * @returns Container for logging in a user.
  */
 
 const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
@@ -37,7 +39,7 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
     password: '',
   });
 
-  // boolean so user can toggle visible password in password field.
+  // Boolean so user can toggle password visibility in password field.
   const [showPassword, setShowPassword] = useState(false);
 
   const { email, password } = formData;
@@ -69,6 +71,13 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
     return <></>;
   }
 
+  /**
+   * This page should not be accessible if the user is already authenticated.
+   * location.state?.prevLocation is passed to login component if the user was redirected
+   * to login from another protected container such as /home or /createexercise because the
+   * user was not authenticated.
+   * It is used to redirect the user back to the prev location after the user has logged in.
+   */
   if (isAuthenticated) {
     return location.state?.prevLocation ? (
       <Redirect to={location.state?.prevLocation} />
@@ -80,7 +89,9 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
   return (
     <div className={classes.root}>
       <Paper className={classes.infoBox}>
-        <h2 className={classes.headline}>Logg inn</h2>
+        <Typography variant="h2" gutterBottom className={classes.headline}>
+          Logg inn
+        </Typography>
         <form onSubmit={(e) => onSubmit(e)}>
           <TextField
             type="text"
@@ -116,7 +127,11 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={handleClickShowPassword}>
-                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    {showPassword ? (
+                      <VisibilityIcon data-testid="visibilityButton" />
+                    ) : (
+                      <VisibilityOffIcon data-testid="visibilityOffButton" />
+                    )}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -129,6 +144,7 @@ const Login = ({ login, isAuthenticated, loginError, checkAuthenticated }) => {
             variant="contained"
             color="primary"
             type="submit"
+            data-testid="LoggInnButton"
             fullWidth
             className={classes.button}
           >

@@ -17,6 +17,18 @@ import {
   ACTIVATION_FAIL,
 } from './types';
 
+/**
+ * This code is based on a youtube tutorial:
+ * Django & React JWT Authentication by Bryan Dunn
+ * https://www.youtube.com/watch?v=QFDyXWRYQjY&list=PLJRGQoqpRwdfoa9591BcUS6NmMpZcvFsM
+ * It has been modified and changed to fit our project.
+ * @author Phajsi, Simen
+ */
+
+/**
+ * Updates redux state with user information from backend if user is logged in.
+ * @returns Dispatch for updating redux store with user info if user is logged in.
+ */
 export const load_user = () => async (dispatch) => {
   if (localStorage.getItem('access')) {
     const config = {
@@ -49,6 +61,13 @@ export const load_user = () => async (dispatch) => {
   }
 };
 
+/**
+ * Sends request to backend if email and password are correct
+ * and updates redux state with returned authorization tokens and user.
+ * @param {string} email Provided by user as login credentials on login page.
+ * @param {string} password Provided by user as login credentials on login page.
+ * @returns Dispatch for updating redux states with error or user and tokens.
+ */
 export const login = (email, password) => async (dispatch) => {
   const config = {
     headers: {
@@ -79,6 +98,14 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
+/**
+ * Registers new unverified/unactivated user backend if provided details are valid.
+ * @param {string} name Username the user has chosen.
+ * @param {string} email Email the user has chosen.
+ * @param {string} password Password the user has chosen.
+ * @param {string} re_password Retyped password for confirming the user has typed correctly.
+ * @returns Dispatch for updating redux state with error or confirm.
+ */
 export const signup = (name, email, password, re_password) => async (
   dispatch
 ) => {
@@ -109,6 +136,14 @@ export const signup = (name, email, password, re_password) => async (
   }
 };
 
+/**
+ * Action used for verifying an account. It updates user backend with a verified=true field.
+ * A user needs to be verified to be able to log in. This action is run when user clicks
+ * Verify button in verify component after receiving a confirmation mail.
+ * @param {integer} uid Id for identifying user being verified
+ * @param {string} token Unique token connected to user for verifying.
+ * @returns Dispatch for updating redux state.
+ */
 export const verify = (uid, token) => async (dispatch) => {
   const config = {
     headers: {
@@ -136,6 +171,10 @@ export const verify = (uid, token) => async (dispatch) => {
   }
 };
 
+/**
+ * Checks if user is authenticated based on access token in local storage.
+ * @returns Dispatch for checking and updating isAuthenticated state in redux.
+ */
 export const checkAuthenticated = () => async (dispatch) => {
   if (localStorage.getItem('access')) {
     const config = {
@@ -175,6 +214,11 @@ export const checkAuthenticated = () => async (dispatch) => {
   }
 };
 
+/**
+ * Sends an email to the email address provided with a link to a component for updating password.
+ * @param {string} email User provided email.
+ * @returns Dispatch for updating states based on the api call response.
+ */
 export const reset_password = (email) => async (dispatch) => {
   const config = {
     headers: {
@@ -201,6 +245,15 @@ export const reset_password = (email) => async (dispatch) => {
   }
 };
 
+/**
+ * The user can enter a new "password" and "confirm password".
+ * An api call will be sent to backend to check if the password matches the requirements.
+ * @param {integer} uid Id used for identifying users.
+ * @param {string} token Unique token needed to be able to access the api.
+ * @param {string} new_password New password the user has requested.
+ * @param {string} re_new_password Confirmation of the password to avoid mistyping.
+ * @returns Dispatch for updating redux state.
+ */
 export const reset_password_confirm = (
   uid,
   token,
@@ -233,6 +286,10 @@ export const reset_password_confirm = (
   }
 };
 
+/**
+ * Deletes access tokens and refresh token from redux and local storage.
+ * @returns Dispatch for deleting access and refresh tokens from redux state.
+ */
 export const logout = () => (dispatch) => {
   dispatch({
     type: LOGOUT,

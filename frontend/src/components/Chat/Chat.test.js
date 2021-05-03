@@ -65,7 +65,7 @@ describe('Chat exercise', () => {
 
     expect(text.tagName.toLowerCase()).toEqual('p');
   });
-  test('The whole chat history should be visible after playthrough and feedback should be correct', async () => {
+  test('the whole chat history should be visible after playthrough and feedback should be correct', async () => {
     axios.get.mockResolvedValue({ data: resp });
 
     await act(async () =>
@@ -106,7 +106,7 @@ describe('Chat exercise', () => {
     expect(screen.getByText('Hvilken dag er det i dag?')).toBeVisible();
   });
 
-  test('Audio play should play once after click and be disabled', async () => {
+  test('audio play should play once after click and be disabled', async () => {
     axios.get.mockResolvedValue({ data: {} });
 
     await act(async () =>
