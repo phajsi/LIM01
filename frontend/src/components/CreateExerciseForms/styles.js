@@ -66,6 +66,11 @@ const useStyles = makeStyles((theme) => ({
       padding: 0,
     },
   },
+  infoiconButton: {
+    '&.MuiIconButton-colorSecondary:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+    },
+  },
   headergroup: {
     display: 'flex',
     flexDirection: 'row',

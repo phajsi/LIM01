@@ -183,13 +183,12 @@ const CreateRyddeSetninger = ({
                 <Fab
                   className={classes.innerMargin}
                   size="small"
-                  color="secondary"
                   onClick={() => {
                     setFieldValue(`word${words}`, '', false);
                     setFieldValue(`wordClass${words}`, '', false);
                     addWords(words - 1);
                   }}
-                  variant="contained"
+                  variant="round"
                   data-testid="removeButton"
                 >
                   <RemoveIcon />
@@ -199,9 +198,8 @@ const CreateRyddeSetninger = ({
                 <Fab
                   className={classes.innerMargin}
                   size="small"
-                  color="secondary"
                   onClick={() => addWords(words + 1)}
-                  variant="contained"
+                  variant="round"
                   data-testid="addButton"
                 >
                   <AddIcon />
