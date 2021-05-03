@@ -13,7 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import AddIcon from '@material-ui/icons/Add';
-import InfoIcon from '@material-ui/icons/Info';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import RemoveIcon from '@material-ui/icons/Remove';
 import InfoModal from '../InfoModal/InfoModal';
 import useStyles from './styles';
@@ -109,9 +109,11 @@ const CreateForstaelse = ({
         <Typography variant="h1">Forståelse</Typography>
         <IconButton
           data-testid="infoButton"
+          color="secondary"
+          className={classes.infoiconButton}
           onClick={() => setShowModal('createforstaelse')}
         >
-          <InfoIcon className={classes.icons} />
+          <InfoOutlinedIcon className={classes.icons} />
         </IconButton>
       </div>
       <Formik
@@ -143,14 +145,14 @@ const CreateForstaelse = ({
                       {` ${el + 1} `}
                     </Typography>
                     <Grid item xs={12}>
-                      <Typography component="p">
+                      <Typography>
                         Du skal sende en melding til en venn. Skriv meldingen
                         her: *
                       </Typography>
                       {formTextField(`chat${el + 1}`, touched, errors)}
                     </Grid>
                     <Grid item xs={12}>
-                      <Typography component="p">
+                      <Typography>
                         Skriv et ja/nei spørsmål med tanke på meldingen: *
                       </Typography>
                       {formTextField(`question${el + 1}`, touched, errors)}
@@ -162,7 +164,7 @@ const CreateForstaelse = ({
                       {formSelectField(`answer${el + 1}`, touched, errors)}
                     </Grid>
                     <Grid item xs={12}>
-                      <Typography component="p">
+                      <Typography>
                         Forklar hvorfor svaret er ja/nei: *
                       </Typography>
                       {formTextField(`explanation${el + 1}`, touched, errors)}
@@ -176,7 +178,6 @@ const CreateForstaelse = ({
               {taskAmount > 1 && (
                 <Fab
                   className={classes.innerMargin}
-                  color="secondary"
                   size="small"
                   onClick={() => {
                     setFieldValue(`chat${taskAmount}`, '', false);
@@ -184,7 +185,7 @@ const CreateForstaelse = ({
                     setFieldValue(`explanation${taskAmount}`, '', false);
                     setTaskAmount(taskAmount - 1);
                   }}
-                  variant="contained"
+                  variant="round"
                   data-testid="removeButton"
                 >
                   <RemoveIcon />
@@ -194,9 +195,8 @@ const CreateForstaelse = ({
                 <Fab
                   className={classes.innerMargin}
                   size="small"
-                  color="secondary"
                   onClick={() => setTaskAmount(taskAmount + 1)}
-                  variant="contained"
+                  variant="round"
                   data-testid="addButton"
                 >
                   <AddIcon />

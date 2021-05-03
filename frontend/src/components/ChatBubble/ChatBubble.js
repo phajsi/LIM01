@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Card, Grid } from '@material-ui/core';
+import { Avatar, Card, Grid, Typography } from '@material-ui/core';
 import useStyles from './styles';
 import defaultMan from '../../assets/images/defaultMan.png';
 /**
@@ -27,7 +27,7 @@ const ChatBubble = ({ chat, icon, right }) => {
           </div>
           <div className={right ? classes.floatRight : classes.floatLeft}>
             <Card className={right ? classes.cardRight : classes.cardLeft}>
-              <p className={classes.text}>{chat}</p>
+              <Typography className={classes.text}>{chat}</Typography>
             </Card>
           </div>
         </div>

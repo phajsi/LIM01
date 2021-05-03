@@ -48,6 +48,11 @@ const exerciseStyles = makeStyles((theme) => ({
   progresscontainer: {
     margin: theme.spacing(1),
   },
+  infoiconButton: {
+    '&.MuiIconButton-colorSecondary:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+    },
+  },
 }));
 
 export default exerciseStyles;

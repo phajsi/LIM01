@@ -13,7 +13,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import InfoIcon from '@material-ui/icons/Info';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import RemoveIcon from '@material-ui/icons/Remove';
 import InfoModal from '../InfoModal/InfoModal';
 import useStyles from './styles';
@@ -121,9 +121,11 @@ const CreateRyddeSetninger = ({
         <Typography variant="h1">Rydde Setninger</Typography>
         <IconButton
           data-testid="infoButton"
+          color="secondary"
+          className={classes.infoiconButton}
           onClick={() => setShowModal('createrydde_setninger')}
         >
-          <InfoIcon className={classes.icons} />
+          <InfoOutlinedIcon className={classes.icons} />
         </IconButton>
       </div>
       <Formik

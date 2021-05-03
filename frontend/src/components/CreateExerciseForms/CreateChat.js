@@ -14,7 +14,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import InfoIcon from '@material-ui/icons/Info';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import RemoveIcon from '@material-ui/icons/Remove';
 import ClearIcon from '@material-ui/icons/Clear';
 import CheckIcon from '@material-ui/icons/Check';
@@ -129,9 +129,11 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
         <Typography variant="h1">Chat</Typography>
         <IconButton
           data-testid="infoButton"
+          color="secondary"
+          className={classes.infoiconButton}
           onClick={() => setShowModal('createchat')}
         >
-          <InfoIcon className={classes.icons} />
+          <InfoOutlinedIcon className={classes.icons} />
         </IconButton>
       </div>
       <Formik
@@ -234,7 +236,6 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
               {taskAmount > 1 && (
                 <Fab
                   className={classes.innerMargin}
-                  color="secondary"
                   size="small"
                   onClick={() => {
                     setFieldValue(`chatquestion${taskAmount}`, '', false);
@@ -243,7 +244,7 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                     setFieldValue(`correctanswer${taskAmount}`, '', false);
                     setTaskAmount(taskAmount - 1);
                   }}
-                  variant="contained"
+                  variant="round"
                   data-testid="removeButton"
                 >
                   <RemoveIcon />
@@ -253,9 +254,8 @@ const CreateChat = ({ onGoBack, formDataEdit, onSubmitPost, onSubmitPut }) => {
                 <Fab
                   className={classes.innerMargin}
                   size="small"
-                  color="secondary"
                   onClick={() => setTaskAmount(taskAmount + 1)}
-                  variant="contained"
+                  variant="round"
                   data-testid="addButton"
                 >
                   <AddIcon />
