@@ -149,7 +149,9 @@ const Forstaelse = ({
           <ChatBubble chat={formData[`chat${taskStep}`]} />
           <Grid className={classes.gridText} item xs={12}>
             <hr />
-            <p className={classes.text}>{formData[`question${taskStep}`]}</p>
+            <Typography className={classes.text}>
+              {formData[`question${taskStep}`]}
+            </Typography>
           </Grid>
           {answerState === null && (
             <>
@@ -176,9 +178,9 @@ const Forstaelse = ({
             </>
           )}
           {answerState !== null && (
-            <p className={classes.explanation}>
+            <Typography className={classes.explanation}>
               {formData[`explanation${taskStep}`]}
-            </p>
+            </Typography>
           )}
           <NextExerciseBtn
             answerState={answerState}

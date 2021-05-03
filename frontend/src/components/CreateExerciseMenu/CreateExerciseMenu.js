@@ -11,7 +11,7 @@ import {
   Grid,
   IconButton,
 } from '@material-ui/core';
-import InfoIcon from '@material-ui/icons/Info';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import InfoModal from '../InfoModal/InfoModal';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
@@ -99,9 +99,11 @@ const CreateExerciseMenu = ({
               </MenuItem>
               <IconButton
                 data-testid="chatModal"
+                color="secondary"
+                className={classes.infoiconButton}
                 onClick={() => setShowModal('chat')}
               >
-                <InfoIcon className={classes.infoicon} />
+                <InfoOutlinedIcon className={classes.infoicon} />
               </IconButton>
             </Grid>
             <Grid className={classes.menugroup}>
@@ -114,9 +116,11 @@ const CreateExerciseMenu = ({
               </MenuItem>
               <IconButton
                 data-testid="forstaelseModal"
+                color="secondary"
+                className={classes.infoiconButton}
                 onClick={() => setShowModal('forstaelse')}
               >
-                <InfoIcon className={classes.infoicon} />
+                <InfoOutlinedIcon className={classes.infoicon} />
               </IconButton>
             </Grid>
             <Grid className={classes.menugroup}>
@@ -129,9 +133,11 @@ const CreateExerciseMenu = ({
               </MenuItem>
               <IconButton
                 data-testid="ryddeSetningerModal"
+                color="secondary"
+                className={classes.infoiconButton}
                 onClick={() => setShowModal('rydde_setninger')}
               >
-                <InfoIcon className={classes.infoicon} />
+                <InfoOutlinedIcon className={classes.infoicon} />
               </IconButton>
             </Grid>
           </MenuList>

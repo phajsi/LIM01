@@ -13,7 +13,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import InfoIcon from '@material-ui/icons/Info';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import RemoveIcon from '@material-ui/icons/Remove';
 import InfoModal from '../InfoModal/InfoModal';
 import useStyles from './styles';
@@ -121,9 +121,11 @@ const CreateRyddeSetninger = ({
         <Typography variant="h1">Rydde Setninger</Typography>
         <IconButton
           data-testid="infoButton"
+          color="secondary"
+          className={classes.infoiconButton}
           onClick={() => setShowModal('createrydde_setninger')}
         >
-          <InfoIcon className={classes.icons} />
+          <InfoOutlinedIcon className={classes.icons} />
         </IconButton>
       </div>
       <Formik
@@ -181,13 +183,12 @@ const CreateRyddeSetninger = ({
                 <Fab
                   className={classes.innerMargin}
                   size="small"
-                  color="secondary"
                   onClick={() => {
                     setFieldValue(`word${words}`, '', false);
                     setFieldValue(`wordClass${words}`, '', false);
                     addWords(words - 1);
                   }}
-                  variant="contained"
+                  variant="round"
                   data-testid="removeButton"
                 >
                   <RemoveIcon />
@@ -197,9 +198,8 @@ const CreateRyddeSetninger = ({
                 <Fab
                   className={classes.innerMargin}
                   size="small"
-                  color="secondary"
                   onClick={() => addWords(words + 1)}
-                  variant="contained"
+                  variant="round"
                   data-testid="addButton"
                 >
                   <AddIcon />
