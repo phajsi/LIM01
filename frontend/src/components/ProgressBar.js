@@ -11,10 +11,14 @@ import { LinearProgress } from '@material-ui/core';
  * @returns A progress bar.
  */
 const ProgressBar = ({ progress, possible }) => {
-  const MIN = 0;
-  const MAX = possible;
-  // Takes the users progress and fills the progress bar as a percentage of the total number of exercises.
-  const normalise = (value) => ((value - MIN) * 100) / (MAX - MIN);
+  const MIN = 1;
+  const MAX = possible + 1;
+  /** Calculates how much of the progressBar is going to
+   * be filled for each completed exercise.
+   * Lets say that an exercise set has 6 exercises, then for
+   * each completed exercise the bar should be filled 16,66 percent more.
+   */
+  const normalise = (progress) => ((progress - MIN) * 100) / (MAX - MIN);
 
   return (
     <LinearProgress
